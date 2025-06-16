@@ -3,10 +3,10 @@ import { Outlet } from 'react-router-dom';
 
 const Layout = () => {
   return (
-    <>
+    <main className="ml-[12.4rem]">
       <CommonHeader />
       <Outlet />
-    </>
+    </main>
   );
 };
 
