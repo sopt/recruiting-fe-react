@@ -1,3 +1,4 @@
+import Filters from '@/pages/PostQuestion/components/Filters';
 import type { PART_NAME } from '@/pages/PostQuestion/types';
 import { Tab } from '@sopt-makers/ui';
 import { useState } from 'react';
@@ -10,7 +11,8 @@ const Header = () => {
   };
 
   return (
-    <div>
+    <>
+      <Filters />
       <Tab
         selectedInitial="common"
         style="primary"
@@ -35,7 +37,7 @@ const Header = () => {
           web: ' 웹',
         }}
       />
-    </div>
+    </>
   );
 };
 

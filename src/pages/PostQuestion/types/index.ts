@@ -6,3 +6,5 @@ export type PART_NAME =
   | 'ios'
   | 'android'
   | 'web';
+
+export type GRADE = 'yb' | 'ob';
