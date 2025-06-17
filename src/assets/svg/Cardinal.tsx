@@ -1,4 +1,3 @@
-
 import type { SVGProps } from "react";
 const SvgCardinal = (props: SVGProps<SVGSVGElement>) => (
   <svg

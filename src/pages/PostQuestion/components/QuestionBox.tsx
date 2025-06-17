@@ -1,18 +1,18 @@
-import { Add, Arrange, Check, InfoCircle, Link, Trash } from '@/assets/svg';
-import { CheckBox, TextField, Toggle } from '@sopt-makers/ui';
-import type React from 'react';
-import { useRef, useState } from 'react';
+import { Add, Arrange, Check, InfoCircle, Link, Trash } from "@/assets/svg";
+import { CheckBox, TextField, Toggle } from "@sopt-makers/ui";
+import type React from "react";
+import { useRef, useState } from "react";
 
 const ManageQuestion = () => {
   const [isRequiredQustion, setIsRequiredQuestion] = useState(false);
   const [hasLink, setHasLink] = useState(false);
   const [hasFileUpload, setHasFileUpload] = useState(false);
-  const [fileName, setFileName] = useState('');
+  const [fileName, setFileName] = useState("");
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    setFileName(file ? file.name : '');
+    setFileName(file ? file.name : "");
   };
 
   return (
@@ -57,7 +57,7 @@ const ManageQuestion = () => {
             파일 업로드
             <div className="flex justify-between py-[1.1rem] px-[2.2rem] w-full rounded-2xl bg-gray800">
               <div className="flex gap-[2.4rem]">
-                {fileName !== '' ? (
+                {fileName !== "" ? (
                   <span className="body_2_16_m text-gray-10">{fileName}</span>
                 ) : (
                   <>

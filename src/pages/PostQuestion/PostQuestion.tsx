@@ -1,4 +1,4 @@
-import QuestionBox from '@/pages/PostQuestion/components/QuestionBox';
+import QuestionBox from "@/pages/PostQuestion/components/QuestionBox";
 
 const PostQuestion = () => {
   return (

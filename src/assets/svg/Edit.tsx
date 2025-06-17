@@ -1,4 +1,3 @@
-
 import type { SVGProps } from "react";
 const SvgEdit = (props: SVGProps<SVGSVGElement>) => (
   <svg
