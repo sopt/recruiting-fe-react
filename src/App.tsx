@@ -1,3 +1,5 @@
+import '@sopt-makers/ui/dist/index.css';
+
 import queryClient from '@/apis/queryClient';
 import { RouterProvider } from 'react-router-dom';
 import { router } from '@/routes/Router.tsx';

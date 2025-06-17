@@ -1,5 +1,11 @@
+import ManageQuestion from '@/pages/PostQuestion/components/ManageQuestion';
+
 const PostQuestion = () => {
-  return <main>기수등록하는 곳</main>;
+  return (
+    <main>
+      <ManageQuestion />
+    </main>
+  );
 };
 
 export default PostQuestion;
