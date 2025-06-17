@@ -7,8 +7,8 @@ const ManageQuestion = () => {
   const [isRequiredQustion, setIsRequiredQuestion] = useState(false);
   const [hasLink, setHasLink] = useState(false);
   const [hasFileUpload, setHasFileUpload] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [fileName, setFileName] = useState('');
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -84,12 +84,14 @@ const ManageQuestion = () => {
         )}
         <hr className="border-gray700" />
 
-        <TextField
-          labelText="최대 글자수"
-          placeholder="최대 글자수를 입력하세요."
-          descriptionText="숫자만 입력하세요. (ex. 700)"
-          required
-        />
+        <div className="w-[26.8rem]">
+          <TextField
+            labelText="최대 글자수"
+            placeholder="최대 글자수를 입력하세요."
+            descriptionText="숫자만 입력하세요. (ex. 700)"
+            required
+          />
+        </div>
       </section>
 
       <section className="flex flex-col gap-[1.4rem] w-[16.4rem] h-[31.6rem] rounded-xl p-[1.6rem] bg-gray700">
@@ -121,7 +123,7 @@ const ManageQuestion = () => {
             <input type="checkbox" className="hidden" checked disabled />
             <Check width={16} className="stroke-gray400" />
           </label>
-          <span className="body_2_16_m text-gray10">주관식</span>
+          <span className="body_2_16_m text-gray300">주관식</span>
         </div>
         <div className="flex flex-row items-center gap-[1rem]">
           <CheckBox
