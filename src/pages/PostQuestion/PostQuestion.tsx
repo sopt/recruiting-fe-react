@@ -1,9 +1,9 @@
-import ManageQuestion from '@/pages/PostQuestion/components/ManageQuestion';
+import QuestionBox from '@/pages/PostQuestion/components/QuestionBox';
 
 const PostQuestion = () => {
   return (
     <main>
-      <ManageQuestion />
+      <QuestionBox />
     </main>
   );
 };
