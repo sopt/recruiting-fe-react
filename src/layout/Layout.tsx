@@ -6,8 +6,10 @@ const Layout = () => {
   return (
     <div className="ml-[12.4rem]">
       <Nav />
-      <CommonHeader />
-      <Outlet />
+      <div className='pl-[21.2rem]'>
+        <CommonHeader />
+        <Outlet />
+      </div>
     </div>
   );
 };
