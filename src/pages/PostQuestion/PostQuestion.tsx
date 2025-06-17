@@ -4,7 +4,7 @@ const PostQuestion = () => {
   return (
     <>
       <Header />
-      <main>기수등록하는 곳</main>
+      <div>기수등록하는 곳</div>
     </>
   );
 };
