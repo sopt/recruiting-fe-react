@@ -16,63 +16,84 @@ interface GenerationTableProps {
 }
 
 const GenerationTable = ({ data }: GenerationTableProps) => {
-	const headerBaseClasses =
+	const headerBaseStyle =
 		"p-[1rem] text-gray100 body_3_14_m bg-gray700 border-gray600";
-	const cellBaseClasses =
-		"h-[6rem] p-[2.1rem] text-center text-white body_3_14_m bg-transparent border-b-[1px] border-gray700";
+	const cellBaseStyle =
+		"h-[6rem] text-center text-white body_3_14_m bg-transparent border-b-[1px] border-gray700 align-middle";
 
 	return (
-		<table>
+		<table className="table-fixed">
 			<thead>
 				<tr>
 					<th
-						className={`w-[11rem] ${headerBaseClasses} rounded-tl-[1rem] border-r-[1px] `}
+						className={`w-[11rem] rounded-tl-[1rem] border-r-[1px] border-gray600 ${headerBaseStyle}`}
 					>
 						기수
 					</th>
-					<th className={`w-[11rem] ${headerBaseClasses}`}>이름</th>
-					<th className={`w-[31.5rem] ${headerBaseClasses}`}>서류 지원 기간</th>
-					<th className={`w-[31.5rem] ${headerBaseClasses}`}>
+					<th
+						className={`w-[11rem] border-r-[1px] border-gray600 ${headerBaseStyle}`}
+					>
+						이름
+					</th>
+					<th
+						className={`w-[31.5rem] border-r-[1px] border-gray600 ${headerBaseStyle}`}
+					>
+						서류 지원 기간
+					</th>
+					<th
+						className={`w-[31.5rem] border-r-[1px] border-gray600 ${headerBaseStyle}`}
+					>
 						서류 결과 확인 기간
 					</th>
-					<th className={`w-[31.5rem] ${headerBaseClasses}`}>
+					<th
+						className={`w-[31.5rem] border-r-[1px] border-gray600 ${headerBaseStyle}`}
+					>
 						최종 결과 확인 기간
 					</th>
-					<th className={`w-[5rem] ${headerBaseClasses} rounded-tr-[1rem]`} />
+					<th className={`w-[5rem] rounded-tr-[1rem] ${headerBaseStyle}`} />
 				</tr>
 			</thead>
 			<tbody>
 				{data.map((item, index) => (
-					<tr key={index} className="hover:bg-gray900">
-						<td className={`${cellBaseClasses} border-r-[1px]`}>
-							{item.generation}
+					<tr
+						key={index}
+						className="hover:bg-gray900 transition-colors duration-300"
+					>
+						<td className={`${cellBaseStyle} border-r-[1px]`}>
+							<div className="h-full flex items-center justify-center">
+								{item.generation}
+							</div>
 						</td>
-						<td className={`${cellBaseClasses} border-r-[1px]`}>{item.name}</td>
-						<td className={`${cellBaseClasses} border-r-[1px]`}>
-							<div className="flex justify-evenly items-center gap-[0.5rem]">
+						<td className={`${cellBaseStyle} border-r-[1px]`}>
+							<div className="h-full flex items-center justify-center">
+								{item.name}
+							</div>
+						</td>
+						<td className={`${cellBaseStyle} border-r-[1px]`}>
+							<div className="h-full flex items-center justify-evenly gap-[0.5rem]">
 								<p>{item.applicationPeriod.start}</p>
 								<p>~</p>
 								<p>{item.applicationPeriod.end}</p>
 							</div>
 						</td>
-						<td className={`${cellBaseClasses} border-r-[1px]`}>
-							<div className="flex justify-evenly items-center gap-[0.5rem]">
+						<td className={`${cellBaseStyle} border-r-[1px]`}>
+							<div className="h-full flex items-center justify-evenly gap-[0.5rem]">
 								<p>{item.applicationResultPeriod.start}</p>
 								<p>~</p>
 								<p>{item.applicationResultPeriod.end}</p>
 							</div>
 						</td>
-						<td className={`${cellBaseClasses} border-r-[1px]`}>
-							<div className="flex justify-evenly items-center gap-[0.5rem]">
+						<td className={`${cellBaseStyle} border-r-[1px]`}>
+							<div className="h-full flex items-center justify-evenly gap-[0.5rem]">
 								<p>{item.finalResultPeriod.start}</p>
 								<p>~</p>
 								<p>{item.finalResultPeriod.end}</p>
 							</div>
 						</td>
-						<td className={cellBaseClasses}>
-							<div className="flex justify-center items-center">
+						<td className={cellBaseStyle}>
+							<div className="h-full flex items-center justify-center">
 								<button type="button" className="cursor-pointer">
-									<Trash width={22} />
+									<Trash width={22} className="stroke-white" />
 								</button>
 							</div>
 						</td>
