@@ -1,20 +1,21 @@
 import { Application, Cardinal, Edit } from "@/assets/svg";
+import { ROUTES_CONFIG } from "@/routes/routeConfig";
 import { Link, useLocation } from "react-router-dom";
 
 const MENU_LIST = [
   {
     title: "지원서 관리",
-    path: "/application",
+    path: ROUTES_CONFIG.application,
     MenuIcon: Application,
   },
   {
     title: "기수 등록",
-    path: "/generation",
+    path: ROUTES_CONFIG.generation,
     MenuIcon: Cardinal,
   },
   {
     title: "질문 등록",
-    path: "/postQuestion",
+    path: ROUTES_CONFIG.postQuestion,
     MenuIcon: Edit,
   },
 ];
@@ -30,12 +31,13 @@ const Nav = () => {
       </header>
       <ul className="flex flex-col gap-[0.6rem]">
         {MENU_LIST.map((menu) => {
-          const isActive = location.pathname === menu.path;
+          const path = menu.path.path;
+          const isActive = location.pathname === path;
 
           return (
             <li key={menu.title} className="w-full">
               <Link
-                to={menu.path}
+                to={path}
                 className={`flex items-center w-full gap-8 rounded-[1rem] p-[1.2rem] cursor-pointer group transition-all duration-300
                 ${isActive ? "bg-white text-black" : "hover:bg-gray700 active:bg-white"}`}
               >
