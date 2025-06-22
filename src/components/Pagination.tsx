@@ -13,21 +13,6 @@ const Pagination = ({
   currentPage,
   onPageChange,
 }: PaginationProps) => {
-  const hasPrevPage = currentPage > 1;
-  const hasNextPage = currentPage < totalPages;
-
-  const handleNextPage = () => {
-    if (hasNextPage) {
-      onPageChange(currentPage + 1);
-    }
-  };
-
-  const handlePrevPage = () => {
-    if (hasPrevPage) {
-      onPageChange(currentPage - 1);
-    }
-  };
-
   let startPage =
     Math.floor((currentPage - 1) / VISIBLE_PAGE_COUNT) * VISIBLE_PAGE_COUNT + 1;
   const endPage = Math.min(totalPages, startPage + VISIBLE_PAGE_COUNT - 1);
@@ -41,11 +26,14 @@ const Pagination = ({
     pageButtons.push(i);
   }
 
+  const hasPrevPage = currentPage > 1;
+  const hasNextPage = currentPage < totalPages;
+
   return (
     <nav className="flex mt-[0.8rem] mb-[5.6rem] justify-center items-center gap-[1.2rem]">
       <button
         type="button"
-        onClick={handlePrevPage}
+        onClick={() => onPageChange(currentPage - 1)}
         disabled={!hasPrevPage}
         className="disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed mr-[1.2rem]"
       >
@@ -64,7 +52,7 @@ const Pagination = ({
       ))}
       <button
         type="button"
-        onClick={handleNextPage}
+        onClick={() => onPageChange(currentPage + 1)}
         disabled={!hasNextPage}
         className="disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed ml-[1.2rem]"
       >
