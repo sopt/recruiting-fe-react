@@ -1,20 +1,20 @@
-import { Application, Cardinal, Edit } from "@/assets/svg";
-import { ROUTES_CONFIG } from "@/routes/routeConfig";
-import { Link, useLocation } from "react-router-dom";
+import { Application, Cardinal, Edit } from '@/assets/svg';
+import { ROUTES_CONFIG } from '@/routes/routeConfig';
+import { Link, useLocation } from 'react-router-dom';
 
 const MENU_LIST = [
   {
-    title: "지원서 관리",
+    title: '지원서 관리',
     path: ROUTES_CONFIG.application,
     MenuIcon: Application,
   },
   {
-    title: "기수 등록",
-    path: ROUTES_CONFIG.generation,
+    title: '기수 등록',
+    path: ROUTES_CONFIG.postGeneration,
     MenuIcon: Cardinal,
   },
   {
-    title: "질문 등록",
+    title: '질문 등록',
     path: ROUTES_CONFIG.postQuestion,
     MenuIcon: Edit,
   },
@@ -39,17 +39,17 @@ const Nav = () => {
               <Link
                 to={path}
                 className={`flex items-center w-full gap-8 rounded-[1rem] p-[1.2rem] cursor-pointer group transition-all duration-300
-                ${isActive ? "bg-white text-black" : "hover:bg-gray700 active:bg-white"}`}
+                ${isActive ? 'bg-white text-black' : 'hover:bg-gray700 active:bg-white'}`}
               >
                 <menu.MenuIcon
                   width={20}
                   height={20}
                   className={`transition-all duration-300
-                  ${isActive ? "text-black" : "text-gray200 group-hover:text-white group-active:text-black"}`}
+                  ${isActive ? 'text-black' : 'text-gray200 group-hover:text-white group-active:text-black'}`}
                 />
                 <h2
                   className={`label_2_16_sb transition-all duration-300
-                  ${isActive ? "text-black" : "text-gray200 group-hover:text-white group-active:text-black"}`}
+                  ${isActive ? 'text-black' : 'text-gray200 group-hover:text-white group-active:text-black'}`}
                 >
                   {menu.title}
                 </h2>
