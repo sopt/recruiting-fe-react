@@ -6,6 +6,8 @@ interface PaginationProps {
   onPageChange: (page: number) => void;
 }
 
+const VISIBLE_PAGE_COUNT = 5;
+
 const Pagination = ({
   totalPages,
   currentPage,
@@ -25,8 +27,6 @@ const Pagination = ({
       onPageChange(currentPage - 1);
     }
   };
-
-  const VISIBLE_PAGE_COUNT = 5;
 
   let startPage =
     Math.floor((currentPage - 1) / VISIBLE_PAGE_COUNT) * VISIBLE_PAGE_COUNT + 1;
