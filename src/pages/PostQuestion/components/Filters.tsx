@@ -1,4 +1,4 @@
-import YbObRadioGroup from '@/pages/PostQuestion/components/YbObRadioGroup';
+import YbObRadioGroup from '@/components/YbObRadioGroup';
 import { SelectV2 } from '@sopt-makers/ui';
 
 const generations = Array.from({ length: 7 }, (_, i) =>
