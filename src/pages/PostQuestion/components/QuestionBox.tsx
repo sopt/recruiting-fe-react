@@ -94,7 +94,7 @@ const ManageQuestion = () => {
         </div>
       </section>
 
-      <section className="flex flex-col gap-[1.4rem] w-[16.4rem] h-[31.6rem] rounded-xl p-[1.6rem] bg-gray700">
+      <section className="flex flex-col gap-[1.4rem] w-[16.4rem]  rounded-xl p-[1.6rem] bg-gray700">
         <h4 className="label_3_14_sb text-gray100">질문 설정</h4>
         <div className="flex justify-between">
           <span className="body_2_16_m">* 필수질문</span>
