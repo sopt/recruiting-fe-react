@@ -31,7 +31,7 @@ const QuestionList = () => {
 	return (
 		<>
 			<ul className="flex flex-col gap-[1.2rem]">
-				{questionFileds.map((questionInfo, index) => (
+				{questionFileds.map((_, index) => (
 					<QuestionBox
 						key={index}
 						index={index + 1}

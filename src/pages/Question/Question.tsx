@@ -1,6 +1,5 @@
 import { Add } from '@/assets/svg';
 import DescriptionBox from '@/pages/Question/components/DescriptionBox';
-import QuestionBox from '@/pages/Question/components/QuestionBox';
 import { Button } from '@sopt-makers/ui';
 import { useState } from 'react';
 import Header from '@/pages/Question/components/Header';
