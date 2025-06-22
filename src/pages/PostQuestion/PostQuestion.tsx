@@ -1,10 +1,12 @@
-import QuestionBox from '@/pages/PostQuestion/components/QuestionBox';
+
+import Header from '@/pages/PostQuestion/components/Header';
 
 const PostQuestion = () => {
   return (
-    <main>
-      <QuestionBox />
-    </main>
+    <>
+      <Header />
+      <div>기수등록하는 곳</div>
+    </>
   );
 };
 
