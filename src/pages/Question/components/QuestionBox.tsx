@@ -5,9 +5,10 @@ import { useRef, useState } from 'react';
 
 interface QuestionBoxProps {
 	index: number;
+	deleteQuestion: () => void;
 }
 
-const QuestionBox = ({ index }: QuestionBoxProps) => {
+const QuestionBox = ({ index, deleteQuestion }: QuestionBoxProps) => {
 	const [isRequiredQustion, setIsRequiredQuestion] = useState(false);
 	const [hasLink, setHasLink] = useState(false);
 	const [hasFileUpload, setHasFileUpload] = useState(false);
@@ -143,6 +144,7 @@ const QuestionBox = ({ index }: QuestionBoxProps) => {
 
 				<button
 					type="button"
+					onClick={deleteQuestion}
 					className="flex gap-[0.8rem] px-[0.4rem] py-[0.5rem]  rounded-[8px] hover:bg-gray600 cursor-pointer"
 				>
 					<Trash width={24} height={24} />

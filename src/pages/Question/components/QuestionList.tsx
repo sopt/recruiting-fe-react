@@ -5,7 +5,11 @@ import { useFieldArray, useFormContext } from 'react-hook-form';
 const QuestionList = () => {
 	const { control } = useFormContext();
 
-	const { fields: questionFileds, append } = useFieldArray({
+	const {
+		fields: questionFileds,
+		append,
+		remove,
+	} = useFieldArray({
 		control,
 		name: 'questionList',
 	});
@@ -20,11 +24,19 @@ const QuestionList = () => {
 		});
 	};
 
+	const deleteQuestion = (index: number) => {
+		remove(index);
+	};
+
 	return (
 		<>
 			<ul className="flex flex-col gap-[1.2rem]">
 				{questionFileds.map((questionInfo, index) => (
-					<QuestionBox key={index} index={index + 1} />
+					<QuestionBox
+						key={index}
+						index={index + 1}
+						deleteQuestion={() => deleteQuestion(index)}
+					/>
 				))}
 			</ul>
 			<button
