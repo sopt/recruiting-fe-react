@@ -3,6 +3,8 @@ import DescriptionBox from '@/pages/PostQuestion/components/DescriptionBox';
 import QuestionBox from '@/pages/PostQuestion/components/QuestionBox';
 import { Button } from '@sopt-makers/ui';
 import { useState } from 'react';
+import Header from '@/pages/PostQuestion/components/Header';
+
 
 const PostQuestion = () => {
   const [hasDescription, setHasDescription] = useState(false);
@@ -13,6 +15,7 @@ const PostQuestion = () => {
 
   return (
     <main className="max-w-[98rem]">
+      <Header />
       <div className="flex justify-between items-end mb-[2rem]">
         <span className="title_6_16_sb text-gray200">총 2개</span>
         <div className="flex gap-[1.6rem]">
