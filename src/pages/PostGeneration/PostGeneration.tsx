@@ -8,17 +8,17 @@ import GenerationTable from '@/pages/PostGeneration/components/GenerationTable';
 import { Button } from '@sopt-makers/ui';
 import { useMemo } from 'react';
 
-const PostGeneration = () => {
-  const ITEMS_PER_PAGE = 10;
+const LIMIT = 10;
 
+const PostGeneration = () => {
   const { currentPage, totalPages, handlePageChange } = usePagination({
     totalItems: MOCK_GENERATION_DATA.length,
-    itemsPerPage: ITEMS_PER_PAGE,
+    limit: LIMIT,
   });
 
   const paginatedData = useMemo(() => {
-    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-    const endIndex = startIndex + ITEMS_PER_PAGE;
+    const startIndex = (currentPage - 1) * LIMIT;
+    const endIndex = startIndex + LIMIT;
 
     return MOCK_GENERATION_DATA.slice(startIndex, endIndex);
   }, [currentPage]);

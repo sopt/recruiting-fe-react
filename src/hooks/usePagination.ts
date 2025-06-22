@@ -2,18 +2,18 @@ import { useState } from 'react';
 
 interface UsePaginationProps {
   totalItems: number;
-  itemsPerPage?: number;
+  limit?: number;
   initialPage?: number;
 }
 
 const usePagination = ({
   totalItems,
-  itemsPerPage = 10,
+  limit = 10,
   initialPage = 1,
 }: UsePaginationProps) => {
   const [currentPage, setCurrentPage] = useState(initialPage);
 
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const totalPages = Math.ceil(totalItems / limit);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
