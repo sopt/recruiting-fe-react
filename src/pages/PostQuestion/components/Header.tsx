@@ -5,7 +5,7 @@ import { Tab } from '@sopt-makers/ui';
 import { useState } from 'react';
 
 const Header = () => {
-  const [selectedTab, setSelectedTab] = useState<PART_NAME>();
+  const [, setSelectedTab] = useState<PART_NAME>();
 
   const handleTabChange = (part: PART_NAME) => {
     setSelectedTab(part);
