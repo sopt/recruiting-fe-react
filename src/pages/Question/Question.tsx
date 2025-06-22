@@ -24,7 +24,7 @@ const Question = () => {
 					link: '',
 					answerPlaceHolder: '',
 					file: '',
-					maxText: 100, // 기본값으로 100 같은 값 설정
+					maxText: 100,
 				},
 			],
 		},

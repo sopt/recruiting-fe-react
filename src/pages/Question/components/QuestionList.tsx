@@ -22,7 +22,7 @@ const QuestionList = () => {
 
 	return (
 		<>
-			<ul>
+			<ul className="flex flex-col gap-[1.2rem]">
 				{questionFileds.map((questionInfo, index) => (
 					<QuestionBox key={index} index={index + 1} />
 				))}
@@ -30,7 +30,7 @@ const QuestionList = () => {
 			<button
 				type="button"
 				onClick={addQuestion}
-				className="flex flex-row gap-[0.4rem] mb-[3.2rem] px-[2rem] py-[1.2rem] rounded-[10px] bg-gray700 label_2_16_sb cursor-pointer"
+				className="flex flex-row gap-[0.4rem] mt-[3.2rem] px-[2rem] py-[1.2rem] rounded-[10px] bg-gray700 label_2_16_sb cursor-pointer"
 			>
 				<Add width={20} />
 				질문 추가하기
