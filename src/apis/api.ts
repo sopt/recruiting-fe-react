@@ -1,9 +1,9 @@
-import ky from 'ky';
+import ky from "ky";
 
 export const api = ky.create({
   // 서버 url 추가
-  prefixUrl: 'https:',
+  prefixUrl: "https:",
   headers: {
-    Authorization: 'Bearer my-token',
+    Authorization: "Bearer my-token",
   },
 });
