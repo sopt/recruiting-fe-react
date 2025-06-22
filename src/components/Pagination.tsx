@@ -21,8 +21,8 @@ const Pagination = ({
     startPage = Math.max(1, endPage - VISIBLE_PAGE_COUNT + 1);
   }
 
-  const pageButtons: number[] = [];
-  for (let i = startPage; i <= endPage; i++) {
+  const pageButtons = [1];
+  for (let i = startPage + 1; i <= endPage; i++) {
     pageButtons.push(i);
   }
 

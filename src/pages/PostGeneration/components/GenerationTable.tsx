@@ -18,7 +18,7 @@ interface GenerationTableProps {
 const HEADER_BASE_STYLE =
   'p-[1rem] text-gray100 body_3_14_m bg-gray700 border-gray600';
 const CELL_BASE_STYLE =
-  'h-[6rem] text-center text-white body_3_14_m bg-transparent border-b-[1px] border-gray700 align-middle';
+  'h-[6rem] text-center body_3_14_m bg-transparent border-b-[1px] border-gray700 align-middle';
 
 const GenerationTable = ({ data }: GenerationTableProps) => {
   return (
@@ -55,51 +55,59 @@ const GenerationTable = ({ data }: GenerationTableProps) => {
           </tr>
         </thead>
         <tbody>
-          {data.map((item, index) => (
-            <tr
-              key={index}
-              className="hover:bg-gray900 transition-colors duration-300"
-            >
-              <td className={`${CELL_BASE_STYLE} border-r-[1px]`}>
-                <div className="h-full flex items-center justify-center">
-                  {item.generation}
-                </div>
-              </td>
-              <td className={`${CELL_BASE_STYLE} border-r-[1px]`}>
-                <div className="h-full flex items-center justify-center">
-                  {item.name}
-                </div>
-              </td>
-              <td className={`${CELL_BASE_STYLE} border-r-[1px]`}>
-                <div className="h-full flex items-center justify-evenly gap-[0.5rem]">
-                  <p>{item.applicationPeriod.start}</p>
-                  <p>~</p>
-                  <p>{item.applicationPeriod.end}</p>
-                </div>
-              </td>
-              <td className={`${CELL_BASE_STYLE} border-r-[1px]`}>
-                <div className="h-full flex items-center justify-evenly gap-[0.5rem]">
-                  <p>{item.applicationResultPeriod.start}</p>
-                  <p>~</p>
-                  <p>{item.applicationResultPeriod.end}</p>
-                </div>
-              </td>
-              <td className={`${CELL_BASE_STYLE} border-r-[1px]`}>
-                <div className="h-full flex items-center justify-evenly gap-[0.5rem]">
-                  <p>{item.finalResultPeriod.start}</p>
-                  <p>~</p>
-                  <p>{item.finalResultPeriod.end}</p>
-                </div>
-              </td>
-              <td className={CELL_BASE_STYLE}>
-                <div className="h-full flex items-center justify-center">
-                  <button type="button" className="cursor-pointer">
-                    <Trash width={22} className="stroke-white" />
-                  </button>
-                </div>
+          {data.length === 0 ? (
+            <tr>
+              <td colSpan={6} className={`${CELL_BASE_STYLE} text-gray200`}>
+                기수를 추가하세요.
               </td>
             </tr>
-          ))}
+          ) : (
+            data.map((item, index) => (
+              <tr
+                key={index}
+                className="hover:bg-gray900 transition-colors duration-300"
+              >
+                <td className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}>
+                  <div className="h-full flex items-center justify-center">
+                    {item.generation}
+                  </div>
+                </td>
+                <td className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}>
+                  <div className="h-full flex items-center justify-center">
+                    {item.name}
+                  </div>
+                </td>
+                <td className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}>
+                  <div className="h-full flex items-center justify-evenly gap-[0.5rem]">
+                    <p>{item.applicationPeriod.start}</p>
+                    <p>~</p>
+                    <p>{item.applicationPeriod.end}</p>
+                  </div>
+                </td>
+                <td className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}>
+                  <div className="h-full flex items-center justify-evenly gap-[0.5rem]">
+                    <p>{item.applicationResultPeriod.start}</p>
+                    <p>~</p>
+                    <p>{item.applicationResultPeriod.end}</p>
+                  </div>
+                </td>
+                <td className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}>
+                  <div className="h-full flex items-center justify-evenly gap-[0.5rem]">
+                    <p>{item.finalResultPeriod.start}</p>
+                    <p>~</p>
+                    <p>{item.finalResultPeriod.end}</p>
+                  </div>
+                </td>
+                <td className={`${CELL_BASE_STYLE}`}>
+                  <div className="h-full flex items-center justify-center">
+                    <button type="button" className="cursor-pointer">
+                      <Trash width={22} className="stroke-white" />
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
     </div>
