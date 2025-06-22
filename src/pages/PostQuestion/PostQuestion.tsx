@@ -1,10 +1,9 @@
+import QuestionBox from "@/pages/PostQuestion/components/QuestionBox";
 import { Add } from '@/assets/svg';
 import DescriptionBox from '@/pages/PostQuestion/components/DescriptionBox';
-import QuestionBox from '@/pages/PostQuestion/components/QuestionBox';
 import { Button } from '@sopt-makers/ui';
 import { useState } from 'react';
 import Header from '@/pages/PostQuestion/components/Header';
-
 
 const PostQuestion = () => {
   const [hasDescription, setHasDescription] = useState(false);
