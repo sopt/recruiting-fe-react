@@ -60,9 +60,12 @@ const PeriodCalendar = ({ label, required = false }: Props) => {
         {label}
         {required && <span className="text-secondary">*</span>}
       </span>
-      <div className="flex gap-[0.8rem] relative" ref={calendarRef}>
+      <div
+        className="flex gap-[0.8rem] relative items-center"
+        ref={calendarRef}
+      >
         <div
-          className="flex w-full px-4 py-[13px] text-gray10 bg-gray700 rounded-[10px] justify-between cursor-pointer"
+          className="flex px-[1.6rem] py-[1.3rem] w-[20.5rem] text-gray10 bg-gray700 rounded-[10px] justify-between items-center cursor-pointer"
           onClick={() => handleInputClick('start')}
           onKeyUp={(e) => e.key === 'Enter' && handleInputClick('start')}
         >
@@ -71,15 +74,15 @@ const PeriodCalendar = ({ label, required = false }: Props) => {
             value={selectedDateRange[0]}
             placeholder="YYYY.MM.DD"
             readOnly
-            className="w-4/5 flex items-center cursor-pointer text-[1.6rem] font-medium bg-transparent border-none placeholder:text-gray500 focus:outline-none"
+            className="flex items-center cursor-pointer text-[1.6rem] font-medium bg-transparent border-none placeholder:text-gray500 focus:outline-none"
           />
           <IconCalendar style={{ width: '24' }} />
         </div>
 
-        <p className="text-gray-10 text-[1.4rem] font-semibold">-</p>
+        <p className="text-gray-400 text-[1.4rem] font-semibold">-</p>
 
         <div
-          className="flex w-full px-4 py-[13px] text-gray10 bg-gray700 rounded-[10px] justify-between cursor-pointer"
+          className="flex px-[1.6rem] py-[1.3rem] w-[20.5rem] text-gray10 bg-gray700 rounded-[10px] justify-between items-center cursor-pointer"
           onClick={() => handleInputClick('end')}
           onKeyUp={(e) => e.key === 'Enter' && handleInputClick('end')}
         >
@@ -88,7 +91,7 @@ const PeriodCalendar = ({ label, required = false }: Props) => {
             value={selectedDateRange[1]}
             placeholder="YYYY.MM.DD"
             readOnly
-            className="relative w-4/5 flex items-center cursor-pointer text-[1.6rem] font-medium bg-transparent border-none placeholder:text-gray500 focus:outline-none"
+            className="relative flex items-center cursor-pointer text-[1.6rem] font-medium bg-transparent border-none placeholder:text-gray500 focus:outline-none"
           />
           <IconCalendar style={{ width: '24' }} />
         </div>

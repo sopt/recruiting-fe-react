@@ -35,7 +35,7 @@ const PostGenerationModal = () => {
   };
 
   return (
-    <div className="flex flex-col gap-[2.4rem] h-[70vh] justify-between">
+    <div className="flex flex-col gap-[2.4rem] w-[58rem] h-[70vh] justify-between">
       <form className="flex flex-col gap-[3.2rem] w-[64rem] mt-[2.6rem]">
         <div className="flex gap-[1.6rem]">
           <TextField
