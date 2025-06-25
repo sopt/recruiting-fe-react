@@ -1,6 +1,10 @@
 export { default as Arrange } from './Arrange';
 export { default as Add } from './Add';
+export { default as Pagnation } from './Pagnation';
+export { default as Application } from './Application';
+export { default as Cardinal } from './Cardinal';
 export { default as Check } from './Check';
+export { default as Edit } from './Edit';
 export { default as InfoCircle } from './InfoCircle';
 export { default as Link } from './Link';
 export { default as Trash } from './Trash';
