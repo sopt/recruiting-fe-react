@@ -21,8 +21,8 @@ const QuestionBox = ({ index, deleteQuestion }: QuestionBoxProps) => {
 	};
 
 	return (
-		<div className="flex flex-row items-center gap-[3.2rem]">
-			<section className="flex flex-col gap-[2rem] px-[3.2rem] pb-[2rem] w-[78.4rem] border-1 border-gray500 rounded-xl bg-gray900">
+		<li className="flex flex-row items-center gap-[3.2rem]">
+			<div className="flex flex-col gap-[2rem] px-[3.2rem] pb-[2rem] w-[78.4rem] border-1 border-gray500 rounded-xl bg-gray900">
 				<div className="flex justify-center ">
 					<Arrange width={24} />
 				</div>
@@ -98,9 +98,9 @@ const QuestionBox = ({ index, deleteQuestion }: QuestionBoxProps) => {
 						required
 					/>
 				</div>
-			</section>
+			</div>
 
-			<section className="flex flex-col gap-[1.4rem] w-[16.4rem]  rounded-xl p-[1.6rem] bg-gray700">
+			<div className="flex flex-col gap-[1.4rem] w-[16.4rem]  rounded-xl p-[1.6rem] bg-gray700">
 				<h4 className="label_3_14_sb text-gray100">질문 설정</h4>
 				<div className="flex justify-between">
 					<span className="body_2_16_m">* 필수질문</span>
@@ -150,8 +150,8 @@ const QuestionBox = ({ index, deleteQuestion }: QuestionBoxProps) => {
 					<Trash width={24} height={24} />
 					<span className="body_2_16_m">삭제</span>
 				</button>
-			</section>
-		</div>
+			</div>
+		</li>
 	);
 };
 
