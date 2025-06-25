@@ -1,0 +1,68 @@
+@reference "tailwindcss";
+@reference "./theme.css";
+@config "../../tailwind.config.ts";
+
+@layer components {
+  .react-calendar {
+    @apply bg-gray700 text-gray10 border-0 rounded-2xl;
+  }
+
+  .react-calendar.react-calendar--selectRange {
+    @apply bg-gray700 text-gray10 rounded-2xl border-0;
+  }
+
+  .react-calendar__navigation {
+    @apply bg-gray700 text-gray10 border-b border-gray600 rounded-t-2xl;
+  }
+
+  .react-calendar__navigation__label {
+    @apply bg-gray700 text-gray10;
+  }
+
+  .react-calendar__navigation button {
+    @apply text-gray10 bg-gray700 rounded-lg;
+  }
+
+  .react-calendar__month-view {
+    @apply bg-gray700 text-gray10;
+  }
+
+  .react-calendar__month-view__weekdays {
+    @apply bg-gray700 text-gray200;
+  }
+
+  .react-calendar__month-view__weekdays__weekday {
+    @apply text-gray200 font-semibold;
+  }
+
+  .react-calendar__tile {
+    @apply bg-gray700 text-gray10 rounded-lg transition-colors duration-150;
+  }
+
+  .react-calendar__tile:disabled {
+    @apply bg-gray800 text-gray500 opacity-50 cursor-not-allowed;
+  }
+
+  .react-calendar__tile:disabled:hover {
+    @apply bg-gray800;
+  }
+
+  /* 이전/다음 달 날짜 스타일 */
+  .react-calendar__tile--neighboringMonth {
+    @apply text-gray600 bg-gray800;
+  }
+
+  .react-calendar__tile--active,
+  .react-calendar__tile--rangeStart,
+  .react-calendar__tile--rangeEnd {
+    @apply bg-gray700 text-gray800;
+  }
+
+  .react-calendar__tile--now {
+    @apply bg-gray500 text-[#ffc234];
+  }
+
+  .react-calendar__month-view__days__day--weekend {
+    @apply bg-gray700 text-gray10;
+  }
+}
