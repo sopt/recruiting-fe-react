@@ -3,7 +3,7 @@ import { Radio } from '@sopt-makers/ui';
 import { useState } from 'react';
 
 const YbObRadioGroup = () => {
-	const [grade, setGrade] = useState<GRADE>('yb');
+	const [grade, setGrade] = useState<GRADE>('YB');
 
 	const handleGradeChange = (grade: GRADE) => {
 		setGrade(grade);
@@ -14,15 +14,15 @@ const YbObRadioGroup = () => {
 			<Radio
 				size="lg"
 				label="yb"
-				checked={grade === 'yb'}
-				onClick={() => handleGradeChange('yb')}
+				checked={grade === 'YB'}
+				onClick={() => handleGradeChange('YB')}
 			/>
 
 			<Radio
 				size="lg"
 				label="ob"
-				checked={grade === 'ob'}
-				onClick={() => handleGradeChange('ob')}
+				checked={grade === 'OB'}
+				onClick={() => handleGradeChange('OB')}
 			/>
 		</div>
 	);
