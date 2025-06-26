@@ -1,21 +1,7 @@
-import { Refresh } from '@/assets/svg';
-import YbObRadioGroup from '@/components/YbObRadioGroup';
-import { SelectV2, TextField, Toggle } from '@sopt-makers/ui';
+import { PART } from '@/constants';
+import Filter from '@/pages/Application/components/Filter';
+import { Tab } from '@sopt-makers/ui';
 import { useState } from 'react';
-
-const START_GENERATION = 30;
-const END_GENERATION = 36;
-
-const GENERATION_OPTIONS = Array.from(
-  { length: END_GENERATION - START_GENERATION + 1 },
-  (_, index) => {
-    const generation = END_GENERATION - index;
-    return {
-      label: `${generation}기`,
-      value: generation.toString(),
-    };
-  },
-);
 
 const Application = () => {
   const [isCompleteHidden, setIsCompleteHidden] = useState(false);
@@ -23,64 +9,17 @@ const Application = () => {
   const [isPassedOnly, setIsPassedOnly] = useState(false);
 
   return (
-    <div className="flex flex-col gap-[3.2rem] mt-[3.2rem]">
-      <div className="flex gap-[1.5rem]">
-        <SelectV2.Root type="text">
-          <SelectV2.Trigger>
-            <div>
-              <SelectV2.TriggerContent placeholder="36기" />
-            </div>
-          </SelectV2.Trigger>
-          <SelectV2.Menu>
-            {GENERATION_OPTIONS.map((option) => (
-              <SelectV2.MenuItem key={option.value} option={option} />
-            ))}
-          </SelectV2.Menu>
-        </SelectV2.Root>
-        <YbObRadioGroup />
-      </div>
-      <div className="flex flex-col gap-[0.8rem]">
-        {/* 툴팁 컴포넌트 추가 */}
-        <div className="flex gap-[2.4rem]">
-          <div className="flex gap-[0.6rem] items-center">
-            <TextField placeholder="미달률 입력" />
-            <button
-              type="button"
-              className="bg-gray800 rounded-[1rem] px-[1.6rem] py-[1.4rem] flex items-center justify-center cursor-pointer hover:bg-gray700 transition-colors duration-200"
-            >
-              <Refresh width={20} height={20} />
-            </button>
-          </div>
-          <div className="flex items-center gap-[0.8rem]">
-            <span className="flex body_3_14_r text-gray100">
-              평가 완료 숨기기
-            </span>
-            <Toggle
-              size="lg"
-              checked={isCompleteHidden}
-              onClick={() => setIsCompleteHidden((prev) => !prev)}
-            />
-          </div>
-          <div className="flex items-center gap-[0.8rem]">
-            <span className="flex body_3_14_r text-gray100">읽마 숨기기</span>
-            <Toggle
-              size="lg"
-              checked={isDoNotRead}
-              onClick={() => setIsDoNotRead((prev) => !prev)}
-            />
-          </div>
-          <div className="flex items-center gap-[0.8rem]">
-            <span className="flex body_3_14_r text-gray100">
-              서류 합격자만 보기
-            </span>
-            <Toggle
-              size="lg"
-              checked={isPassedOnly}
-              onClick={() => setIsPassedOnly((prev) => !prev)}
-            />
-          </div>
-        </div>
-      </div>
+    <div className="flex flex-col gap-[4.4rem]">
+      <Filter
+        isCompleteHidden={isCompleteHidden}
+        isDoNotRead={isDoNotRead}
+        isPassedOnly={isPassedOnly}
+        setIsCompleteHidden={setIsCompleteHidden}
+        setIsDoNotRead={setIsDoNotRead}
+        setIsPassedOnly={setIsPassedOnly}
+      />
+      <Tab style="primary" size="md" tabItems={PART} onChange={() => {}} />
+      <hr className="border-gray800 mt-[-4.7rem] w-[98rem]" />
     </div>
   );
 };
