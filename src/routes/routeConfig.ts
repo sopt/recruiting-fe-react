@@ -1,7 +1,7 @@
 export const ROUTES_CONFIG = {
-  postQuestion: {
+  question: {
     title: '질문 등록',
-    path: '/postQuestion',
+    path: '/question',
   },
   postGeneration: {
     title: '기수 등록',

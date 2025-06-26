@@ -14,6 +14,7 @@
     "svgr": "npx @svgr/cli -d src/assets/svg --ignore-existing --typescript --no-dimensions public/svg"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.1.1",
     "@sopt-makers/colors": "^3.0.3",
     "@sopt-makers/fonts": "^2.0.2",
     "@sopt-makers/ui": "^2.8.12",
@@ -23,8 +24,10 @@
     "ky": "^1.8.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-hook-form": "^7.58.1",
     "react-router-dom": "^7.6.2",
-    "tailwindcss": "^4.1.10"
+    "tailwindcss": "^4.1.10",
+    "zod": "^3.25.67"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
