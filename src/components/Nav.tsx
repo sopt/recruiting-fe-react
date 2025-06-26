@@ -15,7 +15,7 @@ const MENU_LIST = [
   },
   {
     title: '질문 등록',
-    path: ROUTES_CONFIG.postQuestion,
+    path: ROUTES_CONFIG.question,
     MenuIcon: Edit,
   },
 ];

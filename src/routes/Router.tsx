@@ -1,4 +1,5 @@
 import Application from '@/assets/svg/Application';
+
 import Layout from '@/layout/Layout';
 import Login from '@/pages/Login/Login';
 import PostGeneration from '@/pages/PostGeneration/PostGeneration';

@@ -5,11 +5,11 @@ export const ROUTES_CONFIG = {
   },
   postQuestion: {
     title: '질문 등록',
-    path: '/postQuestion',
+    path: '/post-question',
   },
   postGeneration: {
     title: '기수 등록',
-    path: '/postGeneration',
+    path: '/post-generation',
   },
   application: {
     title: '지원서 관리',

@@ -1,6 +1,6 @@
-import Filters from '@/pages/PostQuestion/components/Filters';
-import { PART } from '@/pages/PostQuestion/constant';
-import type { PART_NAME } from '@/pages/PostQuestion/types';
+import Filters from '@/pages/Question/components/Filters';
+import { PART } from '@/pages/Question/constant';
+import type { PART_NAME } from '@/pages/Question/types';
 import { Tab } from '@sopt-makers/ui';
 import { useState } from 'react';
 
