@@ -1,4 +1,3 @@
-import profile from '@/assets/image/profile.jpg';
 import Chip from '@/components/Chip';
 import { CheckBox } from '@sopt-makers/ui';
 
@@ -34,25 +33,6 @@ const STATUS_COLOR = {
 };
 
 const ApplicationTable = ({ data }: ApplicationTableProps) => {
-  const dummyData = [
-    {
-      id: 1,
-      status: '서류 합격' as const,
-      profileImage: profile,
-      name: '김철수',
-      part: '웹' as const,
-      isDoNotRead: false,
-      evaluationStatus: true,
-      submissionTime: '2024-01-15 14:30:00',
-      recentGeneration: 33,
-      birth: '2000-03-15',
-      university: '서울대학교',
-      major: '컴퓨터공학과',
-      email: 'kim.chulsoo@example.com',
-      phone: '010-1234-5678',
-    },
-  ];
-
   return (
     <div className="w-full overflow-x-auto scroll-smooth scrollbar-hide pr-[12.4rem]">
       <table className="w-[122.5rem] table-fixed">
@@ -126,14 +106,14 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
           </tr>
         </thead>
         <tbody>
-          {dummyData.length === 0 ? (
+          {data.length === 0 ? (
             <tr>
               <td colSpan={13} className={`${CELL_BASE_STYLE} text-gray200`}>
                 확인할 수 있는 지원서가 없어요.
               </td>
             </tr>
           ) : (
-            dummyData.map((item, index) => (
+            data.map((item, index) => (
               <tr
                 key={index}
                 className="hover:bg-gray900 transition-colors duration-300"
@@ -151,7 +131,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                   </div>
                 </td>
                 <td className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}>
-                  <div className="h-full flex items-center justify-center gap-[0.5rem] py-[1rem] ">
+                  <div className="h-full flex items-center justify-center gap-[1rem] py-[1rem] ">
                     <img
                       src={item.profileImage}
                       alt="프로필"
