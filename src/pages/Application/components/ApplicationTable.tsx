@@ -55,9 +55,9 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
   const getDoNotReadMessage = (item: ApplicationTableProps['data'][0]) => {
     if (!item.doNotReadBy) return null;
 
-    const selectedParts = Object.entries(item.doNotReadBy)
-      .filter(([_, isSelected]) => isSelected)
-      .map(([part]) => part);
+    const selectedParts = Object.keys(item.doNotReadBy).filter(
+      (key) => item.doNotReadBy![key as keyof typeof item.doNotReadBy],
+    );
 
     if (selectedParts.length === 0) return null;
 
@@ -67,9 +67,9 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
   const getEvaluationMessage = (item: ApplicationTableProps['data'][0]) => {
     if (!item.evaluatedBy) return null;
 
-    const selectedParts = Object.entries(item.evaluatedBy)
-      .filter(([_, isSelected]) => isSelected)
-      .map(([part]) => part);
+    const selectedParts = Object.keys(item.evaluatedBy).filter(
+      (key) => item.evaluatedBy![key as keyof typeof item.evaluatedBy],
+    );
 
     if (selectedParts.length === 0) return null;
 
