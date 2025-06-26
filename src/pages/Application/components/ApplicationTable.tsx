@@ -1,13 +1,14 @@
 import Chip from '@/components/Chip';
+import type { SOPTPart, StatusType } from '@/pages/Application/\btypes';
 import { CheckBox } from '@sopt-makers/ui';
 
 interface ApplicationTableProps {
   data: {
     id: number;
-    status: '최종 합격' | '불합격' | '서류 합격' | '확인 전';
+    status: StatusType;
     profileImage: string;
     name: string;
-    part: '기획' | '디자인' | '서버' | 'iOS' | '안드로이드' | '웹';
+    part: SOPTPart;
     isDoNotRead: boolean;
     doNotReadBy?: {
       기획?: boolean;
