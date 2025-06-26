@@ -9,6 +9,15 @@ interface ApplicationTableProps {
     name: string;
     part: '기획' | '디자인' | '서버' | 'iOS' | '안드로이드' | '웹';
     isDoNotRead: boolean;
+    doNotReadBy?: {
+      기획?: boolean;
+      디자인?: boolean;
+      서버?: boolean;
+      iOS?: boolean;
+      안드로이드?: boolean;
+      웹?: boolean;
+      회장?: boolean;
+    };
     evaluationStatus: boolean;
     submissionTime: string;
     recentGeneration: number;
@@ -33,6 +42,18 @@ const STATUS_COLOR = {
 };
 
 const ApplicationTable = ({ data }: ApplicationTableProps) => {
+  const getDoNotReadMessage = (item: ApplicationTableProps['data'][0]) => {
+    if (!item.doNotReadBy) return null;
+
+    const selectedParts = Object.entries(item.doNotReadBy)
+      .filter(([_, isSelected]) => isSelected)
+      .map(([part]) => part);
+
+    if (selectedParts.length === 0) return null;
+
+    return `${selectedParts.join(', ')}이(가) 읽지 말라고 선택했어요.`;
+  };
+
   return (
     <div className="w-full overflow-x-auto scroll-smooth scrollbar-hide pr-[12.4rem]">
       <table className="w-[122.5rem] table-fixed">
@@ -113,87 +134,124 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
               </td>
             </tr>
           ) : (
-            data.map((item, index) => (
-              <tr
-                key={index}
-                className="hover:bg-gray900 transition-colors duration-300"
-              >
-                <td className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}>
-                  <div className="h-full flex items-center justify-center">
-                    {item.id}
-                  </div>
-                </td>
-                <td className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}>
-                  <div className="h-full flex items-center justify-center">
-                    <Chip className={`${STATUS_COLOR[item.status]}`}>
-                      {item.status}
-                    </Chip>
-                  </div>
-                </td>
-                <td className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}>
-                  <div className="h-full flex items-center justify-center gap-[1rem] py-[1rem] ">
-                    <img
-                      src={item.profileImage}
-                      alt="프로필"
-                      className="w-[5.2rem] h-[7rem] object-cover rounded-[0.3rem]"
-                    />
-                    <span>{item.name}</span>
-                  </div>
-                </td>
-                <td className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}>
-                  <div className="h-full flex items-center justify-center">
-                    {item.part}
-                  </div>
-                </td>
-                <td className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}>
-                  <div className="h-full flex items-center justify-center gap-[0.6rem]">
-                    <CheckBox checked={item.isDoNotRead} />
-                    <span>읽지 마시오</span>
-                  </div>
-                </td>
-                <td className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}>
-                  <div className="h-full flex items-center justify-center gap-[0.6rem]">
-                    <CheckBox checked={item.evaluationStatus} />
-                    <span>평가 완료</span>
-                  </div>
-                </td>
-                <td className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}>
-                  <div className="h-full flex items-center justify-center">
-                    {item.submissionTime}
-                  </div>
-                </td>
-                <td className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}>
-                  <div className="h-full flex items-center justify-center">
-                    {item.recentGeneration}기
-                  </div>
-                </td>
-                <td className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}>
-                  <div className="h-full flex items-center justify-center">
-                    {item.birth}
-                  </div>
-                </td>
-                <td className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}>
-                  <div className="h-full flex items-center justify-center">
-                    {item.university}
-                  </div>
-                </td>
-                <td className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}>
-                  <div className="h-full flex items-center justify-center">
-                    {item.major}
-                  </div>
-                </td>
-                <td className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}>
-                  <div className="h-full flex items-center justify-center">
-                    {item.email}
-                  </div>
-                </td>
-                <td className={`${CELL_BASE_STYLE} text-white`}>
-                  <div className="h-full flex items-center justify-center">
-                    {item.phone}
-                  </div>
-                </td>
-              </tr>
-            ))
+            data.map((item, index) => {
+              const doNotReadMessage = getDoNotReadMessage(item);
+
+              return (
+                <tr
+                  key={index}
+                  className="hover:bg-gray900 transition-colors duration-300"
+                >
+                  <td
+                    className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
+                  >
+                    <div className="h-full flex items-center justify-center">
+                      {item.id}
+                    </div>
+                  </td>
+                  <td
+                    className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
+                  >
+                    <div className="h-full flex items-center justify-center">
+                      <Chip className={`${STATUS_COLOR[item.status]}`}>
+                        {item.status}
+                      </Chip>
+                    </div>
+                  </td>
+                  <td
+                    className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
+                  >
+                    <div className="h-full flex items-center justify-center gap-[1rem] py-[1rem] ">
+                      <img
+                        src={item.profileImage}
+                        alt="프로필"
+                        className="w-[5.2rem] h-[7rem] object-cover rounded-[0.3rem]"
+                      />
+                      <span>{item.name}</span>
+                    </div>
+                  </td>
+                  <td
+                    className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
+                  >
+                    <div className="h-full flex items-center justify-center">
+                      {item.part}
+                    </div>
+                  </td>
+                  <td
+                    className={`${CELL_BASE_STYLE} text-white border-r-[1px] p-[1rem] text-left`}
+                  >
+                    <div className="flex flex-col gap-[0.5rem] justify-start">
+                      <div className="h-full flex items-center gap-[0.6rem]">
+                        <CheckBox checked={item.isDoNotRead} />
+                        <span>읽지 마시오</span>
+                      </div>
+                      {item.isDoNotRead && (
+                        <div className="flex justify-start">
+                          <span className="text-attention label_5_11_sb">
+                            {doNotReadMessage}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  </td>
+                  <td
+                    className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
+                  >
+                    <div className="h-full flex items-center justify-center gap-[0.6rem]">
+                      <CheckBox checked={item.evaluationStatus} />
+                      <span>평가 완료</span>
+                    </div>
+                  </td>
+                  <td
+                    className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
+                  >
+                    <div className="h-full flex items-center justify-center">
+                      {item.submissionTime}
+                    </div>
+                  </td>
+                  <td
+                    className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
+                  >
+                    <div className="h-full flex items-center justify-center">
+                      {item.recentGeneration}기
+                    </div>
+                  </td>
+                  <td
+                    className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
+                  >
+                    <div className="h-full flex items-center justify-center">
+                      {item.birth}
+                    </div>
+                  </td>
+                  <td
+                    className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
+                  >
+                    <div className="h-full flex items-center justify-center">
+                      {item.university}
+                    </div>
+                  </td>
+                  <td
+                    className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
+                  >
+                    <div className="h-full flex items-center justify-center">
+                      {item.major}
+                    </div>
+                  </td>
+                  <td
+                    className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
+                  >
+                    <div className="h-full flex items-center justify-center">
+                      {item.email}
+                    </div>
+                  </td>
+                  <td className={`${CELL_BASE_STYLE} text-white`}>
+                    <div className="h-full flex items-center justify-center">
+                      {item.phone}
+                    </div>
+                  </td>
+                </tr>
+              );
+            })
           )}
         </tbody>
       </table>

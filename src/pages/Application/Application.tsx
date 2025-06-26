@@ -1,11 +1,11 @@
 import Pagination from '@/components/Pagination';
-import { DUMMY_APPLICATION_DATA } from '@/constants/dummy';
 import usePagination from '@/hooks/usePagination';
 import type { PartType } from '@/pages/Application/\btypes';
 
 import ApplicationTable from '@/pages/Application/components/ApplicationTable';
 import Filter from '@/pages/Application/components/Filter';
 import { PART_TRANSLATOR } from '@/pages/Application/constants';
+import { DUMMY_APPLICATION_DATA } from '@/pages/Application/constants/dummy';
 import { Tab } from '@sopt-makers/ui';
 import { useMemo, useState } from 'react';
 
