@@ -19,6 +19,15 @@ interface ApplicationTableProps {
       회장?: boolean;
     };
     evaluationStatus: boolean;
+    evaluatedBy?: {
+      기획?: boolean;
+      디자인?: boolean;
+      서버?: boolean;
+      iOS?: boolean;
+      안드로이드?: boolean;
+      웹?: boolean;
+      회장?: boolean;
+    };
     submissionTime: string;
     recentGeneration: number;
     birth: string;
@@ -52,6 +61,18 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
     if (selectedParts.length === 0) return null;
 
     return `${selectedParts.join(', ')}이(가) 읽지 말라고 선택했어요.`;
+  };
+
+  const getEvaluationMessage = (item: ApplicationTableProps['data'][0]) => {
+    if (!item.evaluatedBy) return null;
+
+    const selectedParts = Object.entries(item.evaluatedBy)
+      .filter(([_, isSelected]) => isSelected)
+      .map(([part]) => part);
+
+    if (selectedParts.length === 0) return null;
+
+    return `${selectedParts.join(', ')}이(가) 평가를 완료했어요.`;
   };
 
   return (
@@ -136,6 +157,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
           ) : (
             data.map((item, index) => {
               const doNotReadMessage = getDoNotReadMessage(item);
+              const evaluationMessage = getEvaluationMessage(item);
 
               return (
                 <tr
@@ -195,11 +217,20 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                     </div>
                   </td>
                   <td
-                    className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
+                    className={`${CELL_BASE_STYLE} text-white border-r-[1px] p-[1rem] text-left`}
                   >
-                    <div className="h-full flex items-center justify-center gap-[0.6rem]">
-                      <CheckBox checked={item.evaluationStatus} />
-                      <span>평가 완료</span>
+                    <div className="flex flex-col gap-[0.5rem] justify-start">
+                      <div className="h-full flex items-center gap-[0.6rem]">
+                        <CheckBox checked={item.evaluationStatus} />
+                        <span>평가 완료</span>
+                      </div>
+                      {item.evaluationStatus && (
+                        <div className="flex justify-start">
+                          <span className="text-gray200 label_5_11_sb">
+                            {evaluationMessage}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   </td>
                   <td
