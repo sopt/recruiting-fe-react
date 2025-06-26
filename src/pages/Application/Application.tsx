@@ -15,7 +15,7 @@ const Application = () => {
   const [isCompleteHidden, setIsCompleteHidden] = useState(false);
   const [isDoNotRead, setIsDoNotRead] = useState(false);
   const [isPassedOnly, setIsPassedOnly] = useState(false);
-  const [selectedPart, setSelectedPart] = useState<PartType>('all');
+  const [, setSelectedPart] = useState<PartType>('all');
 
   const { currentPage, totalPages, handlePageChange } = usePagination({
     totalItems: DUMMY_APPLICATION_DATA.length,
