@@ -53,7 +53,7 @@ const Filter = ({
         <YbObRadioGroup />
       </div>
       <div className="flex flex-col gap-[0.8rem]">
-        {/* 툴팁 컴포넌트 추가 */}
+        {/* TODO : 툴팁 컴포넌트 추가 */}
         <div className="flex gap-[2.4rem]">
           <div className="flex gap-[0.6rem] items-center">
             <TextField placeholder="미달률 입력" />
