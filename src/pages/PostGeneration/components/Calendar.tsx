@@ -8,6 +8,7 @@ import {
   type SetStateAction,
   useState,
 } from 'react';
+import 'react-calendar/dist/Calendar.css';
 import '@/styles/calendar.css';
 import type { Value } from 'react-calendar/dist/shared/types.js';
 

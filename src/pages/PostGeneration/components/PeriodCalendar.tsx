@@ -96,7 +96,7 @@ const PeriodCalendar = ({ label, required = false }: Props) => {
           <IconCalendar style={{ width: '24' }} />
         </div>
         {isCalendarOpen && (
-          <div className="absolute z-[9999] top-full left-0 mt-2 bg-gray700 text-gray10 p-4 w-[320px] rounded-2xl shadow-lg">
+          <div className="absolute z-[2] w-[336px] h-[354px] top-full left-0 mt-2 bg-gray500 text-gray10 p-4 rounded-2xl shadow-lg">
             <CalendarInputForm
               dateType="range"
               selectedDate={selectedDateRange}
