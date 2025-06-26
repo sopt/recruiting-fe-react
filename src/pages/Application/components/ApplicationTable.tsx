@@ -43,6 +43,7 @@ const HEADER_BASE_STYLE =
   'p-[1rem] text-gray100 body_3_14_m bg-gray700 border-gray600';
 const CELL_BASE_STYLE =
   'h-[6rem] text-center body_3_14_m bg-transparent border-b-[1px] border-gray700 align-middle';
+const TD_BASE_STYLE = 'h-full flex items-center justify-center';
 
 const STATUS_COLOR = {
   '서류 합격': 'text-information bg-greenAlpha100 border-greenAlpha400',
@@ -168,14 +169,12 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
                   >
-                    <div className="h-full flex items-center justify-center">
-                      {item.id}
-                    </div>
+                    <div className={TD_BASE_STYLE}>{item.id}</div>
                   </td>
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
                   >
-                    <div className="h-full flex items-center justify-center">
+                    <div className={TD_BASE_STYLE}>
                       <Chip className={`${STATUS_COLOR[item.status]}`}>
                         {item.status}
                       </Chip>
@@ -184,7 +183,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
                   >
-                    <div className="h-full flex items-center justify-center gap-[1rem] py-[1rem] ">
+                    <div className={`${TD_BASE_STYLE} gap-[1rem] py-[1rem]`}>
                       <img
                         src={item.profileImage}
                         alt="프로필"
@@ -196,9 +195,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
                   >
-                    <div className="h-full flex items-center justify-center">
-                      {item.part}
-                    </div>
+                    <div className={TD_BASE_STYLE}>{item.part}</div>
                   </td>
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px] p-[1rem] text-left`}
@@ -237,49 +234,37 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
                   >
-                    <div className="h-full flex items-center justify-center">
-                      {item.submissionTime}
-                    </div>
+                    <div className={TD_BASE_STYLE}>{item.submissionTime}</div>
                   </td>
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
                   >
-                    <div className="h-full flex items-center justify-center">
+                    <div className={TD_BASE_STYLE}>
                       {item.recentGeneration}기
                     </div>
                   </td>
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
                   >
-                    <div className="h-full flex items-center justify-center">
-                      {item.birth}
-                    </div>
+                    <div className={TD_BASE_STYLE}>{item.birth}</div>
                   </td>
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
                   >
-                    <div className="h-full flex items-center justify-center">
-                      {item.university}
-                    </div>
+                    <div className={TD_BASE_STYLE}>{item.university}</div>
                   </td>
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
                   >
-                    <div className="h-full flex items-center justify-center">
-                      {item.major}
-                    </div>
+                    <div className={TD_BASE_STYLE}>{item.major}</div>
                   </td>
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
                   >
-                    <div className="h-full flex items-center justify-center">
-                      {item.email}
-                    </div>
+                    <div className={TD_BASE_STYLE}>{item.email}</div>
                   </td>
                   <td className={`${CELL_BASE_STYLE} text-white`}>
-                    <div className="h-full flex items-center justify-center">
-                      {item.phone}
-                    </div>
+                    <div className={TD_BASE_STYLE}>{item.phone}</div>
                   </td>
                 </tr>
               );
