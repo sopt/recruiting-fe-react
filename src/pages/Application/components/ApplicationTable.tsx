@@ -1,17 +1,27 @@
-import { Trash } from '@/assets/svg';
+import profile from '@/assets/image/profile.jpg';
+import { CheckBox, Chip } from '@sopt-makers/ui';
 
 interface Period {
   start: string;
   end: string;
 }
 
-interface GenerationTableProps {
+interface ApplicationTableProps {
   data: {
-    generation: string;
+    id: number;
+    status: '최종 합격' | '불합격' | '서류 합격' | '확인 전';
+    profileImage: string;
     name: string;
-    applicationPeriod: Period;
-    applicationResultPeriod: Period;
-    finalResultPeriod: Period;
+    part: '기획' | '디자인' | '서버' | 'iOS' | '안드로이드' | '웹';
+    isDoNotRead: boolean;
+    evaluationStatus: boolean;
+    submissionTime: string;
+    recentGeneration: number;
+    birth: string;
+    university: string;
+    major: string;
+    email: string;
+    phone: string;
   }[];
 }
 
@@ -20,89 +30,181 @@ const HEADER_BASE_STYLE =
 const CELL_BASE_STYLE =
   'h-[6rem] text-center body_3_14_m bg-transparent border-b-[1px] border-gray700 align-middle';
 
-const ApplicationTable = ({ data }: GenerationTableProps) => {
+const ApplicationTable = ({ data }: ApplicationTableProps) => {
+  const dummyData = [
+    {
+      id: 1,
+      status: '서류 합격' as const,
+      profileImage: profile,
+      name: '김철수',
+      part: '웹' as const,
+      isDoNotRead: false,
+      evaluationStatus: true,
+      submissionTime: '2024-01-15 14:30:00',
+      recentGeneration: 33,
+      birth: '2000-03-15',
+      university: '서울대학교',
+      major: '컴퓨터공학과',
+      email: 'kim.chulsoo@example.com',
+      phone: '010-1234-5678',
+    },
+  ];
+
   return (
     <div className="w-full overflow-x-auto scroll-smooth scrollbar-hide pr-[12.4rem]">
-      <table className="w-[122.5rem]">
+      <table className="w-[122.5rem] table-fixed">
         <thead>
           <tr>
             <th
               className={`w-[11rem] rounded-tl-[1rem] border-r-[1px] border-gray600 ${HEADER_BASE_STYLE}`}
             >
-              기수
+              ID
             </th>
             <th
               className={`w-[11rem] border-r-[1px] border-gray600 ${HEADER_BASE_STYLE}`}
             >
-              이름
+              합격여부
             </th>
             <th
-              className={`w-[31.5rem] border-r-[1px] border-gray600 ${HEADER_BASE_STYLE}`}
+              className={`w-[14rem] border-r-[1px] border-gray600 ${HEADER_BASE_STYLE}`}
             >
-              서류 지원 기간
+              지원자 정보
             </th>
             <th
-              className={`w-[31.5rem] border-r-[1px] border-gray600 ${HEADER_BASE_STYLE}`}
+              className={`w-[11rem] border-r-[1px] border-gray600 ${HEADER_BASE_STYLE}`}
             >
-              서류 결과 확인 기간
+              지원 파트
             </th>
             <th
-              className={`w-[31.5rem] border-r-[1px] border-gray600 ${HEADER_BASE_STYLE}`}
+              className={`w-[20rem] border-r-[1px] border-gray600 ${HEADER_BASE_STYLE}`}
             >
-              최종 결과 확인 기간
+              읽지 마시오
             </th>
-            <th className={`w-[5rem] rounded-tr-[1rem] ${HEADER_BASE_STYLE}`} />
+            <th
+              className={`w-[20rem] border-r-[1px] border-gray600 ${HEADER_BASE_STYLE}`}
+            >
+              평가 상태
+            </th>
+            <th
+              className={`w-[16.8rem] border-r-[1px] border-gray600 ${HEADER_BASE_STYLE}`}
+            >
+              제출시간
+            </th>
+            <th
+              className={`w-[11rem] border-r-[1px] border-gray600 ${HEADER_BASE_STYLE}`}
+            >
+              최근 기수
+            </th>
+            <th
+              className={`w-[14rem] border-r-[1px] border-gray600 ${HEADER_BASE_STYLE}`}
+            >
+              생년월일
+            </th>
+            <th
+              className={`w-[14rem] border-r-[1px] border-gray600 ${HEADER_BASE_STYLE}`}
+            >
+              대학교
+            </th>
+            <th
+              className={`w-[14rem] border-r-[1px] border-gray600 ${HEADER_BASE_STYLE}`}
+            >
+              학과
+            </th>
+            <th
+              className={`w-[16.8rem] border-r-[1px] border-gray600 ${HEADER_BASE_STYLE}`}
+            >
+              이메일
+            </th>
+            <th
+              className={`w-[14rem] rounded-tr-[1rem] border-gray600 ${HEADER_BASE_STYLE}`}
+            >
+              전화번호
+            </th>
           </tr>
         </thead>
         <tbody>
-          {data.length === 0 ? (
+          {dummyData.length === 0 ? (
             <tr>
-              <td colSpan={6} className={`${CELL_BASE_STYLE} text-gray200`}>
-                기수를 추가하세요.
+              <td colSpan={13} className={`${CELL_BASE_STYLE} text-gray200`}>
+                확인할 수 있는 지원서가 없어요.
               </td>
             </tr>
           ) : (
-            data.map((item, index) => (
+            dummyData.map((item, index) => (
               <tr
                 key={index}
                 className="hover:bg-gray900 transition-colors duration-300"
               >
                 <td className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}>
                   <div className="h-full flex items-center justify-center">
-                    {item.generation}
+                    {item.id}
                   </div>
                 </td>
                 <td className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}>
                   <div className="h-full flex items-center justify-center">
-                    {item.name}
+                    <Chip>{item.status}</Chip>
                   </div>
                 </td>
                 <td className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}>
-                  <div className="h-full flex items-center justify-evenly gap-[0.5rem]">
-                    <p>{item.applicationPeriod.start}</p>
-                    <p>~</p>
-                    <p>{item.applicationPeriod.end}</p>
+                  <div className="h-full flex items-center justify-center gap-[0.5rem] py-[1rem] ">
+                    <img
+                      src={item.profileImage}
+                      alt="프로필"
+                      className="w-[5.2rem] h-[7rem] object-cover rounded-[0.3rem]"
+                    />
+                    <span>{item.name}</span>
                   </div>
                 </td>
                 <td className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}>
-                  <div className="h-full flex items-center justify-evenly gap-[0.5rem]">
-                    <p>{item.applicationResultPeriod.start}</p>
-                    <p>~</p>
-                    <p>{item.applicationResultPeriod.end}</p>
-                  </div>
-                </td>
-                <td className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}>
-                  <div className="h-full flex items-center justify-evenly gap-[0.5rem]">
-                    <p>{item.finalResultPeriod.start}</p>
-                    <p>~</p>
-                    <p>{item.finalResultPeriod.end}</p>
-                  </div>
-                </td>
-                <td className={`${CELL_BASE_STYLE}`}>
                   <div className="h-full flex items-center justify-center">
-                    <button type="button" className="cursor-pointer">
-                      <Trash width={22} className="stroke-white" />
-                    </button>
+                    {item.part}
+                  </div>
+                </td>
+                <td className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}>
+                  <div className="h-full flex items-center justify-center gap-[0.6rem]">
+                    <CheckBox checked={item.isDoNotRead} />
+                    <span>읽지 마시오</span>
+                  </div>
+                </td>
+                <td className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}>
+                  <div className="h-full flex items-center justify-center gap-[0.6rem]">
+                    <CheckBox checked={item.evaluationStatus} />
+                    <span>평가 완료</span>
+                  </div>
+                </td>
+                <td className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}>
+                  <div className="h-full flex items-center justify-center">
+                    {item.submissionTime}
+                  </div>
+                </td>
+                <td className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}>
+                  <div className="h-full flex items-center justify-center">
+                    {item.recentGeneration}기
+                  </div>
+                </td>
+                <td className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}>
+                  <div className="h-full flex items-center justify-center">
+                    {item.birth}
+                  </div>
+                </td>
+                <td className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}>
+                  <div className="h-full flex items-center justify-center">
+                    {item.university}
+                  </div>
+                </td>
+                <td className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}>
+                  <div className="h-full flex items-center justify-center">
+                    {item.major}
+                  </div>
+                </td>
+                <td className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}>
+                  <div className="h-full flex items-center justify-center">
+                    {item.email}
+                  </div>
+                </td>
+                <td className={`${CELL_BASE_STYLE} text-white`}>
+                  <div className="h-full flex items-center justify-center">
+                    {item.phone}
                   </div>
                 </td>
               </tr>
