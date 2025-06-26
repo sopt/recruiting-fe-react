@@ -1,4 +1,8 @@
 export const ROUTES_CONFIG = {
+  login: {
+    title: '로그인',
+    path: '/login',
+  },
   postQuestion: {
     title: '질문 등록',
     path: '/postQuestion',
