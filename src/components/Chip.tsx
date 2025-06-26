@@ -5,10 +5,14 @@ interface ChipProps extends ButtonHTMLAttributes<HTMLDivElement> {
   className?: string;
 }
 
+const CHIP_BASE_STYLE =
+  'rounded-[999.9rem] px-[1.4rem] py-[0.9rem] border-[1px] cursor-default label_3_14_sb';
+
 const Chip = ({ children, className, ...props }: ChipProps) => {
   return (
     <div
-      className={`rounded-[999.9rem] px-[1.4rem] py-[0.9rem] border-[1px] cursor-default label_3_14_sb ${className || ''}`}
+      aria-label={`${children} chip`}
+      className={`${CHIP_BASE_STYLE} ${className || ''}`}
       {...props}
     >
       {children}
