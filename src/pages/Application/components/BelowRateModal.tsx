@@ -6,15 +6,15 @@ interface BelowRateModalProps {
   onClose: () => void;
 }
 
-const BelowRateModal = ({ onClose }: BelowRateModalProps) => {
-  const rateItems = [
-    { min: '-', separator: '/', max: '500' },
-    { min: '-', separator: '/', max: '300' },
-    { min: '-', separator: '/', max: '200' },
-    { min: '-', separator: '/', max: '100' },
-    { min: '-', separator: '/', max: '50' },
-  ];
+const rateItems = [
+  { min: '-', separator: '/', max: '500' },
+  { min: '-', separator: '/', max: '300' },
+  { min: '-', separator: '/', max: '200' },
+  { min: '-', separator: '/', max: '100' },
+  { min: '-', separator: '/', max: '50' },
+];
 
+const BelowRateModal = ({ onClose }: BelowRateModalProps) => {
   return (
     <div className="flex flex-col gap-[2rem] w-[35.2rem] !mb-0">
       <span className="break-keep mb-[0.4rem]">
