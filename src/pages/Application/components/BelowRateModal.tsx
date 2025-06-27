@@ -7,6 +7,14 @@ interface BelowRateModalProps {
 }
 
 const BelowRateModal = ({ onClose }: BelowRateModalProps) => {
+  const rateItems = [
+    { min: '-', separator: '/', max: '500' },
+    { min: '-', separator: '/', max: '300' },
+    { min: '-', separator: '/', max: '200' },
+    { min: '-', separator: '/', max: '100' },
+    { min: '-', separator: '/', max: '50' },
+  ];
+
   return (
     <div className="flex flex-col gap-[2rem] w-[35.2rem] !mb-0">
       <span className="break-keep mb-[0.4rem]">
@@ -18,31 +26,16 @@ const BelowRateModal = ({ onClose }: BelowRateModalProps) => {
           입력된 % 적용시 최소 글자수
         </h3>
         <div className="flex gap-[7.2rem] px-[1.6rem] w-full justify-between flex-wrap">
-          <span className="flex body_3_14_r text-gray100 w-[10.8rem] justify-between">
-            <p>-</p>
-            <p>/</p>
-            <p>500</p>
-          </span>
-          <span className="flex body_3_14_r text-gray100 w-[10.8rem] justify-between">
-            <p>-</p>
-            <p>/</p>
-            <p>500</p>
-          </span>
-          <span className="flex body_3_14_r text-gray100 w-[10.8rem] justify-between">
-            <p>-</p>
-            <p>/</p>
-            <p>500</p>
-          </span>
-          <span className="flex body_3_14_r text-gray100 w-[10.8rem] justify-between">
-            <p>-</p>
-            <p>/</p>
-            <p>500</p>
-          </span>
-          <span className="flex body_3_14_r text-gray100 w-[10.8rem] justify-between">
-            <p>-</p>
-            <p>/</p>
-            <p>500</p>
-          </span>
+          {rateItems.map((item, index) => (
+            <span
+              key={index}
+              className="flex body_2_16_r w-[10.8rem] justify-between text-gray10 [&>*:last-child]:text-gray100"
+            >
+              <p>{item.min}</p>
+              <p>{item.separator}</p>
+              <p>{item.max}</p>
+            </span>
+          ))}
         </div>
       </div>
       <Dialog.Footer align="right">

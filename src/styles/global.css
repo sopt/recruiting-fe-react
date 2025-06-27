@@ -192,4 +192,5 @@ div[role="dialog"] > div > div {
   overflow: visible;
   overflow-y: visible;
   overflow-x: visible;
+  margin-bottom: 0;
 }
