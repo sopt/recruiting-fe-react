@@ -33,14 +33,22 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
   return (
     <div
       ref={scrollContainerRef}
-      className="w-full overflow-x-auto overflow-y-visible scroll-smooth scrollbar-hide pr-[12.4rem] cursor-grab active:cursor-grabbing"
-      style={{ zIndex: 1, overflow: 'visible' }}
-      onMouseDown={(e) => onDragStart(e)}
+      className="w-full overflow-x-auto overflow-y-hidden scroll-smooth scrollbar-hide pr-[12.4rem] cursor-grab active:cursor-grabbing"
+      onMouseDown={(e) => {
+        const target = e.target as HTMLElement;
+        if (target.closest('[data-dropdown]')) {
+          return;
+        }
+        onDragStart(e);
+      }}
       onMouseMove={(e) => onDragMove(e)}
       onMouseUp={() => onDragEnd()}
       onMouseLeave={() => onDragLeave()}
     >
-      <table className="w-[122.5rem] table-fixed select-none">
+      <table
+        className="w-[122.5rem] table-fixed select-none"
+        // style={{ overflow: 'visible' }}
+      >
         <thead>
           <tr>
             <th

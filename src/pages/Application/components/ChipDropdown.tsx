@@ -1,6 +1,7 @@
 import Chip from '@/components/Chip';
 import { CHIP_STATUS } from '@/pages/Application/constants';
 import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 
 interface ChipDropDownProps {
   status: string;
@@ -9,10 +10,25 @@ interface ChipDropDownProps {
 
 const ChipDropDown = ({ status, onStatusChange }: ChipDropDownProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const [position, setPosition] = useState<{ top: number; left: number }>({
+    top: 0,
+    left: 0,
+  });
 
   const toggleDropdown = () => {
-    setIsOpen(!isOpen);
+    if (!isOpen && buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      const scrollContainer = buttonRef.current.closest('.overflow-x-auto');
+      const scrollLeft = scrollContainer?.scrollLeft || 0;
+
+      setPosition({
+        top: rect.bottom + 10,
+        left: rect.left - scrollLeft,
+      });
+    }
+    setIsOpen((prev) => !prev);
   };
 
   const handleStatusChange = (newStatus: string) => {
@@ -23,6 +39,8 @@ const ChipDropDown = ({ status, onStatusChange }: ChipDropDownProps) => {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target as Node) &&
         dropdownRef.current &&
         !dropdownRef.current.contains(event.target as Node)
       ) {
@@ -37,9 +55,13 @@ const ChipDropDown = ({ status, onStatusChange }: ChipDropDownProps) => {
   }, []);
 
   return (
-    <div className="relative" ref={dropdownRef}>
+    <>
       <button
-        onClick={toggleDropdown}
+        ref={buttonRef}
+        onClick={(e) => {
+          e.stopPropagation();
+          toggleDropdown();
+        }}
         className="focus:outline-none"
         type="button"
       >
@@ -50,29 +72,37 @@ const ChipDropDown = ({ status, onStatusChange }: ChipDropDownProps) => {
         </Chip>
       </button>
 
-      <div
-        className={`absolute left-0 mt-[0.5rem] bg-gray800 w-[9.6rem] gap-[0.6rem] rounded-[1.3rem] shadow-lg transition-all duration-200 ease-out z-10 ${
-          isOpen
-            ? 'opacity-100 transform translate-y-0'
-            : 'opacity-0 transform -translate-y-2 pointer-events-none'
-        }`}
-      >
-        {Object.keys(CHIP_STATUS).map((option) => (
-          <button
-            key={option}
-            onClick={() => handleStatusChange(option)}
-            className="w-full p-2 transition-colors rounded-[1.3rem] duration-200 text-left cursor-pointer hover:bg-gray700"
-            type="button"
+      {isOpen &&
+        createPortal(
+          <div
+            ref={dropdownRef}
+            className="fixed bg-gray800 w-[9.6rem] rounded-[1.3rem] shadow-lg z-[9999]"
+            style={{
+              top: position.top,
+              left: position.left,
+            }}
           >
-            <Chip
-              className={`${CHIP_STATUS[option as keyof typeof CHIP_STATUS]} w-fit`}
-            >
-              {option}
-            </Chip>
-          </button>
-        ))}
-      </div>
-    </div>
+            {Object.keys(CHIP_STATUS).map((option) => (
+              <button
+                key={option}
+                className="w-full p-2 transition-colors rounded-[1.3rem] duration-200 text-left cursor-pointer hover:bg-gray700"
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleStatusChange(option);
+                }}
+              >
+                <Chip
+                  className={`${CHIP_STATUS[option as keyof typeof CHIP_STATUS]} w-fit`}
+                >
+                  {option}
+                </Chip>
+              </button>
+            ))}
+          </div>,
+          document.body,
+        )}
+    </>
   );
 };
 
