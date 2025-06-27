@@ -12,10 +12,15 @@ const CELL_BASE_STYLE =
 const TD_BASE_STYLE = 'h-full flex items-center justify-center';
 
 const ApplicationTable = ({ data }: ApplicationTableProps) => {
-  const [status, setStatus] = useState<string>('');
+  const [passStatusList, setPassStatusList] = useState<Record<number, string>>(
+    {},
+  );
 
-  const handleStatusChange = (value: string) => {
-    setStatus(value);
+  const handleStatusChange = (id: number, value: string) => {
+    setPassStatusList((prev) => ({
+      ...prev,
+      [id]: value,
+    }));
   };
 
   return (
@@ -98,14 +103,14 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
               </td>
             </tr>
           ) : (
-            data.map((item, index) => {
+            data.map((item) => {
               const doNotReadMessage = getDoNotReadMessage(item);
               const evaluationMessage = getEvaluationMessage(item);
-              const passStatus = status || item.status;
+              const currentStatus = passStatusList[item.id] || item.status;
 
               return (
                 <tr
-                  key={index}
+                  key={item.id}
                   className="hover:bg-gray900 transition-colors duration-300"
                 >
                   <td
@@ -118,8 +123,10 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                   >
                     <div className={TD_BASE_STYLE}>
                       <ChipDropDown
-                        status={passStatus}
-                        onStatusChange={handleStatusChange}
+                        status={currentStatus}
+                        onStatusChange={(value) =>
+                          handleStatusChange(item.id, value)
+                        }
                       />
                     </div>
                   </td>
