@@ -154,11 +154,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                           <span>읽지 마시오</span>
                         </div>
                         <div className="bg-orangeAlpha200 rounded-[10rem] p-[0.8rem]">
-                          <AlertTriangle
-                            width={16}
-                            height={16}
-                            className="text-orangeAlpha500"
-                          />
+                          <AlertTriangle width={16} height={16} />
                         </div>
                       </div>
                       {item.isDoNotRead && (
