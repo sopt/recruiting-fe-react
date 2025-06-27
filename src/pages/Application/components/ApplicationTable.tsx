@@ -10,6 +10,7 @@ const HEADER_BASE_STYLE =
 const CELL_BASE_STYLE =
   'h-[6rem] text-center body_3_14_m bg-transparent border-b-[1px] border-gray700 align-middle';
 const TD_BASE_STYLE = 'h-full flex items-center justify-center';
+const TD_CONTENT_STYLE = 'w-full text-center break-words p-[0.8rem]';
 
 const ApplicationTable = ({ data }: ApplicationTableProps) => {
   const [passStatusList, setPassStatusList] = useState<Record<number, string>>(
@@ -24,7 +25,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
   };
 
   return (
-    <div className="w-full overflow-x-auto scroll-smooth scrollbar-hide pr-[12.4rem]">
+    <div className="w-full overflow-x-auto overflow-y-hidden scroll-smooth scrollbar-hide pr-[12.4rem]">
       <table className="w-[122.5rem] table-fixed">
         <thead>
           <tr>
@@ -116,7 +117,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
                   >
-                    <div className={TD_BASE_STYLE}>{item.id}</div>
+                    <div className={TD_CONTENT_STYLE}>{item.id}</div>
                   </td>
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
@@ -139,13 +140,13 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                         alt="프로필"
                         className="w-[5.2rem] h-[7rem] object-cover rounded-[0.3rem]"
                       />
-                      <span>{item.name}</span>
+                      <span className="break-words">{item.name}</span>
                     </div>
                   </td>
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
                   >
-                    <div className={TD_BASE_STYLE}>{item.part}</div>
+                    <div className={TD_CONTENT_STYLE}>{item.part}</div>
                   </td>
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px] p-[1rem] text-left`}
@@ -157,7 +158,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                       </div>
                       {item.isDoNotRead && (
                         <div className="flex justify-start">
-                          <span className="text-attention label_5_11_sb">
+                          <span className="text-attention label_5_11_sb break-words overflow-hidden">
                             {doNotReadMessage}
                           </span>
                         </div>
@@ -174,7 +175,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                       </div>
                       {item.evaluationStatus && (
                         <div className="flex justify-start">
-                          <span className="text-gray200 label_5_11_sb">
+                          <span className="text-gray200 label_5_11_sb break-words overflow-hidden">
                             {evaluationMessage}
                           </span>
                         </div>
@@ -184,37 +185,39 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
                   >
-                    <div className={TD_BASE_STYLE}>{item.submissionTime}</div>
+                    <div className={TD_CONTENT_STYLE}>
+                      {item.submissionTime}
+                    </div>
                   </td>
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
                   >
-                    <div className={TD_BASE_STYLE}>
+                    <div className={TD_CONTENT_STYLE}>
                       {item.recentGeneration}기
                     </div>
                   </td>
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
                   >
-                    <div className={TD_BASE_STYLE}>{item.birth}</div>
+                    <div className={TD_CONTENT_STYLE}>{item.birth}</div>
                   </td>
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
                   >
-                    <div className={TD_BASE_STYLE}>{item.university}</div>
+                    <div className={TD_CONTENT_STYLE}>{item.university}</div>
                   </td>
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
                   >
-                    <div className={TD_BASE_STYLE}>{item.major}</div>
+                    <div className={TD_CONTENT_STYLE}>{item.major}</div>
                   </td>
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
                   >
-                    <div className={TD_BASE_STYLE}>{item.email}</div>
+                    <div className={TD_CONTENT_STYLE}>{item.email}</div>
                   </td>
                   <td className={`${CELL_BASE_STYLE} text-white`}>
-                    <div className={TD_BASE_STYLE}>{item.phone}</div>
+                    <div className={TD_CONTENT_STYLE}>{item.phone}</div>
                   </td>
                 </tr>
               );

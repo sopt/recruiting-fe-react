@@ -32,7 +32,7 @@ export const DUMMY_APPLICATION_DATA = [
     birth: '2000-03-15',
     university: '서울대학교',
     major: '컴퓨터공학과',
-    email: 'kim.chulsoo@example.com',
+    email: 'soptsoptsoptsoptsopt@sopt.org',
     phone: '010-1234-5678',
   },
   {
