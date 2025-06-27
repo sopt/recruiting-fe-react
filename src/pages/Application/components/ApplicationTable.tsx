@@ -1,9 +1,11 @@
 import type { ApplicationTableProps } from '@/pages/Application/\btypes';
-import ChipDropDown from '@/pages/Application/components/ChipDropDown';
+import ChipDropDown from '@/pages/Application/components/ChipDropdown';
+
+import useDrag from '@/pages/Application/hooks/useDrag';
 import { getEvaluationMessage } from '@/pages/Application/utils';
 import { getDoNotReadMessage } from '@/pages/Application/utils';
 import { CheckBox } from '@sopt-makers/ui';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 const HEADER_BASE_STYLE =
   'p-[1rem] text-gray100 body_3_14_m bg-gray700 border-gray600';
@@ -17,6 +19,10 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
     {},
   );
 
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+  const { onDragStart, onDragMove, onDragEnd, onDragLeave } =
+    useDrag(scrollContainerRef);
+
   const handleStatusChange = (id: number, value: string) => {
     setPassStatusList((prev) => ({
       ...prev,
@@ -25,8 +31,15 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
   };
 
   return (
-    <div className="w-full overflow-x-auto overflow-y-hidden scroll-smooth scrollbar-hide pr-[12.4rem]">
-      <table className="w-[122.5rem] table-fixed">
+    <div
+      ref={scrollContainerRef}
+      className="w-full overflow-x-auto overflow-y-hidden scroll-smooth scrollbar-hide pr-[12.4rem] cursor-grab active:cursor-grabbing"
+      onMouseDown={(e) => onDragStart(e)}
+      onMouseMove={(e) => onDragMove(e)}
+      onMouseUp={() => onDragEnd()}
+      onMouseLeave={() => onDragLeave()}
+    >
+      <table className="w-[122.5rem] table-fixed select-none">
         <thead>
           <tr>
             <th
