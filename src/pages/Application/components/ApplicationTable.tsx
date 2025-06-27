@@ -1,43 +1,8 @@
 import Chip from '@/components/Chip';
-import type { SOPTPart, StatusType } from '@/pages/Application/\btypes';
+import type { ApplicationTableProps } from '@/pages/Application/\btypes';
+import { getEvaluationMessage } from '@/pages/Application/utils';
+import { getDoNotReadMessage } from '@/pages/Application/utils';
 import { CheckBox } from '@sopt-makers/ui';
-
-interface ApplicationTableProps {
-  data: {
-    id: number;
-    status: StatusType;
-    profileImage: string;
-    name: string;
-    part: SOPTPart;
-    isDoNotRead: boolean;
-    doNotReadBy?: {
-      기획?: boolean;
-      디자인?: boolean;
-      서버?: boolean;
-      iOS?: boolean;
-      안드로이드?: boolean;
-      웹?: boolean;
-      회장?: boolean;
-    };
-    evaluationStatus: boolean;
-    evaluatedBy?: {
-      기획?: boolean;
-      디자인?: boolean;
-      서버?: boolean;
-      iOS?: boolean;
-      안드로이드?: boolean;
-      웹?: boolean;
-      회장?: boolean;
-    };
-    submissionTime: string;
-    recentGeneration: number;
-    birth: string;
-    university: string;
-    major: string;
-    email: string;
-    phone: string;
-  }[];
-}
 
 const HEADER_BASE_STYLE =
   'p-[1rem] text-gray100 body_3_14_m bg-gray700 border-gray600';
@@ -53,30 +18,6 @@ const STATUS_COLOR = {
 };
 
 const ApplicationTable = ({ data }: ApplicationTableProps) => {
-  const getDoNotReadMessage = (item: ApplicationTableProps['data'][0]) => {
-    if (!item.doNotReadBy) return null;
-
-    const selectedParts = Object.keys(item.doNotReadBy).filter(
-      (key) => item.doNotReadBy![key as keyof typeof item.doNotReadBy],
-    );
-
-    if (selectedParts.length === 0) return null;
-
-    return `${selectedParts.join(', ')}이(가) 읽지 말라고 선택했어요.`;
-  };
-
-  const getEvaluationMessage = (item: ApplicationTableProps['data'][0]) => {
-    if (!item.evaluatedBy) return null;
-
-    const selectedParts = Object.keys(item.evaluatedBy).filter(
-      (key) => item.evaluatedBy![key as keyof typeof item.evaluatedBy],
-    );
-
-    if (selectedParts.length === 0) return null;
-
-    return `${selectedParts.join(', ')}이(가) 평가를 완료했어요.`;
-  };
-
   return (
     <div className="w-full overflow-x-auto scroll-smooth scrollbar-hide pr-[12.4rem]">
       <table className="w-[122.5rem] table-fixed">
