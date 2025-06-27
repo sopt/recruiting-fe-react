@@ -12,22 +12,8 @@ const ChipDropDown = ({ status, onStatusChange }: ChipDropDownProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const [position, setPosition] = useState<{ top: number; left: number }>({
-    top: 0,
-    left: 0,
-  });
 
   const toggleDropdown = () => {
-    if (!isOpen && buttonRef.current) {
-      const rect = buttonRef.current.getBoundingClientRect();
-      const scrollContainer = buttonRef.current.closest('.overflow-x-auto');
-      const scrollLeft = scrollContainer?.scrollLeft || 0;
-
-      setPosition({
-        top: rect.bottom + 10,
-        left: rect.left - scrollLeft,
-      });
-    }
     setIsOpen((prev) => !prev);
   };
 
@@ -37,20 +23,25 @@ const ChipDropDown = ({ status, onStatusChange }: ChipDropDownProps) => {
   };
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        buttonRef.current &&
-        !buttonRef.current.contains(event.target as Node) &&
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false);
+    const closeDropdown = () => setIsOpen(false);
+
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as Node;
+      const clickedInside =
+        buttonRef.current?.contains(target) ||
+        dropdownRef.current?.contains(target);
+
+      if (!clickedInside) {
+        closeDropdown();
       }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
+    window.addEventListener('scroll', closeDropdown, true);
+
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
+      window.removeEventListener('scroll', closeDropdown, true);
     };
   }, []);
 
@@ -78,8 +69,8 @@ const ChipDropDown = ({ status, onStatusChange }: ChipDropDownProps) => {
             ref={dropdownRef}
             className="fixed bg-gray800 w-[9.6rem] rounded-[1.3rem] shadow-lg z-[9999]"
             style={{
-              top: position.top,
-              left: position.left,
+              top: buttonRef.current?.getBoundingClientRect().bottom! + 10,
+              left: buttonRef.current?.getBoundingClientRect().left!,
             }}
           >
             {Object.keys(CHIP_STATUS).map((option) => (
