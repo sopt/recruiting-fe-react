@@ -1,8 +1,9 @@
-import Chip from '@/components/Chip';
 import type { ApplicationTableProps } from '@/pages/Application/\btypes';
+import ChipDropDown from '@/pages/Application/components/ChipDropDown';
 import { getEvaluationMessage } from '@/pages/Application/utils';
 import { getDoNotReadMessage } from '@/pages/Application/utils';
 import { CheckBox } from '@sopt-makers/ui';
+import { useState } from 'react';
 
 const HEADER_BASE_STYLE =
   'p-[1rem] text-gray100 body_3_14_m bg-gray700 border-gray600';
@@ -10,14 +11,13 @@ const CELL_BASE_STYLE =
   'h-[6rem] text-center body_3_14_m bg-transparent border-b-[1px] border-gray700 align-middle';
 const TD_BASE_STYLE = 'h-full flex items-center justify-center';
 
-const STATUS_COLOR = {
-  '서류 합격': 'text-information bg-greenAlpha100 border-greenAlpha400',
-  불합격: 'text-error bg-redAlpha100 border-redAlpha600',
-  '확인 전': 'text-gray100 bg-grayAlpha100 border-gray400',
-  '최종 합격': 'text-success bg-blueAlpha100 border-blueAlpha600',
-};
-
 const ApplicationTable = ({ data }: ApplicationTableProps) => {
+  const [status, setStatus] = useState<string>('');
+
+  const handleStatusChange = (value: string) => {
+    setStatus(value);
+  };
+
   return (
     <div className="w-full overflow-x-auto scroll-smooth scrollbar-hide pr-[12.4rem]">
       <table className="w-[122.5rem] table-fixed">
@@ -101,6 +101,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
             data.map((item, index) => {
               const doNotReadMessage = getDoNotReadMessage(item);
               const evaluationMessage = getEvaluationMessage(item);
+              const passStatus = status || item.status;
 
               return (
                 <tr
@@ -116,9 +117,10 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
                   >
                     <div className={TD_BASE_STYLE}>
-                      <Chip className={`${STATUS_COLOR[item.status]}`}>
-                        {item.status}
-                      </Chip>
+                      <ChipDropDown
+                        status={passStatus}
+                        onStatusChange={handleStatusChange}
+                      />
                     </div>
                   </td>
                   <td
