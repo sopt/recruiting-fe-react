@@ -51,7 +51,7 @@ const ChipDropDown = ({ status, onStatusChange }: ChipDropDownProps) => {
       </button>
 
       <div
-        className={`absolute left-0 mt-[0.5rem] bg-gray800 w-[9.6rem] gap-[0.6rem] rounded-[1.3rem] shadow-lg z-50 transition-all duration-200 ease-out ${
+        className={`absolute left-0 mt-[0.5rem] bg-gray800 w-[9.6rem] gap-[0.6rem] rounded-[1.3rem] shadow-lg transition-all duration-200 ease-out z-10 ${
           isOpen
             ? 'opacity-100 transform translate-y-0'
             : 'opacity-0 transform -translate-y-2 pointer-events-none'
