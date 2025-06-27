@@ -16,7 +16,7 @@ const rateItems = [
 
 const BelowRateModal = ({ onClose }: BelowRateModalProps) => {
   return (
-    <div className="flex flex-col gap-[2rem] w-[35.2rem] !mb-0">
+    <div className="flex flex-col gap-[2rem] w-[35.2rem]">
       <span className="break-keep mb-[0.4rem]">
         지원서 항목 중 하나라도 그 항목의 최대 글자 수 기준에 미달한 지원자를
         숨깁니다.

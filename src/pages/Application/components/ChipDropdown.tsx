@@ -17,14 +17,14 @@ const ChipDropDown = ({ status, onStatusChange }: ChipDropDownProps) => {
     setIsOpen((prev) => !prev);
   };
 
+  const closeDropdown = () => setIsOpen(false);
+
   const handleStatusChange = (newStatus: string) => {
     onStatusChange(newStatus);
     setIsOpen(false);
   };
 
   useEffect(() => {
-    const closeDropdown = () => setIsOpen(false);
-
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as Node;
       const clickedInside =
@@ -32,16 +32,16 @@ const ChipDropDown = ({ status, onStatusChange }: ChipDropDownProps) => {
         dropdownRef.current?.contains(target);
 
       if (!clickedInside) {
-        closeDropdown();
+        setIsOpen(false);
       }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
-    window.addEventListener('scroll', closeDropdown, true);
+    window.addEventListener('scroll', closeDropdown);
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
-      window.removeEventListener('scroll', closeDropdown, true);
+      window.removeEventListener('scroll', closeDropdown);
     };
   }, []);
 

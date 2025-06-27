@@ -1,3 +1,4 @@
+import { AlertTriangle } from '@/assets/svg';
 import type { ApplicationTableProps } from '@/pages/Application/\btypes';
 import ChipDropDown from '@/pages/Application/components/ChipDropdown';
 
@@ -45,75 +46,48 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
       onMouseUp={() => onDragEnd()}
       onMouseLeave={() => onDragLeave()}
     >
-      <table
-        className="w-[122.5rem] table-fixed select-none"
-        // style={{ overflow: 'visible' }}
-      >
+      <table className="w-[122.5rem] table-fixed select-none">
         <thead>
           <tr>
             <th
-              className={`w-[11rem] rounded-tl-[1rem] border-r-[1px] border-gray600 ${HEADER_BASE_STYLE}`}
+              className={`w-[11rem] rounded-tl-[1rem] border-r-[1px] ${HEADER_BASE_STYLE}`}
             >
               ID
             </th>
-            <th
-              className={`w-[11rem] border-r-[1px] border-gray600 ${HEADER_BASE_STYLE}`}
-            >
+            <th className={`w-[11rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
               합격여부
             </th>
-            <th
-              className={`w-[14rem] border-r-[1px] border-gray600 ${HEADER_BASE_STYLE}`}
-            >
+            <th className={`w-[14rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
               지원자 정보
             </th>
-            <th
-              className={`w-[11rem] border-r-[1px] border-gray600 ${HEADER_BASE_STYLE}`}
-            >
+            <th className={`w-[11rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
               지원 파트
             </th>
-            <th
-              className={`w-[20rem] border-r-[1px] border-gray600 ${HEADER_BASE_STYLE}`}
-            >
+            <th className={`w-[16.8rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
               읽지 마시오
             </th>
-            <th
-              className={`w-[20rem] border-r-[1px] border-gray600 ${HEADER_BASE_STYLE}`}
-            >
+            <th className={`w-[20rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
               평가 상태
             </th>
-            <th
-              className={`w-[16.8rem] border-r-[1px] border-gray600 ${HEADER_BASE_STYLE}`}
-            >
+            <th className={`w-[16.8rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
               제출시간
             </th>
-            <th
-              className={`w-[11rem] border-r-[1px] border-gray600 ${HEADER_BASE_STYLE}`}
-            >
+            <th className={`w-[11rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
               최근 기수
             </th>
-            <th
-              className={`w-[14rem] border-r-[1px] border-gray600 ${HEADER_BASE_STYLE}`}
-            >
+            <th className={`w-[14rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
               생년월일
             </th>
-            <th
-              className={`w-[14rem] border-r-[1px] border-gray600 ${HEADER_BASE_STYLE}`}
-            >
+            <th className={`w-[14rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
               대학교
             </th>
-            <th
-              className={`w-[14rem] border-r-[1px] border-gray600 ${HEADER_BASE_STYLE}`}
-            >
+            <th className={`w-[14rem] border-r-[1px]  ${HEADER_BASE_STYLE}`}>
               학과
             </th>
-            <th
-              className={`w-[16.8rem] border-r-[1px] border-gray600 ${HEADER_BASE_STYLE}`}
-            >
+            <th className={`w-[16.8rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
               이메일
             </th>
-            <th
-              className={`w-[14rem] rounded-tr-[1rem] border-gray600 ${HEADER_BASE_STYLE}`}
-            >
+            <th className={`w-[14rem] rounded-tr-[1rem] ${HEADER_BASE_STYLE}`}>
               전화번호
             </th>
           </tr>
@@ -171,12 +145,21 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                     <div className={TD_CONTENT_STYLE}>{item.part}</div>
                   </td>
                   <td
-                    className={`${CELL_BASE_STYLE} text-white border-r-[1px] p-[1rem] text-left`}
+                    className={`${CELL_BASE_STYLE} text-white border-r-[1px] px-[1.2rem] py-[1rem] text-left`}
                   >
                     <div className="flex flex-col gap-[0.5rem] justify-start">
-                      <div className="h-full flex items-center gap-[0.6rem]">
-                        <CheckBox checked={item.isDoNotRead} />
-                        <span>읽지 마시오</span>
+                      <div className="h-full flex items-center justify-between">
+                        <div className="flex items-center gap-[0.9rem]">
+                          <CheckBox checked={item.isDoNotRead} />
+                          <span>읽지 마시오</span>
+                        </div>
+                        <div className="bg-orangeAlpha200 rounded-[10rem] p-[0.8rem]">
+                          <AlertTriangle
+                            width={16}
+                            height={16}
+                            className="text-orangeAlpha500"
+                          />
+                        </div>
                       </div>
                       {item.isDoNotRead && (
                         <div className="flex justify-start">
