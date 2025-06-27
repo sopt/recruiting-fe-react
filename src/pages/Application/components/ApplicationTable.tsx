@@ -4,7 +4,7 @@ import ChipDropDown from '@/pages/Application/components/ChipDropdown';
 import useDrag from '@/pages/Application/hooks/useDrag';
 import { getEvaluationMessage } from '@/pages/Application/utils';
 import { getDoNotReadMessage } from '@/pages/Application/utils';
-import { CheckBox } from '@sopt-makers/ui';
+import { CheckBox, Tag } from '@sopt-makers/ui';
 import { useRef, useState } from 'react';
 
 const HEADER_BASE_STYLE =
@@ -185,6 +185,13 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                       <div className="h-full flex items-center gap-[0.6rem]">
                         <CheckBox checked={item.evaluationStatus} />
                         <span>평가 완료</span>
+                        <Tag shape="pill">
+                          {
+                            Object.values(item.evaluatedBy || {}).filter(
+                              Boolean,
+                            ).length
+                          }
+                        </Tag>
                       </div>
                       {item.evaluationStatus && (
                         <div className="flex justify-start">
