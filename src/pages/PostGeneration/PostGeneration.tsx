@@ -31,7 +31,6 @@ const PostGeneration = () => {
     const option = {
       title: '신규 기수 등록',
       description: <PostGenerationModal />,
-      type: 'default' as const,
     };
     openDialog(option);
   };

@@ -4,34 +4,21 @@ import { Button, Dialog, TextField } from '@sopt-makers/ui';
 import { useState } from 'react';
 
 const PostGenerationModal = () => {
-  const [selectedDateRange, setSelectedDateRange] = useState<string[]>([
-    '',
-    '',
-  ]);
-  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-  const [activeInput, setActiveInput] = useState<'start' | 'end' | null>(null);
+  const [selectedDateRange, setSelectedDateRange] = useState<
+    Record<string, string[]>
+  >({
+    application: ['', ''],
+    documentPass: ['', ''],
+    finalPass: ['', ''],
+  });
 
-  const handleInputClick = (target: 'start' | 'end') => {
-    setActiveInput(target);
-    setIsCalendarOpen(true);
-  };
+  console.log(selectedDateRange);
 
-  const handleDateSelect = (date: string) => {
-    if (activeInput === 'start') {
-      const end = selectedDateRange[1];
-      if (end && date > end) {
-        setSelectedDateRange([end, date]);
-      } else {
-        setSelectedDateRange([date, end]);
-      }
-    } else if (activeInput === 'end') {
-      const start = selectedDateRange[0];
-      if (start && date < start) {
-        setSelectedDateRange([date, start]);
-      } else {
-        setSelectedDateRange([start, date]);
-      }
-    }
+  const updateDateRange = (key: string, dateRange: string[]) => {
+    setSelectedDateRange((prev) => ({
+      ...prev,
+      [key]: dateRange,
+    }));
   };
 
   return (
@@ -47,9 +34,30 @@ const PostGenerationModal = () => {
             <YbObRadioGroup />
           </div>
         </div>
-        <PeriodCalendar label="서류 지원 기간" required />
-        <PeriodCalendar label="서류 합격 확인 기간" required />
-        <PeriodCalendar label="최종 합격 확인 기간" required />
+        <PeriodCalendar
+          label="서류 지원 기간"
+          required
+          selectedDateRange={selectedDateRange.application}
+          onSelectDateRange={(dateRange) => {
+            updateDateRange('application', dateRange);
+          }}
+        />
+        <PeriodCalendar
+          label="서류 합격 확인 기간"
+          required
+          selectedDateRange={selectedDateRange.documentPass}
+          onSelectDateRange={(dateRange) => {
+            updateDateRange('documentPass', dateRange);
+          }}
+        />
+        <PeriodCalendar
+          label="최종 합격 확인 기간"
+          required
+          selectedDateRange={selectedDateRange.finalPass}
+          onSelectDateRange={(dateRange) =>
+            updateDateRange('finalPass', dateRange)
+          }
+        />
       </form>
 
       <Dialog.Footer align="right">

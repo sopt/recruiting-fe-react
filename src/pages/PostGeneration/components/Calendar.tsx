@@ -2,19 +2,14 @@ import dayjs from 'dayjs';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import 'dayjs/locale/ko';
-import {
-  type Dispatch,
-  type MouseEvent,
-  type SetStateAction,
-  useState,
-} from 'react';
+import { type MouseEvent, useState } from 'react';
 import 'react-calendar/dist/Calendar.css';
 import '@/styles/calendar.css';
 import type { Value } from 'react-calendar/dist/shared/types.js';
 
 interface Props {
   selectedDate: string[] | string | null;
-  setSelectedDate: Dispatch<SetStateAction<string[]>>;
+  setSelectedDate: (dateRange: string[]) => void;
   selectedDateFieldName: string;
   error?: string;
   dateType?: 'startDate' | 'endDate' | 'singleSelect' | 'range';
@@ -28,13 +23,7 @@ const formatCalendarDate = (date: Date) => {
 
 const WEEKDAYS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
-const CalendarInputForm = ({
-  selectedDate,
-  setSelectedDate,
-  dateType = 'range',
-  onClose,
-}: Props) => {
-  const [isOpen, setIsOpen] = useState(true);
+const CalendarInputForm = ({ setSelectedDate, onClose }: Props) => {
   const [rangeValue, setRangeValue] = useState<[Date | null, Date | null]>([
     null,
     null,

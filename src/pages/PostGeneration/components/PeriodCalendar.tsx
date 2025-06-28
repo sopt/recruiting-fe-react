@@ -2,17 +2,20 @@ import CalendarInputForm from '@/pages/PostGeneration/components/Calendar';
 import { IconCalendar } from '@sopt-makers/icons';
 import { useEffect, useRef, useState } from 'react';
 
-interface Props {
+interface PeriodCalendarProps {
   label: string;
   required?: boolean;
+  selectedDateRange: string[];
+  onSelectDateRange: (dateRange: string[]) => void;
 }
 
-const PeriodCalendar = ({ label, required = false }: Props) => {
+const PeriodCalendar = ({
+  label,
+  required = false,
+  selectedDateRange,
+  onSelectDateRange,
+}: PeriodCalendarProps) => {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-  const [selectedDateRange, setSelectedDateRange] = useState<string[]>([
-    '',
-    '',
-  ]);
   const [activeInput, setActiveInput] = useState<'start' | 'end' | null>(null);
   const calendarRef = useRef<HTMLDivElement>(null);
 
@@ -41,16 +44,16 @@ const PeriodCalendar = ({ label, required = false }: Props) => {
     if (activeInput === 'start') {
       const end = selectedDateRange[1];
       if (end && date > end) {
-        setSelectedDateRange([end, date]);
+        onSelectDateRange([end, date]);
       } else {
-        setSelectedDateRange([date, end]);
+        onSelectDateRange([date, end]);
       }
     } else if (activeInput === 'end') {
       const start = selectedDateRange[0];
       if (start && date < start) {
-        setSelectedDateRange([date, start]);
+        onSelectDateRange([date, start]);
       } else {
-        setSelectedDateRange([start, date]);
+        onSelectDateRange([start, date]);
       }
     }
   };
@@ -96,11 +99,11 @@ const PeriodCalendar = ({ label, required = false }: Props) => {
           <IconCalendar style={{ width: '24' }} />
         </div>
         {isCalendarOpen && (
-          <div className="absolute z-[2] w-[336px] h-[354px] top-full left-0 mt-2 bg-gray500 text-gray10 p-4 rounded-2xl shadow-lg">
+          <div className="absolute z-[2] w-[336px] h-[354px] top-full left-[5rem] mt-2 bg-gray600 text-gray10 p-4 rounded-2xl shadow-lg">
             <CalendarInputForm
               dateType="range"
               selectedDate={selectedDateRange}
-              setSelectedDate={setSelectedDateRange}
+              setSelectedDate={onSelectDateRange}
               selectedDateFieldName="date-range"
               onDateSelect={handleDateSelect}
               onClose={() => setIsCalendarOpen(false)}
