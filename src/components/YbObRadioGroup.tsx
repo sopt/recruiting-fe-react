@@ -1,4 +1,4 @@
-import type { GRADE } from '@/pages/PostQuestion/types';
+import type { GRADE } from '@/pages/Question/types';
 import { Radio } from '@sopt-makers/ui';
 import { useState } from 'react';
 

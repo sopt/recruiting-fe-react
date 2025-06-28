@@ -110,6 +110,16 @@
   --color-blueAlpha800: rgba(52, 111, 250, 0.8);
   --color-blueAlpha900: rgba(52, 111, 250, 0.9);
 
+  --color-greenAlpha100: rgba(22, 191, 129, 0.1);
+  --color-greenAlpha200: rgba(22, 191, 129, 0.2);
+  --color-greenAlpha300: rgba(22, 191, 129, 0.3);
+  --color-greenAlpha400: rgba(22, 191, 129, 0.4);
+  --color-greenAlpha500: rgba(22, 191, 129, 0.5);
+  --color-greenAlpha600: rgba(22, 191, 129, 0.6);
+  --color-greenAlpha700: rgba(22, 191, 129, 0.7);
+  --color-greenAlpha800: rgba(22, 191, 129, 0.8);
+  --color-greenAlpha900: rgba(22, 191, 129, 0.9);
+
   --color-grayAlpha100: rgba(15, 15, 18, 0.1);
   --color-grayAlpha200: rgba(15, 15, 18, 0.2);
   --color-grayAlpha300: rgba(15, 15, 18, 0.3);
