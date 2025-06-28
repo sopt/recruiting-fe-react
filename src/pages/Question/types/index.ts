@@ -7,4 +7,4 @@ export type PART_NAME =
   | 'android'
   | 'web';
 
-export type GRADE = 'YB' | 'OB';
+export type GROUP = 'YB' | 'OB';

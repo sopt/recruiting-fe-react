@@ -1,9 +1,11 @@
 import YbObRadioGroup from '@/components/YbObRadioGroup';
 import PeriodCalendar from '@/pages/PostGeneration/components/PeriodCalendar';
+import type { GROUP } from '@/pages/Question/types';
 import { Button, Dialog, DialogContext, TextField } from '@sopt-makers/ui';
 import { type FormEvent, useContext, useState } from 'react';
 
 const PostGenerationModal = () => {
+  const [group, setGroup] = useState<GROUP>('YB');
   const [generation, setGeneration] = useState('');
   const [selectedDateRange, setSelectedDateRange] = useState<
     Record<string, string[]>
@@ -51,7 +53,7 @@ const PostGenerationModal = () => {
               required
             />
             <div className="flex-1 flex items-end mb-[1.1rem]">
-              <YbObRadioGroup />
+              <YbObRadioGroup group={group} setGroup={setGroup} />
             </div>
           </div>
           <PeriodCalendar

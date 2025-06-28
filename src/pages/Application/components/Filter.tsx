@@ -1,8 +1,9 @@
 import { InfoCircle, Refresh } from '@/assets/svg';
 import YbObRadioGroup from '@/components/YbObRadioGroup';
 import BelowRateModal from '@/pages/Application/components/BelowRateModal';
+import type { GROUP } from '@/pages/Question/types';
 import { DialogContext, SelectV2, TextField, Toggle } from '@sopt-makers/ui';
-import { type SetStateAction, useContext } from 'react';
+import { type SetStateAction, useContext, useState } from 'react';
 import type { Dispatch } from 'react';
 
 const START_GENERATION = 30;
@@ -36,6 +37,8 @@ const Filter = ({
   setIsDoNotRead,
   setIsPassedOnly,
 }: FilterProps) => {
+  const [group, setGroup] = useState<GROUP>('YB');
+
   const { openDialog, closeDialog } = useContext(DialogContext);
 
   const handleOpenDialog = () => {
@@ -60,7 +63,7 @@ const Filter = ({
             ))}
           </SelectV2.Menu>
         </SelectV2.Root>
-        <YbObRadioGroup />
+        <YbObRadioGroup group={group} setGroup={setGroup} />
       </div>
       <div className="flex flex-col gap-[0.8rem]">
         <button
