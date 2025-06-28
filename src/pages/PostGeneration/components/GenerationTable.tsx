@@ -1,4 +1,6 @@
 import { Trash } from '@/assets/svg';
+import { Button, Dialog, DialogContext } from '@sopt-makers/ui';
+import { useContext } from 'react';
 
 interface Period {
   start: string;
@@ -7,6 +9,7 @@ interface Period {
 
 interface GenerationTableProps {
   data: {
+    id: number;
     generation: string;
     name: string;
     applicationPeriod: Period;
@@ -21,6 +24,39 @@ const CELL_BASE_STYLE =
   'h-[6rem] text-center body_3_14_m bg-transparent border-b-[1px] border-gray700 align-middle';
 
 const GenerationTable = ({ data }: GenerationTableProps) => {
+  const { openDialog, closeDialog } = useContext(DialogContext);
+
+  const handleDeleteGeneration = (id: number) => {
+    // TODO: 실제 삭제 로직 구현
+    closeDialog();
+  };
+
+  const openDeleteModal = (generationId: number) => {
+    openDialog({
+      title: '기수를 삭제하실 건가요?',
+      description: (
+        <div className="mb-[2rem] flex flex-col mt-[1.2rem] gap-[3.6rem]">
+          <p className="whitespace-pre-line">
+            {
+              '기수를 삭제하면 해당 기수의 모든 지원서가 삭제됩니다.\n삭제하시겠습니까?'
+            }
+          </p>
+          <Dialog.Footer align="right">
+            <Button theme="black" onClick={closeDialog}>
+              취소하기
+            </Button>
+            <Button
+              theme="red"
+              onClick={() => handleDeleteGeneration(generationId)}
+            >
+              삭제하기
+            </Button>
+          </Dialog.Footer>
+        </div>
+      ),
+    });
+  };
+
   return (
     <div className="w-full overflow-x-auto scroll-smooth scrollbar-hide pr-[12.4rem]">
       <table className="w-[122.5rem]">
@@ -100,7 +136,11 @@ const GenerationTable = ({ data }: GenerationTableProps) => {
                 </td>
                 <td className={`${CELL_BASE_STYLE}`}>
                   <div className="h-full flex items-center justify-center">
-                    <button type="button" className="cursor-pointer">
+                    <button
+                      type="button"
+                      className="cursor-pointer hover:opacity-70 transition-opacity"
+                      onClick={() => openDeleteModal(item.id)}
+                    >
                       <Trash width={22} className="stroke-white" />
                     </button>
                   </div>
