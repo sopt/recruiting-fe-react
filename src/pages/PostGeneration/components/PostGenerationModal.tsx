@@ -4,6 +4,7 @@ import { Button, Dialog, TextField } from '@sopt-makers/ui';
 import { useState } from 'react';
 
 const PostGenerationModal = () => {
+  const [generation, setGeneration] = useState('');
   const [selectedDateRange, setSelectedDateRange] = useState<
     Record<string, string[]>
   >({
@@ -12,7 +13,11 @@ const PostGenerationModal = () => {
     finalPass: ['', ''],
   });
 
-  console.log(selectedDateRange);
+  const isDisabled =
+    !generation ||
+    selectedDateRange.application.some((value) => value === '') ||
+    selectedDateRange.documentPass.some((value) => value === '') ||
+    selectedDateRange.finalPass.some((value) => value === '');
 
   const updateDateRange = (key: string, dateRange: string[]) => {
     setSelectedDateRange((prev) => ({
@@ -26,6 +31,8 @@ const PostGenerationModal = () => {
       <form className="flex flex-col gap-[3.2rem] w-[64rem] mt-[2.6rem]">
         <div className="flex gap-[1.6rem]">
           <TextField
+            value={generation}
+            onChange={(e) => setGeneration(e.target.value)}
             labelText="기수"
             placeholder="기수를 입력하세요."
             className="[&>div:nth-child(2)]:!bg-gray700 [&>div:nth-child(2)]:!w-[18rem]"
@@ -63,7 +70,7 @@ const PostGenerationModal = () => {
 
       <Dialog.Footer align="right">
         <Button theme="black">취소하기 </Button>
-        <Button disabled>등록하기</Button>
+        <Button disabled={isDisabled}>등록하기</Button>
       </Dialog.Footer>
     </div>
   );
