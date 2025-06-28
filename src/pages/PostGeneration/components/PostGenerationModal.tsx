@@ -28,6 +28,7 @@ const PostGenerationModal = () => {
           <TextField
             labelText="기수"
             placeholder="기수를 입력하세요."
+            className="[&>div:nth-child(2)]:!bg-gray700 [&>div:nth-child(2)]:!w-[18rem]"
             required
           />
           <div className="flex-1 flex items-end mb-[1.1rem]">
@@ -35,7 +36,7 @@ const PostGenerationModal = () => {
           </div>
         </div>
         <PeriodCalendar
-          label="서류 지원 기간"
+          label="서류 접수 기간"
           required
           selectedDateRange={selectedDateRange.application}
           onSelectDateRange={(dateRange) => {
@@ -43,7 +44,7 @@ const PostGenerationModal = () => {
           }}
         />
         <PeriodCalendar
-          label="서류 합격 확인 기간"
+          label="서류 결과 확인 기간"
           required
           selectedDateRange={selectedDateRange.documentPass}
           onSelectDateRange={(dateRange) => {
@@ -51,7 +52,7 @@ const PostGenerationModal = () => {
           }}
         />
         <PeriodCalendar
-          label="최종 합격 확인 기간"
+          label="최종 결과 확인 기간"
           required
           selectedDateRange={selectedDateRange.finalPass}
           onSelectDateRange={(dateRange) =>

@@ -19,22 +19,6 @@ const PeriodCalendar = ({
   const [activeInput, setActiveInput] = useState<'start' | 'end' | null>(null);
   const calendarRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        calendarRef.current &&
-        !calendarRef.current.contains(event.target as Node)
-      ) {
-        setIsCalendarOpen(false);
-        setActiveInput(null);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isCalendarOpen]);
-
   const handleInputClick = (target: 'start' | 'end') => {
     setActiveInput(target);
     setIsCalendarOpen(true);
@@ -57,6 +41,23 @@ const PeriodCalendar = ({
       }
     }
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        calendarRef.current &&
+        !calendarRef.current.contains(event.target as Node)
+      ) {
+        setIsCalendarOpen(false);
+        setActiveInput(null);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isCalendarOpen]);
+
   return (
     <label className="flex flex-col gap-[0.8rem] text-gray-10 text-[1.4rem] font-semibold">
       <span className="flex text-white items-center label_3_14_sb gap-[0.4rem]">
@@ -68,7 +69,7 @@ const PeriodCalendar = ({
         ref={calendarRef}
       >
         <div
-          className="flex px-[1.6rem] py-[1.3rem] w-[20.5rem] text-gray10 bg-gray700 rounded-[10px] justify-between items-center cursor-pointer"
+          className="flex px-[1.6rem] py-[1.3rem] w-[20.5rem] gap-[2.6rem] text-gray10 bg-gray700 rounded-[10px] justify-between items-center cursor-pointer"
           onClick={() => handleInputClick('start')}
           onKeyUp={(e) => e.key === 'Enter' && handleInputClick('start')}
         >
@@ -77,7 +78,7 @@ const PeriodCalendar = ({
             value={selectedDateRange[0]}
             placeholder="YYYY.MM.DD"
             readOnly
-            className="flex items-center cursor-pointer text-[1.6rem] font-medium bg-transparent border-none placeholder:text-gray500 focus:outline-none"
+            className="flex items-center w-[12.3rem] cursor-pointer text-[1.6rem] font-medium bg-transparent border-none placeholder:text-gray500 focus:outline-none"
           />
           <IconCalendar style={{ width: '24' }} />
         </div>
@@ -94,14 +95,13 @@ const PeriodCalendar = ({
             value={selectedDateRange[1]}
             placeholder="YYYY.MM.DD"
             readOnly
-            className="relative flex items-center cursor-pointer text-[1.6rem] font-medium bg-transparent border-none placeholder:text-gray500 focus:outline-none"
+            className="relative flex items-center w-[12.3rem] cursor-pointer text-[1.6rem] font-medium bg-transparent border-none placeholder:text-gray500 focus:outline-none"
           />
           <IconCalendar style={{ width: '24' }} />
         </div>
         {isCalendarOpen && (
           <div className="absolute z-[2] w-[336px] h-[354px] top-full left-[5rem] mt-2 bg-gray600 text-gray10 p-4 rounded-2xl shadow-lg">
             <CalendarInputForm
-              dateType="range"
               selectedDate={selectedDateRange}
               setSelectedDate={onSelectDateRange}
               selectedDateFieldName="date-range"

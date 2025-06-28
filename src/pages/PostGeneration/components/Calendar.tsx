@@ -12,7 +12,6 @@ interface Props {
   setSelectedDate: (dateRange: string[]) => void;
   selectedDateFieldName: string;
   error?: string;
-  dateType?: 'startDate' | 'endDate' | 'singleSelect' | 'range';
   onDateSelect?: (date: string) => void;
   onClose?: () => void;
 }
@@ -23,7 +22,16 @@ const formatCalendarDate = (date: Date) => {
 
 const WEEKDAYS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
-const CalendarInputForm = ({ setSelectedDate, onClose }: Props) => {
+const isValidDate = (dateString: string) => {
+  const parsed = dayjs(dateString, 'YYYY.MM.DD', true);
+  return parsed.isValid();
+};
+
+const CalendarInputForm = ({
+  selectedDate,
+  setSelectedDate,
+  onClose,
+}: Props) => {
   const [rangeValue, setRangeValue] = useState<[Date | null, Date | null]>([
     null,
     null,
@@ -44,11 +52,16 @@ const CalendarInputForm = ({ setSelectedDate, onClose }: Props) => {
       }
     }
   };
+
   const CalendarComponent = () => (
     <Calendar
-      value={rangeValue}
-      onChange={(value: Value, event: MouseEvent<HTMLButtonElement>) =>
-        handleDateChange(value as [Date, Date], event)
+      value={
+        selectedDate?.[0] && selectedDate?.[1] && isValidDate(selectedDate[0])
+          ? [
+              dayjs(selectedDate[0], 'YYYY.MM.DD').toDate(),
+              dayjs(selectedDate[1], 'YYYY.MM.DD').toDate(),
+            ]
+          : [null, null]
       }
       selectRange
       formatDay={(locale, date) => dayjs(date).format('D')}
@@ -58,7 +71,11 @@ const CalendarInputForm = ({ setSelectedDate, onClose }: Props) => {
       prev2Label={null}
       minDetail="month"
       maxDetail="month"
+      onClickDay={handleDateChange}
       calendarType="gregory"
+      onChange={(value: Value, event: MouseEvent<HTMLButtonElement>) =>
+        handleDateChange(value as [Date, Date], event)
+      }
     />
   );
 
