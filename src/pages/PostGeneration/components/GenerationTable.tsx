@@ -1,21 +1,11 @@
 import { Trash } from '@/assets/svg';
+import type { Season } from '@/pages/PostGeneration/types';
+import { formatDate } from '@/pages/PostGeneration/utils';
 import { Button, Dialog, DialogContext } from '@sopt-makers/ui';
 import { useContext } from 'react';
 
-interface Period {
-  start: string;
-  end: string;
-}
-
 interface GenerationTableProps {
-  data: {
-    id: number;
-    generation: string;
-    name: string;
-    applicationPeriod: Period;
-    applicationResultPeriod: Period;
-    finalResultPeriod: Period;
-  }[];
+  data: Season[];
 }
 
 const HEADER_BASE_STYLE =
@@ -103,7 +93,7 @@ const GenerationTable = ({ data }: GenerationTableProps) => {
               >
                 <td className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}>
                   <div className="h-full flex items-center justify-center">
-                    {item.generation}
+                    {item.season}
                   </div>
                 </td>
                 <td className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}>
@@ -113,23 +103,23 @@ const GenerationTable = ({ data }: GenerationTableProps) => {
                 </td>
                 <td className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}>
                   <div className="h-full flex items-center justify-evenly gap-[0.5rem]">
-                    <p>{item.applicationPeriod.start}</p>
+                    <p>{formatDate(item.applicationStart)}</p>
                     <p>~</p>
-                    <p>{item.applicationPeriod.end}</p>
+                    <p>{formatDate(item.applicationEnd)}</p>
                   </div>
                 </td>
                 <td className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}>
                   <div className="h-full flex items-center justify-evenly gap-[0.5rem]">
-                    <p>{item.applicationResultPeriod.start}</p>
+                    <p>{formatDate(item.applicationResultStart)}</p>
                     <p>~</p>
-                    <p>{item.applicationResultPeriod.end}</p>
+                    <p>{formatDate(item.applicationResultEnd)}</p>
                   </div>
                 </td>
                 <td className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}>
                   <div className="h-full flex items-center justify-evenly gap-[0.5rem]">
-                    <p>{item.finalResultPeriod.start}</p>
+                    <p>{formatDate(item.finalResultStart)}</p>
                     <p>~</p>
-                    <p>{item.finalResultPeriod.end}</p>
+                    <p>{formatDate(item.finalResultEnd)}</p>
                   </div>
                 </td>
                 <td className={`${CELL_BASE_STYLE}`}>
