@@ -4,7 +4,7 @@ import Login from '@/pages/Login/Login';
 import PostGeneration from '@/pages/PostGeneration/PostGeneration';
 import PostQuestion from '@/pages/PostQuestion/PostQuestion';
 import { ROUTES_CONFIG } from '@/routes/routeConfig';
-import { createBrowserRouter } from 'react-router-dom';
+import { Navigate, createBrowserRouter } from 'react-router-dom';
 
 export const router = createBrowserRouter([
   {
@@ -15,9 +15,13 @@ export const router = createBrowserRouter([
     path: '/',
     element: <Layout />,
     children: [
+      {
+        index: true,
+        element: <Navigate to={ROUTES_CONFIG.application.path} replace />,
+      },
+      { path: ROUTES_CONFIG.application.path, element: <Application /> },
       { path: ROUTES_CONFIG.postQuestion.path, element: <PostQuestion /> },
       { path: ROUTES_CONFIG.postGeneration.path, element: <PostGeneration /> },
-      { path: ROUTES_CONFIG.application.path, element: <Application /> },
     ],
   },
 ]);
