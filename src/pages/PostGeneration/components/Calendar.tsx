@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import 'dayjs/locale/ko';
-import { type MouseEvent, useState } from 'react';
+import { useState } from 'react';
 import 'react-calendar/dist/Calendar.css';
 import '@/styles/calendar.css';
 import type { Value } from 'react-calendar/dist/shared/types.js';
@@ -32,15 +32,9 @@ const CalendarInputForm = ({
   setSelectedDate,
   onClose,
 }: Props) => {
-  const [rangeValue, setRangeValue] = useState<[Date | null, Date | null]>([
-    null,
-    null,
-  ]);
+  const [, setRangeValue] = useState<[Date | null, Date | null]>([null, null]);
 
-  const handleDateChange = (
-    value: Date | [Date, Date],
-    event: MouseEvent<HTMLButtonElement>,
-  ) => {
+  const handleDateChange = (value: Date | [Date, Date]) => {
     if (Array.isArray(value)) {
       setRangeValue(value);
 
@@ -64,8 +58,8 @@ const CalendarInputForm = ({
           : [null, null]
       }
       selectRange
-      formatDay={(locale, date) => dayjs(date).format('D')}
-      formatShortWeekday={(locale, date) => WEEKDAYS[date.getDay()] ?? ''}
+      formatDay={(_, date) => dayjs(date).format('D')}
+      formatShortWeekday={(_, date) => WEEKDAYS[date.getDay()] ?? ''}
       showNeighboringMonth={false}
       next2Label={null}
       prev2Label={null}
@@ -73,9 +67,7 @@ const CalendarInputForm = ({
       maxDetail="month"
       onClickDay={handleDateChange}
       calendarType="gregory"
-      onChange={(value: Value, event: MouseEvent<HTMLButtonElement>) =>
-        handleDateChange(value as [Date, Date], event)
-      }
+      onChange={(value: Value) => handleDateChange(value as [Date, Date])}
     />
   );
 

@@ -25,7 +25,7 @@ const PostGeneration = () => {
     return MOCK_GENERATION_DATA.slice(startIndex, endIndex);
   }, [currentPage]);
 
-  const { openDialog, closeDialog } = useContext(DialogContext);
+  const { openDialog } = useContext(DialogContext);
 
   const handleAddGeneration = () => {
     const option = {
