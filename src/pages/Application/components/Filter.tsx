@@ -1,7 +1,8 @@
-import { Refresh } from '@/assets/svg';
+import { InfoCircle, Refresh } from '@/assets/svg';
 import YbObRadioGroup from '@/components/YbObRadioGroup';
-import { SelectV2, TextField, Toggle } from '@sopt-makers/ui';
-import type { SetStateAction } from 'react';
+import BelowRateModal from '@/pages/Application/components/BelowRateModal';
+import { DialogContext, SelectV2, TextField, Toggle } from '@sopt-makers/ui';
+import { type SetStateAction, useContext } from 'react';
 import type { Dispatch } from 'react';
 
 const START_GENERATION = 30;
@@ -35,6 +36,15 @@ const Filter = ({
   setIsDoNotRead,
   setIsPassedOnly,
 }: FilterProps) => {
+  const { openDialog, closeDialog } = useContext(DialogContext);
+
+  const handleOpenDialog = () => {
+    openDialog({
+      title: '글자 수 미달률 상세 보기',
+      description: <BelowRateModal onClose={closeDialog} />,
+    });
+  };
+
   return (
     <div className="flex flex-col gap-[3.2rem] mt-[3.2rem]">
       <div className="flex gap-[1.5rem]">
@@ -53,7 +63,13 @@ const Filter = ({
         <YbObRadioGroup />
       </div>
       <div className="flex flex-col gap-[0.8rem]">
-        {/* TODO : 툴팁 컴포넌트 추가 */}
+        <button
+          type="button"
+          className="flex items-center gap-[0.4rem] body_3_14_r text-gray100 cursor-pointer"
+          onClick={handleOpenDialog}
+        >
+          글자 수 미달 숨기기 <InfoCircle width={16} height={16} />
+        </button>
         <div className="flex gap-[2.4rem]">
           <div className="flex gap-[0.6rem] items-center">
             <TextField placeholder="미달률 입력" />

@@ -6,7 +6,7 @@ interface ChipProps extends ButtonHTMLAttributes<HTMLDivElement> {
 }
 
 const CHIP_BASE_STYLE =
-  'rounded-[999.9rem] px-[1.4rem] py-[0.9rem] border-[1px] cursor-default label_3_14_sb';
+  'rounded-[999.9rem] px-[1.4rem] py-[0.9rem] border-[1px] cursor-pointer label_3_14_sb';
 
 const Chip = ({ children, className, ...props }: ChipProps) => {
   return (
