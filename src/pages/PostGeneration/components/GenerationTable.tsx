@@ -31,7 +31,7 @@ const GenerationTable = ({ data }: GenerationTableProps) => {
     closeDialog();
   };
 
-  const openDeleteModal = (generationId: number) => {
+  const openDeleteModal = () => {
     openDialog({
       title: '기수를 삭제하실 건가요?',
       description: (
@@ -134,10 +134,11 @@ const GenerationTable = ({ data }: GenerationTableProps) => {
                 </td>
                 <td className={`${CELL_BASE_STYLE}`}>
                   <div className="h-full flex items-center justify-center">
+                    {/* TODO: 삭제 id 전달 */}
                     <button
                       type="button"
                       className="cursor-pointer hover:opacity-70 transition-opacity"
-                      onClick={() => openDeleteModal(item.id)}
+                      onClick={() => openDeleteModal()}
                     >
                       <Trash width={22} className="stroke-white" />
                     </button>
