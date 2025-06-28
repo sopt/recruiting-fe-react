@@ -1,28 +1,27 @@
-import type { GRADE } from '@/pages/Question/types';
+import type { GROUP } from '@/pages/Question/types';
 import { Radio } from '@sopt-makers/ui';
-import { useState } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
 
-const YbObRadioGroup = () => {
-  const [grade, setGrade] = useState<GRADE>('YB');
+interface YbObRadioGroupProps {
+  group: GROUP;
+  setGroup: Dispatch<SetStateAction<GROUP>>;
+}
 
-  const handleGradeChange = (grade: GRADE) => {
-    setGrade(grade);
-  };
-
+const YbObRadioGroup = ({ group, setGroup }: YbObRadioGroupProps) => {
   return (
     <div className="flex gap-[1.6rem]">
       <Radio
         size="lg"
         label="YB"
-        checked={grade === 'YB'}
-        onClick={() => handleGradeChange('YB')}
+        checked={group === 'YB'}
+        onChange={() => setGroup('YB')}
       />
 
       <Radio
         size="lg"
         label="OB"
-        checked={grade === 'OB'}
-        onClick={() => handleGradeChange('OB')}
+        checked={group === 'OB'}
+        onChange={() => setGroup('OB')}
       />
     </div>
   );
