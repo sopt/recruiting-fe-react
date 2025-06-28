@@ -26,8 +26,8 @@ const CELL_BASE_STYLE =
 const GenerationTable = ({ data }: GenerationTableProps) => {
   const { openDialog, closeDialog } = useContext(DialogContext);
 
-  const handleDeleteGeneration = (id: number) => {
-    // TODO: 실제 삭제 로직 구현
+  const handleDeleteGeneration = () => {
+    // TODO: 실제 삭제 로직 구현 (id 사용)
     closeDialog();
   };
 
@@ -45,10 +45,8 @@ const GenerationTable = ({ data }: GenerationTableProps) => {
             <Button theme="black" onClick={closeDialog}>
               취소하기
             </Button>
-            <Button
-              theme="red"
-              onClick={() => handleDeleteGeneration(generationId)}
-            >
+            {/* TODO: 삭제 id 전달 */}
+            <Button theme="red" onClick={() => handleDeleteGeneration()}>
               삭제하기
             </Button>
           </Dialog.Footer>
