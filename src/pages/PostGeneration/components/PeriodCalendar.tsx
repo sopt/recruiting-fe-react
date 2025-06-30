@@ -75,7 +75,7 @@ const PeriodCalendar = ({
         >
           <input
             type="text"
-            value={selectedDateRange[0]}
+            value={selectedDateRange?.[0] || ''}
             placeholder="YYYY.MM.DD"
             readOnly
             className="flex items-center w-[12.3rem] cursor-pointer text-[1.6rem] font-medium bg-transparent border-none placeholder:text-gray500 focus:outline-none"
@@ -92,7 +92,7 @@ const PeriodCalendar = ({
         >
           <input
             type="text"
-            value={selectedDateRange[1]}
+            value={selectedDateRange?.[1] || ''}
             placeholder="YYYY.MM.DD"
             readOnly
             className="relative flex items-center w-[12.3rem] cursor-pointer text-[1.6rem] font-medium bg-transparent border-none placeholder:text-gray500 focus:outline-none"
