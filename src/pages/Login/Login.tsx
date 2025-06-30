@@ -1,12 +1,8 @@
 import { Logo } from '@/assets/svg';
 import { usePostLogin } from '@/pages/Login/hooks/queries';
+import type { LoginForm } from '@/pages/Login/types';
 import { Button, TextField } from '@sopt-makers/ui';
 import { type SubmitHandler, useForm } from 'react-hook-form';
-
-type LoginForm = {
-  email: string;
-  password: string;
-};
 
 const Login = () => {
   const { handleSubmit, register } = useForm<LoginForm>();

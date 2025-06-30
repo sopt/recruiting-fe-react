@@ -1,8 +1,3 @@
-export interface LoginRequest {
-  email: string;
-  password: string;
-}
-
 export interface LoginResponse {
   success: boolean;
   message: string;
@@ -12,3 +7,8 @@ export interface LoginResponse {
     role: string;
   };
 }
+
+export type LoginForm = {
+  email: string;
+  password: string;
+};
