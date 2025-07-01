@@ -132,7 +132,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                   >
                     <div className={`${TD_BASE_STYLE} gap-[1rem] py-[1rem]`}>
                       <img
-                        src={item.profileImage}
+                        src={item.pictureUrl}
                         alt="프로필"
                         className="w-[5.2rem] h-[7rem] object-cover rounded-[0.3rem]"
                       />
@@ -150,14 +150,14 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                     <div className="flex flex-col gap-[0.5rem] justify-start">
                       <div className="h-full flex items-center justify-between">
                         <div className="flex items-center gap-[0.9rem]">
-                          <CheckBox checked={item.isDoNotRead} />
+                          <CheckBox checked={item.dontReadInfo.checkedByMe} />
                           <span>읽지 마시오</span>
                         </div>
                         <div className="bg-orangeAlpha200 rounded-[10rem] p-[0.8rem]">
                           <AlertTriangle width={16} height={16} />
                         </div>
                       </div>
-                      {item.isDoNotRead && (
+                      {item.dontReadInfo.checkedList.length > 0 && (
                         <div className="flex justify-start">
                           <span className="text-attention label_5_11_sb break-words overflow-hidden">
                             {doNotReadMessage}
@@ -171,17 +171,17 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                   >
                     <div className="flex flex-col gap-[0.5rem] justify-start">
                       <div className="h-full flex items-center gap-[0.6rem]">
-                        <CheckBox checked={item.evaluationStatus} />
+                        <CheckBox checked={item.evaluatedInfo.checkedByMe} />
                         <span>평가 완료</span>
                         <Tag shape="pill">
-                          {
-                            Object.values(item.evaluatedBy || {}).filter(
-                              Boolean,
-                            ).length
-                          }
+                          {Object.values(
+                            item.evaluatedInfo.checkedList.length > 0
+                              ? item.evaluatedInfo.checkedList.length
+                              : 0,
+                          )}
                         </Tag>
                       </div>
-                      {item.evaluationStatus && (
+                      {item.evaluatedInfo.checkedList.length > 0 && (
                         <div className="flex justify-start">
                           <span className="text-gray200 label_5_11_sb break-words overflow-hidden">
                             {evaluationMessage}
@@ -193,16 +193,12 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
                   >
-                    <div className={TD_CONTENT_STYLE}>
-                      {item.submissionTime}
-                    </div>
+                    <div className={TD_CONTENT_STYLE}>{item.submittedAt}</div>
                   </td>
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
                   >
-                    <div className={TD_CONTENT_STYLE}>
-                      {item.recentGeneration}기
-                    </div>
+                    <div className={TD_CONTENT_STYLE}>{item.generation}기</div>
                   </td>
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}

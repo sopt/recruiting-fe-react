@@ -3,7 +3,7 @@ import YbObRadioGroup from '@/components/YbObRadioGroup';
 import BelowRateModal from '@/pages/Application/components/BelowRateModal';
 import type { GROUP } from '@/pages/Question/types';
 import { DialogContext, SelectV2, TextField, Toggle } from '@sopt-makers/ui';
-import { type SetStateAction, useContext, useState } from 'react';
+import { type SetStateAction, useContext } from 'react';
 import type { Dispatch } from 'react';
 
 const START_GENERATION = 30;
@@ -21,6 +21,10 @@ const GENERATION_OPTIONS = Array.from(
 );
 
 interface FilterProps {
+  season: string;
+  setSeason: Dispatch<SetStateAction<string>>;
+  group: GROUP;
+  setGroup: Dispatch<SetStateAction<GROUP>>;
   isCompleteHidden: boolean;
   isDoNotRead: boolean;
   isPassedOnly: boolean;
@@ -30,6 +34,10 @@ interface FilterProps {
 }
 
 const Filter = ({
+  season,
+  setSeason,
+  group,
+  setGroup,
   isCompleteHidden,
   isDoNotRead,
   isPassedOnly,
@@ -37,8 +45,6 @@ const Filter = ({
   setIsDoNotRead,
   setIsPassedOnly,
 }: FilterProps) => {
-  const [group, setGroup] = useState<GROUP>('YB');
-
   const { openDialog, closeDialog } = useContext(DialogContext);
 
   const handleOpenDialog = () => {
@@ -54,12 +60,16 @@ const Filter = ({
         <SelectV2.Root type="text">
           <SelectV2.Trigger>
             <div>
-              <SelectV2.TriggerContent placeholder="36기" />
+              <SelectV2.TriggerContent placeholder={season} />
             </div>
           </SelectV2.Trigger>
           <SelectV2.Menu>
             {GENERATION_OPTIONS.map((option) => (
-              <SelectV2.MenuItem key={option.value} option={option} />
+              <SelectV2.MenuItem
+                key={option.value}
+                option={option}
+                onClick={() => setSeason(option.label)}
+              />
             ))}
           </SelectV2.Menu>
         </SelectV2.Root>

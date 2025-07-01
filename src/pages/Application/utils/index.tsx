@@ -1,10 +1,13 @@
 import type { ApplicationTableProps } from '@/pages/Application/\btypes';
 
 export const getDoNotReadMessage = (item: ApplicationTableProps['data'][0]) => {
-  if (!item.doNotReadBy) return null;
+  if (item.dontReadInfo.checkedList.length === 0) return null;
 
-  const selectedParts = Object.keys(item.doNotReadBy).filter(
-    (key) => item.doNotReadBy![key as keyof typeof item.doNotReadBy],
+  const selectedParts = Object.keys(item.dontReadInfo.checkedList).filter(
+    (key) =>
+      item.dontReadInfo.checkedList![
+        key as keyof typeof item.dontReadInfo.checkedList
+      ],
   );
 
   if (selectedParts.length === 0) return null;
@@ -15,10 +18,13 @@ export const getDoNotReadMessage = (item: ApplicationTableProps['data'][0]) => {
 export const getEvaluationMessage = (
   item: ApplicationTableProps['data'][0],
 ) => {
-  if (!item.evaluatedBy) return null;
+  if (item.evaluatedInfo.checkedList.length === 0) return null;
 
-  const selectedParts = Object.keys(item.evaluatedBy).filter(
-    (key) => item.evaluatedBy![key as keyof typeof item.evaluatedBy],
+  const selectedParts = Object.keys(item.evaluatedInfo.checkedList).filter(
+    (key) =>
+      item.evaluatedInfo.checkedList![
+        key as keyof typeof item.evaluatedInfo.checkedList
+      ],
   );
 
   if (selectedParts.length === 0) return null;
