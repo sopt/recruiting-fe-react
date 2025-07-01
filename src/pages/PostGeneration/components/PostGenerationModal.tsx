@@ -107,11 +107,7 @@ const PostGenerationModal = () => {
                 />
               )}
             />
-            {errors.generationName && (
-              <span className="text-red-500 text-sm">
-                {errors.generationName.message}
-              </span>
-            )}
+            {/* TODO: 기수명 에러 처리 */}
           </div>
           <div className="flex gap-[1.6rem]">
             <Controller
@@ -128,7 +124,7 @@ const PostGenerationModal = () => {
                 />
               )}
             />
-            <div className="flex-1 flex items-end mb-[1.1rem]">
+            <div className="flex-1 flex items-end py-[1.1rem]">
               <Controller
                 name="type"
                 control={control}
@@ -141,11 +137,6 @@ const PostGenerationModal = () => {
               />
             </div>
           </div>
-          {errors.generation && (
-            <span className="text-red-500 text-sm">
-              {errors.generation.message}
-            </span>
-          )}
 
           <Controller
             name="application"
