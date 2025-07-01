@@ -45,7 +45,7 @@ const PostGenerationModal = () => {
     control,
     handleSubmit,
     watch,
-    formState: { errors, isValid },
+    formState: { isValid },
   } = useForm<PostGenerationFormData>({
     resolver: zodResolver(postGenerationSchema),
     defaultValues: {
