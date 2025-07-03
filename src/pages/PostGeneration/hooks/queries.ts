@@ -28,9 +28,9 @@ export const usePostGeneration = (season: PostGenerationRequest) => {
   });
 };
 
-export const useDeleteGeneration = (seasonId: number) => {
+export const useDeleteGeneration = () => {
   return useMutation({
-    mutationFn: () => deleteGeneration(seasonId),
+    mutationFn: (seasonId: number) => deleteGeneration(seasonId),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY.GET_GENERATION],
