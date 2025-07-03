@@ -74,3 +74,9 @@ export interface GetApplicantListResponse {
     phone: string;
   }[];
 }
+
+export interface PostApplicantPassStatusRequest {
+  applicantId: number;
+  applicationPass: boolean;
+  finalPass: boolean;
+}
