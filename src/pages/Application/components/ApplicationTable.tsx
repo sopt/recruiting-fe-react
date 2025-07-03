@@ -1,6 +1,10 @@
 import { AlertTriangle } from '@/assets/svg';
-import type { ApplicationTableProps } from '@/pages/Application/\btypes';
+import type {
+  ApplicationTableProps,
+  EvaluationToggleType,
+} from '@/pages/Application/\btypes';
 import ChipDropDown from '@/pages/Application/components/ChipDropdown';
+import { usePostEvalution } from '@/pages/Application/hooks/queries';
 
 import useDrag from '@/pages/Application/hooks/useDrag';
 import { getEvaluationMessage } from '@/pages/Application/utils';
@@ -24,11 +28,21 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
   const { onDragStart, onDragMove, onDragEnd, onDragLeave } =
     useDrag(scrollContainerRef);
 
+  const { mutate } = usePostEvalution();
+
   const handleStatusChange = (id: number, value: string) => {
     setPassStatusList((prev) => ({
       ...prev,
       [id]: value,
     }));
+  };
+
+  const toggleEvaluation = (
+    applicantId: number,
+    evaluationType: EvaluationToggleType,
+    isChecked: boolean,
+  ) => {
+    mutate({ applicantId, evaluationType, isChecked });
   };
 
   return (
@@ -150,7 +164,16 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                     <div className="flex flex-col gap-[0.5rem] justify-start">
                       <div className="h-full flex items-center justify-between">
                         <div className="flex items-center gap-[0.9rem]">
-                          <CheckBox checked={item.dontReadInfo.checkedByMe} />
+                          <CheckBox
+                            checked={item.dontReadInfo.checkedByMe}
+                            onClick={() =>
+                              toggleEvaluation(
+                                item.id,
+                                'DONT_READ',
+                                item.dontReadInfo.checkedByMe,
+                              )
+                            }
+                          />
                           <span>읽지 마시오</span>
                         </div>
                         <div className="bg-orangeAlpha200 rounded-[10rem] p-[0.8rem]">
@@ -171,7 +194,16 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                   >
                     <div className="flex flex-col gap-[0.5rem] justify-start">
                       <div className="h-full flex items-center gap-[0.6rem]">
-                        <CheckBox checked={item.evaluatedInfo.checkedByMe} />
+                        <CheckBox
+                          checked={item.evaluatedInfo.checkedByMe}
+                          onClick={() =>
+                            toggleEvaluation(
+                              item.id,
+                              'EVALUATION',
+                              item.evaluatedInfo.checkedByMe,
+                            )
+                          }
+                        />
                         <span>평가 완료</span>
                         <Tag shape="pill">
                           {Object.values(

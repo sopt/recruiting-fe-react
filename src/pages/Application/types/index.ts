@@ -80,3 +80,12 @@ export interface PostApplicantPassStatusRequest {
   applicationPass: boolean;
   finalPass: boolean;
 }
+
+// DONT_READ: 읽지마시오 여부, EVALUATION: 평가 완료 여부
+export type EvaluationToggleType = 'DONT_READ' | 'EVALUATION';
+
+export interface PostEvaluationRequest {
+  applicantId: number;
+  evaluationType: EvaluationToggleType;
+  isChecked: boolean;
+}

@@ -5,7 +5,8 @@ import type { PartType } from '@/pages/Application/\btypes';
 import ApplicationTable from '@/pages/Application/components/ApplicationTable';
 import Filter from '@/pages/Application/components/Filter';
 import { PART_TRANSLATOR } from '@/pages/Application/constants';
-import { useGetApplicantList } from '@/pages/Application/hooks/useGetApplicantList';
+import { useGetApplicantList } from '@/pages/Application/hooks/queries';
+
 import type { GROUP } from '@/pages/Question/types';
 import { Tab } from '@sopt-makers/ui';
 import { useMemo, useState } from 'react';
