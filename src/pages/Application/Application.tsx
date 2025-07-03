@@ -69,7 +69,7 @@ const Application = () => {
         onChange={(part: PartType) => setSelectedPart(part)}
       />
       <hr className="border-gray800 mt-[-4.7rem] w-[98rem]" />
-      <ApplicationTable data={data?.data ?? []} />
+      <ApplicationTable data={paginatedData} />
       <Pagination
         totalPages={totalPages}
         currentPage={currentPage}

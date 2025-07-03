@@ -1,4 +1,4 @@
-import { api } from '@/apis/api';
+import { tokenApi } from '@/apis/api';
 import type {
   GetApplicantListRequest,
   GetApplicantListResponse,
@@ -18,7 +18,7 @@ export const getApplicantList = async ({
   isDoNotRead,
   isPassedOnly,
 }: GetApplicantListRequest): Promise<GetApplicantListResponse> => {
-  const response = await api
+  const response = await tokenApi
     .get<GetApplicantListResponse>('api/v2/recruiting-admin/applicant/list', {
       searchParams: {
         season,
@@ -33,9 +33,6 @@ export const getApplicantList = async ({
         isCompleteHidden,
         isDoNotRead,
         isPassedOnly,
-      },
-      headers: {
-        Authorization: `Bearer ${import.meta.env.VITE_ACCESS_TOKEN}`,
       },
     })
     .json();
