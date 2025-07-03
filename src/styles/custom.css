@@ -1,0 +1,9 @@
+@layer utilities {
+  .custom-tab > div {
+    @apply flex gap-[2.4rem];
+  }
+
+  .custom-tab > div > div {
+    @apply w-1/2;
+  }
+}
