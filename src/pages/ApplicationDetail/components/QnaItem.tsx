@@ -9,7 +9,7 @@ interface QnaItemProps {
 
 const QnaItem = ({ isFile, fileName = '', fileUrl = '' }: QnaItemProps) => {
   return (
-    <div className="flex flex-col gap-[0.8rem]">
+    <li className="flex flex-col gap-[0.8rem]">
       <p className="title_5_18_sb text-white">
         1. 지원자님이 생각하는 공유의 가치가 무엇인지, 지식 또는 경험을
         공유하거나 공유받았던 경험을 토대로 서술해 주세요. (700자){' '}
@@ -39,7 +39,7 @@ const QnaItem = ({ isFile, fileName = '', fileUrl = '' }: QnaItemProps) => {
         </a>
       )}
       <TextArea maxLength={700} value="" />
-    </div>
+    </li>
   );
 };
 
