@@ -1,8 +1,10 @@
 import { Trash } from '@/assets/svg';
+import useDrag from '@/pages/Application/hooks/useDrag';
+import { useDeleteGeneration } from '@/pages/PostGeneration/hooks/queries';
 import type { Season } from '@/pages/PostGeneration/types';
 import { formatDate } from '@/pages/PostGeneration/utils';
 import { Button, Dialog, DialogContext } from '@sopt-makers/ui';
-import { useContext } from 'react';
+import { useContext, useRef } from 'react';
 
 interface GenerationTableProps {
   data: Season[];
@@ -14,14 +16,20 @@ const CELL_BASE_STYLE =
   'h-[6rem] text-center body_3_14_m bg-transparent border-b-[1px] border-gray700 align-middle';
 
 const GenerationTable = ({ data }: GenerationTableProps) => {
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+  const { onDragStart, onDragMove, onDragEnd, onDragLeave } =
+    useDrag(scrollContainerRef);
+
   const { openDialog, closeDialog } = useContext(DialogContext);
 
-  const handleDeleteGeneration = () => {
-    // TODO: 실제 삭제 로직 구현 (id 사용)
+  const { mutate: deleteGeneration } = useDeleteGeneration();
+
+  const handleDeleteGeneration = (seasonId: number) => {
+    deleteGeneration(seasonId);
     closeDialog();
   };
 
-  const openDeleteModal = () => {
+  const openDeleteModal = (seasonId: number) => {
     openDialog({
       title: '기수를 삭제하실 건가요?',
       description: (
@@ -35,8 +43,10 @@ const GenerationTable = ({ data }: GenerationTableProps) => {
             <Button theme="black" onClick={closeDialog}>
               취소하기
             </Button>
-            {/* TODO: 삭제 id 전달 */}
-            <Button theme="red" onClick={() => handleDeleteGeneration()}>
+            <Button
+              theme="red"
+              onClick={() => handleDeleteGeneration(seasonId)}
+            >
               삭제하기
             </Button>
           </Dialog.Footer>
@@ -46,7 +56,20 @@ const GenerationTable = ({ data }: GenerationTableProps) => {
   };
 
   return (
-    <div className="w-full overflow-x-auto scroll-smooth scrollbar-hide pr-[12.4rem]">
+    <div
+      ref={scrollContainerRef}
+      onMouseDown={(e) => {
+        const target = e.target as HTMLElement;
+        if (target.closest('[data-dropdown]')) {
+          return;
+        }
+        onDragStart(e);
+      }}
+      onMouseMove={onDragMove}
+      onMouseUp={onDragEnd}
+      onMouseLeave={onDragLeave}
+      className="w-full overflow-x-auto scroll-smooth scrollbar-hide pr-[12.4rem] cursor-grab active:cursor-grabbing"
+    >
       <table className="w-[122.5rem]">
         <thead>
           <tr>
@@ -124,11 +147,10 @@ const GenerationTable = ({ data }: GenerationTableProps) => {
                 </td>
                 <td className={`${CELL_BASE_STYLE}`}>
                   <div className="h-full flex items-center justify-center">
-                    {/* TODO: 삭제 id 전달 */}
                     <button
                       type="button"
                       className="cursor-pointer hover:opacity-70 transition-opacity"
-                      onClick={() => openDeleteModal()}
+                      onClick={() => openDeleteModal(item.id)}
                     >
                       <Trash width={22} className="stroke-white" />
                     </button>
