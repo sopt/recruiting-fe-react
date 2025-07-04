@@ -1,10 +1,13 @@
 export { default as Arrange } from './Arrange';
+export { default as Ellipse } from './Ellipse';
 export { default as Add } from './Add';
 export { default as AlertTriangle } from './AlertTriangle';
 export { default as Application } from './Application';
 export { default as Cardinal } from './Cardinal';
 export { default as Check } from './Check';
+export { default as ChevronLeft } from './ChevronLeft';
 export { default as Edit } from './Edit';
+export { default as FileDownload } from './FileDownload';
 export { default as InfoCircle } from './InfoCircle';
 export { default as Link } from './Link';
 export { default as Logo } from './Logo';
