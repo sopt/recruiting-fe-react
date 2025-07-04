@@ -1,5 +1,6 @@
 import Layout from '@/layout/Layout';
 import Application from '@/pages/Application/Application';
+import ApplicationDetail from '@/pages/ApplicationDetail/ApplicationDetail';
 import Login from '@/pages/Login/Login';
 import PostGeneration from '@/pages/PostGeneration/PostGeneration';
 import PostQuestion from '@/pages/PostQuestion/PostQuestion';
@@ -22,6 +23,10 @@ export const router = createBrowserRouter([
       { path: ROUTES_CONFIG.application.path, element: <Application /> },
       { path: ROUTES_CONFIG.postQuestion.path, element: <PostQuestion /> },
       { path: ROUTES_CONFIG.postGeneration.path, element: <PostGeneration /> },
+      {
+        path: ROUTES_CONFIG.applicationDetail.path(':id'),
+        element: <ApplicationDetail />,
+      },
     ],
   },
 ]);
