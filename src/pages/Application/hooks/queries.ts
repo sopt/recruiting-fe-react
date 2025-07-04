@@ -14,7 +14,7 @@ const QUERY_KEY = {
 
 export const useGetApplicantList = (params: GetApplicantListRequest) => {
   return useQuery({
-    queryKey: [QUERY_KEY.APPLICANT_LIST],
+    queryKey: [QUERY_KEY.APPLICANT_LIST, params],
     queryFn: () => getApplicantList(params),
   });
 };
