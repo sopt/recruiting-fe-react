@@ -1,8 +1,8 @@
 import { api } from '@/apis/api';
 import type { GetGenerationResponse } from '@/pages/PostGeneration/types';
-import type { GROUP } from '@/pages/Question/types';
+import type { Group } from '@/pages/Question/types';
 
-export const getGeneration = async (group: GROUP) => {
+export const getGeneration = async (group: Group) => {
   const response = await api
     .get<GetGenerationResponse>('api/v2/recruiting-season/list', {
       searchParams: { group },

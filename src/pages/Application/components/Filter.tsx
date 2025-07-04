@@ -1,7 +1,8 @@
 import { InfoCircle, Refresh } from '@/assets/svg';
 import YbObRadioGroup from '@/components/YbObRadioGroup';
 import BelowRateModal from '@/pages/Application/components/BelowRateModal';
-import type { GROUP } from '@/pages/Question/types';
+import type { Group } from '@/pages/Question/types';
+
 import { DialogContext, SelectV2, TextField, Toggle } from '@sopt-makers/ui';
 import { type SetStateAction, useContext } from 'react';
 import type { Dispatch } from 'react';
@@ -23,13 +24,13 @@ const GENERATION_OPTIONS = Array.from(
 interface FilterProps {
   season: string;
   setSeason: Dispatch<SetStateAction<string>>;
-  group: GROUP;
-  setGroup: Dispatch<SetStateAction<GROUP>>;
-  isCompleteHidden: boolean;
-  isDoNotRead: boolean;
+  group: Group;
+  setGroup: Dispatch<SetStateAction<Group>>;
+  isEvaluated: boolean;
+  isDontRead: boolean;
   isPassedOnly: boolean;
-  setIsCompleteHidden: Dispatch<SetStateAction<boolean>>;
-  setIsDoNotRead: Dispatch<SetStateAction<boolean>>;
+  setIsEvaluated: Dispatch<SetStateAction<boolean>>;
+  setIsDontRead: Dispatch<SetStateAction<boolean>>;
   setIsPassedOnly: Dispatch<SetStateAction<boolean>>;
 }
 
@@ -38,11 +39,11 @@ const Filter = ({
   setSeason,
   group,
   setGroup,
-  isCompleteHidden,
-  isDoNotRead,
+  isEvaluated,
+  isDontRead,
   isPassedOnly,
-  setIsCompleteHidden,
-  setIsDoNotRead,
+  setIsEvaluated,
+  setIsDontRead,
   setIsPassedOnly,
 }: FilterProps) => {
   const { openDialog, closeDialog } = useContext(DialogContext);
@@ -99,16 +100,16 @@ const Filter = ({
             </span>
             <Toggle
               size="lg"
-              checked={isCompleteHidden}
-              onClick={() => setIsCompleteHidden((prev) => !prev)}
+              checked={isEvaluated}
+              onClick={() => setIsEvaluated((prev) => !prev)}
             />
           </div>
           <div className="flex items-center gap-[0.8rem]">
             <span className="flex body_3_14_r text-gray100">읽마 숨기기</span>
             <Toggle
               size="lg"
-              checked={isDoNotRead}
-              onClick={() => setIsDoNotRead((prev) => !prev)}
+              checked={isDontRead}
+              onClick={() => setIsDontRead((prev) => !prev)}
             />
           </div>
           <div className="flex items-center gap-[0.8rem]">

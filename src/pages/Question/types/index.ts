@@ -7,4 +7,9 @@ export type PART_NAME =
   | 'android'
   | 'web';
 
-export type GROUP = 'YB' | 'OB';
+export type Group = 'YB' | 'OB';
+
+export enum SoptGroup {
+  YB = 'YB',
+  OB = 'OB',
+}

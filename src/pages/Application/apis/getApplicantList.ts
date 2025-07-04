@@ -14,9 +14,6 @@ export const getApplicantList = async ({
   hideEvaluated,
   hideDontRead,
   checkInterviewPass,
-  isCompleteHidden,
-  isDoNotRead,
-  isPassedOnly,
 }: GetApplicantListRequest): Promise<GetApplicantListResponse> => {
   const response = await tokenApi
     .get<GetApplicantListResponse>('api/v2/recruiting-admin/applicant/list', {
@@ -30,9 +27,6 @@ export const getApplicantList = async ({
         hideDontRead,
         checkInterviewPass,
         part,
-        isCompleteHidden,
-        isDoNotRead,
-        isPassedOnly,
       },
     })
     .json();

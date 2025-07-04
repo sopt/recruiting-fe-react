@@ -1,3 +1,5 @@
+import type { Group } from '@/pages/Question/types';
+
 export type PartType =
   | 'ALL'
   | 'PLAN'
@@ -6,6 +8,16 @@ export type PartType =
   | 'IOS'
   | 'ANDROID'
   | 'WEB';
+
+export enum Part {
+  ALL = 'ALL',
+  PLAN = 'PLAN',
+  DESIGN = 'DESIGN',
+  SERVER = 'SERVER',
+  IOS = 'IOS',
+  ANDROID = 'ANDROID',
+  WEB = 'WEB',
+}
 
 export type ExecutiveType =
   | 'PLAN'
@@ -35,7 +47,7 @@ export interface ApplicationTableProps
 
 export interface GetApplicantListRequest {
   season: number;
-  group: string;
+  group: Group;
   part: PartType;
   offset: number;
   limit: number;
@@ -43,9 +55,6 @@ export interface GetApplicantListRequest {
   hideEvaluated: boolean;
   hideDontRead: boolean;
   checkInterviewPass: boolean;
-  isCompleteHidden: boolean;
-  isDoNotRead: boolean;
-  isPassedOnly: boolean;
 }
 
 export interface GetApplicantListResponse {

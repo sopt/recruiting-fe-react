@@ -6,8 +6,8 @@ import ApplicationTable from '@/pages/Application/components/ApplicationTable';
 import Filter from '@/pages/Application/components/Filter';
 import { PART_TRANSLATOR } from '@/pages/Application/constants';
 import { useGetApplicantList } from '@/pages/Application/hooks/queries';
+import type { Group } from '@/pages/Question/types';
 
-import type { GROUP } from '@/pages/Question/types';
 import { Tab } from '@sopt-makers/ui';
 import { useMemo, useState } from 'react';
 
@@ -15,9 +15,9 @@ const LIMIT = 5;
 
 const Application = () => {
   const [season, setSeason] = useState('36기');
-  const [group, setGroup] = useState<GROUP>('YB');
-  const [isCompleteHidden, setIsCompleteHidden] = useState(false);
-  const [isDoNotRead, setIsDoNotRead] = useState(false);
+  const [group, setGroup] = useState<Group>('YB');
+  const [isEvaluated, setIsEvaluated] = useState(false);
+  const [isDontRead, setIsDontRead] = useState(false);
   const [isPassedOnly, setIsPassedOnly] = useState(false);
   const [selectedPart, setSelectedPart] = useState<PartType>('WEB');
 
@@ -28,12 +28,9 @@ const Application = () => {
     offset: 0,
     limit: 10,
     minRate: 0,
-    hideEvaluated: false,
-    hideDontRead: false,
-    checkInterviewPass: false,
-    isCompleteHidden,
-    isDoNotRead,
-    isPassedOnly,
+    hideEvaluated: isEvaluated,
+    hideDontRead: isDontRead,
+    checkInterviewPass: isPassedOnly,
   });
 
   const { currentPage, totalPages, handlePageChange } = usePagination({
@@ -55,11 +52,11 @@ const Application = () => {
         setSeason={setSeason}
         group={group}
         setGroup={setGroup}
-        isCompleteHidden={isCompleteHidden}
-        isDoNotRead={isDoNotRead}
+        isEvaluated={isEvaluated}
+        isDontRead={isDontRead}
         isPassedOnly={isPassedOnly}
-        setIsCompleteHidden={setIsCompleteHidden}
-        setIsDoNotRead={setIsDoNotRead}
+        setIsEvaluated={setIsEvaluated}
+        setIsDontRead={setIsDontRead}
         setIsPassedOnly={setIsPassedOnly}
       />
       <Tab

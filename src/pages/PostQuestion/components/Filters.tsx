@@ -1,5 +1,5 @@
 import YbObRadioGroup from '@/components/YbObRadioGroup';
-import type { GROUP } from '@/pages/Question/types';
+import type { Group } from '@/pages/Question/types';
 import { SelectV2 } from '@sopt-makers/ui';
 import { useState } from 'react';
 
@@ -8,7 +8,7 @@ const generations = Array.from({ length: 7 }, (_, i) =>
 ).reverse();
 
 const Filters = () => {
-  const [group, setGroup] = useState<GROUP>('YB');
+  const [group, setGroup] = useState<Group>('YB');
 
   return (
     <div className="flex gap-[1.6rem] my-[4.4rem]">
