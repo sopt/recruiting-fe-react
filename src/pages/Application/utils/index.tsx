@@ -31,11 +31,3 @@ export const getEvaluationMessage = (
 
   return `${selectedParts.join(', ')}이(가) 평가를 완료했어요.`;
 };
-
-export const getPassStatus = (applicationPass: boolean, finalPass: boolean) => {
-  if (applicationPass && finalPass) {
-    return 'FINAL_PASS';
-  } else if (applicationPass && !finalPass) {
-    return 'INTERVIEW_PASS';
-  }
-};
