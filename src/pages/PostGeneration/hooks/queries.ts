@@ -1,10 +1,11 @@
 import queryClient from '@/apis/queryClient';
 import { deleteGeneration } from '@/pages/PostGeneration/apis/deleteGeneration';
+import { getGeneration } from '@/pages/PostGeneration/apis/getGeneration';
 import { postGeneration } from '@/pages/PostGeneration/apis/postGeneration';
 import type { PostGenerationRequest } from '@/pages/PostGeneration/types';
 import type { GROUP } from '@/pages/Question/types';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { getGeneration } from '../apis/getGeneration';
+import { useMutation } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
 const QUERY_KEY = {
   GET_GENERATION: 'getGeneration',
