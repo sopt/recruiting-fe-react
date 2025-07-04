@@ -1,6 +1,10 @@
 import YbObRadioGroup from '@/components/YbObRadioGroup';
 import PeriodCalendar from '@/pages/PostGeneration/components/PeriodCalendar';
 import { usePostGeneration } from '@/pages/PostGeneration/hooks/queries';
+import {
+  type PostGenerationFormData,
+  postGenerationSchema,
+} from '@/pages/PostGeneration/types';
 import { formatDate } from '@/pages/PostGeneration/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -12,31 +16,16 @@ import {
 } from '@sopt-makers/ui';
 import { useContext } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { z } from 'zod';
 
-const postGenerationSchema = z.object({
-  generationName: z.string().min(1).max(30, '기수명은 30자 이하여야 합니다.'),
-  type: z.enum(['YB', 'OB']),
-  generation: z.string().min(1),
-  application: z.object({
-    start: z.string().min(1),
-    end: z.string().min(1),
-  }),
-  applicationResult: z.object({
-    start: z.string().min(1),
-    end: z.string().min(1),
-  }),
-  interview: z.object({
-    start: z.string().min(1),
-    end: z.string().min(1),
-  }),
-  finalResult: z.object({
-    start: z.string().min(1),
-    end: z.string().min(1),
-  }),
-});
-
-type PostGenerationFormData = z.infer<typeof postGenerationSchema>;
+const DEFAULT_FORM_VALUES: PostGenerationFormData = {
+  generationName: '',
+  type: 'YB',
+  generation: '',
+  application: { start: '', end: '' },
+  applicationResult: { start: '', end: '' },
+  interview: { start: '', end: '' },
+  finalResult: { start: '', end: '' },
+};
 
 const PostGenerationModal = () => {
   const { closeDialog } = useContext(DialogContext);
@@ -48,15 +37,7 @@ const PostGenerationModal = () => {
     formState: { isValid },
   } = useForm<PostGenerationFormData>({
     resolver: zodResolver(postGenerationSchema),
-    defaultValues: {
-      generationName: '',
-      type: 'YB',
-      generation: '',
-      application: { start: '', end: '' },
-      applicationResult: { start: '', end: '' },
-      interview: { start: '', end: '' },
-      finalResult: { start: '', end: '' },
-    },
+    defaultValues: DEFAULT_FORM_VALUES,
   });
 
   const watchedValues = watch();
