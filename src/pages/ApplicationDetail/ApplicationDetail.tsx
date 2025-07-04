@@ -1,5 +1,6 @@
 import { AlertTriangle, ChevronLeft } from '@/assets/svg';
 import QnaItem from '@/pages/ApplicationDetail/components/QnaItem';
+import { useGetApplicantDetail } from '@/pages/ApplicationDetail/hooks/quries';
 import { CheckBox, Chip, Tab } from '@sopt-makers/ui';
 import { useState } from 'react';
 
@@ -11,6 +12,8 @@ const ApplicationDetail = () => {
   const handleTabChange = (tab: questionType) => {
     setSelectedTab(tab);
   };
+
+  const { data: applicantDetailData } = useGetApplicantDetail(2);
 
   return (
     <div className="flex flex-col gap-[4.8rem] w-[98rem] p-[2.4rem] rounded-[14px] bg-gray900">
