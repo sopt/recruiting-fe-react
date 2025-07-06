@@ -1,6 +1,10 @@
 import { AlertTriangle } from '@/assets/svg';
 import ChipDropDown from '@/pages/Application/components/ChipDropdown';
 import type { ApplicantType } from '@/pages/ApplicationDetail/types';
+import {
+  getDontReadMessage,
+  getEvalutionCompleteMessage,
+} from '@/pages/ApplicationDetail/utils';
 import { CheckBox } from '@sopt-makers/ui';
 import { useState } from 'react';
 
@@ -74,7 +78,7 @@ const Profile = ({ profileData }: ProfileProps) => {
           <div className="flex flex-row  gap-[0.6rem]">
             <AlertTriangle width={16} />
             <span className="label_5_11_sb text-secondary">
-              기획, 디자인, 서버, 안드로이드, 웹이(가) 읽지 말라고 선택했어요.
+              {getDontReadMessage(profileData.dontReadInfo.checkedList)}
             </span>
           </div>
         </div>
@@ -87,9 +91,10 @@ const Profile = ({ profileData }: ProfileProps) => {
             <span className="body_2_16_m text-white">평가 완료</span>
           </div>
           <div className="flex flex-row  gap-[0.6rem]">
-            <AlertTriangle width={16} />
-            <span className="label_5_11_sb text-secondary">
-              기획, 디자인, 서버, 안드로이드, 웹이(가) 평가를 완료했어요.
+            <span className="label_5_11_sb">
+              {getEvalutionCompleteMessage(
+                profileData.evaluatedInfo.checkedList,
+              )}
             </span>
           </div>
         </div>
