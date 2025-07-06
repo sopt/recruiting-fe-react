@@ -1,12 +1,16 @@
 import { AlertTriangle } from '@/assets/svg';
+import ChipDropDown from '@/pages/Application/components/ChipDropdown';
 import type { ApplicantType } from '@/pages/ApplicationDetail/types';
-import { CheckBox, Chip } from '@sopt-makers/ui';
+import { CheckBox } from '@sopt-makers/ui';
+import { useState } from 'react';
 
 interface ProfileProps {
   profileData?: ApplicantType;
 }
 
 const Profile = ({ profileData }: ProfileProps) => {
+  const [passStatus, setPassStatus] = useState<string>('서류 합격');
+
   if (!profileData) {
     return <></>;
   }
@@ -26,9 +30,12 @@ const Profile = ({ profileData }: ProfileProps) => {
               <span className="body_2_16_r text-gray300">지원파트</span>
               <span className="body_2_16_r text-white">{profileData.part}</span>
             </div>
-            <div className="flex flex-col gap-[0.6rem] w-[8.1rem]">
+            <div className="flex flex-col gap-[0.6rem] w-[8.3rem]">
               <span className="body_2_16_r text-gray300">합격여부</span>
-              <Chip size="sm">서류 합격</Chip>
+              <ChipDropDown
+                status={passStatus}
+                onStatusChange={(value) => setPassStatus(value)}
+              />
             </div>
           </div>
         </div>

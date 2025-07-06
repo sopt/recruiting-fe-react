@@ -17,6 +17,6 @@ export const ROUTES_CONFIG = {
   },
   applicationDetail: {
     title: '지원서 관리',
-    path: (id: string) => `/application/${id}`,
+    path: (id: number) => `/application/${id}`,
   },
 };
