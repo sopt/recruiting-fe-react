@@ -12,7 +12,7 @@ export type GROUP = 'YB' | 'OB';
 export type Question = {
   id: number;
   questionOrder: number;
-  part: string;
+  part: PART_NAME;
   content: string;
   isDescription: boolean;
   charLimit: number;
@@ -24,7 +24,7 @@ export type Question = {
 
 export type QuestionSubmitRequest = {
   season: number;
-  group: string;
+  group: GROUP;
   questions: Question[];
   deleteQuestionIdList: number[];
 };

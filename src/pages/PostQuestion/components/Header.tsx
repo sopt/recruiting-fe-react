@@ -2,15 +2,12 @@ import Filters from '@/pages/PostQuestion/components/Filters';
 import { PART } from '@/pages/PostQuestion/constant';
 import type { PART_NAME } from '@/pages/PostQuestion/types';
 import { Tab } from '@sopt-makers/ui';
-import { useState } from 'react';
 
-const Header = () => {
-  const [, setSelectedTab] = useState<PART_NAME>();
+interface HeaderProps {
+  handleTabChange: (part: PART_NAME) => void;
+}
 
-  const handleTabChange = (part: PART_NAME) => {
-    setSelectedTab(part);
-  };
-
+const Header = ({ handleTabChange }: HeaderProps) => {
   return (
     <header>
       <Filters />

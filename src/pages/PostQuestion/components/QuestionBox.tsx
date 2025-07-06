@@ -98,7 +98,7 @@ const QuestionBox = ({ index, deleteQuestion }: QuestionBoxProps) => {
             placeholder="최대 글자수를 입력하세요."
             descriptionText="숫자만 입력하세요. (ex. 700)"
             required
-            {...register(`questionList.${index}.maxText`, {
+            {...register(`questionList.${index}.charLimit`, {
               valueAsNumber: true,
             })}
           />

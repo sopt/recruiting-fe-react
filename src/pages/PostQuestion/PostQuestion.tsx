@@ -11,9 +11,15 @@ import {
 } from '@/pages/PostQuestion/types/form';
 import QuestionList from '@/pages/PostQuestion/components/QuestionList';
 import { usePostQuestionsSave } from '@/pages/PostQuestion/hooks/quries';
+import type { GROUP, PART_NAME } from '@/pages/PostQuestion/types';
 
 const PostQuestion = () => {
   const [hasDescription, setHasDescription] = useState(false);
+  const [selectedPart, setSelectedPart] = useState<PART_NAME>();
+
+  const handleTabChange = (part: PART_NAME) => {
+    setSelectedPart(part);
+  };
 
   const { mutate: saveMutate } = usePostQuestionsSave();
 
@@ -26,7 +32,7 @@ const PostQuestion = () => {
           link: '',
           placeholder: '',
           file: '',
-          maxText: 100,
+          charLimit: 100,
         },
       ],
     },
@@ -36,19 +42,36 @@ const PostQuestion = () => {
   const {
     handleSubmit,
     watch,
-    getFieldState,
-    formState: { isSubmitting, isValid, errors },
+    formState: { isSubmitting, isValid },
   } = method;
   const check = watch('questionList');
 
   const handleQuetsionsSave = (data: qustionListTypes) => {
     console.log(data);
-    console.log('야호');
+    const questions = data.questionList.map((question, index) => {
+      return {
+        id: index,
+        questionOrder: index,
+        part: selectedPart as PART_NAME,
+        content: question.question,
+        isDescription: false,
+        charLimit: question.charLimit,
+        required: true,
+        link: question.link,
+        placeholder: question.placeholder,
+        isFile: true,
+      };
+    });
+
+    const requestData = {
+      season: 36,
+      group: 'YB' as GROUP,
+      questions: questions,
+      deleteQuestionIdList: [],
+    };
+
+    saveMutate(requestData);
   };
-
-  const formValues = watch(); // 모든 필드 값 추적
-
-  console.log(formValues, isValid, errors);
 
   const handleHasDescriptionChange = (bool: boolean) => {
     setHasDescription(bool);
@@ -58,7 +81,7 @@ const PostQuestion = () => {
     <main className="max-w-[98rem]">
       <FormProvider {...method}>
         <form>
-          <Header />
+          <Header handleTabChange={handleTabChange} />
           <div className="flex justify-between items-end mb-[2rem]">
             <span className="title_6_16_sb text-gray200">총 2개</span>
             <div className="flex gap-[1.6rem]">

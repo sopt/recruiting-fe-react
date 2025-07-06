@@ -7,7 +7,7 @@ const questionSchema = z.object({
   file: z.any().refine((files) => files?.[0] instanceof File, {
     message: '파일을 선택해주세요',
   }),
-  maxText: z.number(),
+  charLimit: z.number(),
 });
 
 export const questionsListSchema = z.object({
