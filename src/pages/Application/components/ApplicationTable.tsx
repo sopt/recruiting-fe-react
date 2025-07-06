@@ -30,7 +30,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
   const navigate = useNavigate();
 
   const goApplicaiontDetail = (applicantId: number) => {
-    navigate(ROUTES_CONFIG.applicationDetail.path(applicantId));
+    navigate(ROUTES_CONFIG.applicationDetail.generatePath(applicantId));
   };
 
   const handleStatusChange = (id: number, value: string) => {
