@@ -10,7 +10,10 @@ import {
   type qustionListTypes,
 } from '@/pages/PostQuestion/types/form';
 import QuestionList from '@/pages/PostQuestion/components/QuestionList';
-import { usePostQuestionsSave } from '@/pages/PostQuestion/hooks/quries';
+import {
+  useGetQuestionList,
+  usePostQuestionsSave,
+} from '@/pages/PostQuestion/hooks/quries';
 import type { GROUP, PART_NAME } from '@/pages/PostQuestion/types';
 
 const PostQuestion = () => {
@@ -20,6 +23,8 @@ const PostQuestion = () => {
   const handleTabChange = (part: PART_NAME) => {
     setSelectedPart(part);
   };
+
+  const questionList = useGetQuestionList(36, 'YB');
 
   const { mutate: saveMutate } = usePostQuestionsSave();
 
