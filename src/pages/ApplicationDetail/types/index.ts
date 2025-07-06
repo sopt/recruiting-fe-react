@@ -44,7 +44,7 @@ export type AnswerType = {
   fileName: string | null;
 };
 
-export interface ApplicantDetailResponse {
+export interface ApplicationDetailResponse {
   success: boolean;
   data: {
     applicant: ApplicantType;

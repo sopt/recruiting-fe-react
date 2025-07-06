@@ -3,14 +3,16 @@ import Profile from '@/pages/ApplicationDetail/components/Profile';
 import QnaList from '@/pages/ApplicationDetail/components/QnaList';
 
 import { useGetApplicantDetail } from '@/pages/ApplicationDetail/hooks/quries';
+import { ROUTES_CONFIG } from '@/routes/routeConfig';
 import { Tab } from '@sopt-makers/ui';
 
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 type questionCategoryType = 'common' | 'part';
 
 const ApplicationDetail = () => {
-  const { data: applicantDetailData } = useGetApplicantDetail(2);
+  const { data: applicationDetailData } = useGetApplicantDetail(2);
 
   const [questionCategory, setQuestionCategory] =
     useState<questionCategoryType>('common');
@@ -19,12 +21,19 @@ const ApplicationDetail = () => {
     setQuestionCategory(tab);
   };
 
+  const navigate = useNavigate();
+
+  const goApplicantPage = () => {
+    navigate(ROUTES_CONFIG.application.path);
+  };
+
   return (
     <div className="flex flex-col gap-[4.8rem] w-[98rem] p-[2.4rem] rounded-[14px] bg-gray900">
       <header className="flex flex-row gap-[1.8rem] align-center h-[3.6rem]">
         <button
           type="button"
-          className="flex align-middle justify-center p-[0.8rem] rounded-[100px] bg-gray700"
+          onClick={goApplicantPage}
+          className="flex align-middle justify-center p-[0.8rem] rounded-[100px] bg-gray700 cursor-pointer"
         >
           <ChevronLeft width={20} />
         </button>
@@ -32,7 +41,7 @@ const ApplicationDetail = () => {
       </header>
 
       <div className="flex flex-col gap-[3.2rem] mx-[13rem]">
-        <Profile profileData={applicantDetailData?.applicant} />
+        <Profile profileData={applicationDetailData?.applicant} />
         <div className="custom-tab mt-[4rem]">
           <Tab
             selectedInitial="common"
@@ -53,8 +62,8 @@ const ApplicationDetail = () => {
         <QnaList
           questions={
             questionCategory === 'common'
-              ? applicantDetailData?.commonQuestions
-              : applicantDetailData?.partQuestions
+              ? applicationDetailData?.commonQuestions
+              : applicationDetailData?.partQuestions
           }
         />
       </div>

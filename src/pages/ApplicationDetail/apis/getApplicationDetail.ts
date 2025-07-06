@@ -1,7 +1,7 @@
 import { api } from '@/apis/api';
-import type { ApplicantDetailResponse } from '@/pages/ApplicationDetail/types';
+import type { ApplicationDetailResponse } from '@/pages/ApplicationDetail/types';
 
-export const getApplicantDetail = async (applicantId: number) => {
+export const getApplicationDetail = async (applicantId: number) => {
   const res = await api.get(
     `api/v2/recruiting-admin/applicant/detail?applicantId=${applicantId}`,
     {
@@ -10,7 +10,7 @@ export const getApplicantDetail = async (applicantId: number) => {
       },
     },
   );
-  const data = await res.json<ApplicantDetailResponse>();
+  const data = await res.json<ApplicationDetailResponse>();
 
   return data.data;
 };
