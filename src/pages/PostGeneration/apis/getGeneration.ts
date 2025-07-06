@@ -1,6 +1,6 @@
 import { tokenApi } from '@/apis/api';
 import type { GetGenerationResponse } from '@/pages/PostGeneration/types';
-import type { GROUP } from '@/pages/Question/types';
+import type { GROUP } from '@/pages/PostQuestion/types';
 
 export const getGeneration = async (group: GROUP) => {
   const response = await tokenApi

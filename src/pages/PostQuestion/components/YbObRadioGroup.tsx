@@ -1,4 +1,4 @@
-import type { GROUP } from '@/pages/Question/types';
+import type { GROUP } from '@/pages/PostQuestion/types';
 import { Radio } from '@sopt-makers/ui';
 import type { Dispatch, SetStateAction } from 'react';
 

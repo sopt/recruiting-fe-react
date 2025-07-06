@@ -1,5 +1,5 @@
-import YbObRadioGroup from '@/components/YbObRadioGroup';
-import type { GROUP } from '@/pages/Question/types';
+import YbObRadioGroup from '@/pages/PostQuestion/components/YbObRadioGroup';
+import type { GROUP } from '@/pages/PostQuestion/types';
 import { SelectV2 } from '@sopt-makers/ui';
 import { useState } from 'react';
 
