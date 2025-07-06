@@ -40,7 +40,7 @@ export const usePostMinRate = () => {
   return useMutation({
     mutationFn: (info: {
       minimumRate: number;
-      season: string;
+      season: number;
       group: Group;
       selectedPart: PartType;
     }) =>

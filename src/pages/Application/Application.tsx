@@ -83,6 +83,7 @@ const Application = () => {
         setIsEvaluated={updateState('isEvaluated')}
         setIsDontRead={updateState('isDontRead')}
         setIsPassedOnly={updateState('isPassedOnly')}
+        selectedPart={applicantInfo.selectedPart}
       />
       <Tab
         style="primary"

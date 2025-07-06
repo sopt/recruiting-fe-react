@@ -7,14 +7,14 @@ import type { Group } from '@/pages/Question/types';
 
 export const postMinRate = async (
   minimumRate: number,
-  season: string,
+  season: number,
   group: Group,
   selectedPart: PartType,
 ): Promise<PostMinRateResponse> => {
   const response = await tokenApi
     .post<PostMinRateResponse>('api/v2/recruiting-admin/question/char-limits', {
       json: {
-        minimumRate,
+        minRate: minimumRate,
         season,
         group,
         part: selectedPart,

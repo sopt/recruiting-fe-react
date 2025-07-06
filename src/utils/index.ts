@@ -15,3 +15,7 @@ export const getRole = () => {
 export const setRole = (role: string) => {
   localStorage.setItem(ROLE, role);
 };
+
+export const decimalToPercentage = (decimal: number): number => {
+  return decimal / 100;
+};
