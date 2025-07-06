@@ -1,9 +1,11 @@
 import { Add } from '@/assets/svg';
 import QuestionBox from '@/pages/PostQuestion/components/QuestionBox';
+import useQuestionSettingStore from '@/stores/questionSetting';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 
 const QuestionList = () => {
   const { control } = useFormContext();
+  const { addSettings } = useQuestionSettingStore();
 
   const {
     fields: questionFileds,
@@ -22,6 +24,8 @@ const QuestionList = () => {
       file: '',
       maxText: 0,
     });
+
+    addSettings();
   };
 
   const deleteQuestion = (index: number) => {

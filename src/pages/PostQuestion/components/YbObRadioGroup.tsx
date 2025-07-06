@@ -1,10 +1,9 @@
 import type { GROUP } from '@/pages/PostQuestion/types';
 import { Radio } from '@sopt-makers/ui';
-import type { Dispatch, SetStateAction } from 'react';
 
 interface YbObRadioGroupProps {
   group: GROUP;
-  setGroup: Dispatch<SetStateAction<GROUP>>;
+  setGroup: (group: GROUP) => void;
 }
 
 const YbObRadioGroup = ({ group, setGroup }: YbObRadioGroupProps) => {

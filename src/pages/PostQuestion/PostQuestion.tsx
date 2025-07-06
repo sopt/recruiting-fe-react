@@ -10,23 +10,29 @@ import {
   type qustionListTypes,
 } from '@/pages/PostQuestion/types/form';
 import QuestionList from '@/pages/PostQuestion/components/QuestionList';
-import {
-  useGetQuestionList,
-  usePostQuestionsSave,
-} from '@/pages/PostQuestion/hooks/quries';
+import { useGetQuestionList } from '@/pages/PostQuestion/hooks/quries';
 import type { GROUP, PART_NAME } from '@/pages/PostQuestion/types';
+import TemporarySaveButton from '@/pages/PostQuestion/components/TemporarySaveButton';
 
 const PostQuestion = () => {
   const [hasDescription, setHasDescription] = useState(false);
-  const [selectedPart, setSelectedPart] = useState<PART_NAME>();
+  const [selectedPart, setSelectedPart] = useState<PART_NAME>('common');
+  const [selectedGroup, setSelectedGroup] = useState<GROUP>('YB');
+  const [selectedSeason, setSelectedSeason] = useState(36);
 
-  const handleTabChange = (part: PART_NAME) => {
+  const handlePartChange = (part: PART_NAME) => {
     setSelectedPart(part);
   };
 
-  const questionList = useGetQuestionList(36, 'YB');
+  const handleGroupChange = (group: GROUP) => {
+    setSelectedGroup(group);
+  };
 
-  const { mutate: saveMutate } = usePostQuestionsSave();
+  const handleSeasonChange = (season: number) => {
+    setSelectedSeason(season);
+  };
+
+  const questionList = useGetQuestionList(33, 'YB');
 
   const method = useForm<qustionListTypes>({
     resolver: zodResolver(questionsListSchema),
@@ -45,38 +51,8 @@ const PostQuestion = () => {
   });
 
   const {
-    handleSubmit,
-    watch,
     formState: { isSubmitting, isValid },
   } = method;
-  const check = watch('questionList');
-
-  const handleQuetsionsSave = (data: qustionListTypes) => {
-    console.log(data);
-    const questions = data.questionList.map((question, index) => {
-      return {
-        id: index,
-        questionOrder: index,
-        part: selectedPart as PART_NAME,
-        content: question.question,
-        isDescription: false,
-        charLimit: question.charLimit,
-        required: true,
-        link: question.link,
-        placeholder: question.placeholder,
-        isFile: true,
-      };
-    });
-
-    const requestData = {
-      season: 36,
-      group: 'YB' as GROUP,
-      questions: questions,
-      deleteQuestionIdList: [],
-    };
-
-    saveMutate(requestData);
-  };
 
   const handleHasDescriptionChange = (bool: boolean) => {
     setHasDescription(bool);
@@ -84,21 +60,22 @@ const PostQuestion = () => {
 
   return (
     <main className="max-w-[98rem]">
+      <Header
+        selectedGroup={selectedGroup}
+        handleTabChange={handlePartChange}
+        handleGroupChange={handleGroupChange}
+        handleSeasonChange={handleSeasonChange}
+      />
       <FormProvider {...method}>
         <form>
-          <Header handleTabChange={handleTabChange} />
           <div className="flex justify-between items-end mb-[2rem]">
             <span className="title_6_16_sb text-gray200">총 2개</span>
             <div className="flex gap-[1.6rem]">
-              <Button
-                type="button"
-                variant="outlined"
-                size="md"
-                onClick={handleSubmit(handleQuetsionsSave)}
-                disabled={isSubmitting || !isValid}
-              >
-                임시저장
-              </Button>
+              <TemporarySaveButton
+                selectedPart={selectedPart}
+                selectedGroup={selectedGroup}
+                selectedSeason={selectedSeason}
+              />
               <Button
                 variant="fill"
                 size="md"

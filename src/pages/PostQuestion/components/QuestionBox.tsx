@@ -1,4 +1,5 @@
 import { Add, Arrange, Check, InfoCircle, Link, Trash } from '@/assets/svg';
+import useQuestionSettingStore from '@/stores/questionSetting';
 import { CheckBox, TextField, Toggle } from '@sopt-makers/ui';
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
@@ -10,11 +11,10 @@ interface QuestionBoxProps {
 
 const QuestionBox = ({ index, deleteQuestion }: QuestionBoxProps) => {
   const [isRequiredQustion, setIsRequiredQuestion] = useState(false);
-  const [hasLink, setHasLink] = useState(false);
-  const [hasFileUpload, setHasFileUpload] = useState(false);
 
   const { register, watch } = useFormContext();
 
+  const { settings, setIsLink, setIsFile } = useQuestionSettingStore();
   const fileField = watch(`questionList.${index}.file`);
   const fileName = fileField?.[0]?.name ?? '';
 
@@ -37,7 +37,7 @@ const QuestionBox = ({ index, deleteQuestion }: QuestionBoxProps) => {
           {...register(`questionList.${index}.question`)}
         />
 
-        {hasLink && (
+        {settings[index].isLink && (
           <TextField
             labelText="링크 첨부"
             placeholder="이동할 링크를 입력하세요."
@@ -61,7 +61,7 @@ const QuestionBox = ({ index, deleteQuestion }: QuestionBoxProps) => {
           </p>
         </div>
 
-        {hasFileUpload && (
+        {settings[index].isFile && (
           <label className="flex flex-col gap-[0.8rem] label_3_14_sb ">
             파일 업로드
             <div className="flex justify-between py-[1.1rem] px-[2.2rem] w-full rounded-2xl bg-gray800">
@@ -121,8 +121,8 @@ const QuestionBox = ({ index, deleteQuestion }: QuestionBoxProps) => {
           </span>
           <Toggle
             size="lg"
-            checked={hasLink}
-            onClick={() => setHasLink((prev) => !prev)}
+            checked={settings[index].isLink}
+            onClick={() => setIsLink(index)}
           />
         </div>
 
@@ -139,8 +139,8 @@ const QuestionBox = ({ index, deleteQuestion }: QuestionBoxProps) => {
         <div className="flex flex-row items-center gap-[1rem]">
           <CheckBox
             size="lg"
-            checked={hasFileUpload}
-            onClick={() => setHasFileUpload((prev) => !prev)}
+            checked={settings[index].isFile}
+            onClick={() => setIsFile(index)}
           />
           <span className="body_2_16_m ">파일 업로드</span>
         </div>
