@@ -1,4 +1,4 @@
-type Applicant = {
+export type ApplicantType = {
   id: number;
   status: 'NOT_EVALUATED' | 'EVALUATED' | string;
   name: string;
@@ -21,7 +21,7 @@ type Applicant = {
   phone: string;
 };
 
-type Question = {
+export type QuestionType = {
   id: number;
   questionOrder: number;
   part: string;
@@ -34,10 +34,10 @@ type Question = {
   isFile: boolean;
   isActive: boolean;
   isCommon: boolean;
-  answer: Answer | null;
+  answer: AnswerType | null;
 };
 
-type Answer = {
+export type AnswerType = {
   id: number;
   answer: string;
   fileUrl: string | null;
@@ -47,8 +47,8 @@ type Answer = {
 export interface ApplicantDetailResponse {
   success: boolean;
   data: {
-    applicant: Applicant;
-    commonQuestions: Question[];
-    partQuestions: Question[];
+    applicant: ApplicantType;
+    commonQuestions: QuestionType[];
+    partQuestions: QuestionType[];
   };
 }
