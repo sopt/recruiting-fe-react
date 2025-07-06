@@ -2,13 +2,21 @@ import { AlertTriangle } from '@/assets/svg';
 import type {
   ApplicationTableProps,
   EvaluationToggleType,
+  StatusType,
 } from '@/pages/Application/\btypes';
 import ChipDropDown from '@/pages/Application/components/ChipDropdown';
-import { usePostEvalution } from '@/pages/Application/hooks/queries';
+import {
+  usePostApplicantPassStatus,
+  usePostEvalution,
+} from '@/pages/Application/hooks/queries';
 
 import useDrag from '@/pages/Application/hooks/useDrag';
-import { getEvaluationMessage } from '@/pages/Application/utils';
+import {
+  convertStatusToPassInfo,
+  getEvaluationMessage,
+} from '@/pages/Application/utils';
 import { getDoNotReadMessage } from '@/pages/Application/utils';
+
 import { CheckBox, Tag } from '@sopt-makers/ui';
 import { useRef, useState } from 'react';
 
@@ -23,21 +31,30 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
   const [passStatusList, setPassStatusList] = useState<Record<number, string>>(
     {},
   );
-
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+
   const { onDragStart, onDragMove, onDragEnd, onDragLeave } =
     useDrag(scrollContainerRef);
 
   const { mutate } = usePostEvalution();
+  const { mutate: postPassStatus } = usePostApplicantPassStatus();
 
-  const handleStatusChange = (id: number, value: string) => {
+  const handleStatusChange = (id: number, value: StatusType) => {
     setPassStatusList((prev) => ({
       ...prev,
       [id]: value,
     }));
+
+    const { applicationPass, finalPass } = convertStatusToPassInfo(value);
+
+    postPassStatus({
+      applicantId: id,
+      applicationPass,
+      finalPass,
+    });
   };
 
-  const toggleEvaluation = (
+  const handleEvaluation = (
     applicantId: number,
     evaluationType: EvaluationToggleType,
     isChecked: boolean,
@@ -136,7 +153,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                       <ChipDropDown
                         status={currentStatus}
                         onStatusChange={(value) =>
-                          handleStatusChange(item.id, value)
+                          handleStatusChange(item.id, value as StatusType)
                         }
                       />
                     </div>
@@ -167,7 +184,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                           <CheckBox
                             checked={item.dontReadInfo.checkedByMe}
                             onClick={() =>
-                              toggleEvaluation(
+                              handleEvaluation(
                                 item.id,
                                 'DONT_READ',
                                 item.dontReadInfo.checkedByMe,
@@ -197,7 +214,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                         <CheckBox
                           checked={item.evaluatedInfo.checkedByMe}
                           onClick={() =>
-                            toggleEvaluation(
+                            handleEvaluation(
                               item.id,
                               'EVALUATION',
                               item.evaluatedInfo.checkedByMe,

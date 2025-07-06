@@ -19,11 +19,9 @@ export const useGetApplicantList = (params: GetApplicantListRequest) => {
   });
 };
 
-export const usePostApplicantPassStatus = (
-  info: PostApplicantPassStatusRequest,
-) => {
+export const usePostApplicantPassStatus = () => {
   return useMutation({
-    mutationFn: () => postPassStatus(info),
+    mutationFn: (info: PostApplicantPassStatusRequest) => postPassStatus(info),
   });
 };
 

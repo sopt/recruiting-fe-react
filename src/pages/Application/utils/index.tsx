@@ -1,4 +1,7 @@
-import type { ApplicationTableProps } from '@/pages/Application/\btypes';
+import type {
+  ApplicationTableProps,
+  StatusType,
+} from '@/pages/Application/\btypes';
 
 export const getDoNotReadMessage = (item: ApplicationTableProps['data'][0]) => {
   if (item.dontReadInfo.checkedList.length === 0) return null;
@@ -30,4 +33,21 @@ export const getEvaluationMessage = (
   if (selectedParts.length === 0) return null;
 
   return `${selectedParts.join(', ')}이(가) 평가를 완료했어요.`;
+};
+
+export const convertStatusToPassInfo = (
+  status: StatusType,
+): { applicationPass: boolean | null; finalPass: boolean | null } => {
+  switch (status) {
+    case '확인 전':
+      return { applicationPass: null, finalPass: null };
+    case '서류 합격':
+      return { applicationPass: true, finalPass: null };
+    case '불합격':
+      return { applicationPass: false, finalPass: null };
+    case '최종 합격':
+      return { applicationPass: true, finalPass: true };
+    default:
+      return { applicationPass: null, finalPass: null };
+  }
 };

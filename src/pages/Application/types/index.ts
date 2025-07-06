@@ -33,6 +33,7 @@ export type ExecutiveType =
   | 'VICE_PRESIDENT';
 
 export type StatusType = '최종 합격' | '불합격' | '서류 합격' | '확인 전';
+
 export const STATUS_TRANSLATOR = {
   '최종 합격': 'FINAL_PASS',
   불합격: 'FAIL',
@@ -86,8 +87,8 @@ export interface GetApplicantListResponse {
 
 export interface PostApplicantPassStatusRequest {
   applicantId: number;
-  applicationPass: boolean;
-  finalPass: boolean;
+  applicationPass: boolean | null;
+  finalPass: boolean | null;
 }
 
 // DONT_READ: 읽지마시오 여부, EVALUATION: 평가 완료 여부
