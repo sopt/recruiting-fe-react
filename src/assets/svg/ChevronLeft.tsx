@@ -1,0 +1,18 @@
+import type { SVGProps } from 'react';
+const SvgChevronLeft = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 21 20"
+    {...props}
+  >
+    <path
+      stroke="#fff"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.5}
+      d="m12.582 15-5-5 5-5"
+    />
+  </svg>
+);
+export default SvgChevronLeft;

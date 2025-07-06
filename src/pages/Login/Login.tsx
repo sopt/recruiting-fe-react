@@ -1,17 +1,16 @@
 import { Logo } from '@/assets/svg';
+import { usePostLogin } from '@/pages/Login/hooks/queries';
+import type { LoginForm } from '@/pages/Login/types';
 import { Button, TextField } from '@sopt-makers/ui';
 import { type SubmitHandler, useForm } from 'react-hook-form';
-
-type LoginForm = {
-  email: string;
-  password: string;
-};
 
 const Login = () => {
   const { handleSubmit, register } = useForm<LoginForm>();
 
-  const onSubmit: SubmitHandler<LoginForm> = () => {
-    // TODO: 로그인 POST 요청
+  const { mutate: postLogin } = usePostLogin();
+
+  const onSubmit: SubmitHandler<LoginForm> = (data) => {
+    postLogin({ email: data.email, password: data.password });
   };
 
   return (
