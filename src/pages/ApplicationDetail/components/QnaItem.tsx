@@ -1,6 +1,7 @@
 import { Ellipse, FileDownload } from '@/assets/svg';
 import type { QuestionType } from '@/pages/ApplicationDetail/types';
 import { TextArea } from '@sopt-makers/ui';
+import { useEffect } from 'react';
 
 const QnaItem = ({
   questionOrder,
@@ -9,6 +10,16 @@ const QnaItem = ({
   isFile,
   answer,
 }: QuestionType) => {
+  useEffect(() => {
+    const textareas = document.querySelectorAll('textarea');
+    if (textareas) {
+      for (const textarea of textareas) {
+        textarea.style.height = 'auto';
+        textarea.style.height = `${textarea.scrollHeight}px`;
+      }
+    }
+  }, [answer]);
+
   return (
     <li className="flex flex-col gap-[0.8rem]">
       <p className="title_5_18_sb text-white">
