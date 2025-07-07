@@ -1,6 +1,5 @@
 import { Add } from '@/assets/svg';
 import DescriptionBox from '@/pages/PostQuestion/components/DescriptionBox';
-import { Button } from '@sopt-makers/ui';
 import { useState } from 'react';
 import Header from '@/pages/PostQuestion/components/Header';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -10,9 +9,9 @@ import {
   type qustionListTypes,
 } from '@/pages/PostQuestion/types/form';
 import QuestionList from '@/pages/PostQuestion/components/QuestionList';
-import { useGetQuestionList } from '@/pages/PostQuestion/hooks/quries';
 import type { GROUP, PART_NAME } from '@/pages/PostQuestion/types';
 import TemporarySaveButton from '@/pages/PostQuestion/components/TemporarySaveButton';
+import RegisterButton from '@/pages/PostQuestion/components/RegisterButton';
 
 const PostQuestion = () => {
   const [hasDescription, setHasDescription] = useState(false);
@@ -49,10 +48,6 @@ const PostQuestion = () => {
     mode: 'onChange',
   });
 
-  const {
-    formState: { isSubmitting, isValid },
-  } = method;
-
   const handleHasDescriptionChange = (bool: boolean) => {
     setHasDescription(bool);
   };
@@ -75,13 +70,11 @@ const PostQuestion = () => {
                 selectedGroup={selectedGroup}
                 selectedSeason={selectedSeason}
               />
-              <Button
-                variant="fill"
-                size="md"
-                disabled={isSubmitting || !isValid}
-              >
-                최종 등록하기
-              </Button>
+              <RegisterButton
+                selectedPart={selectedPart}
+                selectedGroup={selectedGroup}
+                selectedSeason={selectedSeason}
+              />
             </div>
           </div>
 
