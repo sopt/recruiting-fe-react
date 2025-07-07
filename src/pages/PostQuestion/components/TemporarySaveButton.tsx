@@ -25,8 +25,8 @@ const TemporarySaveButton = ({
   const handleQuetsionsSave = (data: qustionListTypes) => {
     const questions = data.questionList.map((question, index) => {
       return {
-        id: index + 1,
-        questionOrder: index + 1,
+        id: question.id,
+        questionOrder: index,
         part: selectedPart as PART_NAME,
         content: question.question,
         isDescription: false,

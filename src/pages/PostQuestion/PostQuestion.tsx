@@ -42,7 +42,7 @@ const PostQuestion = () => {
           question: '',
           link: '',
           placeholder: '',
-          file: '',
+          isFile: false,
           charLimit: 100,
         },
       ],

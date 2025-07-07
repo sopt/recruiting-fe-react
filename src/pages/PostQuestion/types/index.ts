@@ -10,7 +10,7 @@ export type PART_NAME =
 export type GROUP = 'YB' | 'OB';
 
 export type Question = {
-  id: number;
+  id?: number;
   questionOrder: number;
   part: PART_NAME;
   content: string;
