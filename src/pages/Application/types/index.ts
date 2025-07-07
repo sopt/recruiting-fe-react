@@ -99,3 +99,12 @@ export interface PostEvaluationRequest {
   evaluationType: EvaluationToggleType;
   isChecked: boolean;
 }
+
+export interface ApplicantState {
+  season: string;
+  group: Group;
+  isEvaluated: boolean;
+  isDontRead: boolean;
+  isPassedOnly: boolean;
+  selectedPart: PartType;
+}

@@ -1,3 +1,4 @@
+import queryClient from '@/apis/queryClient';
 import type {
   GetApplicantListRequest,
   PostApplicantPassStatusRequest,
@@ -22,6 +23,9 @@ export const useGetApplicantList = (params: GetApplicantListRequest) => {
 export const usePostApplicantPassStatus = () => {
   return useMutation({
     mutationFn: (info: PostApplicantPassStatusRequest) => postPassStatus(info),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.APPLICANT_LIST] });
+    },
   });
 };
 
@@ -29,6 +33,8 @@ export const usePostEvalution = () => {
   return useMutation({
     mutationFn: (evaluationInfo: PostEvaluationRequest) =>
       postEvaluation(evaluationInfo),
-    onSuccess: () => {},
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.APPLICANT_LIST] });
+    },
   });
 };
