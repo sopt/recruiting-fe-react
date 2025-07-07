@@ -19,10 +19,7 @@ const TooltipRoot = ({
 
   return (
     <TooltipProvider controlledOpen={controlledOpen} id={tooltipId}>
-      <div
-        className={`relative w-fit pr-4 cursor-default z-1000 ${props.className}`}
-        {...props}
-      >
+      <div className={'relative w-fit pr-4 cursor-default'} {...props}>
         {children}
       </div>
     </TooltipProvider>
