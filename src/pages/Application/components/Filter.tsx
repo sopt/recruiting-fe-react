@@ -3,14 +3,14 @@ import YbObRadioGroup from '@/components/YbObRadioGroup';
 import type { PartType, QuestionCharLimit } from '@/pages/Application/\btypes';
 import MinimumRateModal from '@/pages/Application/components/MinimumRateModal';
 import { usePostMinRate } from '@/pages/Application/hooks/queries';
-import { isNumberValue } from '@/pages/Application/utils';
+import { isNumberValue } from '@/pages/Application/utils/regex';
 
 import type { Group } from '@/pages/Question/types';
 import { decimalToPercentage } from '@/utils';
 
 import { DialogContext, SelectV2, TextField, Toggle } from '@sopt-makers/ui';
 import { type SetStateAction, useContext, useState } from 'react';
-import type { Dispatch } from 'react';
+import type { ChangeEvent, Dispatch } from 'react';
 
 const START_GENERATION = 30;
 const END_GENERATION = 36;
@@ -59,6 +59,14 @@ const Filter = ({
   const { openDialog, closeDialog } = useContext(DialogContext);
 
   const { mutate: postMinRate } = usePostMinRate();
+
+  const handleChangeMinimumRate = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+
+    if (isNumberValue(value)) {
+      setMinimumRate(value === '' ? null : Number(value));
+    }
+  };
 
   const handleOpenDialog = () => {
     postMinRate(
@@ -120,12 +128,7 @@ const Filter = ({
             <TextField
               placeholder="미달률 입력"
               value={minimumRate?.toString() ?? ''}
-              onChange={(e) => {
-                const value = e.target.value;
-                if (isNumberValue(value)) {
-                  setMinimumRate(value === '' ? null : Number(value));
-                }
-              }}
+              onChange={handleChangeMinimumRate}
             />
             <button
               type="button"
