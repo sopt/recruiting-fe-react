@@ -31,7 +31,7 @@ const TemporarySaveButton = ({
         content: question.question,
         isDescription: false,
         charLimit: question.charLimit,
-        required: true,
+        required: question.required,
         link: question.link,
         placeholder: question.placeholder,
         isFile: true,

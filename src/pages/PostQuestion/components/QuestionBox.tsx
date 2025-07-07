@@ -10,12 +10,11 @@ interface QuestionBoxProps {
 }
 
 const QuestionBox = ({ index, deleteQuestion }: QuestionBoxProps) => {
-  const [isRequiredQustion, setIsRequiredQuestion] = useState(false);
-
   const { register, watch, control, setValue } = useFormContext();
 
   const isLink = watch(`questionList.${index}.isLink`);
   const isFile = watch(`questionList.${index}.isFile`);
+  const required = watch(`questionList.${index}.required`);
 
   return (
     <li className="flex flex-row items-center gap-[3.2rem]">
@@ -25,7 +24,7 @@ const QuestionBox = ({ index, deleteQuestion }: QuestionBoxProps) => {
         </div>
 
         <h2 className=" title_3_24_sb">
-          {isRequiredQustion && (
+          {required && (
             <p className="label_4_12_sb text-secondary">*필수질문</p>
           )}
           {`질문 ${index + 1}`}
@@ -102,10 +101,12 @@ const QuestionBox = ({ index, deleteQuestion }: QuestionBoxProps) => {
         <h4 className="label_3_14_sb text-gray100">질문 설정</h4>
         <div className="flex justify-between">
           <span className="body_2_16_m">* 필수질문</span>
-          <Toggle
-            size="lg"
-            checked={isRequiredQustion}
-            onClick={() => setIsRequiredQuestion((prev) => !prev)}
+          <Controller
+            control={control}
+            name={`questionList.${index}.required`}
+            render={({ field: { onChange, value } }) => (
+              <Toggle onClick={() => onChange(!value)} checked={value} />
+            )}
           />
         </div>
         <div className="flex justify-between">

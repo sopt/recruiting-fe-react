@@ -44,6 +44,7 @@ const PostQuestion = () => {
           placeholder: '',
           isFile: false,
           charLimit: 100,
+          required: false,
         },
       ],
     },

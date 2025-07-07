@@ -9,6 +9,7 @@ const questionSchema = z
     placeholder: z.string().min(1),
     isFile: z.boolean(),
     charLimit: z.number().min(1),
+    required: z.boolean(),
   })
   .check((ctx) => {
     if (ctx.value.isLink && !ctx.value.link) {
