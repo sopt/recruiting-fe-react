@@ -1,8 +1,8 @@
 import { Add, Arrange, Check, InfoCircle, Link, Trash } from '@/assets/svg';
-import useQuestionSettingStore from '@/stores/questionSetting';
+
 import { CheckBox, TextField, Toggle } from '@sopt-makers/ui';
 import { useState } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 
 interface QuestionBoxProps {
   index: number;
@@ -12,11 +12,10 @@ interface QuestionBoxProps {
 const QuestionBox = ({ index, deleteQuestion }: QuestionBoxProps) => {
   const [isRequiredQustion, setIsRequiredQuestion] = useState(false);
 
-  const { register, watch } = useFormContext();
+  const { register, watch, control } = useFormContext();
 
-  const { settings, setIsLink, setIsFile } = useQuestionSettingStore();
-  const fileField = watch(`questionList.${index}.file`);
-  const fileName = fileField?.[0]?.name ?? '';
+  const isLink = watch(`questionList.${index}.isLink`);
+  const isFile = watch(`questionList.${index}.isFile`);
 
   return (
     <li className="flex flex-row items-center gap-[3.2rem]">
@@ -37,7 +36,7 @@ const QuestionBox = ({ index, deleteQuestion }: QuestionBoxProps) => {
           {...register(`questionList.${index}.question`)}
         />
 
-        {settings[index].isLink && (
+        {isLink && (
           <TextField
             labelText="링크 첨부"
             placeholder="이동할 링크를 입력하세요."
@@ -61,23 +60,17 @@ const QuestionBox = ({ index, deleteQuestion }: QuestionBoxProps) => {
           </p>
         </div>
 
-        {settings[index].isFile && (
+        {isFile && (
           <label className="flex flex-col gap-[0.8rem] label_3_14_sb ">
             파일 업로드
             <div className="flex justify-between py-[1.1rem] px-[2.2rem] w-full rounded-2xl bg-gray800">
               <div className="flex gap-[2.4rem]">
-                {fileName !== '' ? (
-                  <span className="body_2_16_m text-gray-10">{fileName}</span>
-                ) : (
-                  <>
-                    <span className="body_2_16_m text-gray-600">
-                      파일업로드
-                    </span>
-                    <span className="body_2_16_m text-gray-500">
-                      50mb 이하 | pdf,pptx
-                    </span>
-                  </>
-                )}
+                <>
+                  <span className="body_2_16_m text-gray-600">파일업로드</span>
+                  <span className="body_2_16_m text-gray-500">
+                    50mb 이하 | pdf,pptx
+                  </span>
+                </>
               </div>
               <input
                 className="hidden"
@@ -119,10 +112,12 @@ const QuestionBox = ({ index, deleteQuestion }: QuestionBoxProps) => {
           <span className="flex gap-[0.8rem] body_2_16_m">
             <Link width={16} className="stroke-gray10" /> 링크
           </span>
-          <Toggle
-            size="lg"
-            checked={settings[index].isLink}
-            onClick={() => setIsLink(index)}
+          <Controller
+            control={control}
+            name={`questionList.${index}.isLink`}
+            render={({ field: { onChange, value } }) => (
+              <Toggle onClick={() => onChange(!value)} checked={value} />
+            )}
           />
         </div>
 
@@ -139,8 +134,8 @@ const QuestionBox = ({ index, deleteQuestion }: QuestionBoxProps) => {
         <div className="flex flex-row items-center gap-[1rem]">
           <CheckBox
             size="lg"
-            checked={settings[index].isFile}
-            onClick={() => setIsFile(index)}
+            checked={isFile}
+            {...register(`questionList.${index}.isFile`)}
           />
           <span className="body_2_16_m ">파일 업로드</span>
         </div>

@@ -40,6 +40,7 @@ const PostQuestion = () => {
       questionList: [
         {
           question: '',
+          isLink: false,
           link: '',
           placeholder: '',
           isFile: false,
