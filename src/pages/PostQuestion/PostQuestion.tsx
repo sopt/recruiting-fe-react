@@ -12,6 +12,7 @@ import QuestionList from '@/pages/PostQuestion/components/QuestionList';
 import type { GROUP, PART_NAME } from '@/pages/PostQuestion/types';
 import TemporarySaveButton from '@/pages/PostQuestion/components/TemporarySaveButton';
 import RegisterButton from '@/pages/PostQuestion/components/RegisterButton';
+import { DEFAULT_QUESTION_DATA } from '@/pages/PostQuestion/constant';
 
 const PostQuestion = () => {
   const [hasDescription, setHasDescription] = useState(false);
@@ -34,16 +35,7 @@ const PostQuestion = () => {
   const method = useForm<qustionListTypes>({
     resolver: zodResolver(questionsListSchema),
     defaultValues: {
-      questionList: [
-        {
-          question: '',
-          isLink: false,
-          placeholder: '',
-          isFile: false,
-          charLimit: 0,
-          required: false,
-        },
-      ],
+      questionList: [DEFAULT_QUESTION_DATA],
     },
     mode: 'onChange',
   });

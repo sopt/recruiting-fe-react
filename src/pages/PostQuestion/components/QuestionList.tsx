@@ -1,5 +1,6 @@
 import { Add } from '@/assets/svg';
 import QuestionBox from '@/pages/PostQuestion/components/QuestionBox';
+import { DEFAULT_QUESTION_DATA } from '@/pages/PostQuestion/constant';
 
 import { useFieldArray, useFormContext } from 'react-hook-form';
 
@@ -16,13 +17,7 @@ const QuestionList = () => {
   });
 
   const addQuestion = () => {
-    append({
-      question: '',
-      link: '',
-      placeholder: '',
-      file: '',
-      maxText: 0,
-    });
+    append(DEFAULT_QUESTION_DATA);
   };
 
   const deleteQuestion = (index: number) => {
