@@ -41,7 +41,6 @@ const PostQuestion = () => {
         {
           question: '',
           isLink: false,
-          link: '',
           placeholder: '',
           isFile: false,
           charLimit: 100,
@@ -52,8 +51,10 @@ const PostQuestion = () => {
   });
 
   const {
-    formState: { isSubmitting, isValid },
+    formState: { isSubmitting, isValid, errors },
+    watch,
   } = method;
+  console.log(watch(), isValid);
 
   const handleHasDescriptionChange = (bool: boolean) => {
     setHasDescription(bool);

@@ -12,7 +12,7 @@ interface QuestionBoxProps {
 const QuestionBox = ({ index, deleteQuestion }: QuestionBoxProps) => {
   const [isRequiredQustion, setIsRequiredQuestion] = useState(false);
 
-  const { register, watch, control } = useFormContext();
+  const { register, watch, control, setValue } = useFormContext();
 
   const isLink = watch(`questionList.${index}.isLink`);
   const isFile = watch(`questionList.${index}.isFile`);
@@ -116,7 +116,17 @@ const QuestionBox = ({ index, deleteQuestion }: QuestionBoxProps) => {
             control={control}
             name={`questionList.${index}.isLink`}
             render={({ field: { onChange, value } }) => (
-              <Toggle onClick={() => onChange(!value)} checked={value} />
+              <Toggle
+                onClick={() => {
+                  const newValue = !value;
+                  onChange(newValue);
+
+                  if (newValue === false) {
+                    setValue(`questionList.${index}.link`, undefined);
+                  }
+                }}
+                checked={value}
+              />
             )}
           />
         </div>

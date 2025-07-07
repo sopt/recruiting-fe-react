@@ -3,12 +3,12 @@ import { z } from 'zod/v4';
 const questionSchema = z
   .object({
     id: z.number().optional(),
-    question: z.string(),
+    question: z.string().min(1),
     isLink: z.boolean(),
     link: z.url().optional(),
-    placeholder: z.string(),
+    placeholder: z.string().min(1),
     isFile: z.boolean(),
-    charLimit: z.number(),
+    charLimit: z.number().min(1),
   })
   .check((ctx) => {
     if (ctx.value.isLink && !ctx.value.link) {
