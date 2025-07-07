@@ -162,7 +162,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                                 <AlertTriangle width={16} height={16} />
                               </div>
                             </Tooltip.Trigger>
-                            <Tooltip.Content>
+                            <Tooltip.Content className="!mt-[2.5rem]">
                               <span>{doNotReadMessage}</span>
                             </Tooltip.Content>
                           </Tooltip.Root>
@@ -188,7 +188,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                                 }
                               </Tag>
                             </Tooltip.Trigger>
-                            <Tooltip.Content>
+                            <Tooltip.Content className="!mt-[1.3rem]">
                               <span>{evaluationMessage}</span>
                             </Tooltip.Content>
                           </Tooltip.Root>

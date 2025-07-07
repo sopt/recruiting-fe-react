@@ -45,8 +45,12 @@ const TooltipTrigger = ({ children }: PropsWithChildren) => {
   );
 };
 
-const TooltipContent = forwardRef<HTMLDivElement, PropsWithChildren>(
-  ({ children }) => {
+interface TooltipContentProps
+  extends HTMLAttributes<HTMLDivElement>,
+    PropsWithChildren {}
+
+const TooltipContent = forwardRef<HTMLDivElement, TooltipContentProps>(
+  ({ children, className, ...props }) => {
     const { isOpen, id } = useTooltipContext();
     const { position, contentRef } = useTooltip();
 
@@ -55,16 +59,18 @@ const TooltipContent = forwardRef<HTMLDivElement, PropsWithChildren>(
         id={id}
         aria-hidden={!isOpen}
         className={clsx(
-          'absolute right-0 w-max max-w-[27.2rem] p-[1.6rem] rounded-[1rem] bg-gray600 transition-all duration-300 ease-in-out z-10',
+          'absolute right-0 mt-[0.8rem] w-max max-w-[27.2rem] p-[1.6rem] rounded-[1rem] bg-gray600 transition-all duration-300 ease-in-out z-999',
           isOpen
             ? 'opacity-100 visible translate-y-[-10px]'
             : 'opacity-0 invisible translate-y-[10px]',
           position === 'top'
             ? 'bottom-[3.5rem] top-auto'
             : 'top-[3.5rem] bottom-auto',
+          className,
         )}
         ref={contentRef}
         role="tooltip"
+        {...props}
       >
         <BubblePoint
           width={16}
