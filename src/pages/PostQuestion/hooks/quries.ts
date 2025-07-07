@@ -1,4 +1,5 @@
 import { getQuestionList } from '@/pages/PostQuestion/apis/getQuestionList';
+import { postQuestionsRegister } from '@/pages/PostQuestion/apis/postQuestionsRegister';
 import { postQuestionsSave } from '@/pages/PostQuestion/apis/postQuestionsSave';
 import type { GROUP, QuestionSubmitRequest } from '@/pages/PostQuestion/types';
 import { useToast } from '@sopt-makers/ui';
@@ -10,6 +11,15 @@ export const usePostQuestionsSave = () => {
     mutationFn: (data: QuestionSubmitRequest) => postQuestionsSave(data),
     onSuccess: () =>
       open({ icon: 'success', content: '임시저장이 완료되었어요.' }),
+  });
+};
+
+export const usePostQuestionsRegister = () => {
+  const { open } = useToast();
+  return useMutation({
+    mutationFn: (data: QuestionSubmitRequest) => postQuestionsRegister(data),
+    onSuccess: () =>
+      open({ icon: 'success', content: '질문이 최종 등록 되었어요.' }),
   });
 };
 

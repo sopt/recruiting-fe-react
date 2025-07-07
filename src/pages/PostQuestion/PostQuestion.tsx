@@ -32,8 +32,6 @@ const PostQuestion = () => {
     setSelectedSeason(season);
   };
 
-  const questionList = useGetQuestionList(33, 'YB');
-
   const method = useForm<qustionListTypes>({
     resolver: zodResolver(questionsListSchema),
     defaultValues: {
@@ -43,7 +41,7 @@ const PostQuestion = () => {
           isLink: false,
           placeholder: '',
           isFile: false,
-          charLimit: 100,
+          charLimit: 0,
           required: false,
         },
       ],
@@ -52,10 +50,8 @@ const PostQuestion = () => {
   });
 
   const {
-    formState: { isSubmitting, isValid, errors },
-    watch,
+    formState: { isSubmitting, isValid },
   } = method;
-  console.log(watch(), isValid);
 
   const handleHasDescriptionChange = (bool: boolean) => {
     setHasDescription(bool);

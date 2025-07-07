@@ -1,7 +1,5 @@
 import { Add, Arrange, Check, InfoCircle, Link, Trash } from '@/assets/svg';
-
 import { CheckBox, TextField, Toggle } from '@sopt-makers/ui';
-import { useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
 interface QuestionBoxProps {
