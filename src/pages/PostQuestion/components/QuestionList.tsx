@@ -1,6 +1,7 @@
 import { Add } from '@/assets/svg';
 import QuestionBox from '@/pages/PostQuestion/components/QuestionBox';
 import { DEFAULT_QUESTION_DATA } from '@/pages/PostQuestion/constant';
+import { Button } from '@sopt-makers/ui';
 
 import { useFieldArray, useFormContext } from 'react-hook-form';
 
@@ -35,14 +36,15 @@ const QuestionList = () => {
           />
         ))}
       </ul>
-      <button
-        type="button"
+      <Button
+        theme="black"
+        variant="fill"
+        LeftIcon={Add}
         onClick={addQuestion}
-        className="flex flex-row gap-[0.4rem] mt-[3.2rem] px-[2rem] py-[1.2rem] rounded-[10px] bg-gray700 label_2_16_sb cursor-pointer"
+        className="mt-[3.2rem]"
       >
-        <Add width={20} />
         질문 추가하기
-      </button>
+      </Button>
     </>
   );
 };

@@ -13,6 +13,7 @@ import type { Group, PartName } from '@/pages/PostQuestion/types';
 import TemporarySaveButton from '@/pages/PostQuestion/components/TemporarySaveButton';
 import RegisterButton from '@/pages/PostQuestion/components/RegisterButton';
 import { DEFAULT_QUESTION_DATA } from '@/pages/PostQuestion/constant';
+import { Button } from '@sopt-makers/ui';
 
 const PostQuestion = () => {
   const [hasDescription, setHasDescription] = useState(false);
@@ -40,6 +41,9 @@ const PostQuestion = () => {
     mode: 'onChange',
   });
 
+  const { watch } = method;
+  const questionList = watch('questionList');
+
   const handleHasDescriptionChange = (bool: boolean) => {
     setHasDescription(bool);
   };
@@ -55,7 +59,7 @@ const PostQuestion = () => {
       <FormProvider {...method}>
         <form>
           <div className="flex justify-between items-end mb-[2rem]">
-            <span className="title_6_16_sb text-gray200">총 2개</span>
+            <span className="title_6_16_sb text-gray200">{`총 ${questionList.length}개`}</span>
             <div className="flex gap-[1.6rem]">
               <TemporarySaveButton
                 selectedPart={selectedPart}
@@ -75,14 +79,15 @@ const PostQuestion = () => {
               onHasDescriptionChange={handleHasDescriptionChange}
             />
           ) : (
-            <button
-              type="button"
+            <Button
+              theme="black"
+              variant="fill"
+              LeftIcon={Add}
               onClick={() => handleHasDescriptionChange(true)}
-              className="flex flex-row gap-[0.4rem] mb-[3.2rem] px-[2rem] py-[1.2rem] rounded-[10px] bg-gray700 label_2_16_sb cursor-pointer"
+              className="mb-[3.2rem]"
             >
-              <Add width={20} />
               설명글 추가하기
-            </button>
+            </Button>
           )}
 
           <QuestionList />
