@@ -1,4 +1,4 @@
-import type { Group } from '@/pages/Question/types';
+import type { Group } from '@/pages/PostQuestion/types';
 
 export type PartType =
   | 'ALL'
