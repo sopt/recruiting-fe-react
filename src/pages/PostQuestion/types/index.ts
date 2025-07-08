@@ -1,4 +1,4 @@
-export type PART_NAME =
+export type PartName =
   | 'common'
   | 'plan'
   | 'design'
@@ -7,12 +7,12 @@ export type PART_NAME =
   | 'android'
   | 'web';
 
-export type GROUP = 'YB' | 'OB';
+export type Group = 'YB' | 'OB';
 
 export type Question = {
   id?: number;
   questionOrder: number;
-  part: PART_NAME;
+  part: PartName;
   content: string;
   isDescription: boolean;
   charLimit: number;
@@ -24,7 +24,7 @@ export type Question = {
 
 export type QuestionSubmitRequest = {
   season: number;
-  group: GROUP;
+  group: Group;
   questions: Question[];
   deleteQuestionIdList: number[];
 };

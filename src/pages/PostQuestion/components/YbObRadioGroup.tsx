@@ -1,9 +1,9 @@
-import type { GROUP } from '@/pages/PostQuestion/types';
+import type { Group } from '@/pages/PostQuestion/types';
 import { Radio } from '@sopt-makers/ui';
 
 interface YbObRadioGroupProps {
-  group: GROUP;
-  setGroup: (group: GROUP) => void;
+  group: Group;
+  setGroup: (group: Group) => void;
 }
 
 const YbObRadioGroup = ({ group, setGroup }: YbObRadioGroupProps) => {

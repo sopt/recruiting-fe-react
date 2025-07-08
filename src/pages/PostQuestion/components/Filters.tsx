@@ -1,5 +1,5 @@
 import YbObRadioGroup from '@/pages/PostQuestion/components/YbObRadioGroup';
-import type { GROUP } from '@/pages/PostQuestion/types';
+import type { Group } from '@/pages/PostQuestion/types';
 import { SelectV2 } from '@sopt-makers/ui';
 
 const generations = Array.from({ length: 7 }, (_, i) =>
@@ -7,8 +7,8 @@ const generations = Array.from({ length: 7 }, (_, i) =>
 ).reverse();
 
 interface FiltersProps {
-  selectedGroup: GROUP;
-  handleGroupChange: (group: GROUP) => void;
+  selectedGroup: Group;
+  handleGroupChange: (group: Group) => void;
   handleSeasonChange: (season: number) => void;
 }
 

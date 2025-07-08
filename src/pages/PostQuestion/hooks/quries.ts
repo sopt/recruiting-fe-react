@@ -1,7 +1,7 @@
 import { getQuestionList } from '@/pages/PostQuestion/apis/getQuestionList';
 import { postQuestionsRegister } from '@/pages/PostQuestion/apis/postQuestionsRegister';
 import { postQuestionsSave } from '@/pages/PostQuestion/apis/postQuestionsSave';
-import type { GROUP, QuestionSubmitRequest } from '@/pages/PostQuestion/types';
+import type { Group, QuestionSubmitRequest } from '@/pages/PostQuestion/types';
 import { useToast } from '@sopt-makers/ui';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
@@ -23,7 +23,7 @@ export const usePostQuestionsRegister = () => {
   });
 };
 
-export const useGetQuestionList = (season: number, group: GROUP) => {
+export const useGetQuestionList = (season: number, group: Group) => {
   return useQuery({
     queryKey: ['question', 'list', season, group],
     queryFn: () => getQuestionList(season, group),

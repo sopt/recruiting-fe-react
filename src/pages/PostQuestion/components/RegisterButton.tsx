@@ -1,12 +1,12 @@
 import { usePostQuestionsRegister } from '@/pages/PostQuestion/hooks/quries';
-import type { GROUP, PART_NAME } from '@/pages/PostQuestion/types';
+import type { Group, PartName } from '@/pages/PostQuestion/types';
 import type { qustionListTypes } from '@/pages/PostQuestion/types/form';
 import { Button } from '@sopt-makers/ui';
 import { useFormContext } from 'react-hook-form';
 
 interface RegisterButtonProps {
-  selectedPart: PART_NAME;
-  selectedGroup: GROUP;
+  selectedPart: PartName;
+  selectedGroup: Group;
   selectedSeason: number;
 }
 
@@ -27,7 +27,7 @@ const RegisterButton = ({
       return {
         id: question.id,
         questionOrder: index,
-        part: selectedPart as PART_NAME,
+        part: selectedPart as PartName,
         content: question.question,
         isDescription: false,
         charLimit: question.charLimit,

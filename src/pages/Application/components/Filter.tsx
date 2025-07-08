@@ -1,7 +1,7 @@
 import { InfoCircle, Refresh } from '@/assets/svg';
 import YbObRadioGroup from '@/components/YbObRadioGroup';
 import BelowRateModal from '@/pages/Application/components/BelowRateModal';
-import type { GROUP } from '@/pages/PostQuestion/types';
+import type { Group } from '@/pages/PostQuestion/types';
 import { DialogContext, SelectV2, TextField, Toggle } from '@sopt-makers/ui';
 import { type SetStateAction, useContext, useState } from 'react';
 import type { Dispatch } from 'react';
@@ -37,7 +37,7 @@ const Filter = ({
   setIsDoNotRead,
   setIsPassedOnly,
 }: FilterProps) => {
-  const [group, setGroup] = useState<GROUP>('YB');
+  const [group, setGroup] = useState<Group>('YB');
 
   const { openDialog, closeDialog } = useContext(DialogContext);
 
