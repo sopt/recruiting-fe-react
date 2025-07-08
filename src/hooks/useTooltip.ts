@@ -1,0 +1,33 @@
+import {
+  type ContentPosition,
+  useTooltipContext,
+} from '@/contexts/TooltipContext';
+import { useLayoutEffect, useState } from 'react';
+
+const TOOLTIP_MARGIN = 20;
+
+export const useTooltip = () => {
+  const { triggerRef, contentRef } = useTooltipContext();
+  const [position, setPosition] = useState<ContentPosition>('bottom');
+
+  const calculateTooltipPosition = () => {
+    if (!(triggerRef.current && contentRef.current)) return;
+
+    const contentRect = contentRef.current.getBoundingClientRect();
+    const spaceBelow = window.innerHeight - contentRect.bottom;
+    const isSpaceBelowEnough = spaceBelow < contentRect.height + TOOLTIP_MARGIN;
+
+    setPosition(isSpaceBelowEnough ? 'top' : 'bottom');
+  };
+
+  useLayoutEffect(() => {
+    window.addEventListener('resize', calculateTooltipPosition);
+    window.addEventListener('scroll', calculateTooltipPosition);
+    return () => {
+      window.removeEventListener('resize', calculateTooltipPosition);
+      window.removeEventListener('scroll', calculateTooltipPosition);
+    };
+  }, []);
+
+  return { position, contentRef };
+};

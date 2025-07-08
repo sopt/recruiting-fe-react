@@ -1,27 +1,17 @@
 import Pagination from '@/components/Pagination';
 import usePagination from '@/hooks/usePagination';
-import type { PartType } from '@/pages/Application/\btypes';
+import type { ApplicantState, PartType } from '@/pages/Application/\btypes';
 
 import ApplicationTable from '@/pages/Application/components/ApplicationTable';
 import Filter from '@/pages/Application/components/Filter';
 import { PART_TRANSLATOR } from '@/pages/Application/constants';
 import { useGetApplicantList } from '@/pages/Application/hooks/queries';
-import type { Group } from '@/pages/Question/types';
 
 import { Tab } from '@sopt-makers/ui';
 import { useMemo, useState } from 'react';
 
 const LIST_LIMIT = 10;
 const PAGE_LIMIT = 5;
-
-interface ApplicantState {
-  season: string;
-  group: Group;
-  isEvaluated: boolean;
-  isDontRead: boolean;
-  isPassedOnly: boolean;
-  selectedPart: PartType;
-}
 
 const Application = () => {
   const [applicantInfo, setApplicantInfo] = useState<ApplicantState>({
@@ -73,17 +63,12 @@ const Application = () => {
   return (
     <div className="flex flex-col gap-[4.4rem]">
       <Filter
-        season={applicantInfo.season}
         setSeason={updateState('season')}
-        group={applicantInfo.group}
         setGroup={updateState('group')}
-        isEvaluated={applicantInfo.isEvaluated}
-        isDontRead={applicantInfo.isDontRead}
-        isPassedOnly={applicantInfo.isPassedOnly}
         setIsEvaluated={updateState('isEvaluated')}
         setIsDontRead={updateState('isDontRead')}
         setIsPassedOnly={updateState('isPassedOnly')}
-        selectedPart={applicantInfo.selectedPart}
+        {...applicantInfo}
       />
       <Tab
         style="primary"

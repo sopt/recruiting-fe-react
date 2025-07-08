@@ -1,4 +1,4 @@
-import type { Group } from '@/pages/Question/types';
+import type { Group } from '@/pages/PostQuestion/types';
 
 export type PartType =
   | 'ALL'
@@ -130,4 +130,13 @@ export interface QuestionCharLimit {
   questionOrder: number;
   charLimit: number;
   charLimitLength: number;
+}
+
+export interface ApplicantState {
+  season: string;
+  group: Group;
+  isEvaluated: boolean;
+  isDontRead: boolean;
+  isPassedOnly: boolean;
+  selectedPart: PartType;
 }

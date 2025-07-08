@@ -4,8 +4,7 @@ import type { PartType, QuestionCharLimit } from '@/pages/Application/\btypes';
 import MinimumRateModal from '@/pages/Application/components/MinimumRateModal';
 import { usePostMinRate } from '@/pages/Application/hooks/queries';
 import { isNumberValue } from '@/pages/Application/utils/regex';
-
-import type { Group } from '@/pages/Question/types';
+import type { Group } from '@/pages/PostQuestion/types';
 import { decimalToPercentage } from '@/utils';
 
 import { DialogContext, SelectV2, TextField, Toggle } from '@sopt-makers/ui';

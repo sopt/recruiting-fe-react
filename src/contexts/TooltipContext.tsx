@@ -1,0 +1,65 @@
+import type { ReactNode, RefObject } from 'react';
+import { createContext, useContext, useRef, useState } from 'react';
+
+export type ContentPosition = 'top' | 'bottom';
+
+interface TooltipContextProps {
+  id: string;
+  isOpen: boolean;
+  showTooltip: () => void;
+  hideTooltip: () => void;
+  triggerRef: RefObject<HTMLDivElement | null>;
+  contentRef: RefObject<HTMLDivElement | null>;
+}
+
+interface TooltipProviderProps {
+  id: string;
+  controlledOpen?: boolean;
+  children: ReactNode;
+}
+
+export const TooltipContext = createContext<TooltipContextProps | null>(null);
+
+export const TooltipProvider = ({
+  controlledOpen,
+  children,
+  id,
+}: TooltipProviderProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const triggerRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  const showTooltip = () => {
+    setIsOpen(true);
+  };
+  const hideTooltip = () => {
+    setIsOpen(false);
+  };
+
+  return (
+    <TooltipContext.Provider
+      value={{
+        id: id,
+        isOpen: controlledOpen ?? isOpen,
+        showTooltip,
+        hideTooltip,
+        triggerRef,
+        contentRef,
+      }}
+    >
+      {children}
+    </TooltipContext.Provider>
+  );
+};
+
+export const useTooltipContext = () => {
+  const context = useContext(TooltipContext);
+
+  if (!context)
+    throw new Error(
+      'Tooltip 컴포넌트는 Tooltip.Root 내에서 사용되어야 합니다.',
+    );
+
+  return context;
+};

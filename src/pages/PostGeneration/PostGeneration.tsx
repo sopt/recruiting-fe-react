@@ -1,13 +1,11 @@
 import Pagination from '@/components/Pagination';
 import YbObRadioGroup from '@/components/YbObRadioGroup';
 import usePagination from '@/hooks/usePagination';
-import { useContext, useState } from 'react';
-
 import GenerationTable from '@/pages/PostGeneration/components/GenerationTable';
-
 import { useGetGeneration } from '@/pages/PostGeneration/hooks/queries';
-import type { Group } from '@/pages/Question/types';
+import type { Group } from '@/pages/PostQuestion/types';
 import { Button, DialogContext } from '@sopt-makers/ui';
+import { useContext, useState } from 'react';
 import { useMemo } from 'react';
 import PostGenerationModal from './components/PostGenerationModal';
 
