@@ -3,7 +3,7 @@ import YbObRadioGroup from '@/components/YbObRadioGroup';
 import BelowRateModal from '@/pages/Application/components/BelowRateModal';
 import type { Group } from '@/pages/PostQuestion/types';
 import { DialogContext, SelectV2, TextField, Toggle } from '@sopt-makers/ui';
-import { type SetStateAction, useContext, useState } from 'react';
+import { type SetStateAction, useContext } from 'react';
 import type { Dispatch } from 'react';
 
 const START_GENERATION = 30;
@@ -21,24 +21,30 @@ const GENERATION_OPTIONS = Array.from(
 );
 
 interface FilterProps {
-  isCompleteHidden: boolean;
-  isDoNotRead: boolean;
+  season: string;
+  setSeason: Dispatch<SetStateAction<string>>;
+  group: Group;
+  setGroup: Dispatch<SetStateAction<Group>>;
+  isEvaluated: boolean;
+  isDontRead: boolean;
   isPassedOnly: boolean;
-  setIsCompleteHidden: Dispatch<SetStateAction<boolean>>;
-  setIsDoNotRead: Dispatch<SetStateAction<boolean>>;
+  setIsEvaluated: Dispatch<SetStateAction<boolean>>;
+  setIsDontRead: Dispatch<SetStateAction<boolean>>;
   setIsPassedOnly: Dispatch<SetStateAction<boolean>>;
 }
 
 const Filter = ({
-  isCompleteHidden,
-  isDoNotRead,
+  season,
+  setSeason,
+  group,
+  setGroup,
+  isEvaluated,
+  isDontRead,
   isPassedOnly,
-  setIsCompleteHidden,
-  setIsDoNotRead,
+  setIsEvaluated,
+  setIsDontRead,
   setIsPassedOnly,
 }: FilterProps) => {
-  const [group, setGroup] = useState<Group>('YB');
-
   const { openDialog, closeDialog } = useContext(DialogContext);
 
   const handleOpenDialog = () => {
@@ -54,12 +60,16 @@ const Filter = ({
         <SelectV2.Root type="text">
           <SelectV2.Trigger>
             <div>
-              <SelectV2.TriggerContent placeholder="36기" />
+              <SelectV2.TriggerContent placeholder={season} />
             </div>
           </SelectV2.Trigger>
           <SelectV2.Menu>
             {GENERATION_OPTIONS.map((option) => (
-              <SelectV2.MenuItem key={option.value} option={option} />
+              <SelectV2.MenuItem
+                key={option.value}
+                option={option}
+                onClick={() => setSeason(option.label)}
+              />
             ))}
           </SelectV2.Menu>
         </SelectV2.Root>
@@ -89,16 +99,16 @@ const Filter = ({
             </span>
             <Toggle
               size="lg"
-              checked={isCompleteHidden}
-              onClick={() => setIsCompleteHidden((prev) => !prev)}
+              checked={isEvaluated}
+              onClick={() => setIsEvaluated((prev) => !prev)}
             />
           </div>
           <div className="flex items-center gap-[0.8rem]">
             <span className="flex body_3_14_r text-gray100">읽마 숨기기</span>
             <Toggle
               size="lg"
-              checked={isDoNotRead}
-              onClick={() => setIsDoNotRead((prev) => !prev)}
+              checked={isDontRead}
+              onClick={() => setIsDontRead((prev) => !prev)}
             />
           </div>
           <div className="flex items-center gap-[0.8rem]">

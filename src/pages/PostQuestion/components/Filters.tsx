@@ -1,5 +1,6 @@
 import YbObRadioGroup from '@/pages/PostQuestion/components/YbObRadioGroup';
 import type { Group } from '@/pages/PostQuestion/types';
+
 import { SelectV2 } from '@sopt-makers/ui';
 
 const generations = Array.from({ length: 7 }, (_, i) =>
@@ -33,7 +34,6 @@ const Filters = ({
           ))}
         </SelectV2.Menu>
       </SelectV2.Root>
-
       <YbObRadioGroup group={selectedGroup} setGroup={handleGroupChange} />
     </div>
   );

@@ -1,11 +1,26 @@
 export const PART_TRANSLATOR = {
-  all: '전체',
-  plan: '기획',
-  design: '디자인',
-  server: '서버',
-  ios: 'ios',
-  android: '안드로이드',
-  web: ' 웹',
+  ALL: '전체',
+  PLAN: '기획',
+  DESIGN: '디자인',
+  SERVER: '서버',
+  IOS: 'iOS',
+  ANDROID: '안드로이드',
+  WEB: '웹',
+};
+
+export const EXECUTIVE_TRANSLATOR = {
+  ALL: '전체',
+  PLAN: '기획',
+  DESIGN: '디자인',
+  SERVER: '서버',
+  IOS: 'iOS',
+  ANDROID: '안드로이드',
+  WEB: '웹',
+  OPERATION: '운영',
+  MEDIA: '미디어',
+  PRESIDENT: '회장',
+  VICE_PRESIDENT: '부회장',
+  FINANCE: '총무',
 };
 
 export const CHIP_STATUS = {
