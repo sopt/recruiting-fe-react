@@ -16,29 +16,18 @@ import { useGetQuestionList } from '@/pages/PostQuestion/hooks/quries';
 const PostQuestion = () => {
   const [selectedPart, setSelectedPart] = useState<PartName>('common');
   const [selectedGroup, setSelectedGroup] = useState<Group>('YB');
-  const [selectedSeason, setSelectedSeason] = useState(36);
+  const [selectedSeason, setSelectedSeason] = useState(0);
   const [hasDescription, setHasDescription] = useState(false);
 
-  const { data: questionListData } = useGetQuestionList(
+  const { data: questionListData, isSuccess } = useGetQuestionList(
     selectedSeason,
     selectedGroup,
   );
 
-  const partQuestion = questionListData?.partQuestions.filter(
-    (questionList) => questionList.part === selectedPart,
-  );
-
-  const newpartQuestion = partQuestion[0]?.questions.map((question) => {
-    if (question.link) {
-      return { ...question, isLink: true };
-    }
-    return question;
-  });
-
   const method = useForm<qustionListTypes>({
     resolver: zodResolver(questionsListSchema),
     defaultValues: {
-      questionList: newpartQuestion ? newpartQuestion : [DEFAULT_QUESTION_DATA],
+      questionList: [DEFAULT_QUESTION_DATA],
     },
     mode: 'onChange',
   });
@@ -48,12 +37,13 @@ const PostQuestion = () => {
       (questionList) => questionList.part === selectedPart,
     );
 
-    const newpartQuestion = partQuestion[0]?.questions.map((question) => {
+    const newpartQuestion = partQuestion?.[0]?.questions.map((question) => {
       if (question.link) {
         return { ...question, isLink: true };
       }
       return question;
     });
+
     const resetData = newpartQuestion
       ? newpartQuestion
       : [DEFAULT_QUESTION_DATA];
@@ -65,11 +55,10 @@ const PostQuestion = () => {
     }
 
     reset({ questionList: resetData });
-  }, [selectedPart]);
+  }, [selectedPart, selectedSeason, isSuccess]);
 
   const { watch, reset } = method;
   const questionList = watch('questionList');
-  console.log(watch());
 
   const handlePartChange = (part: PartName) => {
     setSelectedPart(part);

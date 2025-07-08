@@ -1,7 +1,11 @@
 import { getQuestionList } from '@/pages/PostQuestion/apis/getQuestionList';
 import { postQuestionsRegister } from '@/pages/PostQuestion/apis/postQuestionsRegister';
 import { postQuestionsSave } from '@/pages/PostQuestion/apis/postQuestionsSave';
-import type { Group, QuestionSubmitRequest } from '@/pages/PostQuestion/types';
+import type {
+  Group,
+  PartName,
+  QuestionSubmitRequest,
+} from '@/pages/PostQuestion/types';
 import { useToast } from '@sopt-makers/ui';
 import { useMutation, useQuery, useSuspenseQuery } from '@tanstack/react-query';
 
@@ -24,8 +28,18 @@ export const usePostQuestionsRegister = () => {
 };
 
 export const useGetQuestionList = (season: number, group: Group) => {
-  return useSuspenseQuery({
+  return useQuery({
     queryKey: ['question', 'list', season, group],
     queryFn: () => getQuestionList(season, group),
+    enabled: season !== 0,
+    // select: (data) =>
+    //   data.partQuestions
+    //     .filter((questionList) => questionList.part === part)[0]
+    //     .questions.map((question) => {
+    //       if (question.link) {
+    //         return { ...question, isLink: true };
+    //       }
+    //       return question;
+    //     }),
   });
 };

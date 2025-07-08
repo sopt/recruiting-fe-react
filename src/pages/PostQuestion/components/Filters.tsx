@@ -2,6 +2,7 @@ import { useGetGeneration } from '@/pages/PostGeneration/hooks/queries';
 import YbObRadioGroup from '@/pages/PostQuestion/components/YbObRadioGroup';
 import type { Group } from '@/pages/PostQuestion/types';
 import { SelectV2 } from '@sopt-makers/ui';
+import { useRef } from 'react';
 
 // const generations = Array.from({ length: 7 }, (_, i) =>
 //   String(i + 30),
@@ -18,14 +19,20 @@ const Filters = ({
   handleGroupChange,
   handleSeasonChange,
 }: FiltersProps) => {
-  const { data: generationData } = useGetGeneration(selectedGroup);
+  const initialRef = useRef(true);
+
+  const { data: generationData, isSuccess } = useGetGeneration(selectedGroup);
 
   const generations = generationData?.seasons
     .map((season) => season.season)
     .sort((a, b) => b - a)
     .map(String);
 
-  console.log(generations);
+  if (initialRef.current && isSuccess && generations) {
+    handleSeasonChange(+generations[0]);
+    initialRef.current = false;
+  }
+
   return (
     <div className="flex gap-[1.6rem] my-[4.4rem]">
       <SelectV2.Root visibleOptions={7} type="text">
