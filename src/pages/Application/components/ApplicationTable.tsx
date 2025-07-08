@@ -1,4 +1,5 @@
 import { AlertTriangle } from '@/assets/svg';
+import Tooltip from '@/components/Tooltip';
 import type { ApplicationTableProps } from '@/pages/Application/\btypes';
 import ChipDropDown from '@/pages/Application/components/ChipDropdown';
 
@@ -164,17 +165,20 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                           <CheckBox checked={item.isDoNotRead} />
                           <span>읽지 마시오</span>
                         </div>
-                        <div className="bg-orangeAlpha200 rounded-[10rem] p-[0.8rem]">
-                          <AlertTriangle width={16} height={16} />
-                        </div>
+
+                        {item.isDoNotRead && (
+                          <Tooltip.Root>
+                            <Tooltip.Trigger>
+                              <div className="bg-orangeAlpha200 rounded-[10rem] p-[0.8rem]">
+                                <AlertTriangle width={16} height={16} />
+                              </div>
+                            </Tooltip.Trigger>
+                            <Tooltip.Content className="!mt-[2.5rem]">
+                              <span>{doNotReadMessage}</span>
+                            </Tooltip.Content>
+                          </Tooltip.Root>
+                        )}
                       </div>
-                      {item.isDoNotRead && (
-                        <div className="flex justify-start">
-                          <span className="text-attention label_5_11_sb break-words overflow-hidden">
-                            {doNotReadMessage}
-                          </span>
-                        </div>
-                      )}
                     </div>
                   </td>
                   <td
@@ -184,21 +188,23 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                       <div className="h-full flex items-center gap-[0.6rem]">
                         <CheckBox checked={item.evaluationStatus} />
                         <span>평가 완료</span>
-                        <Tag shape="pill">
-                          {
-                            Object.values(item.evaluatedBy || {}).filter(
-                              Boolean,
-                            ).length
-                          }
-                        </Tag>
+                        {item.evaluationStatus && (
+                          <Tooltip.Root>
+                            <Tooltip.Trigger>
+                              <Tag shape="pill">
+                                {
+                                  Object.values(item.evaluatedBy || {}).filter(
+                                    Boolean,
+                                  ).length
+                                }
+                              </Tag>
+                            </Tooltip.Trigger>
+                            <Tooltip.Content className="!mt-[1.3rem]">
+                              <span>{evaluationMessage}</span>
+                            </Tooltip.Content>
+                          </Tooltip.Root>
+                        )}
                       </div>
-                      {item.evaluationStatus && (
-                        <div className="flex justify-start">
-                          <span className="text-gray200 label_5_11_sb break-words overflow-hidden">
-                            {evaluationMessage}
-                          </span>
-                        </div>
-                      )}
                     </div>
                   </td>
                   <td
