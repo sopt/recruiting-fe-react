@@ -1,8 +1,7 @@
 import { InfoCircle, Refresh } from '@/assets/svg';
 import YbObRadioGroup from '@/components/YbObRadioGroup';
 import BelowRateModal from '@/pages/Application/components/BelowRateModal';
-import type { Group } from '@/pages/Question/types';
-
+import type { Group } from '@/pages/PostQuestion/types';
 import { DialogContext, SelectV2, TextField, Toggle } from '@sopt-makers/ui';
 import { type SetStateAction, useContext } from 'react';
 import type { Dispatch } from 'react';

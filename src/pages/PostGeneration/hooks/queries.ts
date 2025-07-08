@@ -3,7 +3,7 @@ import { deleteGeneration } from '@/pages/PostGeneration/apis/deleteGeneration';
 import { getGeneration } from '@/pages/PostGeneration/apis/getGeneration';
 import { postGeneration } from '@/pages/PostGeneration/apis/postGeneration';
 import type { PostGenerationRequest } from '@/pages/PostGeneration/types';
-import type { Group } from '@/pages/Question/types';
+import type { Group } from '@/pages/PostQuestion/types';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
 const QUERY_KEY = {

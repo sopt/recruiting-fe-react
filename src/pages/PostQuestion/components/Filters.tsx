@@ -1,15 +1,23 @@
-import YbObRadioGroup from '@/components/YbObRadioGroup';
-import type { Group } from '@/pages/Question/types';
+import YbObRadioGroup from '@/pages/PostQuestion/components/YbObRadioGroup';
+import type { Group } from '@/pages/PostQuestion/types';
+
 import { SelectV2 } from '@sopt-makers/ui';
-import { useState } from 'react';
 
 const generations = Array.from({ length: 7 }, (_, i) =>
   String(i + 30),
 ).reverse();
 
-const Filters = () => {
-  const [group, setGroup] = useState<Group>('YB');
+interface FiltersProps {
+  selectedGroup: Group;
+  handleGroupChange: (group: Group) => void;
+  handleSeasonChange: (season: number) => void;
+}
 
+const Filters = ({
+  selectedGroup,
+  handleGroupChange,
+  handleSeasonChange,
+}: FiltersProps) => {
   return (
     <div className="flex gap-[1.6rem] my-[4.4rem]">
       <SelectV2.Root visibleOptions={7} type="text">
@@ -18,12 +26,15 @@ const Filters = () => {
         </SelectV2.Trigger>
         <SelectV2.Menu>
           {generations.map((gen) => (
-            <SelectV2.MenuItem key={gen} option={{ label: gen, value: gen }} />
+            <SelectV2.MenuItem
+              key={gen}
+              option={{ label: gen, value: gen }}
+              onClick={() => handleSeasonChange(+gen)}
+            />
           ))}
         </SelectV2.Menu>
       </SelectV2.Root>
-
-      <YbObRadioGroup group={group} setGroup={setGroup} />
+      <YbObRadioGroup group={selectedGroup} setGroup={handleGroupChange} />
     </div>
   );
 };

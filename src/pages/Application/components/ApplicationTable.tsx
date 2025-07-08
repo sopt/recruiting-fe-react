@@ -1,24 +1,25 @@
 import { AlertTriangle } from '@/assets/svg';
+import Tooltip from '@/components/Tooltip';
 import type {
-  ApplicationTableProps,
   EvaluationToggleType,
   StatusType,
 } from '@/pages/Application/\btypes';
+import type { ApplicationTableProps } from '@/pages/Application/\btypes';
 import ChipDropDown from '@/pages/Application/components/ChipDropdown';
 import {
   usePostApplicantPassStatus,
   usePostEvalution,
 } from '@/pages/Application/hooks/queries';
-
 import useDrag from '@/pages/Application/hooks/useDrag';
 import {
   convertStatusToPassInfo,
   getEvaluationMessage,
 } from '@/pages/Application/utils';
 import { getDoNotReadMessage } from '@/pages/Application/utils';
-
+import { ROUTES_CONFIG } from '@/routes/routeConfig';
 import { CheckBox, Tag } from '@sopt-makers/ui';
 import { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const HEADER_BASE_STYLE =
   'p-[1rem] text-gray100 body_3_14_m bg-gray700 border-gray600';
@@ -32,12 +33,17 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
     {},
   );
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+  const navigate = useNavigate();
 
   const { onDragStart, onDragMove, onDragEnd, onDragLeave } =
     useDrag(scrollContainerRef);
 
   const { mutate } = usePostEvalution();
   const { mutate: postPassStatus } = usePostApplicantPassStatus();
+
+  const goApplicaiontDetail = (applicantId: number) => {
+    navigate(ROUTES_CONFIG.applicationDetail.generatePath(applicantId));
+  };
 
   const handleStatusChange = (id: number, value: StatusType) => {
     setPassStatusList((prev) => ({
@@ -140,6 +146,8 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                 <tr
                   key={item.id}
                   className="hover:bg-gray900 transition-colors duration-300"
+                  onClick={() => goApplicaiontDetail(item.id)}
+                  onKeyDown={() => goApplicaiontDetail(item.id)}
                 >
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
@@ -193,17 +201,20 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                           />
                           <span>읽지 마시오</span>
                         </div>
-                        <div className="bg-orangeAlpha200 rounded-[10rem] p-[0.8rem]">
-                          <AlertTriangle width={16} height={16} />
-                        </div>
+
+                        {item.dontReadInfo.checkedList.length > 0 && (
+                          <Tooltip.Root>
+                            <Tooltip.Trigger>
+                              <div className="bg-orangeAlpha200 rounded-[10rem] p-[0.8rem]">
+                                <AlertTriangle width={16} height={16} />
+                              </div>
+                            </Tooltip.Trigger>
+                            <Tooltip.Content className="!mt-[2.5rem]">
+                              <span>{doNotReadMessage}</span>
+                            </Tooltip.Content>
+                          </Tooltip.Root>
+                        )}
                       </div>
-                      {item.dontReadInfo.checkedList.length > 0 && (
-                        <div className="flex justify-start">
-                          <span className="text-attention label_5_11_sb break-words overflow-hidden">
-                            {doNotReadMessage}
-                          </span>
-                        </div>
-                      )}
                     </div>
                   </td>
                   <td
@@ -222,21 +233,19 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                           }
                         />
                         <span>평가 완료</span>
-                        <Tag shape="pill">
-                          {Object.values(
-                            item.evaluatedInfo.checkedList.length > 0
-                              ? item.evaluatedInfo.checkedList.length
-                              : 0,
-                          )}
-                        </Tag>
+                        {item.evaluatedInfo.checkedList.length > 0 && (
+                          <Tooltip.Root>
+                            <Tooltip.Trigger>
+                              <Tag shape="pill">
+                                {item.evaluatedInfo.checkedList.length}
+                              </Tag>
+                            </Tooltip.Trigger>
+                            <Tooltip.Content className="!mt-[1.3rem]">
+                              <span>{evaluationMessage}</span>
+                            </Tooltip.Content>
+                          </Tooltip.Root>
+                        )}
                       </div>
-                      {item.evaluatedInfo.checkedList.length > 0 && (
-                        <div className="flex justify-start">
-                          <span className="text-gray200 label_5_11_sb break-words overflow-hidden">
-                            {evaluationMessage}
-                          </span>
-                        </div>
-                      )}
                     </div>
                   </td>
                   <td
