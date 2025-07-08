@@ -5,14 +5,16 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { RouterProvider } from 'react-router-dom';
 import '@/App.css';
 import queryClient from '@/apis/queryClient';
-import { DialogProvider } from '@sopt-makers/ui';
+import { DialogProvider, ToastProvider } from '@sopt-makers/ui';
 
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={true} />
       <DialogProvider>
-        <RouterProvider router={router} />
+        <ToastProvider>
+          <RouterProvider router={router} />
+        </ToastProvider>
       </DialogProvider>
     </QueryClientProvider>
   );

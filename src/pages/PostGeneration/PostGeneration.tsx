@@ -6,7 +6,7 @@ import { useContext, useState } from 'react';
 import GenerationTable from '@/pages/PostGeneration/components/GenerationTable';
 
 import { useGetGeneration } from '@/pages/PostGeneration/hooks/queries';
-import type { GROUP } from '@/pages/Question/types';
+import type { Group } from '@/pages/PostQuestion/types';
 import { Button, DialogContext } from '@sopt-makers/ui';
 import { useMemo } from 'react';
 import PostGenerationModal from './components/PostGenerationModal';
@@ -14,7 +14,7 @@ import PostGenerationModal from './components/PostGenerationModal';
 const LIMIT = 10;
 
 const PostGeneration = () => {
-  const [group, setGroup] = useState<GROUP>('YB');
+  const [group, setGroup] = useState<Group>('YB');
 
   const { data: generationData } = useGetGeneration(group);
 

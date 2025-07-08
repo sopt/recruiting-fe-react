@@ -1,0 +1,52 @@
+import { Add } from '@/assets/svg';
+import QuestionBox from '@/pages/PostQuestion/components/QuestionBox';
+import { DEFAULT_QUESTION_DATA } from '@/pages/PostQuestion/constant';
+import { Button } from '@sopt-makers/ui';
+
+import { useFieldArray, useFormContext } from 'react-hook-form';
+
+const QuestionList = () => {
+  const { control } = useFormContext();
+
+  const {
+    fields: questionFileds,
+    append,
+    remove,
+  } = useFieldArray({
+    control,
+    name: 'questionList',
+  });
+
+  const addQuestion = () => {
+    append(DEFAULT_QUESTION_DATA);
+  };
+
+  const deleteQuestion = (index: number) => {
+    remove(index);
+  };
+
+  return (
+    <>
+      <ul className="flex flex-col gap-[1.2rem]">
+        {questionFileds.map((_, index) => (
+          <QuestionBox
+            key={index}
+            index={index}
+            deleteQuestion={() => deleteQuestion(index)}
+          />
+        ))}
+      </ul>
+      <Button
+        theme="black"
+        variant="fill"
+        LeftIcon={Add}
+        onClick={addQuestion}
+        className="mt-[3.2rem]"
+      >
+        질문 추가하기
+      </Button>
+    </>
+  );
+};
+
+export default QuestionList;
