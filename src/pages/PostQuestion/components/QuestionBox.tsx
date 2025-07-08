@@ -58,7 +58,7 @@ const QuestionBox = ({ index, deleteQuestion }: QuestionBoxProps) => {
         </div>
 
         {isFile && (
-          <label className="flex flex-col gap-[0.8rem] label_3_14_sb ">
+          <div className="flex flex-col gap-[0.8rem] label_3_14_sb ">
             파일 업로드
             <div className="flex justify-between py-[1.1rem] px-[2.2rem] w-full rounded-2xl bg-gray800">
               <div className="flex gap-[2.4rem]">
@@ -69,16 +69,12 @@ const QuestionBox = ({ index, deleteQuestion }: QuestionBoxProps) => {
                   </span>
                 </>
               </div>
-              <input
-                className="hidden"
-                type="file"
-                {...register(`questionList.${index}.file`)}
-              />
+
               <div className="flex items-center justify-center p-[0.6rem] rounded-md bg-gray600">
                 <Add width={15} />
               </div>
             </div>
-          </label>
+          </div>
         )}
         <hr className="border-gray700" />
 
