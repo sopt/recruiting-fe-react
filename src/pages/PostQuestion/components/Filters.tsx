@@ -1,10 +1,11 @@
+import { useGetGeneration } from '@/pages/PostGeneration/hooks/queries';
 import YbObRadioGroup from '@/pages/PostQuestion/components/YbObRadioGroup';
 import type { Group } from '@/pages/PostQuestion/types';
 import { SelectV2 } from '@sopt-makers/ui';
 
-const generations = Array.from({ length: 7 }, (_, i) =>
-  String(i + 30),
-).reverse();
+// const generations = Array.from({ length: 7 }, (_, i) =>
+//   String(i + 30),
+// ).reverse();
 
 interface FiltersProps {
   selectedGroup: Group;
@@ -17,14 +18,22 @@ const Filters = ({
   handleGroupChange,
   handleSeasonChange,
 }: FiltersProps) => {
+  const { data: generationData } = useGetGeneration(selectedGroup);
+
+  const generations = generationData?.seasons
+    .map((season) => season.season)
+    .sort((a, b) => b - a)
+    .map(String);
+
+  console.log(generations);
   return (
     <div className="flex gap-[1.6rem] my-[4.4rem]">
       <SelectV2.Root visibleOptions={7} type="text">
         <SelectV2.Trigger>
-          <SelectV2.TriggerContent placeholder={generations[0]} />
+          <SelectV2.TriggerContent placeholder={generations?.[0]} />
         </SelectV2.Trigger>
         <SelectV2.Menu>
-          {generations.map((gen) => (
+          {generations?.map((gen) => (
             <SelectV2.MenuItem
               key={gen}
               option={{ label: gen, value: gen }}

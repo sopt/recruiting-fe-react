@@ -16,7 +16,7 @@ import { useGetQuestionList } from '@/pages/PostQuestion/hooks/quries';
 const PostQuestion = () => {
   const [selectedPart, setSelectedPart] = useState<PartName>('common');
   const [selectedGroup, setSelectedGroup] = useState<Group>('YB');
-  const [selectedSeason, setSelectedSeason] = useState(33);
+  const [selectedSeason, setSelectedSeason] = useState(36);
   const [hasDescription, setHasDescription] = useState(false);
 
   const { data: questionListData } = useGetQuestionList(
