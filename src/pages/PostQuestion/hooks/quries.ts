@@ -3,7 +3,7 @@ import { postQuestionsRegister } from '@/pages/PostQuestion/apis/postQuestionsRe
 import { postQuestionsSave } from '@/pages/PostQuestion/apis/postQuestionsSave';
 import type { Group, QuestionSubmitRequest } from '@/pages/PostQuestion/types';
 import { useToast } from '@sopt-makers/ui';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useSuspenseQuery } from '@tanstack/react-query';
 
 export const usePostQuestionsSave = () => {
   const { open } = useToast();
@@ -24,7 +24,7 @@ export const usePostQuestionsRegister = () => {
 };
 
 export const useGetQuestionList = (season: number, group: Group) => {
-  return useQuery({
+  return useSuspenseQuery({
     queryKey: ['question', 'list', season, group],
     queryFn: () => getQuestionList(season, group),
   });

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Header from '@/pages/PostQuestion/components/Header';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -16,7 +16,7 @@ import { useGetQuestionList } from '@/pages/PostQuestion/hooks/quries';
 const PostQuestion = () => {
   const [selectedPart, setSelectedPart] = useState<PartName>('common');
   const [selectedGroup, setSelectedGroup] = useState<Group>('YB');
-  const [selectedSeason, setSelectedSeason] = useState(36);
+  const [selectedSeason, setSelectedSeason] = useState(33);
   const [hasDescription, setHasDescription] = useState(false);
 
   const { data: questionListData } = useGetQuestionList(
@@ -24,16 +24,52 @@ const PostQuestion = () => {
     selectedGroup,
   );
 
+  const partQuestion = questionListData?.partQuestions.filter(
+    (questionList) => questionList.part === selectedPart,
+  );
+
+  const newpartQuestion = partQuestion[0]?.questions.map((question) => {
+    if (question.link) {
+      return { ...question, isLink: true };
+    }
+    return question;
+  });
+
   const method = useForm<qustionListTypes>({
     resolver: zodResolver(questionsListSchema),
     defaultValues: {
-      questionList: [DEFAULT_QUESTION_DATA],
+      questionList: newpartQuestion ? newpartQuestion : [DEFAULT_QUESTION_DATA],
     },
     mode: 'onChange',
   });
 
-  const { watch } = method;
+  useEffect(() => {
+    const partQuestion = questionListData?.partQuestions.filter(
+      (questionList) => questionList.part === selectedPart,
+    );
+
+    const newpartQuestion = partQuestion[0]?.questions.map((question) => {
+      if (question.link) {
+        return { ...question, isLink: true };
+      }
+      return question;
+    });
+    const resetData = newpartQuestion
+      ? newpartQuestion
+      : [DEFAULT_QUESTION_DATA];
+
+    if (resetData[0].isDescription) {
+      handleHasDescriptionChange(true);
+    } else {
+      handleHasDescriptionChange(false);
+    }
+
+    reset({ questionList: resetData });
+  }, [selectedPart]);
+
+  const { watch, reset } = method;
   const questionList = watch('questionList');
+  console.log(watch());
 
   const handlePartChange = (part: PartName) => {
     setSelectedPart(part);
@@ -62,7 +98,7 @@ const PostQuestion = () => {
       <FormProvider {...method}>
         <form>
           <div className="flex justify-between items-end mb-[2rem]">
-            <span className="title_6_16_sb text-gray200">{`총 ${questionList.length}개`}</span>
+            <span className="title_6_16_sb text-gray200">{`총 ${questionList?.length}개`}</span>
             <div className="flex gap-[1.6rem]">
               <TemporarySaveButton
                 selectedPart={selectedPart}
