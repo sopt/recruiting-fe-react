@@ -75,7 +75,7 @@ const PeriodCalendar = ({
         >
           <input
             type="text"
-            value={selectedDateRange[0]}
+            value={selectedDateRange?.[0] || ''}
             placeholder="YYYY.MM.DD"
             readOnly
             className="flex items-center w-[12.3rem] cursor-pointer text-[1.6rem] font-medium bg-transparent border-none placeholder:text-gray500 focus:outline-none"
@@ -92,7 +92,7 @@ const PeriodCalendar = ({
         >
           <input
             type="text"
-            value={selectedDateRange[1]}
+            value={selectedDateRange?.[1] || ''}
             placeholder="YYYY.MM.DD"
             readOnly
             className="relative flex items-center w-[12.3rem] cursor-pointer text-[1.6rem] font-medium bg-transparent border-none placeholder:text-gray500 focus:outline-none"
@@ -100,7 +100,7 @@ const PeriodCalendar = ({
           <IconCalendar style={{ width: '24' }} />
         </div>
         {isCalendarOpen && (
-          <div className="absolute z-[2] w-[336px] h-[354px] top-full left-[5rem] mt-2 bg-gray600 text-gray10 p-4 rounded-2xl shadow-lg">
+          <div className="absolute z-[2] w-[33.6rem] h-[35rem] top-full left-[5rem] mt-2 bg-gray600 text-gray10 p-4 rounded-2xl shadow-lg">
             <CalendarInputForm
               selectedDate={selectedDateRange}
               setSelectedDate={onSelectDateRange}

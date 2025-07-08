@@ -3,7 +3,6 @@
 
 div.react-calendar {
   color: var(--color-gray10);
-  border: 0;
   background-color: var(--color-gray600);
   border-radius: 16px;
 
@@ -40,7 +39,6 @@ button.react-calendar__navigation__label {
   background-color: var(--color-gray600);
   border-radius: 8px;
 }
-
 .react-calendar__month-view {
   background-color: var(--color-gray600);
   color: var(--color-gray10);
@@ -97,6 +95,7 @@ button.react-calendar__navigation__label {
   font-size: 1.6rem;
   font-weight: 600;
   line-height: 28px;
+  row-gap: 1.2rem;
 }
 
 /* 선택된 날짜(중간) - 호버 상태 포함 */
