@@ -1,5 +1,3 @@
-import { Add } from '@/assets/svg';
-import DescriptionBox from '@/pages/PostQuestion/components/DescriptionBox';
 import { useState } from 'react';
 import Header from '@/pages/PostQuestion/components/Header';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -13,14 +11,13 @@ import type { Group, PartName } from '@/pages/PostQuestion/types';
 import TemporarySaveButton from '@/pages/PostQuestion/components/TemporarySaveButton';
 import RegisterButton from '@/pages/PostQuestion/components/RegisterButton';
 import { DEFAULT_QUESTION_DATA } from '@/pages/PostQuestion/constant';
-import { Button } from '@sopt-makers/ui';
 import { useGetQuestionList } from '@/pages/PostQuestion/hooks/quries';
 
 const PostQuestion = () => {
-  const [hasDescription, setHasDescription] = useState(false);
   const [selectedPart, setSelectedPart] = useState<PartName>('common');
   const [selectedGroup, setSelectedGroup] = useState<Group>('YB');
   const [selectedSeason, setSelectedSeason] = useState(36);
+  const [hasDescription, setHasDescription] = useState(false);
 
   const { data: questionListData } = useGetQuestionList(
     selectedSeason,
@@ -80,23 +77,10 @@ const PostQuestion = () => {
             </div>
           </div>
 
-          {hasDescription ? (
-            <DescriptionBox
-              onHasDescriptionChange={handleHasDescriptionChange}
-            />
-          ) : (
-            <Button
-              theme="black"
-              variant="fill"
-              LeftIcon={Add}
-              onClick={() => handleHasDescriptionChange(true)}
-              className="mb-[3.2rem]"
-            >
-              설명글 추가하기
-            </Button>
-          )}
-
-          <QuestionList />
+          <QuestionList
+            handleHasDescriptionChange={handleHasDescriptionChange}
+            hasDescription={hasDescription}
+          />
         </form>
       </FormProvider>
     </main>

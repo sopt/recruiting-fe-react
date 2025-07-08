@@ -28,7 +28,7 @@ const RegisterButton = ({
         id: question.id,
         questionOrder: index,
         part: selectedPart as PartName,
-        content: question.question,
+        content: question.content,
         isDescription: false,
         charLimit: question.charLimit,
         required: question.required,

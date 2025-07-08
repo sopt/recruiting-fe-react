@@ -22,9 +22,16 @@ export type Question = {
   isFile: boolean;
 };
 
+export type Description = {
+  id?: number;
+  part: PartName;
+  content: string;
+  isDescription: boolean;
+};
+
 export type QuestionSubmitRequest = {
   season: number;
   group: Group;
-  questions: Question[];
+  questions: (Question | Description)[];
   deleteQuestionIdList: number[];
 };

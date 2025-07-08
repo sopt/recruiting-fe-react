@@ -16,3 +16,8 @@ export const DEFAULT_QUESTION_DATA = {
   charLimit: 0,
   required: false,
 };
+
+export const DEFAULT_DESCRIPTION_DATA = {
+  content: '',
+  isDescription: true,
+};

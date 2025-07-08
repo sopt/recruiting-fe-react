@@ -1,16 +1,29 @@
 import { Add } from '@/assets/svg';
+import DescriptionBox from '@/pages/PostQuestion/components/DescriptionBox';
 import QuestionBox from '@/pages/PostQuestion/components/QuestionBox';
-import { DEFAULT_QUESTION_DATA } from '@/pages/PostQuestion/constant';
+import {
+  DEFAULT_DESCRIPTION_DATA,
+  DEFAULT_QUESTION_DATA,
+} from '@/pages/PostQuestion/constant';
 import { Button } from '@sopt-makers/ui';
 
 import { useFieldArray, useFormContext } from 'react-hook-form';
 
-const QuestionList = () => {
+interface QuestionListProps {
+  hasDescription: boolean;
+  handleHasDescriptionChange: (bool: boolean) => void;
+}
+
+const QuestionList = ({
+  hasDescription,
+  handleHasDescriptionChange,
+}: QuestionListProps) => {
   const { control } = useFormContext();
 
   const {
     fields: questionFileds,
     append,
+    insert,
     remove,
   } = useFieldArray({
     control,
@@ -25,8 +38,26 @@ const QuestionList = () => {
     remove(index);
   };
 
+  const handleDescriptionAdd = () => {
+    handleHasDescriptionChange(true);
+    insert(0, DEFAULT_DESCRIPTION_DATA);
+  };
+
   return (
     <>
+      {hasDescription ? (
+        <DescriptionBox onHasDescriptionChange={handleHasDescriptionChange} />
+      ) : (
+        <Button
+          theme="black"
+          variant="fill"
+          LeftIcon={Add}
+          onClick={handleDescriptionAdd}
+          className="mb-[3.2rem]"
+        >
+          설명글 추가하기
+        </Button>
+      )}
       <ul className="flex flex-col gap-[1.2rem]">
         {questionFileds.map((_, index) => (
           <QuestionBox
