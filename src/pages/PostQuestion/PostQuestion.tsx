@@ -14,12 +14,29 @@ import TemporarySaveButton from '@/pages/PostQuestion/components/TemporarySaveBu
 import RegisterButton from '@/pages/PostQuestion/components/RegisterButton';
 import { DEFAULT_QUESTION_DATA } from '@/pages/PostQuestion/constant';
 import { Button } from '@sopt-makers/ui';
+import { useGetQuestionList } from '@/pages/PostQuestion/hooks/quries';
 
 const PostQuestion = () => {
   const [hasDescription, setHasDescription] = useState(false);
   const [selectedPart, setSelectedPart] = useState<PartName>('common');
   const [selectedGroup, setSelectedGroup] = useState<Group>('YB');
   const [selectedSeason, setSelectedSeason] = useState(36);
+
+  const { data: questionListData } = useGetQuestionList(
+    selectedSeason,
+    selectedGroup,
+  );
+
+  const method = useForm<qustionListTypes>({
+    resolver: zodResolver(questionsListSchema),
+    defaultValues: {
+      questionList: [DEFAULT_QUESTION_DATA],
+    },
+    mode: 'onChange',
+  });
+
+  const { watch } = method;
+  const questionList = watch('questionList');
 
   const handlePartChange = (part: PartName) => {
     setSelectedPart(part);
@@ -32,17 +49,6 @@ const PostQuestion = () => {
   const handleSeasonChange = (season: number) => {
     setSelectedSeason(season);
   };
-
-  const method = useForm<qustionListTypes>({
-    resolver: zodResolver(questionsListSchema),
-    defaultValues: {
-      questionList: [DEFAULT_QUESTION_DATA],
-    },
-    mode: 'onChange',
-  });
-
-  const { watch } = method;
-  const questionList = watch('questionList');
 
   const handleHasDescriptionChange = (bool: boolean) => {
     setHasDescription(bool);
