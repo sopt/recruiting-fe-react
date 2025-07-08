@@ -1,12 +1,16 @@
 import { InfoCircle, Refresh } from '@/assets/svg';
 import YbObRadioGroup from '@/components/YbObRadioGroup';
-import type { PartType, QuestionCharLimit } from '@/pages/Application/\btypes';
+import type {
+  GetApplicantListRequest,
+  PartType,
+  QuestionCharLimit,
+} from '@/pages/Application/\btypes';
 import MinimumRateModal from '@/pages/Application/components/MinimumRateModal';
 import { usePostMinRate } from '@/pages/Application/hooks/queries';
+import { useGetApplicantList } from '@/pages/Application/hooks/queries';
 import { isNumberValue } from '@/pages/Application/utils/regex';
 import type { Group } from '@/pages/PostQuestion/types';
 import { decimalToPercentage } from '@/utils';
-
 import { DialogContext, SelectV2, TextField, Toggle } from '@sopt-makers/ui';
 import { type SetStateAction, useContext, useState } from 'react';
 import type { ChangeEvent, Dispatch } from 'react';
@@ -54,10 +58,23 @@ const Filter = ({
 }: FilterProps) => {
   const [minimumRate, setMinimumRate] = useState<number | null>(null);
   const [, setQuestions] = useState<QuestionCharLimit[]>([]);
+  const [applicantParams, setApplicantParams] =
+    useState<GetApplicantListRequest>({
+      minRate: minimumRate === null ? 1 : decimalToPercentage(minimumRate),
+      season: Number(season.split('기')[0]),
+      group,
+      part: selectedPart,
+      offset: 0,
+      limit: 10,
+      hideEvaluated: isEvaluated,
+      hideDontRead: isDontRead,
+      checkInterviewPass: isPassedOnly,
+    });
 
   const { openDialog, closeDialog } = useContext(DialogContext);
 
   const { mutate: postMinRate } = usePostMinRate();
+  const { refetch } = useGetApplicantList(applicantParams);
 
   const handleChangeMinimumRate = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -65,6 +82,26 @@ const Filter = ({
     if (isNumberValue(value)) {
       setMinimumRate(value === '' ? null : Number(value));
     }
+  };
+
+  const handleRefresh = () => {
+    const minRateValue =
+      minimumRate === null ? 1 : decimalToPercentage(minimumRate);
+
+    setApplicantParams((prev) => ({
+      ...prev,
+      minRate: minRateValue,
+      season: Number(season.split('기')[0]),
+      group,
+      selectedPart,
+      offset: 0,
+      limit: 10,
+      hideEvaluated: isEvaluated,
+      hideDontRead: isDontRead,
+      checkInterviewPass: isPassedOnly,
+    }));
+
+    refetch();
   };
 
   const handleOpenDialog = () => {
@@ -126,12 +163,13 @@ const Filter = ({
           <div className="flex gap-[0.6rem] items-center">
             <TextField
               placeholder="미달률 입력"
-              value={minimumRate?.toString() ?? ''}
+              value={minimumRate !== null ? minimumRate.toString() : ''}
               onChange={handleChangeMinimumRate}
             />
             <button
               type="button"
               className="bg-gray800 rounded-[1rem] px-[1.6rem] py-[1.4rem] flex items-center justify-center cursor-pointer hover:bg-gray700 transition-colors duration-200"
+              onClick={handleRefresh}
             >
               <Refresh width={20} height={20} />
             </button>
