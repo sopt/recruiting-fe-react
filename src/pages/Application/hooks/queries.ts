@@ -9,7 +9,8 @@ import { getApplicantList } from '@/pages/Application/apis/getApplicantList';
 import { postEvaluation } from '@/pages/Application/apis/postEvaluation';
 import { postMinRate } from '@/pages/Application/apis/postMinRate';
 import { postPassStatus } from '@/pages/Application/apis/postPassStatus';
-import type { Group } from '@/pages/Question/types';
+import type { Group } from '@/pages/PostQuestion/types';
+
 import { useMutation, useQuery } from '@tanstack/react-query';
 
 const QUERY_KEY = {

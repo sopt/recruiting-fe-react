@@ -3,7 +3,7 @@ import type {
   PartType,
   PostMinRateResponse,
 } from '@/pages/Application/\btypes';
-import type { Group } from '@/pages/Question/types';
+import type { Group } from '@/pages/PostQuestion/types';
 
 export const postMinRate = async (
   minimumRate: number,
