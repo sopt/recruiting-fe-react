@@ -30,7 +30,7 @@ const QuestionBox = ({ index, deleteQuestion }: QuestionBoxProps) => {
         </h2>
         <TextField
           placeholder="질문을 작성하세요."
-          {...register(`questionList.${index}.question`)}
+          {...register(`questionList.${index}.content`)}
         />
 
         {isLink && (

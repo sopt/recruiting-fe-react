@@ -45,9 +45,7 @@ const QuestionList = ({
 
   return (
     <>
-      {hasDescription ? (
-        <DescriptionBox onHasDescriptionChange={handleHasDescriptionChange} />
-      ) : (
+      {!hasDescription && (
         <Button
           theme="black"
           variant="fill"
@@ -59,13 +57,21 @@ const QuestionList = ({
         </Button>
       )}
       <ul className="flex flex-col gap-[1.2rem]">
-        {questionFileds.map((_, index) => (
-          <QuestionBox
-            key={index}
-            index={index}
-            deleteQuestion={() => deleteQuestion(index)}
-          />
-        ))}
+        {questionFileds.map((field, index) => {
+          return hasDescription && index === 0 ? (
+            <DescriptionBox
+              key={field.id}
+              onHasDescriptionChange={handleHasDescriptionChange}
+              deleteDescription={() => deleteQuestion(0)}
+            />
+          ) : (
+            <QuestionBox
+              key={field.id}
+              index={hasDescription ? index - 1 : index}
+              deleteQuestion={() => deleteQuestion(index)}
+            />
+          );
+        })}
       </ul>
       <Button
         theme="black"

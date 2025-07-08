@@ -9,8 +9,9 @@ export const PART = {
 };
 
 export const DEFAULT_QUESTION_DATA = {
-  question: '',
   isLink: false,
+  isDescription: false,
+  content: '',
   placeholder: '',
   isFile: false,
   charLimit: 0,

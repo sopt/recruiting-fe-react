@@ -4,12 +4,21 @@ import { useFormContext } from 'react-hook-form';
 
 interface DescriptionBoxProps {
   onHasDescriptionChange: (bool: boolean) => void;
+  deleteDescription: () => void;
 }
 
-const DescriptionBox = ({ onHasDescriptionChange }: DescriptionBoxProps) => {
+const DescriptionBox = ({
+  onHasDescriptionChange,
+  deleteDescription,
+}: DescriptionBoxProps) => {
   const { register, watch } = useFormContext();
   console.log(watch());
-  
+
+  const handleDescriptionDelete = () => {
+    onHasDescriptionChange(false);
+    deleteDescription();
+  };
+
   return (
     <div className="flex flex-row items-center gap-[3.2rem] mb-[1.2rem]">
       <section className="flex flex-col gap-[2rem] px-[3.2rem] py-[2rem] w-[78.4rem] border-1 border-gray500 rounded-xl bg-gray900">
@@ -25,7 +34,7 @@ const DescriptionBox = ({ onHasDescriptionChange }: DescriptionBoxProps) => {
       <div className="flex flex-col gap-[1.4rem] w-[16.4rem] rounded-xl p-[1.6rem] bg-gray700">
         <button
           type="button"
-          onClick={() => onHasDescriptionChange(false)}
+          onClick={handleDescriptionDelete}
           className="flex gap-[0.8rem] px-[0.4rem] py-[0.3rem] rounded-[8px] hover:bg-gray600 cursor-pointer"
         >
           <Trash width={24} height={24} />
