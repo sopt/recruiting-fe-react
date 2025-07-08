@@ -5,8 +5,10 @@ import ChipDropDown from '@/pages/Application/components/ChipDropdown';
 import useDrag from '@/pages/Application/hooks/useDrag';
 import { getEvaluationMessage } from '@/pages/Application/utils';
 import { getDoNotReadMessage } from '@/pages/Application/utils';
+import { ROUTES_CONFIG } from '@/routes/routeConfig';
 import { CheckBox, Tag } from '@sopt-makers/ui';
 import { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const HEADER_BASE_STYLE =
   'p-[1rem] text-gray100 body_3_14_m bg-gray700 border-gray600';
@@ -21,8 +23,15 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
   );
 
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+
   const { onDragStart, onDragMove, onDragEnd, onDragLeave } =
     useDrag(scrollContainerRef);
+
+  const navigate = useNavigate();
+
+  const goApplicaiontDetail = (applicantId: number) => {
+    navigate(ROUTES_CONFIG.applicationDetail.generatePath(applicantId));
+  };
 
   const handleStatusChange = (id: number, value: string) => {
     setPassStatusList((prev) => ({
@@ -109,6 +118,8 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                 <tr
                   key={item.id}
                   className="hover:bg-gray900 transition-colors duration-300"
+                  onClick={() => goApplicaiontDetail(item.id)}
+                  onKeyDown={() => goApplicaiontDetail(item.id)}
                 >
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}

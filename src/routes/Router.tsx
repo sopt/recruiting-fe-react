@@ -24,7 +24,7 @@ export const router = createBrowserRouter([
       { path: ROUTES_CONFIG.postQuestion.path, element: <PostQuestion /> },
       { path: ROUTES_CONFIG.postGeneration.path, element: <PostGeneration /> },
       {
-        path: ROUTES_CONFIG.applicationDetail.path(':id'),
+        path: ROUTES_CONFIG.applicationDetail.path,
         element: <ApplicationDetail />,
       },
     ],
