@@ -5,9 +5,14 @@ import { Controller, useFormContext } from 'react-hook-form';
 interface QuestionBoxProps {
   index: number;
   deleteQuestion: () => void;
+  hasDescription: boolean;
 }
 
-const QuestionBox = ({ index, deleteQuestion }: QuestionBoxProps) => {
+const QuestionBox = ({
+  index,
+  deleteQuestion,
+  hasDescription,
+}: QuestionBoxProps) => {
   const { register, watch, control, setValue } = useFormContext();
 
   const isLink = watch(`questionList.${index}.isLink`);
@@ -25,7 +30,7 @@ const QuestionBox = ({ index, deleteQuestion }: QuestionBoxProps) => {
           {required && (
             <p className="label_4_12_sb text-secondary">*필수질문</p>
           )}
-          {`질문 ${index + 1}`}
+          {`질문 ${index + (hasDescription ? 0 : 1)}`}
           <span className="text-secondary">*</span>
         </h2>
         <TextField

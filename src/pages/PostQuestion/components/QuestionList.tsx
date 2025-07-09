@@ -68,8 +68,9 @@ const QuestionList = ({
           ) : (
             <QuestionBox
               key={field.id}
-              index={hasDescription ? index - 1 : index}
+              index={index}
               deleteQuestion={() => deleteQuestion(index)}
+              hasDescription={hasDescription}
             />
           );
         })}
