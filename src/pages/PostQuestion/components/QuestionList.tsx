@@ -7,19 +7,46 @@ import {
 } from '@/pages/PostQuestion/constant';
 
 import { Button } from '@sopt-makers/ui';
-
+import { useGetQuestionList } from '@/pages/PostQuestion/hooks/quries';
 import { useFieldArray, useFormContext } from 'react-hook-form';
+import { useEffect } from 'react';
+import type { Group, PartName } from '@/pages/PostQuestion/types';
 
 interface QuestionListProps {
   hasDescription: boolean;
   handleHasDescriptionChange: (bool: boolean) => void;
+  selectedSeason: number;
+  selectedGroup: Group;
+  selectedPart: PartName;
 }
 
 const QuestionList = ({
   hasDescription,
   handleHasDescriptionChange,
+  selectedSeason,
+  selectedGroup,
+  selectedPart,
 }: QuestionListProps) => {
-  const { control } = useFormContext();
+  const { data: questionListData, isSuccess } = useGetQuestionList(
+    selectedSeason,
+    selectedGroup,
+  );
+
+  const { control, reset, watch } = useFormContext();
+
+  useEffect(() => {
+    const partQuestion = questionListData?.partQuestions
+      .find((questionList) => questionList.part === selectedPart)
+      ?.questions.map((question) => ({ ...question, isLink: !!question.link }));
+
+    const resetData = partQuestion ? partQuestion : [DEFAULT_QUESTION_DATA];
+
+    handleHasDescriptionChange(!!resetData[0].isDescription);
+
+    reset({ questionList: resetData });
+  }, [isSuccess, selectedPart, selectedSeason, selectedGroup]);
+
+  const questionList = watch('questionList');
 
   const {
     fields: questionFileds,
@@ -45,7 +72,8 @@ const QuestionList = ({
   };
 
   return (
-    <>
+    <div className="relative">
+      <span className="absolute top-[-4rem] title_6_16_sb text-gray200">{`총 ${questionList?.length}개`}</span>
       {!hasDescription && (
         <Button
           theme="black"
@@ -84,7 +112,7 @@ const QuestionList = ({
       >
         질문 추가하기
       </Button>
-    </>
+    </div>
   );
 };
 

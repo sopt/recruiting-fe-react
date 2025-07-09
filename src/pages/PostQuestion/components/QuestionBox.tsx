@@ -81,6 +81,7 @@ const QuestionBox = ({
             </div>
           </div>
         )}
+
         <hr className="border-gray700" />
 
         <div className="w-[26.8rem]">

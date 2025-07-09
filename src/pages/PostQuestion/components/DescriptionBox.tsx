@@ -11,8 +11,7 @@ const DescriptionBox = ({
   onHasDescriptionChange,
   deleteDescription,
 }: DescriptionBoxProps) => {
-  const { register, watch } = useFormContext();
-  console.log(watch());
+  const { register } = useFormContext();
 
   const handleDescriptionDelete = () => {
     onHasDescriptionChange(false);
