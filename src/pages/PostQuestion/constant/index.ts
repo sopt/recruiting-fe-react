@@ -19,6 +19,11 @@ export const DEFAULT_QUESTION_DATA = {
 };
 
 export const DEFAULT_DESCRIPTION_DATA = {
-  content: '',
+  isLink: false,
   isDescription: true,
+  content: '',
+  placeholder: 'default',
+  isFile: false,
+  charLimit: 10,
+  required: false,
 };
