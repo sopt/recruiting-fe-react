@@ -1,20 +1,14 @@
 import { usePostQuestionsRegister } from '@/pages/PostQuestion/hooks/quries';
-import type { Group, PartName } from '@/pages/PostQuestion/types';
+import type { FilterState } from '@/pages/PostQuestion/hooks/useFilterReducer';
 import type { qustionListTypes } from '@/pages/PostQuestion/types/form';
 import { Button } from '@sopt-makers/ui';
 import { useFormContext } from 'react-hook-form';
 
 interface RegisterButtonProps {
-  selectedPart: PartName;
-  selectedGroup: Group;
-  selectedSeason: number;
+  filterState: FilterState;
 }
 
-const RegisterButton = ({
-  selectedPart,
-  selectedGroup,
-  selectedSeason,
-}: RegisterButtonProps) => {
+const RegisterButton = ({ filterState }: RegisterButtonProps) => {
   const {
     handleSubmit,
     formState: { isSubmitting, isValid, isDirty },
@@ -27,7 +21,7 @@ const RegisterButton = ({
       return {
         id: question.id,
         questionOrder: index,
-        part: selectedPart as PartName,
+        part: filterState.part,
         content: question.content,
         isDescription: false,
         charLimit: question.charLimit,
@@ -39,8 +33,8 @@ const RegisterButton = ({
     });
 
     const requestData = {
-      season: selectedSeason,
-      group: selectedGroup,
+      season: filterState.season,
+      group: filterState.group,
       questions: questions,
       deleteQuestionIdList: [],
     };

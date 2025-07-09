@@ -10,33 +10,29 @@ import { Button } from '@sopt-makers/ui';
 import { useGetQuestionList } from '@/pages/PostQuestion/hooks/quries';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { useEffect } from 'react';
-import type { Group, PartName } from '@/pages/PostQuestion/types';
+import type { FilterState } from '@/pages/PostQuestion/hooks/useFilterReducer';
 
 interface QuestionListProps {
   hasDescription: boolean;
   handleHasDescriptionChange: (bool: boolean) => void;
-  selectedSeason: number;
-  selectedGroup: Group;
-  selectedPart: PartName;
+  filterState: FilterState;
 }
 
 const QuestionList = ({
   hasDescription,
   handleHasDescriptionChange,
-  selectedSeason,
-  selectedGroup,
-  selectedPart,
+  filterState,
 }: QuestionListProps) => {
   const { data: questionListData, isSuccess } = useGetQuestionList(
-    selectedSeason,
-    selectedGroup,
+    filterState.season,
+    filterState.group,
   );
 
   const { control, reset, watch } = useFormContext();
 
   useEffect(() => {
     const partQuestions = questionListData?.find(
-      (questionList) => questionList.part === selectedPart,
+      (questionList) => questionList.part === filterState.part,
     )?.questions;
 
     const resetData = partQuestions ? partQuestions : [DEFAULT_QUESTION_DATA];
@@ -44,7 +40,7 @@ const QuestionList = ({
     handleHasDescriptionChange(!!resetData[0]?.isDescription);
 
     reset({ questionList: resetData });
-  }, [isSuccess, selectedPart, selectedSeason, selectedGroup]);
+  }, [isSuccess, filterState.group, filterState.part, filterState.season]);
 
   const questionList = watch('questionList');
 
