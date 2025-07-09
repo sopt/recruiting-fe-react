@@ -1,13 +1,9 @@
 import { getQuestionList } from '@/pages/PostQuestion/apis/getQuestionList';
 import { postQuestionsRegister } from '@/pages/PostQuestion/apis/postQuestionsRegister';
 import { postQuestionsSave } from '@/pages/PostQuestion/apis/postQuestionsSave';
-import type {
-  Group,
-  PartName,
-  QuestionSubmitRequest,
-} from '@/pages/PostQuestion/types';
+import type { Group, QuestionSubmitRequest } from '@/pages/PostQuestion/types';
 import { useToast } from '@sopt-makers/ui';
-import { useMutation, useQuery, useSuspenseQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 export const usePostQuestionsSave = () => {
   const { open } = useToast();

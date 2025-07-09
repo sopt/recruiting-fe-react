@@ -38,10 +38,7 @@ const PostQuestion = () => {
     );
 
     const newpartQuestion = partQuestion?.[0]?.questions.map((question) => {
-      if (question.link) {
-        return { ...question, isLink: true };
-      }
-      return question;
+      return { ...question, isLink: !!question.link };
     });
 
     const resetData = newpartQuestion
@@ -57,9 +54,13 @@ const PostQuestion = () => {
     reset({ questionList: resetData });
   }, [selectedPart, selectedSeason, isSuccess]);
 
-  const { watch, reset } = method;
+  const {
+    watch,
+    reset,
+    formState: { isValid },
+  } = method;
   const questionList = watch('questionList');
-
+  console.log(questionList, isValid);
   const handlePartChange = (part: PartName) => {
     setSelectedPart(part);
   };
