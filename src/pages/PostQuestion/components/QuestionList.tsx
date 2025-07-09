@@ -9,20 +9,16 @@ import {
 import { Button } from '@sopt-makers/ui';
 import { useGetQuestionList } from '@/pages/PostQuestion/hooks/quries';
 import { useFieldArray, useFormContext } from 'react-hook-form';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import type { FilterState } from '@/pages/PostQuestion/hooks/useFilterReducer';
 
 interface QuestionListProps {
-  hasDescription: boolean;
-  handleHasDescriptionChange: (bool: boolean) => void;
   filterState: FilterState;
 }
 
-const QuestionList = ({
-  hasDescription,
-  handleHasDescriptionChange,
-  filterState,
-}: QuestionListProps) => {
+const QuestionList = ({ filterState }: QuestionListProps) => {
+  const [hasDescription, setHasDescription] = useState(false);
+
   const { data: questionListData, isSuccess } = useGetQuestionList(
     filterState.season,
     filterState.group,
@@ -37,7 +33,7 @@ const QuestionList = ({
 
     const resetData = partQuestions ? partQuestions : [DEFAULT_QUESTION_DATA];
 
-    handleHasDescriptionChange(!!resetData[0]?.isDescription);
+    setHasDescription(!!resetData[0]?.isDescription);
 
     reset({ questionList: resetData });
   }, [isSuccess, filterState.group, filterState.part, filterState.season]);
@@ -62,8 +58,12 @@ const QuestionList = ({
     remove(index);
   };
 
+  const handleHasDescriptionChange = (bool: boolean) => {
+    setHasDescription(bool);
+  };
+
   const handleDescriptionAdd = () => {
-    handleHasDescriptionChange(true);
+    setHasDescription(true);
     insert(0, DEFAULT_DESCRIPTION_DATA);
   };
 

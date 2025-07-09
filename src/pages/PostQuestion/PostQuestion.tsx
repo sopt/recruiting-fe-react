@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Header from '@/pages/PostQuestion/components/Header';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -20,8 +19,6 @@ const PostQuestion = () => {
     setSeason,
   } = useFilterReducer();
 
-  const [hasDescription, setHasDescription] = useState(false);
-
   const method = useForm<qustionListTypes>({
     resolver: zodResolver(questionsListSchema),
     defaultValues: {
@@ -29,10 +26,6 @@ const PostQuestion = () => {
     },
     mode: 'onChange',
   });
-
-  const handleHasDescriptionChange = (bool: boolean) => {
-    setHasDescription(bool);
-  };
 
   return (
     <main className="max-w-[98rem]">
@@ -51,11 +44,7 @@ const PostQuestion = () => {
             </div>
           </div>
 
-          <QuestionList
-            handleHasDescriptionChange={handleHasDescriptionChange}
-            hasDescription={hasDescription}
-            filterState={filterState}
-          />
+          <QuestionList filterState={filterState} />
         </form>
       </FormProvider>
     </main>
