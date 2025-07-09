@@ -17,7 +17,7 @@ export type Question = {
   isDescription: boolean;
   charLimit: number;
   required: boolean;
-  link?: string;
+  link?: string | null;
   placeholder: string;
   isFile: boolean;
 };

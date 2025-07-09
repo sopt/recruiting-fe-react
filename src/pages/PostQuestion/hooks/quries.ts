@@ -28,14 +28,14 @@ export const useGetQuestionList = (season: number, group: Group) => {
     queryKey: ['question', 'list', season, group],
     queryFn: () => getQuestionList(season, group),
     enabled: season !== 0,
-    // select: (data) =>
-    //   data.partQuestions
-    //     .filter((questionList) => questionList.part === part)[0]
-    //     .questions.map((question) => {
-    //       if (question.link) {
-    //         return { ...question, isLink: true };
-    //       }
-    //       return question;
-    //     }),
+    // 질문 데이터에 isLink 값 추가
+    select: (data) =>
+      data.partQuestions.map((partQuestion) => ({
+        ...partQuestion,
+        questions: partQuestion.questions.map((question) => ({
+          ...question,
+          isLink: !!question.link,
+        })),
+      })),
   });
 };

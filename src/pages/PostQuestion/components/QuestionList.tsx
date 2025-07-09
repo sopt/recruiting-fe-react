@@ -35,13 +35,13 @@ const QuestionList = ({
   const { control, reset, watch } = useFormContext();
 
   useEffect(() => {
-    const partQuestion = questionListData?.partQuestions
-      .find((questionList) => questionList.part === selectedPart)
-      ?.questions.map((question) => ({ ...question, isLink: !!question.link }));
+    const partQuestions = questionListData?.find(
+      (questionList) => questionList.part === selectedPart,
+    )?.questions;
 
-    const resetData = partQuestion ? partQuestion : [DEFAULT_QUESTION_DATA];
+    const resetData = partQuestions ? partQuestions : [DEFAULT_QUESTION_DATA];
 
-    handleHasDescriptionChange(!!resetData[0].isDescription);
+    handleHasDescriptionChange(!!resetData[0]?.isDescription);
 
     reset({ questionList: resetData });
   }, [isSuccess, selectedPart, selectedSeason, selectedGroup]);
