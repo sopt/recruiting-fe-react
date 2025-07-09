@@ -44,7 +44,11 @@ const QuestionList = ({
 
   const questionList = watch('questionList');
 
-  console.log(questionList);
+  useEffect(() => {
+    if (questionList?.length === 0) {
+      append(DEFAULT_QUESTION_DATA);
+    }
+  }, [questionList]);
 
   const {
     fields: questionFileds,
@@ -63,10 +67,7 @@ const QuestionList = ({
   const deleteQuestion = (index: number, id: number) => {
     remove(index);
     addDeleteQuestionId(id);
-  };
-
-  const handleHasDescriptionChange = (bool: boolean) => {
-    setHasDescription(bool);
+    setHasDescription(false);
   };
 
   const handleDescriptionAdd = () => {
@@ -93,7 +94,6 @@ const QuestionList = ({
           return hasDescription && index === 0 ? (
             <DescriptionBox
               key={field.id}
-              onHasDescriptionChange={handleHasDescriptionChange}
               deleteDescription={() =>
                 deleteQuestion(0, questionList[index].id)
               }

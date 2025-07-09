@@ -1,5 +1,5 @@
 import { Add, Arrange, Check, InfoCircle, Link, Trash } from '@/assets/svg';
-import { CheckBox, TextField, Toggle } from '@sopt-makers/ui';
+import { CheckBox, TextField, Toggle, useDialog } from '@sopt-makers/ui';
 import { Controller, useFormContext } from 'react-hook-form';
 
 interface QuestionBoxProps {
@@ -13,11 +13,26 @@ const QuestionBox = ({
   deleteQuestion,
   hasDescription,
 }: QuestionBoxProps) => {
+  const { open } = useDialog();
+
   const { register, watch, control, setValue } = useFormContext();
 
   const isLink = watch(`questionList.${index}.isLink`);
   const isFile = watch(`questionList.${index}.isFile`);
   const required = watch(`questionList.${index}.required`);
+
+  const handleDeleteQuestionClick = () => {
+    open({
+      title: '질문을 삭제하실 건가요?',
+      description: '삭제된 질문은 복구가 불가능해요.',
+      type: 'danger',
+      typeOptions: {
+        cancelButtonText: '취소하기',
+        approveButtonText: '삭제하기',
+        buttonFunction: deleteQuestion,
+      },
+    });
+  };
 
   return (
     <li className="flex flex-row items-center gap-[3.2rem]">
@@ -155,7 +170,7 @@ const QuestionBox = ({
 
         <button
           type="button"
-          onClick={deleteQuestion}
+          onClick={handleDeleteQuestionClick}
           className="flex gap-[0.8rem] px-[0.4rem] py-[0.5rem]  rounded-[8px] hover:bg-gray600 cursor-pointer"
         >
           <Trash width={24} height={24} />

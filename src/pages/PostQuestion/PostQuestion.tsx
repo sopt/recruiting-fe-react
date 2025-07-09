@@ -15,7 +15,6 @@ import { useState } from 'react';
 const PostQuestion = () => {
   const [deleteQuestionIds, setDeleteQuestionIds] = useState<number[]>([]);
 
-  console.log(deleteQuestionIds);
   const addDeleteQuestionId = (id: number) => {
     setDeleteQuestionIds((prev) => [...prev, id]);
   };
