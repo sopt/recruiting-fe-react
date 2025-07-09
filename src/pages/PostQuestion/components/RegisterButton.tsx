@@ -2,6 +2,7 @@ import { usePostQuestionsRegister } from '@/pages/PostQuestion/hooks/quries';
 import type { FilterState } from '@/pages/PostQuestion/hooks/useFilterReducer';
 import type { qustionListTypes } from '@/pages/PostQuestion/types/form';
 import { Button } from '@sopt-makers/ui';
+import { useQueryClient } from '@tanstack/react-query';
 import { useFormContext } from 'react-hook-form';
 
 interface RegisterButtonProps {
@@ -13,6 +14,8 @@ const RegisterButton = ({
   filterState,
   deleteQuestionIds,
 }: RegisterButtonProps) => {
+  const queryClient = useQueryClient();
+
   const {
     handleSubmit,
     formState: { isSubmitting, isValid, isDirty },
@@ -43,7 +46,12 @@ const RegisterButton = ({
       deleteQuestionIdList: deleteQuestionIds,
     };
 
-    registerMutate(requestData);
+    registerMutate(requestData, {
+      onSuccess: () =>
+        queryClient.invalidateQueries({
+          queryKey: ['question', 'list', filterState.season, filterState.group],
+        }),
+    });
   };
 
   return (
