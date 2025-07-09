@@ -14,9 +14,13 @@ import type { FilterState } from '@/pages/PostQuestion/hooks/useFilterReducer';
 
 interface QuestionListProps {
   filterState: FilterState;
+  addDeleteQuestionId: (id: number) => void;
 }
 
-const QuestionList = ({ filterState }: QuestionListProps) => {
+const QuestionList = ({
+  filterState,
+  addDeleteQuestionId,
+}: QuestionListProps) => {
   const [hasDescription, setHasDescription] = useState(false);
 
   const { data: questionListData, isSuccess } = useGetQuestionList(
@@ -40,6 +44,8 @@ const QuestionList = ({ filterState }: QuestionListProps) => {
 
   const questionList = watch('questionList');
 
+  console.log(questionList);
+
   const {
     fields: questionFileds,
     append,
@@ -54,8 +60,9 @@ const QuestionList = ({ filterState }: QuestionListProps) => {
     append(DEFAULT_QUESTION_DATA);
   };
 
-  const deleteQuestion = (index: number) => {
+  const deleteQuestion = (index: number, id: number) => {
     remove(index);
+    addDeleteQuestionId(id);
   };
 
   const handleHasDescriptionChange = (bool: boolean) => {
@@ -87,13 +94,17 @@ const QuestionList = ({ filterState }: QuestionListProps) => {
             <DescriptionBox
               key={field.id}
               onHasDescriptionChange={handleHasDescriptionChange}
-              deleteDescription={() => deleteQuestion(0)}
+              deleteDescription={() =>
+                deleteQuestion(0, questionList[index].id)
+              }
             />
           ) : (
             <QuestionBox
               key={field.id}
               index={index}
-              deleteQuestion={() => deleteQuestion(index)}
+              deleteQuestion={() =>
+                deleteQuestion(index, questionList[index].id)
+              }
               hasDescription={hasDescription}
             />
           );

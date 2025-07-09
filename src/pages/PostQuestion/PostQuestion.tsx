@@ -10,8 +10,16 @@ import TemporarySaveButton from '@/pages/PostQuestion/components/TemporarySaveBu
 import RegisterButton from '@/pages/PostQuestion/components/RegisterButton';
 import { DEFAULT_QUESTION_DATA } from '@/pages/PostQuestion/constant';
 import { useFilterReducer } from '@/pages/PostQuestion/hooks/useFilterReducer';
+import { useState } from 'react';
 
 const PostQuestion = () => {
+  const [deleteQuestionIds, setDeleteQuestionIds] = useState<number[]>([]);
+
+  console.log(deleteQuestionIds);
+  const addDeleteQuestionId = (id: number) => {
+    setDeleteQuestionIds((prev) => [...prev, id]);
+  };
+
   const {
     state: filterState,
     setPart,
@@ -39,12 +47,21 @@ const PostQuestion = () => {
         <form>
           <div className="flex justify-end items-end w-full mb-[2rem]">
             <div className="flex gap-[1.6rem]">
-              <TemporarySaveButton filterState={filterState} />
-              <RegisterButton filterState={filterState} />
+              <TemporarySaveButton
+                filterState={filterState}
+                deleteQuestionIds={deleteQuestionIds}
+              />
+              <RegisterButton
+                filterState={filterState}
+                deleteQuestionIds={deleteQuestionIds}
+              />
             </div>
           </div>
 
-          <QuestionList filterState={filterState} />
+          <QuestionList
+            filterState={filterState}
+            addDeleteQuestionId={addDeleteQuestionId}
+          />
         </form>
       </FormProvider>
     </main>

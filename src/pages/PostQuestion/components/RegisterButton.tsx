@@ -6,9 +6,13 @@ import { useFormContext } from 'react-hook-form';
 
 interface RegisterButtonProps {
   filterState: FilterState;
+  deleteQuestionIds: number[];
 }
 
-const RegisterButton = ({ filterState }: RegisterButtonProps) => {
+const RegisterButton = ({
+  filterState,
+  deleteQuestionIds,
+}: RegisterButtonProps) => {
   const {
     handleSubmit,
     formState: { isSubmitting, isValid, isDirty },
@@ -36,7 +40,7 @@ const RegisterButton = ({ filterState }: RegisterButtonProps) => {
       season: filterState.season,
       group: filterState.group,
       questions: questions,
-      deleteQuestionIdList: [],
+      deleteQuestionIdList: deleteQuestionIds,
     };
 
     registerMutate(requestData);

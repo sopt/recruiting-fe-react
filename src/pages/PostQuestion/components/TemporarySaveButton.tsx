@@ -6,9 +6,13 @@ import { useFormContext } from 'react-hook-form';
 
 interface TemporarySaveButtonProps {
   filterState: FilterState;
+  deleteQuestionIds: number[];
 }
 
-const TemporarySaveButton = ({ filterState }: TemporarySaveButtonProps) => {
+const TemporarySaveButton = ({
+  filterState,
+  deleteQuestionIds,
+}: TemporarySaveButtonProps) => {
   const {
     handleSubmit,
     formState: { isSubmitting, isValid, isDirty },
@@ -36,7 +40,7 @@ const TemporarySaveButton = ({ filterState }: TemporarySaveButtonProps) => {
       season: filterState.season,
       group: filterState.group,
       questions: questions,
-      deleteQuestionIdList: [],
+      deleteQuestionIdList: deleteQuestionIds,
     };
 
     saveMutate(requestData);
