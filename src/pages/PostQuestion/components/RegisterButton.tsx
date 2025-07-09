@@ -17,7 +17,7 @@ const RegisterButton = ({
 }: RegisterButtonProps) => {
   const {
     handleSubmit,
-    formState: { isSubmitting, isValid },
+    formState: { isSubmitting, isValid, isDirty },
   } = useFormContext<qustionListTypes>();
 
   const { mutate: registerMutate } = usePostQuestionsRegister();
@@ -54,7 +54,7 @@ const RegisterButton = ({
       variant="fill"
       size="md"
       onClick={handleSubmit(handleQuetsionsRegister)}
-      disabled={isSubmitting || !isValid}
+      disabled={isSubmitting || !isValid || !isDirty}
     >
       최종 등록하기
     </Button>

@@ -17,7 +17,7 @@ const TemporarySaveButton = ({
 }: TemporarySaveButtonProps) => {
   const {
     handleSubmit,
-    formState: { isSubmitting, isValid },
+    formState: { isSubmitting, isValid, isDirty },
   } = useFormContext<qustionListTypes>();
 
   const { mutate: saveMutate } = usePostQuestionsSave();
@@ -54,7 +54,7 @@ const TemporarySaveButton = ({
       variant="outlined"
       size="md"
       onClick={handleSubmit(handleQuetsionsSave)}
-      disabled={isSubmitting || !isValid}
+      disabled={isSubmitting || !isValid || !isDirty}
     >
       임시저장
     </Button>
