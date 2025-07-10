@@ -41,7 +41,7 @@ const QuestionList = ({ filterState }: QuestionListProps) => {
   const questionList = watch('questionList');
 
   const {
-    fields: questionFileds,
+    fields: questionFields,
     append,
     insert,
     remove,
@@ -82,7 +82,7 @@ const QuestionList = ({ filterState }: QuestionListProps) => {
         </Button>
       )}
       <ul className="flex flex-col gap-[1.2rem]">
-        {questionFileds.map((field, index) => {
+        {questionFields.map((field, index) => {
           return hasDescription && index === 0 ? (
             <DescriptionBox
               key={field.id}
