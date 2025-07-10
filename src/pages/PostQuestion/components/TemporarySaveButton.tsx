@@ -1,23 +1,17 @@
 import { usePostQuestionsSave } from '@/pages/PostQuestion/hooks/quries';
-import type { Group, PartName } from '@/pages/PostQuestion/types';
+import type { FilterState } from '@/pages/PostQuestion/hooks/useFilterReducer';
 import type { qustionListTypes } from '@/pages/PostQuestion/types/form';
 import { Button } from '@sopt-makers/ui';
 import { useFormContext } from 'react-hook-form';
 
 interface TemporarySaveButtonProps {
-  selectedPart: PartName;
-  selectedGroup: Group;
-  selectedSeason: number;
+  filterState: FilterState;
 }
 
-const TemporarySaveButton = ({
-  selectedPart,
-  selectedGroup,
-  selectedSeason,
-}: TemporarySaveButtonProps) => {
+const TemporarySaveButton = ({ filterState }: TemporarySaveButtonProps) => {
   const {
     handleSubmit,
-    formState: { isSubmitting, isValid },
+    formState: { isSubmitting, isValid, isDirty },
   } = useFormContext<qustionListTypes>();
 
   const { mutate: saveMutate } = usePostQuestionsSave();
@@ -27,9 +21,9 @@ const TemporarySaveButton = ({
       return {
         id: question.id,
         questionOrder: index,
-        part: selectedPart as PartName,
-        content: question.question,
-        isDescription: false,
+        part: filterState.part,
+        content: question.content,
+        isDescription: question.isDescription,
         charLimit: question.charLimit,
         required: question.required,
         link: question.link,
@@ -39,8 +33,8 @@ const TemporarySaveButton = ({
     });
 
     const requestData = {
-      season: selectedSeason,
-      group: selectedGroup,
+      season: filterState.season,
+      group: filterState.group,
       questions: questions,
       deleteQuestionIdList: [],
     };
@@ -54,7 +48,7 @@ const TemporarySaveButton = ({
       variant="outlined"
       size="md"
       onClick={handleSubmit(handleQuetsionsSave)}
-      disabled={isSubmitting || !isValid}
+      disabled={isSubmitting || !isValid || !isDirty}
     >
       임시저장
     </Button>

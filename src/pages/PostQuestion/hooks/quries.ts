@@ -27,5 +27,15 @@ export const useGetQuestionList = (season: number, group: Group) => {
   return useQuery({
     queryKey: ['question', 'list', season, group],
     queryFn: () => getQuestionList(season, group),
+    enabled: season !== 0,
+    // 질문 데이터에 isLink 값 추가
+    select: (data) =>
+      data.partQuestions.map((partQuestion) => ({
+        ...partQuestion,
+        questions: partQuestion.questions.map((question) => ({
+          ...question,
+          isLink: !!question.link,
+        })),
+      })),
   });
 };

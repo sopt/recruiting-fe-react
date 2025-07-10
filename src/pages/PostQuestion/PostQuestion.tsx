@@ -1,6 +1,3 @@
-import { Add } from '@/assets/svg';
-import DescriptionBox from '@/pages/PostQuestion/components/DescriptionBox';
-import { useState } from 'react';
 import Header from '@/pages/PostQuestion/components/Header';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -9,29 +6,18 @@ import {
   type qustionListTypes,
 } from '@/pages/PostQuestion/types/form';
 import QuestionList from '@/pages/PostQuestion/components/QuestionList';
-import type { Group, PartName } from '@/pages/PostQuestion/types';
 import TemporarySaveButton from '@/pages/PostQuestion/components/TemporarySaveButton';
 import RegisterButton from '@/pages/PostQuestion/components/RegisterButton';
 import { DEFAULT_QUESTION_DATA } from '@/pages/PostQuestion/constant';
-import { Button } from '@sopt-makers/ui';
+import { useFilterReducer } from '@/pages/PostQuestion/hooks/useFilterReducer';
 
 const PostQuestion = () => {
-  const [hasDescription, setHasDescription] = useState(false);
-  const [selectedPart, setSelectedPart] = useState<PartName>('common');
-  const [selectedGroup, setSelectedGroup] = useState<Group>('YB');
-  const [selectedSeason, setSelectedSeason] = useState(36);
-
-  const handlePartChange = (part: PartName) => {
-    setSelectedPart(part);
-  };
-
-  const handleGroupChange = (group: Group) => {
-    setSelectedGroup(group);
-  };
-
-  const handleSeasonChange = (season: number) => {
-    setSelectedSeason(season);
-  };
+  const {
+    state: filterState,
+    setPart,
+    setGroup,
+    setSeason,
+  } = useFilterReducer();
 
   const method = useForm<qustionListTypes>({
     resolver: zodResolver(questionsListSchema),
@@ -41,56 +27,24 @@ const PostQuestion = () => {
     mode: 'onChange',
   });
 
-  const { watch } = method;
-  const questionList = watch('questionList');
-
-  const handleHasDescriptionChange = (bool: boolean) => {
-    setHasDescription(bool);
-  };
-
   return (
     <main className="max-w-[98rem]">
       <Header
-        selectedGroup={selectedGroup}
-        handleTabChange={handlePartChange}
-        handleGroupChange={handleGroupChange}
-        handleSeasonChange={handleSeasonChange}
+        selectedGroup={filterState.group}
+        handleTabChange={setPart}
+        handleGroupChange={setGroup}
+        handleSeasonChange={setSeason}
       />
       <FormProvider {...method}>
         <form>
-          <div className="flex justify-between items-end mb-[2rem]">
-            <span className="title_6_16_sb text-gray200">{`총 ${questionList.length}개`}</span>
+          <div className="flex justify-end items-end w-full mb-[2rem]">
             <div className="flex gap-[1.6rem]">
-              <TemporarySaveButton
-                selectedPart={selectedPart}
-                selectedGroup={selectedGroup}
-                selectedSeason={selectedSeason}
-              />
-              <RegisterButton
-                selectedPart={selectedPart}
-                selectedGroup={selectedGroup}
-                selectedSeason={selectedSeason}
-              />
+              <TemporarySaveButton filterState={filterState} />
+              <RegisterButton filterState={filterState} />
             </div>
           </div>
 
-          {hasDescription ? (
-            <DescriptionBox
-              onHasDescriptionChange={handleHasDescriptionChange}
-            />
-          ) : (
-            <Button
-              theme="black"
-              variant="fill"
-              LeftIcon={Add}
-              onClick={() => handleHasDescriptionChange(true)}
-              className="mb-[3.2rem]"
-            >
-              설명글 추가하기
-            </Button>
-          )}
-
-          <QuestionList />
+          <QuestionList filterState={filterState} />
         </form>
       </FormProvider>
     </main>

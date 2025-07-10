@@ -3,9 +3,10 @@ import { z } from 'zod/v4';
 const questionSchema = z
   .object({
     id: z.number().optional(),
-    question: z.string().min(1),
+    content: z.string().min(1),
+    isDescription: z.boolean(),
     isLink: z.boolean(),
-    link: z.url().optional(),
+    link: z.url().nullable().optional(),
     placeholder: z.string().min(1),
     isFile: z.boolean(),
     charLimit: z.number().min(1),

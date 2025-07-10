@@ -5,9 +5,14 @@ import { Controller, useFormContext } from 'react-hook-form';
 interface QuestionBoxProps {
   index: number;
   deleteQuestion: () => void;
+  hasDescription: boolean;
 }
 
-const QuestionBox = ({ index, deleteQuestion }: QuestionBoxProps) => {
+const QuestionBox = ({
+  index,
+  deleteQuestion,
+  hasDescription,
+}: QuestionBoxProps) => {
   const { register, watch, control, setValue } = useFormContext();
 
   const isLink = watch(`questionList.${index}.isLink`);
@@ -25,12 +30,12 @@ const QuestionBox = ({ index, deleteQuestion }: QuestionBoxProps) => {
           {required && (
             <p className="label_4_12_sb text-secondary">*필수질문</p>
           )}
-          {`질문 ${index + 1}`}
+          {`질문 ${index + (hasDescription ? 0 : 1)}`}
           <span className="text-secondary">*</span>
         </h2>
         <TextField
           placeholder="질문을 작성하세요."
-          {...register(`questionList.${index}.question`)}
+          {...register(`questionList.${index}.content`)}
         />
 
         {isLink && (
@@ -58,7 +63,7 @@ const QuestionBox = ({ index, deleteQuestion }: QuestionBoxProps) => {
         </div>
 
         {isFile && (
-          <label className="flex flex-col gap-[0.8rem] label_3_14_sb ">
+          <div className="flex flex-col gap-[0.8rem] label_3_14_sb ">
             파일 업로드
             <div className="flex justify-between py-[1.1rem] px-[2.2rem] w-full rounded-2xl bg-gray800">
               <div className="flex gap-[2.4rem]">
@@ -69,17 +74,14 @@ const QuestionBox = ({ index, deleteQuestion }: QuestionBoxProps) => {
                   </span>
                 </>
               </div>
-              <input
-                className="hidden"
-                type="file"
-                {...register(`questionList.${index}.file`)}
-              />
+
               <div className="flex items-center justify-center p-[0.6rem] rounded-md bg-gray600">
                 <Add width={15} />
               </div>
             </div>
-          </label>
+          </div>
         )}
+
         <hr className="border-gray700" />
 
         <div className="w-[26.8rem]">

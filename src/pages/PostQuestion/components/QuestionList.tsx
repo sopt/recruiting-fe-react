@@ -1,16 +1,49 @@
 import { Add } from '@/assets/svg';
+import DescriptionBox from '@/pages/PostQuestion/components/DescriptionBox';
 import QuestionBox from '@/pages/PostQuestion/components/QuestionBox';
-import { DEFAULT_QUESTION_DATA } from '@/pages/PostQuestion/constant';
+import {
+  DEFAULT_DESCRIPTION_DATA,
+  DEFAULT_QUESTION_DATA,
+} from '@/pages/PostQuestion/constant';
+
 import { Button } from '@sopt-makers/ui';
-
+import { useGetQuestionList } from '@/pages/PostQuestion/hooks/quries';
 import { useFieldArray, useFormContext } from 'react-hook-form';
+import { useEffect, useState } from 'react';
+import type { FilterState } from '@/pages/PostQuestion/hooks/useFilterReducer';
 
-const QuestionList = () => {
-  const { control } = useFormContext();
+interface QuestionListProps {
+  filterState: FilterState;
+}
+
+const QuestionList = ({ filterState }: QuestionListProps) => {
+  const [hasDescription, setHasDescription] = useState(false);
+
+  const { data: questionListData, isSuccess } = useGetQuestionList(
+    filterState.season,
+    filterState.group,
+  );
+
+  const { control, reset, watch } = useFormContext();
+
+  useEffect(() => {
+    const partQuestions = questionListData?.find(
+      (questionList) => questionList.part === filterState.part,
+    )?.questions;
+
+    const resetData = partQuestions ? partQuestions : [DEFAULT_QUESTION_DATA];
+
+    setHasDescription(!!resetData[0]?.isDescription);
+
+    reset({ questionList: resetData });
+  }, [isSuccess, filterState.group, filterState.part, filterState.season]);
+
+  const questionList = watch('questionList');
 
   const {
-    fields: questionFileds,
+    fields: questionFields,
     append,
+    insert,
     remove,
   } = useFieldArray({
     control,
@@ -25,16 +58,46 @@ const QuestionList = () => {
     remove(index);
   };
 
+  const handleHasDescriptionChange = (bool: boolean) => {
+    setHasDescription(bool);
+  };
+
+  const handleDescriptionAdd = () => {
+    setHasDescription(true);
+    insert(0, DEFAULT_DESCRIPTION_DATA);
+  };
+
   return (
-    <>
+    <div className="relative">
+      <span className="absolute top-[-4rem] title_6_16_sb text-gray200">{`총 ${questionList?.length}개`}</span>
+      {!hasDescription && (
+        <Button
+          theme="black"
+          variant="fill"
+          LeftIcon={Add}
+          onClick={handleDescriptionAdd}
+          className="mb-[3.2rem]"
+        >
+          설명글 추가하기
+        </Button>
+      )}
       <ul className="flex flex-col gap-[1.2rem]">
-        {questionFileds.map((_, index) => (
-          <QuestionBox
-            key={index}
-            index={index}
-            deleteQuestion={() => deleteQuestion(index)}
-          />
-        ))}
+        {questionFields.map((field, index) => {
+          return hasDescription && index === 0 ? (
+            <DescriptionBox
+              key={field.id}
+              onHasDescriptionChange={handleHasDescriptionChange}
+              deleteDescription={() => deleteQuestion(0)}
+            />
+          ) : (
+            <QuestionBox
+              key={field.id}
+              index={index}
+              deleteQuestion={() => deleteQuestion(index)}
+              hasDescription={hasDescription}
+            />
+          );
+        })}
       </ul>
       <Button
         theme="black"
@@ -45,7 +108,7 @@ const QuestionList = () => {
       >
         질문 추가하기
       </Button>
-    </>
+    </div>
   );
 };
 
