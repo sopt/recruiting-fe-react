@@ -1,16 +1,13 @@
 import { InfoCircle, Refresh } from '@/assets/svg';
-
-import { usePostMinRate } from '@/pages/Application/hooks/queries';
-import { isNumberValue } from '@/pages/Application/utils/regex';
-
+import YbObRadioGroup from '@/components/YbObRadioGroup';
 import type {
   ApplicantState,
   QuestionCharLimit,
 } from '@/pages/Application/\btypes';
 import MinimumRateModal from '@/pages/Application/components/MinimumRateModal';
+import { usePostMinRate } from '@/pages/Application/hooks/queries';
+import { isNumberValue } from '@/pages/Application/utils/regex';
 import type { GetGenerationResponse } from '@/pages/PostGeneration/types';
-
-import YbObRadioGroup from '@/components/YbObRadioGroup';
 import { decimalToPercentage } from '@/utils';
 import { DialogContext, SelectV2, TextField, Toggle } from '@sopt-makers/ui';
 import { useCallback, useContext, useMemo, useState } from 'react';
@@ -107,7 +104,7 @@ const Filter = ({
               <SelectV2.MenuItem
                 key={option.season}
                 option={{
-                  label: option.season,
+                  label: option.season.toString(),
                   value: option.season.toString(),
                 }}
                 onClick={() =>
