@@ -100,6 +100,38 @@ export interface PostEvaluationRequest {
   isChecked: boolean;
 }
 
+export interface PostMinRateRequest {
+  minimumRate: number;
+  season: string;
+  group: Group;
+  selectedPart: PartType;
+}
+
+export interface PostMinRateResponse {
+  success: boolean;
+  message: string;
+  data: {
+    err: boolean;
+    season: number;
+    group: string;
+    part: string;
+    minRate: number;
+    questions: {
+      questionId: number;
+      questionOrder: number;
+      charLimit: number;
+      charLimitLength: number;
+    }[];
+  };
+}
+
+export interface QuestionCharLimit {
+  questionId: number;
+  questionOrder: number;
+  charLimit: number;
+  charLimitLength: number;
+}
+
 export interface ApplicantState {
   season: string;
   group: Group;
