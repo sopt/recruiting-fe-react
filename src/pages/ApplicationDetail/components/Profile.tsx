@@ -1,8 +1,14 @@
 import { AlertTriangle } from '@/assets/svg';
-import type { StatusType } from '@/pages/Application/\btypes';
+import type {
+  EvaluationToggleType,
+  StatusType,
+} from '@/pages/Application/\btypes';
 
 import ChipDropDown from '@/pages/Application/components/ChipDropdown';
-import { usePostApplicantPassStatus } from '@/pages/Application/hooks/queries';
+import {
+  usePostApplicantPassStatus,
+  usePostEvalution,
+} from '@/pages/Application/hooks/queries';
 import {
   convertPassInfoToStatus,
   convertStatusToPassInfo,
@@ -23,24 +29,42 @@ const Profile = ({ profileData }: ProfileProps) => {
   const queryClient = useQueryClient();
 
   const { mutate: passMutate } = usePostApplicantPassStatus();
+  const { mutate: evalutionMutate } = usePostEvalution();
 
   if (!profileData) {
     return <></>;
   }
 
-  const handleStatusChange = (id: number, value: StatusType) => {
+  const handleStatusChange = (applicantId: number, value: StatusType) => {
     const { applicationPass, finalPass } = convertStatusToPassInfo(value);
 
     passMutate(
       {
-        applicantId: id,
+        applicantId: applicantId,
         applicationPass,
         finalPass,
       },
       {
         onSuccess: () => {
           queryClient.invalidateQueries({
-            queryKey: ['applicant', 'detail', id],
+            queryKey: ['applicant', 'detail', applicantId],
+          });
+        },
+      },
+    );
+  };
+
+  const handleEvaluationClick = (
+    applicantId: number,
+    evaluationType: EvaluationToggleType,
+    isChecked: boolean,
+  ) => {
+    evalutionMutate(
+      { applicantId, evaluationType, isChecked },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: ['applicant', 'detail', applicantId],
           });
         },
       },
@@ -102,6 +126,13 @@ const Profile = ({ profileData }: ProfileProps) => {
             <CheckBox
               size="lg"
               checked={profileData.dontReadInfo.checkedByMe}
+              onClick={() =>
+                handleEvaluationClick(
+                  profileData.id,
+                  'DONT_READ',
+                  !profileData.dontReadInfo.checkedByMe,
+                )
+              }
             />
             <span className="body_2_16_m text-white">읽지 마시오</span>
           </div>
@@ -119,6 +150,13 @@ const Profile = ({ profileData }: ProfileProps) => {
             <CheckBox
               size="lg"
               checked={profileData.evaluatedInfo.checkedByMe}
+              onClick={() =>
+                handleEvaluationClick(
+                  profileData.id,
+                  'EVALUATION',
+                  !profileData.evaluatedInfo.checkedByMe,
+                )
+              }
             />
             <span className="body_2_16_m text-white">평가 완료</span>
           </div>
