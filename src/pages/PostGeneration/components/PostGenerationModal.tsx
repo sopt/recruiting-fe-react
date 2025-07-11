@@ -47,8 +47,6 @@ const PostGenerationModal = () => {
 
   const { data: generationData } = useGetGeneration(watchedValues.type);
 
-  console.log(generationData);
-
   const isDuplicate = useMemo(() => {
     const inputSeason = Number(watchedValues.generation);
     const inputType = watchedValues.type;
