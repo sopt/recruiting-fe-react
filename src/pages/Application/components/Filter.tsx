@@ -106,7 +106,10 @@ const Filter = ({
             {generationData?.seasons.map((option) => (
               <SelectV2.MenuItem
                 key={option.season}
-                option={{ label: option.season, value: option.season }}
+                option={{
+                  label: option.season,
+                  value: option.season.toString(),
+                }}
                 onClick={() =>
                   setApplicantInfo((prev) => ({
                     ...prev,
