@@ -1,5 +1,5 @@
 import { Trash } from '@/assets/svg';
-import { TextField, useDialog } from '@sopt-makers/ui';
+import { TextField, useToast } from '@sopt-makers/ui';
 import { useFormContext } from 'react-hook-form';
 
 interface DescriptionBoxProps {
@@ -7,21 +7,16 @@ interface DescriptionBoxProps {
 }
 
 const DescriptionBox = ({ deleteDescription }: DescriptionBoxProps) => {
-  const { open } = useDialog();
+  const { open: openToast } = useToast();
 
   const { register } = useFormContext();
 
   const handleDescriptionDelete = () => {
-    open({
-      title: '설명글을 삭제하실 건가요?',
-      description: '삭제된 글은 복구가 불가능해요.',
-      type: 'danger',
-      typeOptions: {
-        cancelButtonText: '취소하기',
-        approveButtonText: '삭제하기',
-        buttonFunction: deleteDescription,
-      },
+    openToast({
+      icon: 'error',
+      content: '삭제한 내용은 저장해야 최종 반영돼요.',
     });
+    deleteDescription();
   };
 
   return (
