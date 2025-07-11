@@ -78,7 +78,7 @@ const QuestionList = ({
   return (
     <div className="relative">
       <span className="absolute top-[-4rem] title_6_16_sb text-gray200">{`총 ${questionList?.length}개`}</span>
-      {!hasDescription && (
+      {!(hasDescription || questionList[0].isActive) && (
         <Button
           theme="black"
           variant="fill"
@@ -110,15 +110,17 @@ const QuestionList = ({
           );
         })}
       </ul>
-      <Button
-        theme="black"
-        variant="fill"
-        LeftIcon={Add}
-        onClick={addQuestion}
-        className="mt-[3.2rem]"
-      >
-        질문 추가하기
-      </Button>
+      {!questionList[0].isActive && (
+        <Button
+          theme="black"
+          variant="fill"
+          LeftIcon={Add}
+          onClick={addQuestion}
+          className="mt-[3.2rem]"
+        >
+          질문 추가하기
+        </Button>
+      )}
     </div>
   );
 };

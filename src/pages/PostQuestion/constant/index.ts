@@ -16,6 +16,7 @@ export const DEFAULT_QUESTION_DATA = {
   isFile: false,
   charLimit: 0,
   required: false,
+  isActive: false,
 };
 
 export const DEFAULT_DESCRIPTION_DATA = {
@@ -26,4 +27,5 @@ export const DEFAULT_DESCRIPTION_DATA = {
   isFile: false,
   charLimit: 10,
   required: false,
+  isActive: false,
 };

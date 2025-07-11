@@ -7,3 +7,9 @@
     @apply w-1/2;
   }
 }
+
+@layer utilities {
+  .custom-textField input:disabled {
+    color: white !important;
+  }
+}

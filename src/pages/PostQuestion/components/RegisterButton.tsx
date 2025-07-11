@@ -1,7 +1,7 @@
 import { usePostQuestionsRegister } from '@/pages/PostQuestion/hooks/quries';
 import type { FilterState } from '@/pages/PostQuestion/hooks/useFilterReducer';
 import type { qustionListTypes } from '@/pages/PostQuestion/types/form';
-import { Button } from '@sopt-makers/ui';
+import { Button, useDialog } from '@sopt-makers/ui';
 import { useQueryClient } from '@tanstack/react-query';
 import { useFormContext } from 'react-hook-form';
 
@@ -14,6 +14,8 @@ const RegisterButton = ({
   filterState,
   deleteQuestionIds,
 }: RegisterButtonProps) => {
+  const { open: openDialog } = useDialog();
+
   const queryClient = useQueryClient();
 
   const {
@@ -23,7 +25,20 @@ const RegisterButton = ({
 
   const { mutate: registerMutate } = usePostQuestionsRegister();
 
-  const handleQuetsionsRegister = (data: qustionListTypes) => {
+  const handleRegisterClick = () => {
+    openDialog({
+      title: '최종 등록을 진행하시겠어요?',
+      description: '최종 등록 후 질문 수정이 불가능해요.',
+      type: 'default',
+      typeOptions: {
+        cancelButtonText: '취소',
+        approveButtonText: '확인',
+        buttonFunction: handleSubmit(registQuestions),
+      },
+    });
+  };
+
+  const registQuestions = (data: qustionListTypes) => {
     const questions = data.questionList.map((question, index) => {
       return {
         id: question.id,
@@ -59,7 +74,7 @@ const RegisterButton = ({
       type="button"
       variant="fill"
       size="md"
-      onClick={handleSubmit(handleQuetsionsRegister)}
+      onClick={handleRegisterClick}
       disabled={isSubmitting || !isValid || !isDirty}
     >
       최종 등록하기
