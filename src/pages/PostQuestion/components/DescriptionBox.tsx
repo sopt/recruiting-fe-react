@@ -9,7 +9,9 @@ interface DescriptionBoxProps {
 const DescriptionBox = ({ deleteDescription }: DescriptionBoxProps) => {
   const { open: openToast } = useToast();
 
-  const { register } = useFormContext();
+  const { register, watch } = useFormContext();
+
+  const isActive = watch(`questionList.${0}.isActive`);
 
   const handleDescriptionDelete = () => {
     openToast({
@@ -31,16 +33,18 @@ const DescriptionBox = ({ deleteDescription }: DescriptionBoxProps) => {
         />
       </section>
 
-      <div className="flex flex-col gap-[1.4rem] w-[16.4rem] rounded-xl p-[1.6rem] bg-gray700">
-        <button
-          type="button"
-          onClick={handleDescriptionDelete}
-          className="flex gap-[0.8rem] px-[0.4rem] py-[0.3rem] rounded-[8px] hover:bg-gray600 cursor-pointer"
-        >
-          <Trash width={24} height={24} />
-          <span className="body_2_16_m">삭제</span>
-        </button>
-      </div>
+      {isActive && (
+        <div className="flex flex-col gap-[1.4rem] w-[16.4rem] rounded-xl p-[1.6rem] bg-gray700">
+          <button
+            type="button"
+            onClick={handleDescriptionDelete}
+            className="flex gap-[0.8rem] px-[0.4rem] py-[0.3rem] rounded-[8px] hover:bg-gray600 cursor-pointer"
+          >
+            <Trash width={24} height={24} />
+            <span className="body_2_16_m">삭제</span>
+          </button>
+        </div>
+      )}
     </div>
   );
 };

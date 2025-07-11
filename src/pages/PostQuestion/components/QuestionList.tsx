@@ -102,7 +102,7 @@ const QuestionList = ({
   return (
     <div className="relative">
       <span className="absolute top-[-4rem] title_6_16_sb text-gray200">{`총 ${questionList?.length}개`}</span>
-      {!(hasDescription || questionList[0].isActive) && (
+      {!(hasDescription || questionList[0]?.isActive) && (
         <Button
           theme="black"
           variant="fill"
@@ -134,7 +134,7 @@ const QuestionList = ({
           );
         })}
       </ul>
-      {!questionList[0].isActive && (
+      {!questionList[0]?.isActive && (
         <Button
           theme="black"
           variant="fill"
