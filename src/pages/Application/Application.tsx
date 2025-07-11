@@ -54,10 +54,11 @@ const Application = () => {
   });
 
   const paginatedData = useMemo(() => {
+    const arr = Array.isArray(data?.data) ? data.data : [];
     const startIndex = (currentPage - 1) * PAGE_LIMIT;
     const endIndex = startIndex + PAGE_LIMIT;
 
-    return data?.data.slice(startIndex, endIndex) ?? [];
+    return arr.slice(startIndex, endIndex);
   }, [currentPage]);
 
   return (
