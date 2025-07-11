@@ -30,7 +30,7 @@ const Application = () => {
     setApplicantInfo((prev) => ({ ...prev, season: defaultSeason }));
   }
 
-  const { data } = useGetApplicantList({
+  const { data, refetch } = useGetApplicantList({
     season: Number(applicantInfo.season),
     group: applicantInfo.group,
     part: applicantInfo.selectedPart,
@@ -61,6 +61,7 @@ const Application = () => {
         generationData={generationData}
         applicantInfo={applicantInfo}
         setApplicantInfo={setApplicantInfo}
+        onRefresh={refetch}
       />
       <Tab
         style="primary"

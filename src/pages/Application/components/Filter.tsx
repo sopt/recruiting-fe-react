@@ -1,9 +1,6 @@
 import { InfoCircle, Refresh } from '@/assets/svg';
 
-import {
-  useGetApplicantList,
-  usePostMinRate,
-} from '@/pages/Application/hooks/queries';
+import { usePostMinRate } from '@/pages/Application/hooks/queries';
 import { isNumberValue } from '@/pages/Application/utils/regex';
 
 import type {
@@ -16,7 +13,7 @@ import type { GetGenerationResponse } from '@/pages/PostGeneration/types';
 import YbObRadioGroup from '@/components/YbObRadioGroup';
 import { decimalToPercentage } from '@/utils';
 import { DialogContext, SelectV2, TextField, Toggle } from '@sopt-makers/ui';
-import { useContext, useState } from 'react';
+import { useCallback, useContext, useMemo, useState } from 'react';
 import type { ChangeEvent } from 'react';
 
 interface FilterProps {
@@ -25,49 +22,45 @@ interface FilterProps {
   setApplicantInfo: (
     info: ApplicantState | ((prev: ApplicantState) => ApplicantState),
   ) => void;
+  onRefresh?: () => void;
 }
 
 const Filter = ({
   generationData,
   applicantInfo,
   setApplicantInfo,
+  onRefresh,
 }: FilterProps) => {
   const [minimumRate, setMinimumRate] = useState<number | null>(null);
   const [, setQuestions] = useState<QuestionCharLimit[]>([]);
 
   const { openDialog, closeDialog } = useContext(DialogContext);
-
   const { mutate: postMinRate } = usePostMinRate();
-  const { refetch } = useGetApplicantList({
-    season: Number(applicantInfo.season),
-    group: applicantInfo.group,
-    part: applicantInfo.selectedPart,
-    offset: 0,
-    limit: 10,
-    minRate: decimalToPercentage(minimumRate),
-    hideEvaluated: applicantInfo.isEvaluated,
-    hideDontRead: applicantInfo.isDontRead,
-    checkInterviewPass: applicantInfo.isPassedOnly,
-  });
 
-  const handleChangeMinimumRate = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    if (isNumberValue(value)) {
-      setMinimumRate(value === '' ? null : Number(value));
-    }
-  };
+  const minRateValue = useMemo(
+    () => (minimumRate === null ? 1 : decimalToPercentage(minimumRate)),
+    [minimumRate],
+  );
 
-  const handleRefresh = () => {
-    const minRateValue =
-      minimumRate === null ? 1 : decimalToPercentage(minimumRate);
-
+  const handleRefresh = useCallback(() => {
     setApplicantInfo((prev) => ({
       ...prev,
       minRate: minRateValue,
     }));
 
-    refetch();
-  };
+    onRefresh?.();
+  }, [minRateValue, setApplicantInfo, onRefresh]);
+
+  const handleChangeMinimumRate = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value;
+
+      if (isNumberValue(value)) {
+        setMinimumRate(value === '' ? null : Number(value));
+      }
+    },
+    [],
+  );
 
   const handleOpenDialog = () => {
     postMinRate(
