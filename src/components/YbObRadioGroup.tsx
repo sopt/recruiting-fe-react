@@ -1,27 +1,26 @@
 import type { Group } from '@/pages/PostQuestion/types';
 import { Radio } from '@sopt-makers/ui';
-import type { Dispatch, SetStateAction } from 'react';
 
 interface YbObRadioGroupProps {
   group: Group;
-  setGroup: Dispatch<SetStateAction<Group>>;
+  onChangeGroup: (group: Group) => void;
 }
 
-const YbObRadioGroup = ({ group, setGroup }: YbObRadioGroupProps) => {
+const YbObRadioGroup = ({ group, onChangeGroup }: YbObRadioGroupProps) => {
   return (
     <div className="flex gap-[1.6rem]">
       <Radio
         size="lg"
         label="YB"
         checked={group === 'YB'}
-        onChange={() => setGroup('YB')}
+        onChange={() => onChangeGroup('YB')}
       />
 
       <Radio
         size="lg"
         label="OB"
         checked={group === 'OB'}
-        onChange={() => setGroup('OB')}
+        onChange={() => onChangeGroup('OB')}
       />
     </div>
   );

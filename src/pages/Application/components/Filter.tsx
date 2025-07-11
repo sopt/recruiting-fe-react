@@ -1,75 +1,57 @@
 import { InfoCircle, Refresh } from '@/assets/svg';
-import YbObRadioGroup from '@/components/YbObRadioGroup';
-import { usePostMinRate } from '@/pages/Application/hooks/queries';
-import { useGetApplicantList } from '@/pages/Application/hooks/queries';
+
+import {
+  useGetApplicantList,
+  usePostMinRate,
+} from '@/pages/Application/hooks/queries';
 import { isNumberValue } from '@/pages/Application/utils/regex';
 
 import type {
-  GetApplicantListRequest,
-  PartType,
+  ApplicantState,
   QuestionCharLimit,
 } from '@/pages/Application/\btypes';
 import MinimumRateModal from '@/pages/Application/components/MinimumRateModal';
-import { useGetGeneration } from '@/pages/PostGeneration/hooks/queries';
-import type { Group } from '@/pages/PostQuestion/types';
+import type { GetGenerationResponse } from '@/pages/PostGeneration/types';
+
+import YbObRadioGroup from '@/components/YbObRadioGroup';
 import { decimalToPercentage } from '@/utils';
 import { DialogContext, SelectV2, TextField, Toggle } from '@sopt-makers/ui';
-import { type SetStateAction, useContext, useState } from 'react';
-import type { ChangeEvent, Dispatch } from 'react';
+import { useContext, useState } from 'react';
+import type { ChangeEvent } from 'react';
 
 interface FilterProps {
-  season: string;
-  setSeason: Dispatch<SetStateAction<string>>;
-  group: Group;
-  setGroup: Dispatch<SetStateAction<Group>>;
-  isEvaluated: boolean;
-  isDontRead: boolean;
-  isPassedOnly: boolean;
-  setIsEvaluated: Dispatch<SetStateAction<boolean>>;
-  setIsDontRead: Dispatch<SetStateAction<boolean>>;
-  setIsPassedOnly: Dispatch<SetStateAction<boolean>>;
-  selectedPart: PartType;
+  generationData: GetGenerationResponse;
+  applicantInfo: ApplicantState;
+  setApplicantInfo: (
+    info: ApplicantState | ((prev: ApplicantState) => ApplicantState),
+  ) => void;
 }
 
 const Filter = ({
-  season,
-  setSeason,
-  group,
-  setGroup,
-  isEvaluated,
-  isDontRead,
-  isPassedOnly,
-  setIsEvaluated,
-  setIsDontRead,
-  setIsPassedOnly,
-  selectedPart,
+  generationData,
+  applicantInfo,
+  setApplicantInfo,
 }: FilterProps) => {
   const [minimumRate, setMinimumRate] = useState<number | null>(null);
   const [, setQuestions] = useState<QuestionCharLimit[]>([]);
 
   const { openDialog, closeDialog } = useContext(DialogContext);
 
-  const { data: generationData } = useGetGeneration(group);
   const { mutate: postMinRate } = usePostMinRate();
-
-  const [applicantParams, setApplicantParams] =
-    useState<GetApplicantListRequest>({
-      minRate: minimumRate === null ? 1 : decimalToPercentage(minimumRate),
-      season: generationData?.seasons[0].season,
-      group,
-      part: selectedPart,
-      offset: 0,
-      limit: 10,
-      hideEvaluated: isEvaluated,
-      hideDontRead: isDontRead,
-      checkInterviewPass: isPassedOnly,
-    });
-
-  const { refetch } = useGetApplicantList(applicantParams);
+  const { refetch } = useGetApplicantList({
+    season: Number(applicantInfo.season),
+    group: applicantInfo.group,
+    part: applicantInfo.selectedPart,
+    offset: 0,
+    limit: 10,
+    minRate: decimalToPercentage(minimumRate),
+    hideEvaluated: applicantInfo.isEvaluated,
+    hideDontRead: applicantInfo.isDontRead,
+    checkInterviewPass: applicantInfo.isPassedOnly,
+  });
 
   const handleChangeMinimumRate = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-
     if (isNumberValue(value)) {
       setMinimumRate(value === '' ? null : Number(value));
     }
@@ -79,17 +61,9 @@ const Filter = ({
     const minRateValue =
       minimumRate === null ? 1 : decimalToPercentage(minimumRate);
 
-    setApplicantParams((prev) => ({
+    setApplicantInfo((prev) => ({
       ...prev,
       minRate: minRateValue,
-      season: Number(season.split('기')[0]),
-      group,
-      selectedPart,
-      offset: 0,
-      limit: 10,
-      hideEvaluated: isEvaluated,
-      hideDontRead: isDontRead,
-      checkInterviewPass: isPassedOnly,
     }));
 
     refetch();
@@ -99,9 +73,9 @@ const Filter = ({
     postMinRate(
       {
         minimumRate: minimumRate ? decimalToPercentage(minimumRate) : 1,
-        season: Number(season.split('기')[0]),
-        group,
-        selectedPart,
+        season: Number(applicantInfo.season) || 0,
+        group: applicantInfo.group,
+        selectedPart: applicantInfo.selectedPart,
       },
       {
         onSuccess: (data) => {
@@ -128,7 +102,10 @@ const Filter = ({
           <SelectV2.Trigger>
             <div>
               <SelectV2.TriggerContent
-                placeholder={generationData?.seasons[0].season.toString()}
+                placeholder={
+                  applicantInfo.season ||
+                  generationData?.seasons[0]?.season.toString()
+                }
               />
             </div>
           </SelectV2.Trigger>
@@ -137,12 +114,25 @@ const Filter = ({
               <SelectV2.MenuItem
                 key={option.season}
                 option={{ label: option.season, value: option.season }}
-                onClick={() => setSeason(option.season.toString())}
+                onClick={() =>
+                  setApplicantInfo((prev) => ({
+                    ...prev,
+                    season: option.season.toString(),
+                  }))
+                }
               />
             ))}
           </SelectV2.Menu>
         </SelectV2.Root>
-        <YbObRadioGroup group={group} setGroup={setGroup} />
+        <YbObRadioGroup
+          group={applicantInfo.group}
+          onChangeGroup={(group) =>
+            setApplicantInfo((prev) => ({
+              ...prev,
+              group,
+            }))
+          }
+        />
       </div>
       <div className="flex flex-col gap-[0.8rem]">
         <button
@@ -173,16 +163,26 @@ const Filter = ({
             </span>
             <Toggle
               size="lg"
-              checked={isEvaluated}
-              onClick={() => setIsEvaluated((prev) => !prev)}
+              checked={applicantInfo.isEvaluated}
+              onClick={() =>
+                setApplicantInfo((prev) => ({
+                  ...prev,
+                  isEvaluated: !prev.isEvaluated,
+                }))
+              }
             />
           </div>
           <div className="flex items-center gap-[0.8rem]">
             <span className="flex body_3_14_r text-gray100">읽마 숨기기</span>
             <Toggle
               size="lg"
-              checked={isDontRead}
-              onClick={() => setIsDontRead((prev) => !prev)}
+              checked={applicantInfo.isDontRead}
+              onClick={() =>
+                setApplicantInfo((prev) => ({
+                  ...prev,
+                  isDontRead: !prev.isDontRead,
+                }))
+              }
             />
           </div>
           <div className="flex items-center gap-[0.8rem]">
@@ -191,8 +191,13 @@ const Filter = ({
             </span>
             <Toggle
               size="lg"
-              checked={isPassedOnly}
-              onClick={() => setIsPassedOnly((prev) => !prev)}
+              checked={applicantInfo.isPassedOnly}
+              onClick={() =>
+                setApplicantInfo((prev) => ({
+                  ...prev,
+                  isPassedOnly: !prev.isPassedOnly,
+                }))
+              }
             />
           </div>
         </div>

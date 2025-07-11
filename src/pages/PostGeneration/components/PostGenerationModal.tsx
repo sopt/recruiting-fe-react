@@ -133,7 +133,7 @@ const PostGenerationModal = () => {
                 render={({ field }) => (
                   <YbObRadioGroup
                     group={field.value}
-                    setGroup={field.onChange}
+                    onChangeGroup={field.onChange}
                   />
                 )}
               />

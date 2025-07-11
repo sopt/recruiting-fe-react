@@ -23,15 +23,15 @@ const MinimumRateModal = ({
         <h3 className="title_5_18_sb text-white">
           입력된 {minimumRate > 0 ? `${minimumRate}%` : '-'} 적용시 최소 글자수
         </h3>
-        <div className="flex flex-col gap-[1.2rem] px-[1.6rem] w-full">
+        <div className="grid grid-cols-2 w-full gap-[1.2rem] px-[1.6rem] justify-items-center">
           {questions.map((question) => (
             <div
               key={question.questionId}
-              className="flex body_2_16_r w-full justify-between text-gray10 [&>*:last-child]:text-gray100"
+              className="flex body_2_16_r w-[10.8rem] justify-between text-gray10 [&>*:last-child]:text-gray100"
             >
-              <span>{question.charLimit}</span>
-              <span>/</span>
               <span>{question.charLimitLength}</span>
+              <span>/</span>
+              <span>{question.charLimit}</span>
             </div>
           ))}
         </div>
