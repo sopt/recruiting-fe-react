@@ -1,6 +1,7 @@
 export { default as Arrange } from './Arrange';
 export { default as Ellipse } from './Ellipse';
 export { default as Add } from './Add';
+export { default as AlertTriangleFilled } from './AlertTriangleFilled';
 export { default as AlertTriangle } from './AlertTriangle';
 export { default as Application } from './Application';
 export { default as Cardinal } from './Cardinal';
