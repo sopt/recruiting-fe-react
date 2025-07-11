@@ -92,10 +92,7 @@ const Filter = ({
           <SelectV2.Trigger>
             <div>
               <SelectV2.TriggerContent
-                placeholder={
-                  applicantInfo.season ||
-                  generationData?.seasons[0]?.season.toString()
-                }
+                placeholder={`${applicantInfo.season || generationData?.seasons[0]?.season.toString()}기`}
               />
             </div>
           </SelectV2.Trigger>
@@ -104,7 +101,7 @@ const Filter = ({
               <SelectV2.MenuItem
                 key={option.season}
                 option={{
-                  label: option.season.toString(),
+                  label: `${option.season.toString()}기`,
                   value: option.season.toString(),
                 }}
                 onClick={() =>
