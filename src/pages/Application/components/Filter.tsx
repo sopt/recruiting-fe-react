@@ -1,27 +1,13 @@
 import { InfoCircle, Refresh } from '@/assets/svg';
 import YbObRadioGroup from '@/components/YbObRadioGroup';
 import BelowRateModal from '@/pages/Application/components/BelowRateModal';
+import { useGetGeneration } from '@/pages/PostGeneration/hooks/queries';
 import type { Group } from '@/pages/PostQuestion/types';
 import { DialogContext, SelectV2, TextField, Toggle } from '@sopt-makers/ui';
 import { type SetStateAction, useContext } from 'react';
 import type { Dispatch } from 'react';
 
-const START_GENERATION = 30;
-const END_GENERATION = 36;
-
-const GENERATION_OPTIONS = Array.from(
-  { length: END_GENERATION - START_GENERATION + 1 },
-  (_, index) => {
-    const generation = END_GENERATION - index;
-    return {
-      label: `${generation}기`,
-      value: generation.toString(),
-    };
-  },
-);
-
 interface FilterProps {
-  season: string;
   setSeason: Dispatch<SetStateAction<string>>;
   group: Group;
   setGroup: Dispatch<SetStateAction<Group>>;
@@ -34,7 +20,6 @@ interface FilterProps {
 }
 
 const Filter = ({
-  season,
   setSeason,
   group,
   setGroup,
@@ -46,6 +31,8 @@ const Filter = ({
   setIsPassedOnly,
 }: FilterProps) => {
   const { openDialog, closeDialog } = useContext(DialogContext);
+
+  const { data: generationData } = useGetGeneration(group);
 
   const handleOpenDialog = () => {
     openDialog({
@@ -60,15 +47,17 @@ const Filter = ({
         <SelectV2.Root type="text">
           <SelectV2.Trigger>
             <div>
-              <SelectV2.TriggerContent placeholder={season} />
+              <SelectV2.TriggerContent
+                placeholder={generationData?.seasons[0].season.toString()}
+              />
             </div>
           </SelectV2.Trigger>
           <SelectV2.Menu>
-            {GENERATION_OPTIONS.map((option) => (
+            {generationData?.seasons.map((option) => (
               <SelectV2.MenuItem
-                key={option.value}
-                option={option}
-                onClick={() => setSeason(option.label)}
+                key={option.season}
+                option={{ label: option.season, value: option.season }}
+                onClick={() => setSeason(option.season.toString())}
               />
             ))}
           </SelectV2.Menu>

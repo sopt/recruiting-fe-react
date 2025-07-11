@@ -4,14 +4,14 @@ import { getGeneration } from '@/pages/PostGeneration/apis/getGeneration';
 import { postGeneration } from '@/pages/PostGeneration/apis/postGeneration';
 import type { PostGenerationRequest } from '@/pages/PostGeneration/types';
 import type { Group } from '@/pages/PostQuestion/types';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 
 const QUERY_KEY = {
   GET_GENERATION: 'getGeneration',
 };
 
 export const useGetGeneration = (group: Group) => {
-  return useQuery({
+  return useSuspenseQuery({
     queryKey: [QUERY_KEY.GET_GENERATION, group],
     queryFn: () => getGeneration(group),
   });
