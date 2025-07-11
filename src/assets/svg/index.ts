@@ -7,6 +7,7 @@ export { default as BubblePoint } from "./BubblePoint";
 export { default as Cardinal } from "./Cardinal";
 export { default as Check } from "./Check";
 export { default as ChevronLeft } from "./ChevronLeft";
+export { default as Close } from "./Close";
 export { default as Edit } from "./Edit";
 export { default as FileDownload } from "./FileDownload";
 export { default as InfoCircle } from "./InfoCircle";

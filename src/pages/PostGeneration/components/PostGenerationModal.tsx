@@ -64,7 +64,7 @@ const PostGenerationModal = () => {
   const isDisabled = !isValid;
 
   return (
-    <div className="flex flex-col gap-[2.4rem] w-[58rem] h-[75vh]">
+    <div className="flex flex-col gap-[2.4rem] w-[58rem] h-[calc(100vh-16rem)]">
       <form
         className="flex flex-col w-[64rem] mt-[2.6rem] justify-between h-full"
         onSubmit={handleSubmit(onSubmit)}

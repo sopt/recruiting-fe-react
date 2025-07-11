@@ -1,3 +1,4 @@
+import { Close } from '@/assets/svg';
 import Pagination from '@/components/Pagination';
 import YbObRadioGroup from '@/components/YbObRadioGroup';
 import usePagination from '@/hooks/usePagination';
@@ -28,11 +29,22 @@ const PostGeneration = () => {
     return generationData?.seasons.slice(startIndex, endIndex);
   }, [currentPage, generationData, group]);
 
-  const { openDialog } = useContext(DialogContext);
+  const { openDialog, closeDialog } = useContext(DialogContext);
 
   const handleAddGeneration = () => {
     const option = {
-      title: '신규 기수 등록',
+      title: (
+        <div className="flex justify-between items-center">
+          <h1 className="!text-title_2_28_sb">신규 기수 등록</h1>
+          <button
+            type="button"
+            onClick={closeDialog}
+            className="p-[1rem] cursor-pointer"
+          >
+            <Close width={24} height={24} />
+          </button>
+        </div>
+      ),
       description: <PostGenerationModal />,
     };
     openDialog(option);
