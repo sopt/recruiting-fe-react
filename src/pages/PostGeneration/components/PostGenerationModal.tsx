@@ -1,6 +1,9 @@
 import YbObRadioGroup from '@/components/YbObRadioGroup';
 import PeriodCalendar from '@/pages/PostGeneration/components/PeriodCalendar';
-import { usePostGeneration } from '@/pages/PostGeneration/hooks/queries';
+import {
+  useGetGeneration,
+  usePostGeneration,
+} from '@/pages/PostGeneration/hooks/queries';
 import {
   type PostGenerationFormData,
   postGenerationSchema,
@@ -14,7 +17,7 @@ import {
   TextArea,
   TextField,
 } from '@sopt-makers/ui';
-import { useContext } from 'react';
+import { useContext, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 const DEFAULT_FORM_VALUES: PostGenerationFormData = {
@@ -42,6 +45,19 @@ const PostGenerationModal = () => {
 
   const watchedValues = watch();
 
+  const { data: generationData } = useGetGeneration(watchedValues.type);
+
+  console.log(generationData);
+
+  const isDuplicate = useMemo(() => {
+    const inputSeason = Number(watchedValues.generation);
+    const inputType = watchedValues.type;
+
+    return generationData.seasons.some(
+      (season) => season.season === inputSeason && season.group === inputType,
+    );
+  }, [watchedValues.generation, watchedValues.type, generationData?.seasons]);
+
   const { mutate: postGeneration } = usePostGeneration({
     season: Number(watchedValues.generation),
     type: watchedValues.type,
@@ -61,7 +77,7 @@ const PostGenerationModal = () => {
     closeDialog();
   };
 
-  const isDisabled = !isValid;
+  const isDisabled = !isValid || isDuplicate;
 
   return (
     <div className="flex flex-col gap-[2.4rem] w-[58rem] h-[calc(100vh-16rem)]">
@@ -88,24 +104,29 @@ const PostGenerationModal = () => {
                 />
               )}
             />
-            {/* TODO: 기수명 에러 처리 */}
           </div>
           <div className="flex gap-[1.6rem]">
             <Controller
               name="generation"
               control={control}
               render={({ field }) => (
-                <TextField
-                  value={field.value}
-                  onChange={field.onChange}
-                  labelText="기수"
-                  placeholder="기수를 입력하세요."
-                  className="[&>div:nth-child(2)]:!mt-[0.8rem] [&>div:nth-child(2)]:!bg-gray700 [&>div:nth-child(2)]:!w-[18rem]"
-                  required
-                />
+                <div className="flex flex-col gap-[0.8rem]">
+                  <TextField
+                    value={field.value}
+                    onChange={field.onChange}
+                    isError={isDuplicate}
+                    labelText="기수"
+                    placeholder="기수를 입력하세요."
+                    errorMessage="이미 추가된 기수입니다."
+                    className="[&>div:nth-child(2)]:!mt-[0.8rem] [&>div:nth-child(2)]:!bg-gray700 [&>div:nth-child(2)]:!w-[18rem]"
+                    required
+                  />
+                </div>
               )}
             />
-            <div className="flex-1 flex items-end py-[1.1rem]">
+            <div
+              className={`flex-1 flex items-end ${isDuplicate ? 'py-[3.5rem]' : 'py-[1.1rem]'}`}
+            >
               <Controller
                 name="type"
                 control={control}
