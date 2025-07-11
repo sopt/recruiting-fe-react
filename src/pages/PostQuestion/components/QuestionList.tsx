@@ -6,11 +6,13 @@ import {
   DEFAULT_QUESTION_DATA,
 } from '@/pages/PostQuestion/constant';
 
-import { Button } from '@sopt-makers/ui';
+import { Button, useDialog } from '@sopt-makers/ui';
 import { useGetQuestionList } from '@/pages/PostQuestion/hooks/quries';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import type { FilterState } from '@/pages/PostQuestion/hooks/useFilterReducer';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES_CONFIG } from '@/routes/routeConfig';
 
 interface QuestionListProps {
   filterState: FilterState;
@@ -23,13 +25,44 @@ const QuestionList = ({
 }: QuestionListProps) => {
   const [hasDescription, setHasDescription] = useState(false);
 
-  const { data: questionListData, isSuccess } = useGetQuestionList(
-    filterState.season,
-    filterState.group,
-  );
+  const navigate = useNavigate();
+
+  const { open: openDialog } = useDialog();
+
+  const {
+    data: questionListData,
+    isSuccess,
+    isError,
+  } = useGetQuestionList(filterState.season, filterState.group);
 
   const { control, reset, watch } = useFormContext();
 
+  const {
+    fields: questionFileds,
+    append,
+    insert,
+    remove,
+  } = useFieldArray({
+    control,
+    name: 'questionList',
+  });
+
+  if (isError) {
+    navigate(ROUTES_CONFIG.postQuestion.path);
+    openDialog({
+      title: '없는 기수입니다.',
+      description: '기수를 등록하러 갈까요?',
+      type: 'danger',
+      typeOptions: {
+        cancelButtonText: '아니요',
+        approveButtonText: '네',
+        buttonFunction: () => navigate(ROUTES_CONFIG.postGeneration.path),
+      },
+    });
+    return;
+  }
+
+  // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
   useEffect(() => {
     const partQuestions = questionListData?.find(
       (questionList) => questionList.part === filterState.part,
@@ -44,21 +77,12 @@ const QuestionList = ({
 
   const questionList = watch('questionList');
 
+  // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
   useEffect(() => {
     if (questionList?.length === 0) {
       append(DEFAULT_QUESTION_DATA);
     }
   }, [questionList]);
-
-  const {
-    fields: questionFileds,
-    append,
-    insert,
-    remove,
-  } = useFieldArray({
-    control,
-    name: 'questionList',
-  });
 
   const addQuestion = () => {
     append(DEFAULT_QUESTION_DATA);

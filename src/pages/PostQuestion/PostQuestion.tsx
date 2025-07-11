@@ -35,9 +35,9 @@ const PostQuestion = () => {
   });
 
   return (
-    <main className="max-w-[98rem]">
+    <main className="max-w-[98rem] mb-[5rem]">
       <Header
-        selectedGroup={filterState.group}
+        filterState={filterState}
         handleTabChange={setPart}
         handleGroupChange={setGroup}
         handleSeasonChange={setSeason}
