@@ -1,4 +1,4 @@
-import { BubblePoint } from '@/assets/svg';
+import SvgBubblePoint from '@/assets/svg/BubblePoint';
 import { TooltipProvider } from '@/contexts/TooltipContext';
 import { useTooltipContext } from '@/contexts/TooltipContext';
 import { useTooltip } from '@/hooks/useTooltip';
@@ -72,7 +72,7 @@ const TooltipContent = forwardRef<HTMLDivElement, TooltipContentProps>(
         role="tooltip"
         {...props}
       >
-        <BubblePoint
+        <SvgBubblePoint
           width={16}
           height={17}
           className={clsx(
