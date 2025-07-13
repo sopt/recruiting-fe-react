@@ -1,24 +1,27 @@
 import { useGetGeneration } from '@/pages/PostGeneration/hooks/queries';
 import YbObRadioGroup from '@/pages/PostQuestion/components/YbObRadioGroup';
+import type { FilterState } from '@/pages/PostQuestion/hooks/useFilterReducer';
 import type { Group } from '@/pages/PostQuestion/types';
 
 import { SelectV2 } from '@sopt-makers/ui';
 import { useRef } from 'react';
 
 interface FiltersProps {
-  selectedGroup: Group;
+  filterState: FilterState;
   handleGroupChange: (group: Group) => void;
   handleSeasonChange: (season: number) => void;
 }
 
 const Filters = ({
-  selectedGroup,
+  filterState,
   handleGroupChange,
   handleSeasonChange,
 }: FiltersProps) => {
   const initialRef = useRef(true);
 
-  const { data: generationData, isSuccess } = useGetGeneration(selectedGroup);
+  const { data: generationData, isSuccess } = useGetGeneration(
+    filterState.group,
+  );
 
   const generations = generationData?.seasons
     .map((season) => season.season)
@@ -46,7 +49,8 @@ const Filters = ({
           ))}
         </SelectV2.Menu>
       </SelectV2.Root>
-      <YbObRadioGroup group={selectedGroup} setGroup={handleGroupChange} />
+
+      <YbObRadioGroup group={filterState.group} setGroup={handleGroupChange} />
     </div>
   );
 };

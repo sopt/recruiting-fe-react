@@ -1,17 +1,18 @@
 import Filters from '@/pages/PostQuestion/components/Filters';
 import { PART } from '@/pages/PostQuestion/constant';
+import type { FilterState } from '@/pages/PostQuestion/hooks/useFilterReducer';
 import type { Group, PartName } from '@/pages/PostQuestion/types';
 import { Tab } from '@sopt-makers/ui';
 
 interface HeaderProps {
-  selectedGroup: Group;
+  filterState: FilterState;
   handleTabChange: (part: PartName) => void;
   handleGroupChange: (group: Group) => void;
   handleSeasonChange: (season: number) => void;
 }
 
 const Header = ({
-  selectedGroup,
+  filterState,
   handleTabChange,
   handleGroupChange,
   handleSeasonChange,
@@ -19,7 +20,7 @@ const Header = ({
   return (
     <header>
       <Filters
-        selectedGroup={selectedGroup}
+        filterState={filterState}
         handleGroupChange={handleGroupChange}
         handleSeasonChange={handleSeasonChange}
       />

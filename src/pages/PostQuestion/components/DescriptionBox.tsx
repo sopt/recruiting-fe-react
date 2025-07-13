@@ -1,20 +1,23 @@
 import { Trash } from '@/assets/svg';
-import { TextField } from '@sopt-makers/ui';
+import { TextField, useToast } from '@sopt-makers/ui';
 import { useFormContext } from 'react-hook-form';
 
 interface DescriptionBoxProps {
-  onHasDescriptionChange: (bool: boolean) => void;
   deleteDescription: () => void;
 }
 
-const DescriptionBox = ({
-  onHasDescriptionChange,
-  deleteDescription,
-}: DescriptionBoxProps) => {
-  const { register } = useFormContext();
+const DescriptionBox = ({ deleteDescription }: DescriptionBoxProps) => {
+  const { open: openToast } = useToast();
+
+  const { register, watch } = useFormContext();
+
+  const isActive = watch(`questionList.${0}.isActive`);
 
   const handleDescriptionDelete = () => {
-    onHasDescriptionChange(false);
+    openToast({
+      icon: 'error',
+      content: '삭제한 내용은 저장해야 최종 반영돼요.',
+    });
     deleteDescription();
   };
 
@@ -30,16 +33,18 @@ const DescriptionBox = ({
         />
       </section>
 
-      <div className="flex flex-col gap-[1.4rem] w-[16.4rem] rounded-xl p-[1.6rem] bg-gray700">
-        <button
-          type="button"
-          onClick={handleDescriptionDelete}
-          className="flex gap-[0.8rem] px-[0.4rem] py-[0.3rem] rounded-[8px] hover:bg-gray600 cursor-pointer"
-        >
-          <Trash width={24} height={24} />
-          <span className="body_2_16_m">삭제</span>
-        </button>
-      </div>
+      {isActive && (
+        <div className="flex flex-col gap-[1.4rem] w-[16.4rem] rounded-xl p-[1.6rem] bg-gray700">
+          <button
+            type="button"
+            onClick={handleDescriptionDelete}
+            className="flex gap-[0.8rem] px-[0.4rem] py-[0.3rem] rounded-[8px] hover:bg-gray600 cursor-pointer"
+          >
+            <Trash width={24} height={24} />
+            <span className="body_2_16_m">삭제</span>
+          </button>
+        </div>
+      )}
     </div>
   );
 };
