@@ -2,6 +2,7 @@ import { useGetGeneration } from '@/pages/PostGeneration/hooks/queries';
 import YbObRadioGroup from '@/pages/PostQuestion/components/YbObRadioGroup';
 import type { FilterState } from '@/pages/PostQuestion/hooks/useFilterReducer';
 import type { Group } from '@/pages/PostQuestion/types';
+
 import { SelectV2 } from '@sopt-makers/ui';
 import { useRef } from 'react';
 

@@ -1,9 +1,20 @@
 import { AlertTriangle } from '@/assets/svg';
+import Tooltip from '@/components/Tooltip';
+import type {
+  EvaluationToggleType,
+  StatusType,
+} from '@/pages/Application/\btypes';
 import type { ApplicationTableProps } from '@/pages/Application/\btypes';
 import ChipDropDown from '@/pages/Application/components/ChipDropdown';
-
+import {
+  usePostApplicantPassStatus,
+  usePostEvalution,
+} from '@/pages/Application/hooks/queries';
 import useDrag from '@/pages/Application/hooks/useDrag';
-import { getEvaluationMessage } from '@/pages/Application/utils';
+import {
+  convertStatusToPassInfo,
+  getEvaluationMessage,
+} from '@/pages/Application/utils';
 import { getDoNotReadMessage } from '@/pages/Application/utils';
 import { ROUTES_CONFIG } from '@/routes/routeConfig';
 import { CheckBox, Tag } from '@sopt-makers/ui';
@@ -21,23 +32,40 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
   const [passStatusList, setPassStatusList] = useState<Record<number, string>>(
     {},
   );
-
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+  const navigate = useNavigate();
 
   const { onDragStart, onDragMove, onDragEnd, onDragLeave } =
     useDrag(scrollContainerRef);
 
-  const navigate = useNavigate();
+  const { mutate } = usePostEvalution();
+  const { mutate: postPassStatus } = usePostApplicantPassStatus();
 
   const goApplicaiontDetail = (applicantId: number) => {
     navigate(ROUTES_CONFIG.applicationDetail.generatePath(applicantId));
   };
 
-  const handleStatusChange = (id: number, value: string) => {
+  const handleStatusChange = (id: number, value: StatusType) => {
     setPassStatusList((prev) => ({
       ...prev,
       [id]: value,
     }));
+
+    const { applicationPass, finalPass } = convertStatusToPassInfo(value);
+
+    postPassStatus({
+      applicantId: id,
+      applicationPass,
+      finalPass,
+    });
+  };
+
+  const handleEvaluation = (
+    applicantId: number,
+    evaluationType: EvaluationToggleType,
+    isChecked: boolean,
+  ) => {
+    mutate({ applicantId, evaluationType, isChecked });
   };
 
   return (
@@ -133,7 +161,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                       <ChipDropDown
                         status={currentStatus}
                         onStatusChange={(value) =>
-                          handleStatusChange(item.id, value)
+                          handleStatusChange(item.id, value as StatusType)
                         }
                       />
                     </div>
@@ -143,7 +171,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                   >
                     <div className={`${TD_BASE_STYLE} gap-[1rem] py-[1rem]`}>
                       <img
-                        src={item.profileImage}
+                        src={item.pictureUrl}
                         alt="프로필"
                         className="w-[5.2rem] h-[7rem] object-cover rounded-[0.3rem]"
                       />
@@ -161,20 +189,32 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                     <div className="flex flex-col gap-[0.5rem] justify-start">
                       <div className="h-full flex items-center justify-between">
                         <div className="flex items-center gap-[0.9rem]">
-                          <CheckBox checked={item.isDoNotRead} />
+                          <CheckBox
+                            checked={item.dontReadInfo.checkedByMe}
+                            onClick={() =>
+                              handleEvaluation(
+                                item.id,
+                                'DONT_READ',
+                                item.dontReadInfo.checkedByMe,
+                              )
+                            }
+                          />
                           <span>읽지 마시오</span>
                         </div>
-                        <div className="bg-orangeAlpha200 rounded-[10rem] p-[0.8rem]">
-                          <AlertTriangle width={16} height={16} />
-                        </div>
+
+                        {item.dontReadInfo.checkedList.length > 0 && (
+                          <Tooltip.Root>
+                            <Tooltip.Trigger>
+                              <div className="bg-orangeAlpha200 rounded-[10rem] p-[0.8rem]">
+                                <AlertTriangle width={16} height={16} />
+                              </div>
+                            </Tooltip.Trigger>
+                            <Tooltip.Content className="!mt-[2.5rem]">
+                              <span>{doNotReadMessage}</span>
+                            </Tooltip.Content>
+                          </Tooltip.Root>
+                        )}
                       </div>
-                      {item.isDoNotRead && (
-                        <div className="flex justify-start">
-                          <span className="text-attention label_5_11_sb break-words overflow-hidden">
-                            {doNotReadMessage}
-                          </span>
-                        </div>
-                      )}
                     </div>
                   </td>
                   <td
@@ -182,38 +222,41 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                   >
                     <div className="flex flex-col gap-[0.5rem] justify-start">
                       <div className="h-full flex items-center gap-[0.6rem]">
-                        <CheckBox checked={item.evaluationStatus} />
-                        <span>평가 완료</span>
-                        <Tag shape="pill">
-                          {
-                            Object.values(item.evaluatedBy || {}).filter(
-                              Boolean,
-                            ).length
+                        <CheckBox
+                          checked={item.evaluatedInfo.checkedByMe}
+                          onClick={() =>
+                            handleEvaluation(
+                              item.id,
+                              'EVALUATION',
+                              item.evaluatedInfo.checkedByMe,
+                            )
                           }
-                        </Tag>
+                        />
+                        <span>평가 완료</span>
+                        {item.evaluatedInfo.checkedList.length > 0 && (
+                          <Tooltip.Root>
+                            <Tooltip.Trigger>
+                              <Tag shape="pill">
+                                {item.evaluatedInfo.checkedList.length}
+                              </Tag>
+                            </Tooltip.Trigger>
+                            <Tooltip.Content className="!mt-[1.3rem]">
+                              <span>{evaluationMessage}</span>
+                            </Tooltip.Content>
+                          </Tooltip.Root>
+                        )}
                       </div>
-                      {item.evaluationStatus && (
-                        <div className="flex justify-start">
-                          <span className="text-gray200 label_5_11_sb break-words overflow-hidden">
-                            {evaluationMessage}
-                          </span>
-                        </div>
-                      )}
                     </div>
                   </td>
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
                   >
-                    <div className={TD_CONTENT_STYLE}>
-                      {item.submissionTime}
-                    </div>
+                    <div className={TD_CONTENT_STYLE}>{item.submittedAt}</div>
                   </td>
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
                   >
-                    <div className={TD_CONTENT_STYLE}>
-                      {item.recentGeneration}기
-                    </div>
+                    <div className={TD_CONTENT_STYLE}>{item.generation}기</div>
                   </td>
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
