@@ -1,116 +1,71 @@
 import { InfoCircle, Refresh } from '@/assets/svg';
 import YbObRadioGroup from '@/components/YbObRadioGroup';
 import type {
-  GetApplicantListRequest,
-  PartType,
+  ApplicantState,
   QuestionCharLimit,
 } from '@/pages/Application/\btypes';
 import MinimumRateModal from '@/pages/Application/components/MinimumRateModal';
 import { usePostMinRate } from '@/pages/Application/hooks/queries';
-import { useGetApplicantList } from '@/pages/Application/hooks/queries';
 import { isNumberValue } from '@/pages/Application/utils/regex';
-import type { Group } from '@/pages/PostQuestion/types';
+import type { GetGenerationResponse } from '@/pages/PostGeneration/types';
 import { decimalToPercentage } from '@/utils';
 import { DialogContext, SelectV2, TextField, Toggle } from '@sopt-makers/ui';
-import { type SetStateAction, useContext, useState } from 'react';
-import type { ChangeEvent, Dispatch } from 'react';
-
-const START_GENERATION = 30;
-const END_GENERATION = 36;
-
-const GENERATION_OPTIONS = Array.from(
-  { length: END_GENERATION - START_GENERATION + 1 },
-  (_, index) => {
-    const generation = END_GENERATION - index;
-    return {
-      label: `${generation}기`,
-      value: generation.toString(),
-    };
-  },
-);
+import { useCallback, useContext, useMemo, useState } from 'react';
+import type { ChangeEvent } from 'react';
 
 interface FilterProps {
-  season: string;
-  setSeason: Dispatch<SetStateAction<string>>;
-  group: Group;
-  setGroup: Dispatch<SetStateAction<Group>>;
-  isEvaluated: boolean;
-  isDontRead: boolean;
-  isPassedOnly: boolean;
-  setIsEvaluated: Dispatch<SetStateAction<boolean>>;
-  setIsDontRead: Dispatch<SetStateAction<boolean>>;
-  setIsPassedOnly: Dispatch<SetStateAction<boolean>>;
-  selectedPart: PartType;
+  generationData: GetGenerationResponse;
+  applicantInfo: ApplicantState;
+  setApplicantInfo: (
+    info: ApplicantState | ((prev: ApplicantState) => ApplicantState),
+  ) => void;
+  onRefresh?: () => void;
 }
 
 const Filter = ({
-  season,
-  setSeason,
-  group,
-  setGroup,
-  isEvaluated,
-  isDontRead,
-  isPassedOnly,
-  setIsEvaluated,
-  setIsDontRead,
-  setIsPassedOnly,
-  selectedPart,
+  generationData,
+  applicantInfo,
+  setApplicantInfo,
+  onRefresh,
 }: FilterProps) => {
   const [minimumRate, setMinimumRate] = useState<number | null>(null);
   const [, setQuestions] = useState<QuestionCharLimit[]>([]);
-  const [applicantParams, setApplicantParams] =
-    useState<GetApplicantListRequest>({
-      minRate: minimumRate === null ? 1 : decimalToPercentage(minimumRate),
-      season: Number(season.split('기')[0]),
-      group,
-      part: selectedPart,
-      offset: 0,
-      limit: 10,
-      hideEvaluated: isEvaluated,
-      hideDontRead: isDontRead,
-      checkInterviewPass: isPassedOnly,
-    });
 
   const { openDialog, closeDialog } = useContext(DialogContext);
-
   const { mutate: postMinRate } = usePostMinRate();
-  const { refetch } = useGetApplicantList(applicantParams);
 
-  const handleChangeMinimumRate = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
+  const minRateValue = useMemo(
+    () => (minimumRate === null ? 1 : decimalToPercentage(minimumRate)),
+    [minimumRate],
+  );
 
-    if (isNumberValue(value)) {
-      setMinimumRate(value === '' ? null : Number(value));
-    }
-  };
-
-  const handleRefresh = () => {
-    const minRateValue =
-      minimumRate === null ? 1 : decimalToPercentage(minimumRate);
-
-    setApplicantParams((prev) => ({
+  const handleRefresh = useCallback(() => {
+    setApplicantInfo((prev) => ({
       ...prev,
       minRate: minRateValue,
-      season: Number(season.split('기')[0]),
-      group,
-      selectedPart,
-      offset: 0,
-      limit: 10,
-      hideEvaluated: isEvaluated,
-      hideDontRead: isDontRead,
-      checkInterviewPass: isPassedOnly,
     }));
 
-    refetch();
-  };
+    onRefresh?.();
+  }, [minRateValue, setApplicantInfo, onRefresh]);
+
+  const handleChangeMinimumRate = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value;
+
+      if (isNumberValue(value)) {
+        setMinimumRate(value === '' ? null : Number(value));
+      }
+    },
+    [],
+  );
 
   const handleOpenDialog = () => {
     postMinRate(
       {
         minimumRate: minimumRate ? decimalToPercentage(minimumRate) : 1,
-        season: Number(season.split('기')[0]),
-        group,
-        selectedPart,
+        season: Number(applicantInfo.season) || 0,
+        group: applicantInfo.group,
+        selectedPart: applicantInfo.selectedPart,
       },
       {
         onSuccess: (data) => {
@@ -132,24 +87,42 @@ const Filter = ({
 
   return (
     <div className="flex flex-col gap-[3.2rem] mt-[3.2rem]">
-      <div className="flex gap-[1.5rem]">
-        <SelectV2.Root type="text">
+      <div className="flex gap-[1.6rem]">
+        <SelectV2.Root visibleOptions={7} type="text">
           <SelectV2.Trigger>
             <div>
-              <SelectV2.TriggerContent placeholder={season} />
+              <SelectV2.TriggerContent
+                placeholder={`${applicantInfo.season || generationData?.seasons[0]?.season.toString()}기`}
+              />
             </div>
           </SelectV2.Trigger>
           <SelectV2.Menu>
-            {GENERATION_OPTIONS.map((option) => (
+            {generationData?.seasons.map((option) => (
               <SelectV2.MenuItem
-                key={option.value}
-                option={option}
-                onClick={() => setSeason(option.label)}
+                key={option.season}
+                option={{
+                  label: `${option.season.toString()}기`,
+                  value: option.season.toString(),
+                }}
+                onClick={() =>
+                  setApplicantInfo((prev) => ({
+                    ...prev,
+                    season: option.season.toString(),
+                  }))
+                }
               />
             ))}
           </SelectV2.Menu>
         </SelectV2.Root>
-        <YbObRadioGroup group={group} setGroup={setGroup} />
+        <YbObRadioGroup
+          group={applicantInfo.group}
+          onChangeGroup={(group) =>
+            setApplicantInfo((prev) => ({
+              ...prev,
+              group,
+            }))
+          }
+        />
       </div>
       <div className="flex flex-col gap-[0.8rem]">
         <button
@@ -180,16 +153,26 @@ const Filter = ({
             </span>
             <Toggle
               size="lg"
-              checked={isEvaluated}
-              onClick={() => setIsEvaluated((prev) => !prev)}
+              checked={applicantInfo.isEvaluated}
+              onClick={() =>
+                setApplicantInfo((prev) => ({
+                  ...prev,
+                  isEvaluated: !prev.isEvaluated,
+                }))
+              }
             />
           </div>
           <div className="flex items-center gap-[0.8rem]">
             <span className="flex body_3_14_r text-gray100">읽마 숨기기</span>
             <Toggle
               size="lg"
-              checked={isDontRead}
-              onClick={() => setIsDontRead((prev) => !prev)}
+              checked={applicantInfo.isDontRead}
+              onClick={() =>
+                setApplicantInfo((prev) => ({
+                  ...prev,
+                  isDontRead: !prev.isDontRead,
+                }))
+              }
             />
           </div>
           <div className="flex items-center gap-[0.8rem]">
@@ -198,8 +181,13 @@ const Filter = ({
             </span>
             <Toggle
               size="lg"
-              checked={isPassedOnly}
-              onClick={() => setIsPassedOnly((prev) => !prev)}
+              checked={applicantInfo.isPassedOnly}
+              onClick={() =>
+                setApplicantInfo((prev) => ({
+                  ...prev,
+                  isPassedOnly: !prev.isPassedOnly,
+                }))
+              }
             />
           </div>
         </div>
