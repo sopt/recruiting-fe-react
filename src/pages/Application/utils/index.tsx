@@ -51,3 +51,18 @@ export const convertStatusToPassInfo = (
       return { applicationPass: null, finalPass: null };
   }
 };
+
+export const convertPassInfoToStatus = (passInfo: string) => {
+  switch (passInfo) {
+    case 'FINAL_PASS':
+      return '최종 합격';
+    case 'FAIL':
+      return '불합격';
+    case 'NOT_EVALUATED':
+      return '확인 전';
+    case 'INTERVIEW_PASS':
+      return '서류 합격';
+    default:
+      return '확인 전';
+  }
+};
