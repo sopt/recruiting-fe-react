@@ -1,23 +1,75 @@
 import { AlertTriangle } from '@/assets/svg';
+import type {
+  EvaluationToggleType,
+  StatusType,
+} from '@/pages/Application/\btypes';
+
 import ChipDropDown from '@/pages/Application/components/ChipDropdown';
+import {
+  usePostApplicantPassStatus,
+  usePostEvalution,
+} from '@/pages/Application/hooks/queries';
+import {
+  convertPassInfoToStatus,
+  convertStatusToPassInfo,
+} from '@/pages/Application/utils';
 import type { ApplicantType } from '@/pages/ApplicationDetail/types';
 import {
   getDontReadMessage,
   getEvalutionCompleteMessage,
 } from '@/pages/ApplicationDetail/utils';
 import { CheckBox } from '@sopt-makers/ui';
-import { useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface ProfileProps {
   profileData?: ApplicantType;
 }
 
 const Profile = ({ profileData }: ProfileProps) => {
-  const [passStatus, setPassStatus] = useState<string>('서류 합격');
+  const queryClient = useQueryClient();
+
+  const { mutate: passMutate } = usePostApplicantPassStatus();
+  const { mutate: evalutionMutate } = usePostEvalution();
 
   if (!profileData) {
     return <></>;
   }
+
+  const handleStatusChange = (applicantId: number, value: StatusType) => {
+    const { applicationPass, finalPass } = convertStatusToPassInfo(value);
+
+    passMutate(
+      {
+        applicantId: applicantId,
+        applicationPass,
+        finalPass,
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: ['applicant', 'detail', applicantId],
+          });
+        },
+      },
+    );
+  };
+
+  const handleEvaluationClick = (
+    applicantId: number,
+    evaluationType: EvaluationToggleType,
+    isChecked: boolean,
+  ) => {
+    evalutionMutate(
+      { applicantId, evaluationType, isChecked },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: ['applicant', 'detail', applicantId],
+          });
+        },
+      },
+    );
+  };
 
   return (
     <>
@@ -37,8 +89,10 @@ const Profile = ({ profileData }: ProfileProps) => {
             <div className="flex flex-col gap-[0.6rem] w-[8.3rem]">
               <span className="body_2_16_r text-gray300">합격여부</span>
               <ChipDropDown
-                status={passStatus}
-                onStatusChange={(value) => setPassStatus(value)}
+                status={convertPassInfoToStatus(profileData.status)}
+                onStatusChange={(value) => {
+                  handleStatusChange(profileData.id, value as StatusType);
+                }}
               />
             </div>
           </div>
@@ -72,31 +126,49 @@ const Profile = ({ profileData }: ProfileProps) => {
             <CheckBox
               size="lg"
               checked={profileData.dontReadInfo.checkedByMe}
+              onClick={() =>
+                handleEvaluationClick(
+                  profileData.id,
+                  'DONT_READ',
+                  !profileData.dontReadInfo.checkedByMe,
+                )
+              }
             />
             <span className="body_2_16_m text-white">읽지 마시오</span>
           </div>
-          <div className="flex flex-row  gap-[0.6rem]">
-            <AlertTriangle width={16} />
-            <span className="label_5_11_sb text-secondary">
-              {getDontReadMessage(profileData.dontReadInfo.checkedList)}
-            </span>
-          </div>
+          {profileData.dontReadInfo.checkedList.length > 0 && (
+            <div className="flex flex-row  gap-[0.6rem]">
+              <AlertTriangle width={16} />
+              <span className="label_5_11_sb text-secondary">
+                {getDontReadMessage(profileData.dontReadInfo.checkedList)}
+              </span>
+            </div>
+          )}
         </div>
         <div className="flex flex-col gap-[0.7rem] w-[32rem]">
           <div className="flex flex-row gap-[0.8rem]">
             <CheckBox
               size="lg"
               checked={profileData.evaluatedInfo.checkedByMe}
+              onClick={() =>
+                handleEvaluationClick(
+                  profileData.id,
+                  'EVALUATION',
+                  !profileData.evaluatedInfo.checkedByMe,
+                )
+              }
             />
             <span className="body_2_16_m text-white">평가 완료</span>
           </div>
-          <div className="flex flex-row  gap-[0.6rem]">
-            <span className="label_5_11_sb">
-              {getEvalutionCompleteMessage(
-                profileData.evaluatedInfo.checkedList,
-              )}
-            </span>
-          </div>
+          {profileData.dontReadInfo.checkedList.length > 0 && (
+            <div className="flex flex-row  gap-[0.6rem]">
+              <span className="label_5_11_sb">
+                {getEvalutionCompleteMessage(
+                  profileData.evaluatedInfo.checkedList,
+                )}
+              </span>
+            </div>
+          )}
         </div>
       </div>
     </>

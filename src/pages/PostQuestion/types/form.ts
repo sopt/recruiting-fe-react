@@ -11,6 +11,7 @@ const questionSchema = z
     isFile: z.boolean(),
     charLimit: z.number().min(1),
     required: z.boolean(),
+    isActive: z.boolean(),
   })
   .check((ctx) => {
     if (ctx.value.isLink && !ctx.value.link) {

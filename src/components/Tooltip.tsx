@@ -1,10 +1,10 @@
-import { BubblePoint } from '@/assets/svg';
+import SvgBubblePoint from '@/assets/svg/BubblePoint';
 import { TooltipProvider } from '@/contexts/TooltipContext';
 import { useTooltipContext } from '@/contexts/TooltipContext';
 import { useTooltip } from '@/hooks/useTooltip';
 import clsx from 'clsx';
 import type { HTMLAttributes, PropsWithChildren } from 'react';
-import { forwardRef, useId } from 'react';
+import { forwardRef, useId, useImperativeHandle } from 'react';
 
 interface TooltipRootProps extends HTMLAttributes<HTMLDivElement> {
   isOpen?: boolean;
@@ -47,9 +47,12 @@ interface TooltipContentProps
     PropsWithChildren {}
 
 const TooltipContent = forwardRef<HTMLDivElement, TooltipContentProps>(
-  ({ children, className, ...props }) => {
+  ({ children, className, ...props }, ref) => {
     const { isOpen, id } = useTooltipContext();
     const { position, contentRef } = useTooltip();
+
+    // forwardRef로 받은 ref를 contentRef와 연결
+    useImperativeHandle(ref, () => contentRef.current!, [contentRef]);
 
     return (
       <div
@@ -69,7 +72,7 @@ const TooltipContent = forwardRef<HTMLDivElement, TooltipContentProps>(
         role="tooltip"
         {...props}
       >
-        <BubblePoint
+        <SvgBubblePoint
           width={16}
           height={17}
           className={clsx(
