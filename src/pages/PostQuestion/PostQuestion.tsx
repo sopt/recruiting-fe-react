@@ -53,7 +53,9 @@ const PostQuestion = () => {
         handleSeasonChange={setSeason}
         targetRef={targetRef}
       />
-      {!isIntersecting && <div className="h-[14rem]" />}
+      {!isIntersecting && (
+        <div className={isDirty ? 'h-[14rem]' : 'h-[11rem]'} />
+      )}
       <FormProvider {...method}>
         <form>
           <div
