@@ -51,7 +51,7 @@ const PostQuestion = () => {
         <form>
           <div className="flex flex-col justify-end items-end w-full mb-[2rem]">
             <div className="flex flex-col gap-[0.8rem] body_3_14_r">
-              <div className="flex gap-[1.6rem]">
+              <div className="flex gap-[1.6rem] mt-[4.4rem]">
                 <TemporarySaveButton
                   filterState={filterState}
                   deleteQuestionIds={deleteQuestionIds}
