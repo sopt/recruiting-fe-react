@@ -9,6 +9,7 @@ interface HeaderProps {
   handleTabChange: (part: PartName) => void;
   handleGroupChange: (group: Group) => void;
   handleSeasonChange: (season: number) => void;
+  targetRef: React.RefObject<HTMLElement | null>;
 }
 
 const Header = ({
@@ -16,9 +17,10 @@ const Header = ({
   handleTabChange,
   handleGroupChange,
   handleSeasonChange,
+  targetRef,
 }: HeaderProps) => {
   return (
-    <header>
+    <header ref={targetRef}>
       <Filters
         filterState={filterState}
         handleGroupChange={handleGroupChange}
