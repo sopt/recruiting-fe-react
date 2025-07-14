@@ -12,6 +12,7 @@ import { DEFAULT_QUESTION_DATA } from '@/pages/PostQuestion/constant';
 import { useFilterReducer } from '@/pages/PostQuestion/hooks/useFilterReducer';
 import { useState } from 'react';
 import { AlertTriangleFilled } from '@/assets/svg';
+import { useIntersectionObserver } from '@/hooks/useIntersectorObservor';
 
 const PostQuestion = () => {
   const [deleteQuestionIds, setDeleteQuestionIds] = useState<number[]>([]);
@@ -39,6 +40,10 @@ const PostQuestion = () => {
     formState: { isDirty },
   } = method;
 
+  const { targetRef, isIntersecting } = useIntersectionObserver({
+    rootMargin: '-80px 0px 0px 0px',
+  });
+
   return (
     <main className="max-w-[98rem] mb-[5rem]">
       <Header
@@ -46,12 +51,18 @@ const PostQuestion = () => {
         handleTabChange={setPart}
         handleGroupChange={setGroup}
         handleSeasonChange={setSeason}
+        targetRef={targetRef}
       />
+      {!isIntersecting && (
+        <div className={isDirty ? 'h-[14rem]' : 'h-[11rem]'} />
+      )}
       <FormProvider {...method}>
         <form>
-          <div className="flex flex-col justify-end items-end w-full mb-[2rem]">
+          <div
+            className={`flex flex-col justify-end items-end ${isIntersecting ? 'w-full mb-[2rem]' : 'fixed top-[8rem] left-[33.6rem] right-0 w-[98rem] z-4 bg-background pb-[2rem] '}`}
+          >
             <div className="flex flex-col gap-[0.8rem] body_3_14_r">
-              <div className="flex gap-[1.6rem]">
+              <div className="flex gap-[1.6rem] mt-[4.4rem] z-50">
                 <TemporarySaveButton
                   filterState={filterState}
                   deleteQuestionIds={deleteQuestionIds}
