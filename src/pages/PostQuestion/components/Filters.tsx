@@ -37,13 +37,13 @@ const Filters = ({
     <div className="flex gap-[1.6rem] my-[4.4rem]">
       <SelectV2.Root visibleOptions={7} type="text">
         <SelectV2.Trigger>
-          <SelectV2.TriggerContent placeholder={generations?.[0]} />
+          <SelectV2.TriggerContent placeholder={`${generations?.[0]}기`} />
         </SelectV2.Trigger>
         <SelectV2.Menu>
           {generations?.map((gen) => (
             <SelectV2.MenuItem
               key={gen}
-              option={{ label: gen, value: gen }}
+              option={{ label: `${gen}기`, value: gen }}
               onClick={() => handleSeasonChange(+gen)}
             />
           ))}

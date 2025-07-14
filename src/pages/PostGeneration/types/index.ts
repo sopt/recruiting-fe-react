@@ -4,7 +4,7 @@ export interface Season {
   id: number;
   season: number;
   name: string;
-  type: 'YB' | 'OB';
+  group: 'YB' | 'OB';
   applicationStart: string;
   applicationEnd: string;
   interviewStart: string;
@@ -20,7 +20,9 @@ export interface GetGenerationResponse {
   seasons: Season[];
 }
 
-export interface PostGenerationRequest extends Omit<Season, 'id'> {}
+export interface PostGenerationRequest extends Omit<Season, 'id' | 'group'> {
+  type: 'YB' | 'OB';
+}
 
 export interface PostGenerationResponse {
   err: boolean;
