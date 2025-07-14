@@ -13,6 +13,8 @@ import { useEffect, useState } from 'react';
 import type { FilterState } from '@/pages/PostQuestion/hooks/useFilterReducer';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES_CONFIG } from '@/routes/routeConfig';
+import { useDrag } from '@/hooks/useDragAndDrop';
+import { DragBox } from '@/components/DragBox';
 
 interface QuestionListProps {
   filterState: FilterState;
@@ -42,6 +44,7 @@ const QuestionList = ({
     append,
     insert,
     remove,
+    move,
   } = useFieldArray({
     control,
     name: 'questionList',
@@ -99,6 +102,13 @@ const QuestionList = ({
     insert(0, DEFAULT_DESCRIPTION_DATA);
   };
 
+  const moveQuestions = (from: number, to: number) => {
+    move(from, to);
+  };
+
+  const { containerRef, onMouseDown, mouseY, dragIndex } =
+    useDrag(moveQuestions);
+
   return (
     <div className="relative">
       <span className="absolute top-[-4rem] title_6_16_sb text-gray200">{`총 ${questionList?.length}개`}</span>
@@ -113,7 +123,7 @@ const QuestionList = ({
           설명글 추가하기
         </Button>
       )}
-      <ul className="flex flex-col gap-[1.2rem]">
+      <ul ref={containerRef} className="flex flex-col gap-[1.2rem]">
         {questionFields.map((field, index) => {
           return hasDescription && index === 0 ? (
             <DescriptionBox
@@ -123,14 +133,21 @@ const QuestionList = ({
               }
             />
           ) : (
-            <QuestionBox
+            <DragBox
               key={field.id}
               index={index}
-              deleteQuestion={() =>
-                deleteQuestion(index, questionList[index].id)
-              }
-              hasDescription={hasDescription}
-            />
+              onMouseDown={onMouseDown}
+              mouseY={mouseY}
+              dragIndex={dragIndex}
+            >
+              <QuestionBox
+                index={index}
+                deleteQuestion={() =>
+                  deleteQuestion(index, questionList[index].id)
+                }
+                hasDescription={hasDescription}
+              />
+            </DragBox>
           );
         })}
       </ul>
