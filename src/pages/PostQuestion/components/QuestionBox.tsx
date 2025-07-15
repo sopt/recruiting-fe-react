@@ -1,4 +1,5 @@
 import { Add, Arrange, Check, InfoCircle, Link, Trash } from '@/assets/svg';
+import type { qustionListTypes } from '@/pages/PostQuestion/types/form';
 import { CheckBox, TextField, Toggle, useToast } from '@sopt-makers/ui';
 import { Controller, useFormContext } from 'react-hook-form';
 
@@ -15,7 +16,13 @@ const QuestionBox = ({
 }: QuestionBoxProps) => {
   const { open: openToast } = useToast();
 
-  const { register, watch, control, setValue } = useFormContext();
+  const {
+    register,
+    watch,
+    control,
+    setValue,
+    formState: { errors },
+  } = useFormContext<qustionListTypes>();
 
   const isLink = watch(`questionList.${index}.isLink`);
   const isFile = watch(`questionList.${index}.isFile`);
@@ -62,6 +69,8 @@ const QuestionBox = ({
             rightAddon={<Link width={24} className="stroke-gray500" />}
             disabled={isActive}
             className="custom-textField"
+            isError={!!errors.questionList?.[index]?.link}
+            errorMessage={errors.questionList?.[index]?.link?.message}
             required
             {...register(`questionList.${index}.link`)}
           />
@@ -112,6 +121,8 @@ const QuestionBox = ({
             descriptionText="숫자만 입력하세요. (ex. 700)"
             disabled={isActive}
             className="custom-textField"
+            isError={!!errors.questionList?.[index]?.charLimit}
+            errorMessage={errors.questionList?.[index]?.charLimit?.message}
             required
             {...register(`questionList.${index}.charLimit`, {
               valueAsNumber: true,
