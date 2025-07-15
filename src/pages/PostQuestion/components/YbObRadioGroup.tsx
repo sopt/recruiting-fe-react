@@ -11,14 +11,14 @@ const YbObRadioGroup = ({ group, setGroup }: YbObRadioGroupProps) => {
     <div className="flex gap-[1.6rem]">
       <Radio
         size="lg"
-        label="yb"
+        label="YB"
         checked={group === 'YB'}
         onClick={() => setGroup('YB')}
       />
 
       <Radio
         size="lg"
-        label="ob"
+        label="OB"
         checked={group === 'OB'}
         onClick={() => setGroup('OB')}
       />
