@@ -33,7 +33,7 @@ const DescriptionBox = ({ deleteDescription }: DescriptionBoxProps) => {
         />
       </section>
 
-      {isActive && (
+      {!isActive && (
         <div className="flex flex-col gap-[1.4rem] w-[16.4rem] rounded-xl p-[1.6rem] bg-gray700">
           <button
             type="button"
