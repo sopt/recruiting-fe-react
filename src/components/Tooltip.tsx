@@ -59,7 +59,7 @@ const TooltipContent = forwardRef<HTMLDivElement, TooltipContentProps>(
         id={id}
         aria-hidden={!isOpen}
         className={clsx(
-          'absolute right-0 mt-[0.8rem] w-max max-w-[27.2rem] p-[1.6rem] rounded-[1rem] bg-gray600 transition-all duration-300 ease-in-out z-999',
+          'absolute right-0 mt-[0.8rem] w-max p-[1.6rem] rounded-[1rem] bg-gray600 transition-all duration-300 ease-in-out z-999',
           isOpen
             ? 'opacity-100 visible translate-y-[-10px]'
             : 'opacity-0 invisible translate-y-[10px]',

@@ -1,4 +1,5 @@
 import { Add, Arrange, Check, InfoCircle, Link, Trash } from '@/assets/svg';
+import Tooltip from '@/components/Tooltip';
 import type { qustionListTypes } from '@/pages/PostQuestion/types/form';
 import { CheckBox, TextField, Toggle, useToast } from '@sopt-makers/ui';
 import { Controller, useFormContext } from 'react-hook-form';
@@ -86,9 +87,31 @@ const QuestionBox = ({
           required
           {...register(`questionList.${index}.placeholder`)}
         />
+
         <div className="flex justify-end">
           <p className="flex gap-[0.2rem] items-center label_4_12_sb text-gray30">
-            플레이스 홀더 설정이 궁금해요. <InfoCircle width={15} />
+            플레이스 홀더 설정이 궁금해요.{' '}
+            <Tooltip.Root>
+              <Tooltip.Trigger>
+                <InfoCircle width={15} />
+              </Tooltip.Trigger>
+              <Tooltip.Content>
+                <div>
+                  <div className="flex flex-row gap-[0.8rem] align-middle">
+                    <InfoCircle width={16} />
+                    <span className="title_7_14_sb">플레이스 홀더 설정</span>
+                  </div>
+                  <p className="body_4_13_m mt-[0.8rem] mb-[2.4rem]">
+                    지원자에게 보다 명확한 안내를 위해 사용하는 텍스트에요.
+                  </p>
+                  <img
+                    src="public/image/placeholder.png"
+                    alt="미리보기 툴팁"
+                    className="w-[35.2rem] h-[9.2rem] rounded-[10px]"
+                  />
+                </div>
+              </Tooltip.Content>
+            </Tooltip.Root>
           </p>
         </div>
 
