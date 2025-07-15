@@ -91,7 +91,9 @@ const QuestionList = ({
   const deleteQuestion = (index: number, id: number) => {
     remove(index);
     addDeleteQuestionId(id);
-    setHasDescription(false);
+    if (index === 0) {
+      setHasDescription(false);
+    }
   };
 
   const handleDescriptionAdd = () => {
