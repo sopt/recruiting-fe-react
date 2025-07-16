@@ -34,8 +34,10 @@ const PostGeneration = () => {
   const handleAddGeneration = () => {
     const option = {
       title: (
-        <div className="flex justify-between items-center">
-          <h1 className="!text-title_2_28_sb">신규 기수 등록</h1>
+        <div className="flex justify-between items-center pb-[2.2rem] pl-[0.2rem]">
+          <h1 className="font-bold text-[2.8rem] font-weight-[700]">
+            신규 기수 등록
+          </h1>
           <button
             type="button"
             onClick={closeDialog}
@@ -52,7 +54,7 @@ const PostGeneration = () => {
 
   return (
     <div className="flex flex-col gap-[4.2rem] mt-[3.1rem] overflow-hidden">
-      <div className="flex justify-between pr-[12.4rem]">
+      <div className="flex justify-between pr-[12.4rem] pl-[21.2rem]">
         <YbObRadioGroup group={group} onChangeGroup={setGroup} />
         <Button variant="fill" onClick={handleAddGeneration}>
           기수 추가

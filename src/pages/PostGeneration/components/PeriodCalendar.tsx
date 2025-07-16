@@ -100,7 +100,7 @@ const PeriodCalendar = ({
           <IconCalendar style={{ width: '24' }} />
         </div>
         {isCalendarOpen && (
-          <div className="absolute z-[2] w-[33.6rem] h-auto top-full left-[5rem] mt-2 bg-gray600 text-gray10 p-4 rounded-2xl shadow-lg">
+          <div className="absolute z-[100] w-[33.6rem] h-auto top-full left-[5rem] mt-2 bg-gray600 text-gray10 p-4 rounded-2xl shadow-lg">
             <CalendarInputForm
               selectedDate={selectedDateRange}
               setSelectedDate={onSelectDateRange}

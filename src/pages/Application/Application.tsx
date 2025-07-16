@@ -64,7 +64,7 @@ const Application = () => {
   }, [currentPage, applicantList?.data]);
 
   return (
-    <div className="flex flex-col gap-[4.4rem]">
+    <div className="flex flex-col gap-[4.4rem] pl-[21.2rem]">
       <Filter
         generationData={generationData}
         applicantInfo={applicantInfo}

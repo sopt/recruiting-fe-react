@@ -169,6 +169,10 @@ button.react-calendar__navigation__label {
   }
 }
 
+.react-calendar__tile--single {
+  background-color: transparent !important;
+}
+
 /*기간 첫, 끝 날짜 배경 색 입히기*/
 .react-calendar__tile--rangeStart {
   position: relative;
