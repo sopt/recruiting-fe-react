@@ -210,7 +210,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                               handleEvaluation(
                                 item.id,
                                 'DONT_READ',
-                                item.dontReadInfo.checkedByMe,
+                                !item.dontReadInfo.checkedByMe,
                               );
                             }}
                           />
@@ -250,7 +250,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                             handleEvaluation(
                               item.id,
                               'EVALUATION',
-                              item.evaluatedInfo.checkedByMe,
+                              !item.evaluatedInfo.checkedByMe,
                             );
                           }}
                         />
