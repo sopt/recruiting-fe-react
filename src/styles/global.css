@@ -200,8 +200,5 @@ div[role="dialog"] > div,
 div[role="dialog"] > div > div {
   max-width: 100%;
   max-height: none;
-  overflow: visible;
-  overflow-y: visible;
-  overflow-x: visible;
   margin-bottom: 0;
 }

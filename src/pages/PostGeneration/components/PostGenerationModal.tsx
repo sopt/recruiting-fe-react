@@ -72,17 +72,15 @@ const PostGenerationModal = () => {
 
   const onSubmit = () => {
     postGeneration();
+    handleSubmit(onSubmit);
     closeDialog();
   };
 
   const isDisabled = !isValid || isDuplicate;
 
   return (
-    <div className="flex flex-col gap-[2.4rem] w-[58rem] h-[calc(100vh-16rem)]">
-      <form
-        className="flex flex-col w-[64rem] mt-[2.6rem] justify-between h-full"
-        onSubmit={handleSubmit(onSubmit)}
-      >
+    <div className="flex flex-col gap-[2.4rem] w-[58rem] !overflow-hidden">
+      <form className="flex flex-col w-[64rem] justify-between !max-h-[52.7rem] !overflow-y-scroll !p-[0.4rem] !pt-[2.6rem] !pb-[10rem]">
         <div className="!flex !flex-col !gap-[3.2rem]">
           <div className="!flex !flex-col !gap-[0.8rem]">
             <Controller
@@ -198,15 +196,21 @@ const PostGenerationModal = () => {
             )}
           />
         </div>
+      </form>
+      <div className="absolute bottom-[2rem] right-[2.2rem] flex items-center justify-end w-[59rem] h-[8rem] pt-[2.2rem] bg-gray800 z-10">
         <Dialog.Footer align="right">
           <Button theme="black" type="button" onClick={closeDialog}>
             취소하기
           </Button>
-          <Button disabled={isDisabled} type="submit">
+          <Button
+            disabled={isDisabled}
+            type="button"
+            onClick={handleSubmit(onSubmit)}
+          >
             등록하기
           </Button>
         </Dialog.Footer>
-      </form>
+      </div>
     </div>
   );
 };

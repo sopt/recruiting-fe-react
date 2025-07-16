@@ -34,8 +34,10 @@ const PostGeneration = () => {
   const handleAddGeneration = () => {
     const option = {
       title: (
-        <div className="flex justify-between items-center">
-          <h1 className="!text-title_2_28_sb">신규 기수 등록</h1>
+        <div className="flex justify-between items-center pb-[2.2rem]">
+          <h1 className="font-bold text-[2.8rem] font-weight-[700]">
+            신규 기수 등록
+          </h1>
           <button
             type="button"
             onClick={closeDialog}
