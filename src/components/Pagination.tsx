@@ -30,7 +30,7 @@ const Pagination = ({
   const hasNextPage = currentPage < totalPages;
 
   return (
-    <nav className="flex mt-[5.6rem] mb-[5.6rem] justify-center items-center gap-[1.2rem]">
+    <nav className="flex mt-[5.6rem] mb-[5.6rem] justify-center items-center gap-[1.2rem] pl-[21.2rem]">
       <button
         type="button"
         onClick={() => onPageChange(currentPage - 1)}

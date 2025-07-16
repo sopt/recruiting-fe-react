@@ -1,18 +1,18 @@
+import { AlertTriangleFilled } from '@/assets/svg';
+import { useIntersectionObserver } from '@/hooks/useIntersectorObservor';
 import Header from '@/pages/PostQuestion/components/Header';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { FormProvider, useForm } from 'react-hook-form';
+import QuestionList from '@/pages/PostQuestion/components/QuestionList';
+import RegisterButton from '@/pages/PostQuestion/components/RegisterButton';
+import TemporarySaveButton from '@/pages/PostQuestion/components/TemporarySaveButton';
+import { DEFAULT_QUESTION_DATA } from '@/pages/PostQuestion/constant';
+import { useFilterReducer } from '@/pages/PostQuestion/hooks/useFilterReducer';
 import {
   questionsListSchema,
   type qustionListTypes,
 } from '@/pages/PostQuestion/types/form';
-import QuestionList from '@/pages/PostQuestion/components/QuestionList';
-import TemporarySaveButton from '@/pages/PostQuestion/components/TemporarySaveButton';
-import RegisterButton from '@/pages/PostQuestion/components/RegisterButton';
-import { DEFAULT_QUESTION_DATA } from '@/pages/PostQuestion/constant';
-import { useFilterReducer } from '@/pages/PostQuestion/hooks/useFilterReducer';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
-import { AlertTriangleFilled } from '@/assets/svg';
-import { useIntersectionObserver } from '@/hooks/useIntersectorObservor';
+import { FormProvider, useForm } from 'react-hook-form';
 
 const PostQuestion = () => {
   const [deleteQuestionIds, setDeleteQuestionIds] = useState<number[]>([]);
@@ -45,7 +45,7 @@ const PostQuestion = () => {
   });
 
   return (
-    <main className="max-w-[98rem] mb-[5rem]">
+    <main className="max-w-[98rem] mb-[5rem] pl-[21.2rem]">
       <Header
         filterState={filterState}
         handleTabChange={setPart}

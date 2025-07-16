@@ -68,7 +68,7 @@ const GenerationTable = ({ data }: GenerationTableProps) => {
       onMouseMove={onDragMove}
       onMouseUp={onDragEnd}
       onMouseLeave={onDragLeave}
-      className="w-full overflow-x-auto scroll-smooth scrollbar-hide pr-[12.4rem] cursor-grab active:cursor-grabbing"
+      className="w-full overflow-x-auto scroll-smooth scrollbar-hide pr-[12.4rem] cursor-grab active:cursor-grabbing pl-[21.2rem]"
     >
       <table className="w-[122.5rem]">
         <thead>
