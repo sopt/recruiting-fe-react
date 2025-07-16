@@ -54,7 +54,6 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
     }));
 
     const { applicationPass, finalPass } = convertStatusToPassInfo(value);
-
     postPassStatus({
       applicantId: id,
       applicationPass,
