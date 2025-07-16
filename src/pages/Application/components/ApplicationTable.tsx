@@ -12,8 +12,10 @@ import {
 } from '@/pages/Application/hooks/queries';
 import useDrag from '@/pages/Application/hooks/useDrag';
 import {
+  convertPassInfoToStatus,
   convertStatusToPassInfo,
   getEvaluationMessage,
+  getPartName,
 } from '@/pages/Application/utils';
 import { getDoNotReadMessage } from '@/pages/Application/utils';
 import { ROUTES_CONFIG } from '@/routes/routeConfig';
@@ -103,11 +105,8 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
             <th className={`w-[16.8rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
               읽지 마시오
             </th>
-            <th className={`w-[20rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
-              평가 상태
-            </th>
             <th className={`w-[16.8rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
-              제출시간
+              평가 상태
             </th>
             <th className={`w-[11rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
               최근 기수
@@ -124,8 +123,13 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
             <th className={`w-[16.8rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
               이메일
             </th>
-            <th className={`w-[14rem] rounded-tr-[1rem] ${HEADER_BASE_STYLE}`}>
+            <th className={`w-[14rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
               전화번호
+            </th>
+            <th
+              className={`w-[16.8rem] rounded-tr-[1rem] ${HEADER_BASE_STYLE}`}
+            >
+              제출시간
             </th>
           </tr>
         </thead>
@@ -140,7 +144,8 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
             data.map((item) => {
               const doNotReadMessage = getDoNotReadMessage(item);
               const evaluationMessage = getEvaluationMessage(item);
-              const currentStatus = passStatusList[item.id] || item.status;
+              const currentStatus =
+                passStatusList[item.id] || convertPassInfoToStatus(item.status);
 
               return (
                 <tr
@@ -181,23 +186,33 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
                   >
-                    <div className={TD_CONTENT_STYLE}>{item.part}</div>
+                    <div className={TD_CONTENT_STYLE}>
+                      {getPartName(item.part)}
+                    </div>
                   </td>
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px] px-[1.2rem] py-[1rem] text-left`}
                   >
                     <div className="flex flex-col gap-[0.5rem] justify-start">
                       <div className="h-full flex items-center justify-between">
-                        <div className="flex items-center gap-[0.9rem]">
+                        {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
+                        <div
+                          className="flex items-center gap-[0.9rem] cursor-pointer z-10"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
+                        >
                           <CheckBox
                             checked={item.dontReadInfo.checkedByMe}
-                            onClick={() =>
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              e.preventDefault();
                               handleEvaluation(
                                 item.id,
                                 'DONT_READ',
-                                item.dontReadInfo.checkedByMe,
-                              )
-                            }
+                                !item.dontReadInfo.checkedByMe,
+                              );
+                            }}
                           />
                           <span>읽지 마시오</span>
                         </div>
@@ -221,42 +236,46 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px] p-[1rem] text-left`}
                   >
                     <div className="flex flex-col gap-[0.5rem] justify-start">
-                      <div className="h-full flex items-center gap-[0.6rem]">
+                      {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
+                      <div
+                        className="h-full flex items-center gap-[0.6rem]"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
+                      >
                         <CheckBox
                           checked={item.evaluatedInfo.checkedByMe}
-                          onClick={() =>
+                          onClick={(e) => {
+                            e.preventDefault();
                             handleEvaluation(
                               item.id,
                               'EVALUATION',
-                              item.evaluatedInfo.checkedByMe,
-                            )
-                          }
+                              !item.evaluatedInfo.checkedByMe,
+                            );
+                          }}
                         />
                         <span>평가 완료</span>
-                        {item.evaluatedInfo.checkedList.length > 0 && (
-                          <Tooltip.Root>
-                            <Tooltip.Trigger>
-                              <Tag shape="pill">
-                                {item.evaluatedInfo.checkedList.length}
-                              </Tag>
-                            </Tooltip.Trigger>
+                        <Tooltip.Root>
+                          <Tooltip.Trigger>
+                            <Tag shape="pill">
+                              {item.evaluatedInfo.checkedList.length}
+                            </Tag>
+                          </Tooltip.Trigger>
+                          {item.evaluatedInfo.checkedList.length > 0 && (
                             <Tooltip.Content className="!mt-[1.3rem]">
                               <span>{evaluationMessage}</span>
                             </Tooltip.Content>
-                          </Tooltip.Root>
-                        )}
+                          )}
+                        </Tooltip.Root>
                       </div>
                     </div>
                   </td>
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
                   >
-                    <div className={TD_CONTENT_STYLE}>{item.submittedAt}</div>
-                  </td>
-                  <td
-                    className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
-                  >
-                    <div className={TD_CONTENT_STYLE}>{item.generation}기</div>
+                    <div className={TD_CONTENT_STYLE}>
+                      {item.mostRecentSeason}기
+                    </div>
                   </td>
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
@@ -278,8 +297,13 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                   >
                     <div className={TD_CONTENT_STYLE}>{item.email}</div>
                   </td>
-                  <td className={`${CELL_BASE_STYLE} text-white`}>
+                  <td
+                    className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
+                  >
                     <div className={TD_CONTENT_STYLE}>{item.phone}</div>
+                  </td>
+                  <td className={`${CELL_BASE_STYLE} text-white`}>
+                    <div className={TD_CONTENT_STYLE}>{item.submittedAt}</div>
                   </td>
                 </tr>
               );

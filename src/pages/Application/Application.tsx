@@ -7,7 +7,8 @@ import { PART_TRANSLATOR } from '@/pages/Application/constants';
 import { useGetApplicantList } from '@/pages/Application/hooks/queries';
 import { useGetGeneration } from '@/pages/PostGeneration/hooks/queries';
 import { Tab } from '@sopt-makers/ui';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
+import { useMemo } from 'react';
 
 const LIST_LIMIT = 10;
 const PAGE_LIMIT = 5;
@@ -30,30 +31,37 @@ const Application = () => {
     setApplicantInfo((prev) => ({ ...prev, season: defaultSeason }));
   }
 
-  const { data, refetch } = useGetApplicantList({
+  const applicantListParams = {
     season: Number(applicantInfo.season),
     group: applicantInfo.group,
-    part: applicantInfo.selectedPart,
     offset: 0,
     limit: LIST_LIMIT,
     minRate: 0,
     hideEvaluated: applicantInfo.isEvaluated,
     hideDontRead: applicantInfo.isDontRead,
     checkInterviewPass: applicantInfo.isPassedOnly,
-  });
+    ...(applicantInfo.selectedPart !== 'ALL' && {
+      part: applicantInfo.selectedPart,
+    }),
+  };
+
+  const { data: applicantList, refetch } =
+    useGetApplicantList(applicantListParams);
 
   const { currentPage, totalPages, handlePageChange } = usePagination({
-    totalItems: data?.data.length ?? 0,
+    totalItems: applicantList?.data.data.length ?? 0,
     limit: PAGE_LIMIT,
   });
 
   const paginatedData = useMemo(() => {
-    const arr = Array.isArray(data?.data) ? data.data : [];
+    const arr = Array.isArray(applicantList?.data.data)
+      ? applicantList.data.data
+      : [];
     const startIndex = (currentPage - 1) * PAGE_LIMIT;
     const endIndex = startIndex + PAGE_LIMIT;
 
     return arr.slice(startIndex, endIndex);
-  }, [currentPage, data?.data]);
+  }, [currentPage, applicantList?.data]);
 
   return (
     <div className="flex flex-col gap-[4.4rem]">
@@ -73,7 +81,7 @@ const Application = () => {
         }
       />
       <hr className="border-gray800 mt-[-4.7rem] w-[98rem]" />
-      <ApplicationTable data={paginatedData} />
+      <ApplicationTable data={paginatedData ?? []} />
       <Pagination
         totalPages={totalPages}
         currentPage={currentPage}

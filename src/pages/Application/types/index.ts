@@ -43,24 +43,7 @@ export const STATUS_TRANSLATOR = {
 
 export type SOPTPart = '기획' | '디자인' | '서버' | 'iOS' | '안드로이드' | '웹';
 
-export interface ApplicationTableProps
-  extends Omit<GetApplicantListResponse, 'success' | 'message'> {}
-
-export interface GetApplicantListRequest {
-  season: number;
-  group: Group;
-  part: PartType;
-  offset: number;
-  limit: number;
-  minRate: number;
-  hideEvaluated: boolean;
-  hideDontRead: boolean;
-  checkInterviewPass: boolean;
-}
-
-export interface GetApplicantListResponse {
-  success: boolean;
-  message: string;
+export interface ApplicationTableProps {
   data: {
     id: number;
     status: StatusType;
@@ -80,9 +63,53 @@ export interface GetApplicantListResponse {
     birth: string;
     university: string;
     major: string;
+    mostRecentSeason: number;
     email: string;
     phone: string;
   }[];
+}
+[];
+
+export interface GetApplicantListRequest {
+  season: number;
+  group: Group;
+  part?: PartType;
+  offset: number;
+  limit: number;
+  minRate: number;
+  hideEvaluated: boolean;
+  hideDontRead: boolean;
+  checkInterviewPass: boolean;
+}
+
+export interface GetApplicantListResponse {
+  success: boolean;
+  message: string;
+  data: {
+    data: {
+      id: number;
+      status: StatusType;
+      name: string;
+      pictureUrl: string;
+      part: PartType;
+      dontReadInfo: {
+        checkedByMe: boolean;
+        checkedList: string[];
+      };
+      evaluatedInfo: {
+        checkedByMe: boolean;
+        checkedList: string[];
+      };
+      submittedAt: string;
+      generation: number;
+      birth: string;
+      university: string;
+      major: string;
+      mostRecentSeason: number;
+      email: string;
+      phone: string;
+    }[];
+  };
 }
 
 export interface PostApplicantPassStatusRequest {
