@@ -34,6 +34,9 @@ const CalendarInputForm = ({
 }: Props) => {
   const [, setRangeValue] = useState<[Date | null, Date | null]>([null, null]);
 
+  const isSingleRange =
+    Array.isArray(selectedDate) && selectedDate[0] === selectedDate[1];
+
   const handleDateChange = (value: Date | [Date, Date]) => {
     if (Array.isArray(value)) {
       setRangeValue(value);
@@ -68,6 +71,7 @@ const CalendarInputForm = ({
       onClickDay={handleDateChange}
       calendarType="gregory"
       onChange={(value: Value) => handleDateChange(value as [Date, Date])}
+      tileClassName={isSingleRange ? 'react-calendar__tile--single' : undefined}
     />
   );
 
