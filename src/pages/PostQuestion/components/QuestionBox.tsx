@@ -89,7 +89,7 @@ const QuestionBox = ({
         />
 
         <div className="flex justify-end">
-          <p className="flex gap-[0.2rem] items-center label_4_12_sb text-gray30">
+          <div className="flex gap-[0.2rem] items-center label_4_12_sb text-gray30">
             플레이스 홀더 설정이 궁금해요.{' '}
             <Tooltip.Root>
               <Tooltip.Trigger>
@@ -112,7 +112,7 @@ const QuestionBox = ({
                 </div>
               </Tooltip.Content>
             </Tooltip.Root>
-          </p>
+          </div>
         </div>
 
         {isFile && (
