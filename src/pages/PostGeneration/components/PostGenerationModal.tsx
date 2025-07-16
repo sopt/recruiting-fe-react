@@ -80,8 +80,8 @@ const PostGenerationModal = () => {
 
   return (
     <div className="flex flex-col gap-[2.4rem] w-[58rem] !overflow-hidden">
-      <form className="flex flex-col w-[64rem] justify-between !max-h-[52.7rem] !overflow-y-scroll !p-[0.4rem] !pt-[2.6rem] !pb-[10rem]">
-        <div className="!flex !flex-col !gap-[3.2rem]">
+      <form className="flex flex-col w-[64rem] justify-between !max-h-[52.7rem] !overflow-y-scroll !p-[0.2rem] !pt-[2.6rem] !pb-[10rem]">
+        <div className="flex flex-col !gap-[3.2rem]">
           <div className="!flex !flex-col !gap-[0.8rem]">
             <Controller
               name="generationName"
