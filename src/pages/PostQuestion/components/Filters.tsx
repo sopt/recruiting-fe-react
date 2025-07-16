@@ -4,7 +4,7 @@ import type { FilterState } from '@/pages/PostQuestion/hooks/useFilterReducer';
 import type { Group } from '@/pages/PostQuestion/types';
 
 import { SelectV2 } from '@sopt-makers/ui';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 
 interface FiltersProps {
   filterState: FilterState;
