@@ -11,14 +11,14 @@ import { postMinRate } from '@/pages/Application/apis/postMinRate';
 import { postPassStatus } from '@/pages/Application/apis/postPassStatus';
 import type { Group } from '@/pages/PostQuestion/types';
 
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 
 const QUERY_KEY = {
   APPLICANT_LIST: 'APPLICANT_LIST',
 };
 
 export const useGetApplicantList = (params: GetApplicantListRequest) => {
-  return useQuery({
+  return useSuspenseQuery({
     queryKey: [QUERY_KEY.APPLICANT_LIST, params],
     queryFn: () => getApplicantList(params),
   });

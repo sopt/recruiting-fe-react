@@ -12,6 +12,7 @@ import {
 } from '@/pages/Application/hooks/queries';
 import useDrag from '@/pages/Application/hooks/useDrag';
 import {
+  convertPassInfoToStatus,
   convertStatusToPassInfo,
   getEvaluationMessage,
 } from '@/pages/Application/utils';
@@ -140,7 +141,8 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
             data.map((item) => {
               const doNotReadMessage = getDoNotReadMessage(item);
               const evaluationMessage = getEvaluationMessage(item);
-              const currentStatus = passStatusList[item.id] || item.status;
+              const currentStatus =
+                passStatusList[item.id] || convertPassInfoToStatus(item.status);
 
               return (
                 <tr
@@ -188,16 +190,18 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                   >
                     <div className="flex flex-col gap-[0.5rem] justify-start">
                       <div className="h-full flex items-center justify-between">
-                        <div className="flex items-center gap-[0.9rem]">
+                        <div className="flex items-center gap-[0.9rem] cursor-pointer z-10">
                           <CheckBox
                             checked={item.dontReadInfo.checkedByMe}
-                            onClick={() =>
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              e.preventDefault();
                               handleEvaluation(
                                 item.id,
                                 'DONT_READ',
                                 item.dontReadInfo.checkedByMe,
-                              )
-                            }
+                              );
+                            }}
                           />
                           <span>읽지 마시오</span>
                         </div>
@@ -224,13 +228,15 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                       <div className="h-full flex items-center gap-[0.6rem]">
                         <CheckBox
                           checked={item.evaluatedInfo.checkedByMe}
-                          onClick={() =>
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            e.preventDefault();
                             handleEvaluation(
                               item.id,
                               'EVALUATION',
                               item.evaluatedInfo.checkedByMe,
-                            )
-                          }
+                            );
+                          }}
                         />
                         <span>평가 완료</span>
                         {item.evaluatedInfo.checkedList.length > 0 && (
