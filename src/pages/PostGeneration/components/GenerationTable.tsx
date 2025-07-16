@@ -15,6 +15,13 @@ const HEADER_BASE_STYLE =
 const CELL_BASE_STYLE =
   'h-[6rem] text-center body_3_14_m bg-transparent border-b-[1px] border-gray700 align-middle';
 
+const isDeleteDisabled = (applicationStart: string) => {
+  const startDate = new Date(applicationStart);
+  const now = new Date();
+
+  return startDate.getTime() < now.getTime();
+};
+
 const GenerationTable = ({ data }: GenerationTableProps) => {
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const { onDragStart, onDragMove, onDragEnd, onDragLeave } =
@@ -147,13 +154,25 @@ const GenerationTable = ({ data }: GenerationTableProps) => {
                 </td>
                 <td className={`${CELL_BASE_STYLE}`}>
                   <div className="h-full flex items-center justify-center">
-                    <button
-                      type="button"
-                      className="cursor-pointer hover:opacity-70 transition-opacity"
-                      onClick={() => openDeleteModal(item.id)}
-                    >
-                      <Trash width={22} className="stroke-white" />
-                    </button>
+                    {(() => {
+                      const isDisabled = isDeleteDisabled(
+                        item.applicationStart,
+                      );
+
+                      return (
+                        <button
+                          type="button"
+                          className="cursor-pointer hover:opacity-70 transition-opacity disabled:cursor-not-allowed"
+                          onClick={() => openDeleteModal(item.id)}
+                          disabled={isDisabled}
+                        >
+                          <Trash
+                            width={22}
+                            className={isDisabled ? 'opacity-30' : ''}
+                          />
+                        </button>
+                      );
+                    })()}
                   </div>
                 </td>
               </tr>
