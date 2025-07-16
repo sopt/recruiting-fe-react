@@ -1,18 +1,18 @@
 export type PartName =
-  | 'common'
-  | 'PLAN'
-  | 'DESIGN'
-  | 'SERVER'
-  | 'IOS'
-  | 'ANDROID'
-  | 'WEB';
+  | '공통'
+  | '기획'
+  | '디자인'
+  | '서버'
+  | 'ios'
+  | '안드로이드'
+  | '웹';
 
 export type Group = 'YB' | 'OB';
 
 export type Question = {
   id?: number;
   questionOrder: number;
-  part: PartName;
+  part: Omit<PartName, '공통'> | null;
   content: string;
   isDescription: boolean;
   charLimit: number;

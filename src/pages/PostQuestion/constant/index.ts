@@ -1,11 +1,11 @@
 export const PART = {
-  common: '공통',
-  PLAN: '기획',
-  DESIGN: '디자인',
-  SERVER: '서버',
-  IOS: 'ios',
-  ANDROID: '안드로이드',
-  WEB: ' 웹',
+  공통: '공통',
+  기획: '기획',
+  디자인: '디자인',
+  서버: '서버',
+  ios: 'ios',
+  안드로이드: '안드로이드',
+  웹: '웹',
 };
 
 export const DEFAULT_QUESTION_DATA = {
