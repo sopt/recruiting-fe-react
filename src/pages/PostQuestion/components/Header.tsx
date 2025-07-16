@@ -3,13 +3,14 @@ import { PART } from '@/pages/PostQuestion/constant';
 import type { FilterState } from '@/pages/PostQuestion/hooks/useFilterReducer';
 import type { Group, PartName } from '@/pages/PostQuestion/types';
 import { Tab } from '@sopt-makers/ui';
+import type { RefObject } from 'react';
 
 interface HeaderProps {
   filterState: FilterState;
   handleTabChange: (part: PartName) => void;
   handleGroupChange: (group: Group) => void;
   handleSeasonChange: (season: number) => void;
-  targetRef: React.RefObject<HTMLElement | null>;
+  targetRef: RefObject<HTMLElement | null>;
 }
 
 const Header = ({
