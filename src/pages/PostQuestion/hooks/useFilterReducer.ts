@@ -27,7 +27,7 @@ const reducer = (state: FilterState, action: FilterAction): FilterState => {
 
 export const useFilterReducer = () => {
   const initialState: FilterState = {
-    part: 'common',
+    part: '공통',
     group: 'YB',
     season: 0,
   };

@@ -15,20 +15,21 @@ const TemporarySaveButton = ({
   deleteQuestionIds,
 }: TemporarySaveButtonProps) => {
   const {
-    handleSubmit,
-    formState: { isSubmitting, isValid, isDirty },
+    watch,
+    reset,
+    formState: { isSubmitting, isDirty },
   } = useFormContext<qustionListTypes>();
 
   const { mutate: saveMutate } = usePostQuestionsSave();
 
   const queryClient = useQueryClient();
 
-  const handleQuetsionsSave = (data: qustionListTypes) => {
-    const questions = data.questionList.map((question, index) => {
+  const handleQuetsionsSave = () => {
+    const questions = watch('questionList').map((question, index) => {
       return {
         id: question.id,
         questionOrder: index,
-        part: filterState.part,
+        part: filterState.part === '공통' ? null : filterState.part,
         content: question.content,
         isDescription: question.isDescription,
         charLimit: question.charLimit,
@@ -47,10 +48,12 @@ const TemporarySaveButton = ({
     };
 
     saveMutate(requestData, {
-      onSuccess: () =>
+      onSuccess: () => {
         queryClient.invalidateQueries({
           queryKey: ['question', 'list', filterState.season, filterState.group],
-        }),
+        });
+        reset({ questionList: requestData.questions });
+      },
     });
   };
 
@@ -59,8 +62,8 @@ const TemporarySaveButton = ({
       type="button"
       variant="outlined"
       size="md"
-      onClick={handleSubmit(handleQuetsionsSave)}
-      disabled={isSubmitting || !isValid || !isDirty}
+      onClick={handleQuetsionsSave}
+      disabled={isSubmitting || !isDirty}
     >
       임시저장
     </Button>
