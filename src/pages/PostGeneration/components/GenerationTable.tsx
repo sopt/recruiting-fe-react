@@ -2,7 +2,7 @@ import { Trash } from '@/assets/svg';
 import useDrag from '@/pages/Application/hooks/useDrag';
 import { useDeleteGeneration } from '@/pages/PostGeneration/hooks/queries';
 import type { Season } from '@/pages/PostGeneration/types';
-import { formatDate } from '@/pages/PostGeneration/utils';
+import { canDeleteGeneration, formatDate } from '@/pages/PostGeneration/utils';
 import { Button, Dialog, DialogContext } from '@sopt-makers/ui';
 import { useContext, useRef } from 'react';
 
@@ -14,13 +14,6 @@ const HEADER_BASE_STYLE =
   'p-[1rem] text-gray100 body_3_14_m bg-gray700 border-gray600';
 const CELL_BASE_STYLE =
   'h-[6rem] text-center body_3_14_m bg-transparent border-b-[1px] border-gray700 align-middle';
-
-const isDeleteDisabled = (applicationStart: string) => {
-  const startDate = new Date(applicationStart);
-  const now = new Date();
-
-  return startDate.getTime() < now.getTime();
-};
 
 const GenerationTable = ({ data }: GenerationTableProps) => {
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
@@ -154,25 +147,21 @@ const GenerationTable = ({ data }: GenerationTableProps) => {
                 </td>
                 <td className={`${CELL_BASE_STYLE}`}>
                   <div className="h-full flex items-center justify-center">
-                    {(() => {
-                      const isDisabled = isDeleteDisabled(
-                        item.applicationStart,
-                      );
-
-                      return (
-                        <button
-                          type="button"
-                          className="cursor-pointer hover:opacity-70 transition-opacity disabled:cursor-not-allowed"
-                          onClick={() => openDeleteModal(item.id)}
-                          disabled={isDisabled}
-                        >
-                          <Trash
-                            width={22}
-                            className={isDisabled ? 'opacity-30' : ''}
-                          />
-                        </button>
-                      );
-                    })()}
+                    <button
+                      type="button"
+                      className="cursor-pointer hover:opacity-70 transition-opacity disabled:cursor-not-allowed"
+                      onClick={() => openDeleteModal(item.id)}
+                      disabled={canDeleteGeneration(item.applicationStart)}
+                    >
+                      <Trash
+                        width={22}
+                        className={
+                          canDeleteGeneration(item.applicationStart)
+                            ? 'opacity-30'
+                            : ''
+                        }
+                      />
+                    </button>
                   </div>
                 </td>
               </tr>
