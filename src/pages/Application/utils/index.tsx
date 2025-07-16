@@ -1,5 +1,6 @@
 import type {
   ApplicationTableProps,
+  PartType,
   StatusType,
 } from '@/pages/Application/\btypes';
 
@@ -64,5 +65,24 @@ export const convertPassInfoToStatus = (passInfo: string) => {
       return '서류 합격';
     default:
       return '확인 전';
+  }
+};
+
+export const getPartName = (part: PartType) => {
+  switch (part) {
+    case 'PLAN':
+      return '기획';
+    case 'DESIGN':
+      return '디자인';
+    case 'IOS':
+      return 'iOS';
+    case 'WEB':
+      return '웹';
+    case 'ANDROID':
+      return '안드로이드';
+    case 'SERVER':
+      return '서버';
+    default:
+      return '전체';
   }
 };
