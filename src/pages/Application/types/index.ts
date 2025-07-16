@@ -63,6 +63,7 @@ export interface ApplicationTableProps {
     birth: string;
     university: string;
     major: string;
+    mostRecentSeason: number;
     email: string;
     phone: string;
   }[];
@@ -104,6 +105,7 @@ export interface GetApplicantListResponse {
       birth: string;
       university: string;
       major: string;
+      mostRecentSeason: number;
       email: string;
       phone: string;
     }[];
