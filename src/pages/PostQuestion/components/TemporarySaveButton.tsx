@@ -16,7 +16,6 @@ const TemporarySaveButton = ({
 }: TemporarySaveButtonProps) => {
   const {
     watch,
-    reset,
     formState: { isSubmitting, isDirty },
   } = useFormContext<qustionListTypes>();
 
@@ -52,7 +51,6 @@ const TemporarySaveButton = ({
         queryClient.invalidateQueries({
           queryKey: ['question', 'list', filterState.season, filterState.group],
         });
-        reset({ questionList: requestData.questions });
       },
     });
   };

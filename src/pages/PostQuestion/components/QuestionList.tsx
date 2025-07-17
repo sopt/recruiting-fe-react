@@ -50,7 +50,13 @@ const QuestionList = ({
     setHasDescription(!!resetData[0]?.isDescription);
 
     reset({ questionList: resetData });
-  }, [isSuccess, filterState.group, filterState.part, filterState.season]);
+  }, [
+    questionListData,
+    isSuccess,
+    filterState.group,
+    filterState.part,
+    filterState.season,
+  ]);
 
   const questionList = watch('questionList');
 
