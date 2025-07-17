@@ -20,10 +20,13 @@ const RegisterButton = ({
 
   const {
     handleSubmit,
+    watch,
     formState: { isSubmitting, isValid },
   } = useFormContext<qustionListTypes>();
 
   const { mutate: registerMutate } = usePostQuestionsRegister();
+
+  const questionList = watch('questionList');
 
   const handleRegisterClick = () => {
     openDialog({
@@ -37,7 +40,11 @@ const RegisterButton = ({
             <Button theme="black" onClick={closeDialog}>
               취소
             </Button>
-            <Button theme="white" onClick={() => handleSubmit(registQuestions)}>
+            <Button
+              type="button"
+              theme="white"
+              onClick={() => handleSubmit(registQuestions)()}
+            >
               최종 등록
             </Button>
           </Dialog.Footer>
@@ -83,7 +90,7 @@ const RegisterButton = ({
       variant="fill"
       size="md"
       onClick={handleRegisterClick}
-      disabled={isSubmitting || !isValid}
+      disabled={isSubmitting || !isValid || questionList[0].isActive}
     >
       최종 등록하기
     </Button>
