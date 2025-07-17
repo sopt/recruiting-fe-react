@@ -148,6 +148,19 @@ const Filter = ({
             </button>
           </div>
           <div className="flex items-center gap-[0.8rem]">
+            <span className="flex body_3_14_r text-gray100">읽마 숨기기</span>
+            <Toggle
+              size="lg"
+              checked={applicantInfo.isDontRead}
+              onClick={() =>
+                setApplicantInfo((prev) => ({
+                  ...prev,
+                  isDontRead: !prev.isDontRead,
+                }))
+              }
+            />
+          </div>
+          <div className="flex items-center gap-[0.8rem]">
             <span className="flex body_3_14_r text-gray100">
               평가 완료 숨기기
             </span>
@@ -158,19 +171,6 @@ const Filter = ({
                 setApplicantInfo((prev) => ({
                   ...prev,
                   isEvaluated: !prev.isEvaluated,
-                }))
-              }
-            />
-          </div>
-          <div className="flex items-center gap-[0.8rem]">
-            <span className="flex body_3_14_r text-gray100">읽마 숨기기</span>
-            <Toggle
-              size="lg"
-              checked={applicantInfo.isDontRead}
-              onClick={() =>
-                setApplicantInfo((prev) => ({
-                  ...prev,
-                  isDontRead: !prev.isDontRead,
                 }))
               }
             />
