@@ -50,7 +50,7 @@ const Filter = ({
 
   const handleChangeMinimumRate = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      const value = e.target.value;
+      const value = e.target.value.replace(/%/g, '');
 
       if (isNumberValue(value)) {
         setMinimumRate(value === '' ? null : Number(value));
@@ -136,7 +136,7 @@ const Filter = ({
           <div className="flex gap-[0.6rem] items-center">
             <TextField
               placeholder="미달률 입력"
-              value={minimumRate !== null ? minimumRate.toString() : ''}
+              value={minimumRate !== null ? `${minimumRate}%` : ''}
               onChange={handleChangeMinimumRate}
             />
             <button
