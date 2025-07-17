@@ -58,9 +58,9 @@ const RegisterButton = ({
       return {
         id: question.id,
         questionOrder: index,
-        part: filterState.part,
+        part: filterState.part === '공통' ? null : filterState.part,
         content: question.content,
-        isDescription: false,
+        isDescription: question.isDescription,
         charLimit: question.charLimit,
         required: question.required,
         link: question.link,
@@ -82,6 +82,7 @@ const RegisterButton = ({
           queryKey: ['question', 'list', filterState.season, filterState.group],
         }),
     });
+    closeDialog();
   };
 
   return (
