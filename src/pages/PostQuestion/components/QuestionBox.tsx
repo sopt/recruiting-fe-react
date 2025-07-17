@@ -105,7 +105,7 @@ const QuestionBox = ({
                     지원자에게 보다 명확한 안내를 위해 사용하는 텍스트에요.
                   </p>
                   <img
-                    src="public/image/placeholder.png"
+                    src="/image/placeholder.png"
                     alt="미리보기 툴팁"
                     className="w-[35.2rem] h-[9.2rem] rounded-[10px]"
                   />
