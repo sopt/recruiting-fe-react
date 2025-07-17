@@ -7,12 +7,16 @@ import { ROUTES_CONFIG } from '@/routes/routeConfig';
 import { Tab } from '@sopt-makers/ui';
 
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 type questionCategoryType = 'common' | 'part';
 
 const ApplicationDetail = () => {
-  const { data: applicationDetailData } = useGetApplicantDetail(2);
+  const [searchParams] = useSearchParams();
+
+  const applicantId = searchParams.get('id') ?? 0;
+
+  const { data: applicationDetailData } = useGetApplicantDetail(+applicantId);
 
   const [questionCategory, setQuestionCategory] =
     useState<questionCategoryType>('common');
@@ -28,7 +32,7 @@ const ApplicationDetail = () => {
   };
 
   return (
-    <div className="flex flex-col gap-[4.8rem] w-[98rem] p-[2.4rem] rounded-[14px] bg-gray900">
+    <div className="flex flex-col gap-[4.8rem] w-[98rem] p-[2.4rem] rounded-[14px] bg-gray900 ml-[21.2rem] mt-[3rem]">
       <header className="flex flex-row gap-[1.8rem] align-center h-[3.6rem]">
         <button
           type="button"
