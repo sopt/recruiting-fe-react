@@ -4,7 +4,6 @@ import type { FilterState } from '@/pages/PostQuestion/hooks/useFilterReducer';
 import type { qustionListTypes } from '@/pages/PostQuestion/types/form';
 import { Button, Dialog, useDialog } from '@sopt-makers/ui';
 import { useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 interface RegisterButtonProps {
@@ -17,8 +16,6 @@ const RegisterButton = ({
   deleteQuestionIds,
 }: RegisterButtonProps) => {
   const { open: openDialog, close: closeDialog } = useDialog();
-
-  const [isSaving, setIsSaving] = useState(false);
 
   const queryClient = useQueryClient();
 
@@ -33,7 +30,6 @@ const RegisterButton = ({
   const questionList = watch('questionList');
 
   const handleRegisterClick = () => {
-    setIsSaving(true);
     openDialog({
       title: '최종 등록을 진행하시겠어요?',
       description: (
@@ -88,7 +84,6 @@ const RegisterButton = ({
         }),
     });
     closeDialog();
-    setIsSaving(false);
   };
 
   const debouncedRegisterClick = useDebouncedCallback(handleRegisterClick);
@@ -99,9 +94,7 @@ const RegisterButton = ({
       variant="fill"
       size="md"
       onClick={debouncedRegisterClick}
-      disabled={
-        isSubmitting || isSaving || !isValid || questionList[0]?.isActive
-      }
+      disabled={isSubmitting || !isValid || questionList[0]?.isActive}
     >
       최종 등록하기
     </Button>

@@ -20,14 +20,11 @@ const TemporarySaveButton = ({
     formState: { isDirty },
   } = useFormContext<qustionListTypes>();
 
-  // const [isSaving, setIsSaving] = useState(false);
-
   const { mutate: saveMutate } = usePostQuestionsSave();
 
   const queryClient = useQueryClient();
 
   const handleQuetsionsSave = () => {
-    // setIsSaving(true);
     const questions = watch('questionList').map((question, index) => {
       return {
         id: question.id,
@@ -55,7 +52,6 @@ const TemporarySaveButton = ({
         queryClient.invalidateQueries({
           queryKey: ['question', 'list', filterState.season, filterState.group],
         });
-        // setIsSaving(false);
       },
     });
   };
