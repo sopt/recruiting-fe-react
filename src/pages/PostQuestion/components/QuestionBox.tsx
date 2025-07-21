@@ -36,7 +36,6 @@ const QuestionBox = ({
   const isFile = watch(`questionList.${index}.isFile`);
   const required = watch(`questionList.${index}.required`);
   const isActive = watch(`questionList.${index}.isActive`);
-  const charLimit = watch(`questionList.${index}.charLimit`);
   const content = watch(`questionList.${index}.content`);
 
   useEffect(() => {
@@ -76,12 +75,7 @@ const QuestionBox = ({
           <span className="text-secondary">*</span>
         </h2>
         {isActive ? (
-          <TextArea
-            value={content}
-            maxLength={charLimit}
-            disabled
-            className="custom-textArea"
-          />
+          <TextArea value={content} disabled className="custom-textArea" />
         ) : (
           <TextField
             placeholder="질문을 작성하세요."

@@ -1,3 +1,4 @@
+import { useDebouncedCallback } from '@/hooks/useDebounceCallback';
 import { usePostQuestionsRegister } from '@/pages/PostQuestion/hooks/quries';
 import type { FilterState } from '@/pages/PostQuestion/hooks/useFilterReducer';
 import type { qustionListTypes } from '@/pages/PostQuestion/types/form';
@@ -90,12 +91,14 @@ const RegisterButton = ({
     setIsSaving(false);
   };
 
+  const debouncedRegisterClick = useDebouncedCallback(handleRegisterClick);
+
   return (
     <Button
       type="button"
       variant="fill"
       size="md"
-      onClick={handleRegisterClick}
+      onClick={debouncedRegisterClick}
       disabled={
         isSubmitting || isSaving || !isValid || questionList[0]?.isActive
       }
