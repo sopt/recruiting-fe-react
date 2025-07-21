@@ -29,6 +29,8 @@ const GenerationTable = ({ data }: GenerationTableProps) => {
     closeDialog();
   };
 
+  console.log(data);
+
   const openDeleteModal = (seasonId: number) => {
     openDialog({
       title: '기수를 삭제하실 건가요?',
@@ -96,6 +98,11 @@ const GenerationTable = ({ data }: GenerationTableProps) => {
             <th
               className={`w-[31.5rem] border-r-[1px] border-gray600 ${HEADER_BASE_STYLE}`}
             >
+              면접 진행 기간
+            </th>
+            <th
+              className={`w-[31.5rem] border-r-[1px] border-gray600 ${HEADER_BASE_STYLE}`}
+            >
               최종 결과 확인 기간
             </th>
             <th className={`w-[5rem] rounded-tr-[1rem] ${HEADER_BASE_STYLE}`} />
@@ -136,6 +143,13 @@ const GenerationTable = ({ data }: GenerationTableProps) => {
                     <p>{formatDate(item.applicationResultStart)}</p>
                     <p>~</p>
                     <p>{formatDate(item.applicationResultEnd)}</p>
+                  </div>
+                </td>
+                <td className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}>
+                  <div className="h-full flex items-center justify-evenly gap-[0.5rem]">
+                    <p>{formatDate(item.interviewStart)}</p>
+                    <p>~</p>
+                    <p>{formatDate(item.interviewEnd)}</p>
                   </div>
                 </td>
                 <td className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}>
