@@ -1,37 +1,33 @@
-import type {
-  ApplicationTableProps,
-  PartType,
-  StatusType,
-} from '@/pages/Application/\btypes';
+import type { PartType, StatusType } from '@/pages/Application/\btypes';
 
-export const getDoNotReadMessage = (item: ApplicationTableProps['data'][0]) => {
-  if (item.dontReadInfo.checkedList.length === 0) return null;
+enum ExecutiveType {
+  PRESIDENT = '회장',
+  VICE_PRESIDENT = '부회장',
+  MEDIA = '미디어',
+  PLAN = '기획',
+  DESIGN = '디자인',
+  SERVER = '서버',
+  WEB = '웹',
+  IOS = 'iOS',
+  ANDROID = '안드로이드',
+}
 
-  const selectedParts = Object.keys(item.dontReadInfo.checkedList).filter(
-    (key) =>
-      item.dontReadInfo.checkedList![
-        key as keyof typeof item.dontReadInfo.checkedList
-      ],
+export const getDoNotReadMessage = (item: string[]) => {
+  if (item.length === 0) return null;
+
+  const selectedParts = item.map(
+    (part) => ExecutiveType[part as keyof typeof ExecutiveType],
   );
-
-  if (selectedParts.length === 0) return null;
 
   return `${selectedParts.join(', ')}이(가) 읽지 말라고 선택했어요.`;
 };
 
-export const getEvaluationMessage = (
-  item: ApplicationTableProps['data'][0],
-) => {
-  if (item.evaluatedInfo.checkedList.length === 0) return null;
+export const getEvaluationMessage = (item: string[]) => {
+  if (item.length === 0) return null;
 
-  const selectedParts = Object.keys(item.evaluatedInfo.checkedList).filter(
-    (key) =>
-      item.evaluatedInfo.checkedList![
-        key as keyof typeof item.evaluatedInfo.checkedList
-      ],
+  const selectedParts = item.map(
+    (part) => ExecutiveType[part as keyof typeof ExecutiveType],
   );
-
-  if (selectedParts.length === 0) return null;
 
   return `${selectedParts.join(', ')}이(가) 평가를 완료했어요.`;
 };
