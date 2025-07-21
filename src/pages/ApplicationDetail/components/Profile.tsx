@@ -160,7 +160,7 @@ const Profile = ({ profileData }: ProfileProps) => {
             />
             <span className="body_2_16_m text-white">평가 완료</span>
           </div>
-          {profileData.dontReadInfo.checkedList.length > 0 && (
+          {profileData.evaluatedInfo.checkedList.length > 0 && (
             <div className="flex flex-row  gap-[0.6rem]">
               <span className="label_5_11_sb">
                 {getEvalutionCompleteMessage(

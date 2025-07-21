@@ -1,3 +1,5 @@
+import type { ExecutiveType } from '@/pages/Application/\btypes';
+
 export type ApplicantType = {
   id: number;
   status: 'NOT_EVALUATED' | 'EVALUATED' | string;
@@ -6,11 +8,11 @@ export type ApplicantType = {
   part: string;
   dontReadInfo: {
     checkedByMe: boolean;
-    checkedList: string[];
+    checkedList: ExecutiveType[];
   };
   evaluatedInfo: {
     checkedByMe: boolean;
-    checkedList: string[];
+    checkedList: ExecutiveType[];
   };
   submittedAt: string; // ISO datetime
   generation: string; // e.g. "YB"
