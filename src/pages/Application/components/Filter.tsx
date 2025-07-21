@@ -50,7 +50,7 @@ const Filter = ({
 
   const handleChangeMinimumRate = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      const value = e.target.value;
+      const value = e.target.value.replace(/%/g, '');
 
       if (isNumberValue(value)) {
         setMinimumRate(value === '' ? null : Number(value));
@@ -136,7 +136,7 @@ const Filter = ({
           <div className="flex gap-[0.6rem] items-center">
             <TextField
               placeholder="미달률 입력"
-              value={minimumRate !== null ? minimumRate.toString() : ''}
+              value={minimumRate !== null ? `${minimumRate}%` : ''}
               onChange={handleChangeMinimumRate}
             />
             <button
@@ -146,6 +146,19 @@ const Filter = ({
             >
               <Refresh width={20} height={20} />
             </button>
+          </div>
+          <div className="flex items-center gap-[0.8rem]">
+            <span className="flex body_3_14_r text-gray100">읽마 숨기기</span>
+            <Toggle
+              size="lg"
+              checked={applicantInfo.isDontRead}
+              onClick={() =>
+                setApplicantInfo((prev) => ({
+                  ...prev,
+                  isDontRead: !prev.isDontRead,
+                }))
+              }
+            />
           </div>
           <div className="flex items-center gap-[0.8rem]">
             <span className="flex body_3_14_r text-gray100">
@@ -158,19 +171,6 @@ const Filter = ({
                 setApplicantInfo((prev) => ({
                   ...prev,
                   isEvaluated: !prev.isEvaluated,
-                }))
-              }
-            />
-          </div>
-          <div className="flex items-center gap-[0.8rem]">
-            <span className="flex body_3_14_r text-gray100">읽마 숨기기</span>
-            <Toggle
-              size="lg"
-              checked={applicantInfo.isDontRead}
-              onClick={() =>
-                setApplicantInfo((prev) => ({
-                  ...prev,
-                  isDontRead: !prev.isDontRead,
                 }))
               }
             />
