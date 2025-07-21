@@ -57,7 +57,6 @@ const ApplicationDetail = () => {
               part: '파트별 질문',
             }}
             onChange={handleTabChange}
-            className=""
           />
         </div>
 

@@ -1,7 +1,14 @@
 import { Add, Arrange, Check, InfoCircle, Link, Trash } from '@/assets/svg';
 import Tooltip from '@/components/Tooltip';
 import type { qustionListTypes } from '@/pages/PostQuestion/types/form';
-import { CheckBox, TextField, Toggle, useToast } from '@sopt-makers/ui';
+import {
+  CheckBox,
+  TextArea,
+  TextField,
+  Toggle,
+  useToast,
+} from '@sopt-makers/ui';
+import { useEffect } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
 interface QuestionBoxProps {
@@ -29,6 +36,18 @@ const QuestionBox = ({
   const isFile = watch(`questionList.${index}.isFile`);
   const required = watch(`questionList.${index}.required`);
   const isActive = watch(`questionList.${index}.isActive`);
+  const charLimit = watch(`questionList.${index}.charLimit`);
+  const content = watch(`questionList.${index}.content`);
+
+  useEffect(() => {
+    const textareas = document.querySelectorAll('textarea');
+    if (textareas) {
+      for (const textarea of textareas) {
+        textarea.style.height = 'auto';
+        textarea.style.height = `${textarea.scrollHeight}px`;
+      }
+    }
+  }, [content]);
 
   const handleDeleteQuestionClick = () => {
     deleteQuestion();
@@ -56,12 +75,21 @@ const QuestionBox = ({
           {`질문 ${index + (hasDescription ? 0 : 1)}`}
           <span className="text-secondary">*</span>
         </h2>
-        <TextField
-          placeholder="질문을 작성하세요."
-          disabled={isActive}
-          className="custom-textField"
-          {...register(`questionList.${index}.content`)}
-        />
+        {isActive ? (
+          <TextArea
+            value={content}
+            maxLength={charLimit}
+            disabled
+            className="custom-textArea"
+          />
+        ) : (
+          <TextField
+            placeholder="질문을 작성하세요."
+            disabled={isActive}
+            className="custom-textField"
+            {...register(`questionList.${index}.content`)}
+          />
+        )}
 
         {isLink && (
           <TextField
