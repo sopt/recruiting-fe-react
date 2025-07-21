@@ -97,7 +97,7 @@ const RegisterButton = ({
       size="md"
       onClick={handleRegisterClick}
       disabled={
-        !isSubmitting || isSaving || !isValid || questionList[0]?.isActive
+        isSubmitting || isSaving || !isValid || questionList[0]?.isActive
       }
     >
       최종 등록하기
