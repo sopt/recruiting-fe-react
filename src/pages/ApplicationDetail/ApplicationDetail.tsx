@@ -60,8 +60,6 @@ const ApplicationDetail = () => {
           />
         </div>
 
-        <p className="my-[5.2rem] title_5_18_sb">질문 전 설명글을 넣어주세요</p>
-
         <QnaList
           questions={
             questionCategory === 'common'
