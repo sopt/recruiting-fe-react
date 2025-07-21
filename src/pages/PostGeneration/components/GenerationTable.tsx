@@ -29,8 +29,6 @@ const GenerationTable = ({ data }: GenerationTableProps) => {
     closeDialog();
   };
 
-  console.log(data);
-
   const openDeleteModal = (seasonId: number) => {
     openDialog({
       title: '기수를 삭제하실 건가요?',

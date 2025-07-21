@@ -72,7 +72,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
   return (
     <div
       ref={scrollContainerRef}
-      className="w-full overflow-x-auto overflow-y-hidden scroll-smooth scrollbar-hide pr-[12.4rem] cursor-grab active:cursor-grabbing"
+      className="w-full  overflow-x-auto overflow-y-visible scroll-smooth scrollbar-hide pr-[12.4rem] pb-[5rem] cursor-grab active:cursor-grabbing"
       onMouseDown={(e) => {
         const target = e.target as HTMLElement;
         if (target.closest('[data-dropdown]')) {
@@ -141,8 +141,12 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
             </tr>
           ) : (
             data.map((item) => {
-              const doNotReadMessage = getDoNotReadMessage(item);
-              const evaluationMessage = getEvaluationMessage(item);
+              const doNotReadMessage = getDoNotReadMessage(
+                item.dontReadInfo.checkedList,
+              );
+              const evaluationMessage = getEvaluationMessage(
+                item.evaluatedInfo.checkedList,
+              );
               const currentStatus =
                 passStatusList[item.id] || convertPassInfoToStatus(item.status);
 
