@@ -4,7 +4,6 @@ import type { FilterState } from '@/pages/PostQuestion/hooks/useFilterReducer';
 import type { qustionListTypes } from '@/pages/PostQuestion/types/form';
 import { Button } from '@sopt-makers/ui';
 import { useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 interface TemporarySaveButtonProps {
