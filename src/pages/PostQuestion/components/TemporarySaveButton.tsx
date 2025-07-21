@@ -3,6 +3,7 @@ import type { FilterState } from '@/pages/PostQuestion/hooks/useFilterReducer';
 import type { qustionListTypes } from '@/pages/PostQuestion/types/form';
 import { Button } from '@sopt-makers/ui';
 import { useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 interface TemporarySaveButtonProps {
@@ -16,14 +17,17 @@ const TemporarySaveButton = ({
 }: TemporarySaveButtonProps) => {
   const {
     watch,
-    formState: { isSubmitting, isDirty },
+    formState: { isDirty },
   } = useFormContext<qustionListTypes>();
+
+  const [isSaving, setIsSaving] = useState(false);
 
   const { mutate: saveMutate } = usePostQuestionsSave();
 
   const queryClient = useQueryClient();
 
   const handleQuetsionsSave = () => {
+    setIsSaving(true);
     const questions = watch('questionList').map((question, index) => {
       return {
         id: question.id,
@@ -35,7 +39,7 @@ const TemporarySaveButton = ({
         required: question.required,
         link: question.link,
         placeholder: question.placeholder,
-        isFile: true,
+        isFile: question.isFile,
       };
     });
 
@@ -51,6 +55,7 @@ const TemporarySaveButton = ({
         queryClient.invalidateQueries({
           queryKey: ['question', 'list', filterState.season, filterState.group],
         });
+        setIsSaving(false);
       },
     });
   };
@@ -61,7 +66,7 @@ const TemporarySaveButton = ({
       variant="outlined"
       size="md"
       onClick={handleQuetsionsSave}
-      disabled={isSubmitting || !isDirty}
+      disabled={isSaving || !isDirty}
     >
       임시저장
     </Button>

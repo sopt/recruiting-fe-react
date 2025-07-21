@@ -13,3 +13,9 @@
     color: white !important;
   }
 }
+
+@layer utilities {
+  .custom-textArea textarea:disabled {
+    color: white !important;
+  }
+}
