@@ -5,8 +5,9 @@ import { Outlet, useLocation } from 'react-router-dom';
 
 const Layout = () => {
   const location = useLocation();
-  const isPostGeneration =
-    location.pathname === ROUTES_CONFIG.postGeneration.path;
+  const hasTable =
+    location.pathname === ROUTES_CONFIG.postGeneration.path ||
+    location.pathname === ROUTES_CONFIG.application.path;
 
   return (
     <>
@@ -14,7 +15,7 @@ const Layout = () => {
       <div className="ml-[33.6rem]">
         <CommonHeader />
       </div>
-      <div className={isPostGeneration ? 'ml-[12.4rem]' : 'ml-[33.6rem]'}>
+      <div className={hasTable ? 'ml-[12.4rem]' : 'ml-[33.6rem]'}>
         <Outlet />
       </div>
     </>

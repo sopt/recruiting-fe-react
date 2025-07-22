@@ -24,7 +24,7 @@ const Nav = () => {
   const location = useLocation();
 
   return (
-    <nav className="fixed top-0 left-0 flex w-[21.2rem] h-screen flex-col bg-gray900 p-[4.2rem_1.8rem]">
+    <nav className="fixed top-0 left-0 flex w-[21.2rem] h-screen flex-col bg-gray900 p-[4.2rem_1.8rem] z-100">
       <header className="mb-[2.6rem]">
         <h1 className="heading_5_20_b text-gray10">SOPT ADMIN</h1>
         <p className="title_7_14_sb text-gray50">Recruit</p>
