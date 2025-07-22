@@ -103,7 +103,9 @@ const Profile = ({ profileData }: ProfileProps) => {
         <span className="body_2_16_r text-gray300">ID</span>
         <span className="body_2_16_m text-white">{profileData.id}</span>
         <span className="body_2_16_r text-gray300">최근 기수</span>
-        <span className="body_2_16_m text-white">{profileData.generation}</span>
+        <span className="body_2_16_m text-white">
+          {profileData.mostRecentSeason}
+        </span>
         <span className="body_2_16_r text-gray300">이메일</span>
         <span className="body_2_16_m text-white">{profileData.email}</span>
         <span className="body_2_16_r text-gray300">전화번호</span>
@@ -113,7 +115,7 @@ const Profile = ({ profileData }: ProfileProps) => {
         <span className="body_2_16_r text-gray300">학과</span>
         <span className="body_2_16_m text-white">{profileData.major}</span>
         <span className="body_2_16_r text-gray300">생년월일</span>
-        <span className="body_2_16_m text-white">{profileData.birth}7</span>
+        <span className="body_2_16_m text-white">{profileData.birth}</span>
         <span className="body_2_16_r text-gray300">제출시간</span>
         <span className="body_2_16_m text-white">
           {profileData.submittedAt}

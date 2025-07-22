@@ -15,12 +15,13 @@ export type ApplicantType = {
     checkedList: ExecutiveType[];
   };
   submittedAt: string; // ISO datetime
-  generation: string; // e.g. "YB"
+  group: string; // e.g. "YB"
   birth: string; // e.g. "1998-03-15"
   university: string;
   major: string;
   email: string;
   phone: string;
+  mostRecentSeason: number;
 };
 
 export type QuestionType = {
