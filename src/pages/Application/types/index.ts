@@ -166,4 +166,5 @@ export interface ApplicantState {
   isDontRead: boolean;
   isPassedOnly: boolean;
   selectedPart: PartType;
+  minRate: number;
 }

@@ -20,6 +20,7 @@ const Application = () => {
     isDontRead: false,
     isPassedOnly: false,
     selectedPart: '전체',
+    minRate: 0,
   });
 
   const { data: generationData } = useGetGeneration(applicantInfo.group);
@@ -35,7 +36,7 @@ const Application = () => {
     group: applicantInfo.group,
     offset: 0,
     limit: PAGE_LIMIT,
-    minRate: 0,
+    minRate: applicantInfo.minRate,
     hideEvaluated: applicantInfo.isEvaluated,
     hideDontRead: applicantInfo.isDontRead,
     checkInterviewPass: applicantInfo.isPassedOnly,
