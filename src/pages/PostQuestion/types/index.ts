@@ -15,7 +15,7 @@ export type Question = {
   part: Omit<PartName, '공통'> | null;
   content: string;
   isDescription: boolean;
-  charLimit: number;
+  charLimit: number | null;
   required: boolean;
   link?: string | null;
   placeholder: string;

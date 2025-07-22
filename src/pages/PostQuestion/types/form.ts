@@ -14,7 +14,12 @@ const questionSchema = z
     link: z.url({ message: ERROR_MESSAGE.INVALID_URL }).nullable().optional(),
     placeholder: z.string().min(1),
     isFile: z.boolean(),
-    charLimit: z.number({ message: ERROR_MESSAGE.ONLY_NUMBER }).min(0),
+    charLimit: z
+      .number({ message: ERROR_MESSAGE.ONLY_NUMBER })
+      .nullable()
+      .refine((val) => val !== null, {
+        message: ERROR_MESSAGE.ONLY_NUMBER,
+      }),
     required: z.boolean(),
     isActive: z.boolean(),
   })

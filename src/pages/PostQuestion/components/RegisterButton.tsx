@@ -44,7 +44,7 @@ const RegisterButton = ({
             <Button
               type="button"
               theme="white"
-              onClick={() => handleSubmit(registQuestions)()}
+              onClick={handleSubmit(registQuestions)}
             >
               최종 등록
             </Button>
@@ -77,13 +77,14 @@ const RegisterButton = ({
       deleteQuestionIdList: deleteQuestionIds,
     };
 
+    closeDialog();
+
     registerMutate(requestData, {
       onSuccess: () =>
         queryClient.invalidateQueries({
           queryKey: ['question', 'list', filterState.season, filterState.group],
         }),
     });
-    closeDialog();
   };
 
   const debouncedRegisterClick = useDebouncedCallback(handleRegisterClick);
