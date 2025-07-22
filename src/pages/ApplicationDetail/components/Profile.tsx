@@ -77,7 +77,7 @@ const Profile = ({ profileData }: ProfileProps) => {
         <img
           src={profileData.pictureUrl}
           alt="프로필"
-          className="w-[12.2rem] h-[16.4rem] rounded-[6px]"
+          className="w-[12.2rem] h-[16.4rem] rounded-[6px] object-cover"
         />
         <div className="flex flex-col my-[2.4rem]">
           <p className="mb-[1.2rem] title_3_24_sb">{profileData.name}</p>
