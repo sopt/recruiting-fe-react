@@ -32,7 +32,7 @@ const ApplicationDetail = () => {
   };
 
   return (
-    <div className="flex flex-col gap-[4.8rem] w-[98rem] p-[2.4rem] rounded-[14px] bg-gray900  mt-[3rem]">
+    <div className="flex flex-col gap-[4.8rem] w-[98rem] p-[2.4rem] mt-[3rem] mb-[16.2rem] rounded-[14px] bg-gray900  ">
       <header className="flex flex-row gap-[1.8rem] align-center h-[3.6rem]">
         <button
           type="button"
