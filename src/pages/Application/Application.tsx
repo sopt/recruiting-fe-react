@@ -10,8 +10,7 @@ import { Tab } from '@sopt-makers/ui';
 import { useState } from 'react';
 import { useMemo } from 'react';
 
-const LIST_LIMIT = 10;
-const PAGE_LIMIT = 5;
+const PAGE_LIMIT = 10;
 
 const Application = () => {
   const [applicantInfo, setApplicantInfo] = useState<ApplicantState>({
@@ -35,7 +34,7 @@ const Application = () => {
     season: Number(applicantInfo.season),
     group: applicantInfo.group,
     offset: 0,
-    limit: LIST_LIMIT,
+    limit: PAGE_LIMIT,
     minRate: 0,
     hideEvaluated: applicantInfo.isEvaluated,
     hideDontRead: applicantInfo.isDontRead,
