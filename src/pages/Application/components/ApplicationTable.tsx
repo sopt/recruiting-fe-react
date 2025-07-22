@@ -44,8 +44,17 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
   const { mutate } = usePostEvalution();
   const { mutate: postPassStatus } = usePostApplicantPassStatus();
 
-  const goApplicaiontDetail = (applicantId: number) => {
+  const goApplicationDetail = (applicantId: number) => {
     navigate(ROUTES_CONFIG.applicationDetail.generatePath(applicantId));
+  };
+
+  const goApplicationDetailKeyDown = (
+    e: React.KeyboardEvent,
+    applicantId: number,
+  ) => {
+    if (e.key === 'Enter') {
+      goApplicationDetail(applicantId);
+    }
   };
 
   const handleStatusChange = (id: number, value: StatusType) => {
@@ -155,8 +164,9 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                 <tr
                   key={item.id}
                   className="hover:bg-gray900 transition-colors duration-300"
-                  onClick={() => goApplicaiontDetail(item.id)}
-                  onKeyDown={() => goApplicaiontDetail(item.id)}
+                  tabIndex={0}
+                  onClick={() => goApplicationDetail(item.id)}
+                  onKeyDown={(e) => goApplicationDetailKeyDown(e, item.id)}
                 >
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}

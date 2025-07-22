@@ -51,7 +51,12 @@ const QnaItem = ({
           )}
         </a>
       )}
-      <TextArea maxLength={700} value={answer?.answer} />
+      <TextArea
+        maxLength={700}
+        value={answer?.answer}
+        disabled
+        className="custom-textArea"
+      />
     </li>
   );
 };

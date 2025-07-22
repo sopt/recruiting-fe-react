@@ -74,7 +74,7 @@ const Profile = ({ profileData }: ProfileProps) => {
         <img
           src={profileData.pictureUrl}
           alt="프로필"
-          className="w-[12.2rem] h-[16.4rem] rounded-[6px]"
+          className="w-[12.2rem] h-[16.4rem] rounded-[6px] object-cover"
         />
         <div className="flex flex-col my-[2.4rem]">
           <p className="mb-[1.2rem] title_3_24_sb">{profileData.name}</p>
@@ -100,7 +100,9 @@ const Profile = ({ profileData }: ProfileProps) => {
         <span className="body_2_16_r text-gray300">ID</span>
         <span className="body_2_16_m text-white">{profileData.id}</span>
         <span className="body_2_16_r text-gray300">최근 기수</span>
-        <span className="body_2_16_m text-white">{profileData.generation}</span>
+        <span className="body_2_16_m text-white">
+          {profileData.mostRecentSeason}
+        </span>
         <span className="body_2_16_r text-gray300">이메일</span>
         <span className="body_2_16_m text-white">{profileData.email}</span>
         <span className="body_2_16_r text-gray300">전화번호</span>
@@ -110,7 +112,7 @@ const Profile = ({ profileData }: ProfileProps) => {
         <span className="body_2_16_r text-gray300">학과</span>
         <span className="body_2_16_m text-white">{profileData.major}</span>
         <span className="body_2_16_r text-gray300">생년월일</span>
-        <span className="body_2_16_m text-white">{profileData.birth}7</span>
+        <span className="body_2_16_m text-white">{profileData.birth}</span>
         <span className="body_2_16_r text-gray300">제출시간</span>
         <span className="body_2_16_m text-white">
           {profileData.submittedAt}
@@ -157,7 +159,7 @@ const Profile = ({ profileData }: ProfileProps) => {
             />
             <span className="body_2_16_m text-white">평가 완료</span>
           </div>
-          {profileData.dontReadInfo.checkedList.length > 0 && (
+          {profileData.evaluatedInfo.checkedList.length > 0 && (
             <div className="flex flex-row  gap-[0.6rem]">
               <span className="label_5_11_sb">
                 {getEvaluationMessage(profileData.evaluatedInfo.checkedList)}
