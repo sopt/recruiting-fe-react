@@ -266,7 +266,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                             </Tag>
                           </Tooltip.Trigger>
                           {item.evaluatedInfo.checkedList.length > 0 && (
-                            <Tooltip.Content className="!mt-[1.3rem]">
+                            <Tooltip.Content className="!mt-[1.3rem] !mr-[-0.5rem]">
                               <span>{evaluationMessage}</span>
                             </Tooltip.Content>
                           )}
