@@ -64,22 +64,24 @@ const Application = () => {
   }, [currentPage, applicantList?.data]);
 
   return (
-    <div className="flex flex-col gap-[4.4rem]">
-      <Filter
-        generationData={generationData}
-        applicantInfo={applicantInfo}
-        setApplicantInfo={setApplicantInfo}
-        onRefresh={refetch}
-      />
-      <Tab
-        style="primary"
-        size="md"
-        tabItems={Object.keys(PART_TRANSLATOR) as PartType[]}
-        onChange={(selectedPart) =>
-          setApplicantInfo((prev) => ({ ...prev, selectedPart }))
-        }
-      />
-      <hr className="border-gray800 mt-[-4.7rem] w-[98rem]" />
+    <div className="flex flex-col gap-[4.4rem] overflow-hidden">
+      <div className="flex flex-col gap-[4.4rem] justify-between pr-[12.4rem] pl-[21.2rem]">
+        <Filter
+          generationData={generationData}
+          applicantInfo={applicantInfo}
+          setApplicantInfo={setApplicantInfo}
+          onRefresh={refetch}
+        />
+        <Tab
+          style="primary"
+          size="md"
+          tabItems={Object.keys(PART_TRANSLATOR) as PartType[]}
+          onChange={(selectedPart) =>
+            setApplicantInfo((prev) => ({ ...prev, selectedPart }))
+          }
+        />
+      </div>
+      <hr className="border-gray800 mt-[-4.7rem] w-[98rem] ml-[21.2rem]" />
       <ApplicationTable data={paginatedData ?? []} />
       <Pagination
         totalPages={totalPages}

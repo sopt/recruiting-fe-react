@@ -73,7 +73,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
   return (
     <div
       ref={scrollContainerRef}
-      className="w-full  overflow-x-auto overflow-y-hidden scroll-smooth scrollbar-hide pr-[12.4rem] pb-[5rem] cursor-grab active:cursor-grabbing"
+      className="w-full overflow-x-auto overflow-y-hidden scroll-smooth scrollbar-hide pr-[12.4rem] pb-[5rem] cursor-grab active:cursor-grabbing pl-[21.2rem]"
       onMouseDown={(e) => {
         const target = e.target as HTMLElement;
         if (target.closest('[data-dropdown]')) {
