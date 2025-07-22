@@ -2,6 +2,8 @@ import type { ExecutiveType } from '@/pages/Application/\btypes';
 
 export type ApplicantType = {
   id: number;
+  season: number;
+  group: string; // e.g. "YB"
   status: 'NOT_EVALUATED' | 'EVALUATED' | string;
   name: string;
   pictureUrl: string;
@@ -15,7 +17,6 @@ export type ApplicantType = {
     checkedList: ExecutiveType[];
   };
   submittedAt: string; // ISO datetime
-  group: string; // e.g. "YB"
   birth: string; // e.g. "1998-03-15"
   university: string;
   major: string;

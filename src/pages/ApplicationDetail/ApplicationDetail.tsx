@@ -41,7 +41,7 @@ const ApplicationDetail = () => {
         >
           <ChevronLeft width={20} />
         </button>
-        <h2 className="title_4_20_sb">{`${35}기 YB`}</h2>
+        <h2 className="title_4_20_sb">{`${applicationDetailData.applicant.season}기 ${applicationDetailData.applicant.group}`}</h2>
       </header>
 
       <div className="flex flex-col gap-[3.2rem] mx-[13rem]">
