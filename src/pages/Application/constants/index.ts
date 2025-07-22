@@ -1,11 +1,11 @@
 export const PART_TRANSLATOR = {
-  ALL: '전체',
-  PLAN: '기획',
-  DESIGN: '디자인',
-  SERVER: '서버',
-  IOS: 'iOS',
-  ANDROID: '안드로이드',
-  WEB: '웹',
+  전체: '공통',
+  기획: '기획',
+  디자인: '디자인',
+  서버: '서버',
+  iOS: 'iOS',
+  안드로이드: '안드로이드',
+  웹: '웹',
 };
 
 export const EXECUTIVE_TRANSLATOR = {

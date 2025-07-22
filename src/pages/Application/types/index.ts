@@ -1,13 +1,13 @@
-import type { Group } from '@/pages/PostQuestion/types';
+import type { Group, PartName } from '@/pages/PostQuestion/types';
 
 export type PartType =
-  | 'ALL'
-  | 'PLAN'
-  | 'DESIGN'
-  | 'SERVER'
-  | 'IOS'
-  | 'ANDROID'
-  | 'WEB';
+  | '전체'
+  | '기획'
+  | '디자인'
+  | '서버'
+  | 'ios'
+  | '안드로이드'
+  | '웹';
 
 export enum Part {
   ALL = 'ALL',
@@ -73,7 +73,7 @@ export interface ApplicationTableProps {
 export interface GetApplicantListRequest {
   season: number;
   group: Group;
-  part?: PartType;
+  part?: PartName;
   offset: number;
   limit: number;
   minRate: number;

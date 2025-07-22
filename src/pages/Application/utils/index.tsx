@@ -34,17 +34,17 @@ export const convertPassInfoToStatus = (passInfo: string) => {
 
 export const getPartName = (part: PartType) => {
   switch (part) {
-    case 'PLAN':
+    case '기획':
       return '기획';
-    case 'DESIGN':
+    case '디자인':
       return '디자인';
-    case 'IOS':
+    case 'ios':
       return 'iOS';
-    case 'WEB':
+    case '웹':
       return '웹';
-    case 'ANDROID':
+    case '안드로이드':
       return '안드로이드';
-    case 'SERVER':
+    case '서버':
       return '서버';
     default:
       return '전체';

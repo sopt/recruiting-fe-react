@@ -20,7 +20,7 @@ const Application = () => {
     isEvaluated: false,
     isDontRead: false,
     isPassedOnly: false,
-    selectedPart: 'ALL',
+    selectedPart: '전체',
   });
 
   const { data: generationData } = useGetGeneration(applicantInfo.group);
@@ -40,7 +40,7 @@ const Application = () => {
     hideEvaluated: applicantInfo.isEvaluated,
     hideDontRead: applicantInfo.isDontRead,
     checkInterviewPass: applicantInfo.isPassedOnly,
-    ...(applicantInfo.selectedPart !== 'ALL' && {
+    ...(applicantInfo.selectedPart !== '전체' && {
       part: applicantInfo.selectedPart,
     }),
   };
@@ -75,7 +75,6 @@ const Application = () => {
         style="primary"
         size="md"
         tabItems={Object.keys(PART_TRANSLATOR) as PartType[]}
-        translator={PART_TRANSLATOR}
         onChange={(selectedPart) =>
           setApplicantInfo((prev) => ({ ...prev, selectedPart }))
         }
