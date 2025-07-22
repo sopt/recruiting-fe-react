@@ -11,7 +11,7 @@ const CommonHeader = () => {
 
   return (
     <header className="realtive w-full h-[13.6rem]">
-      <div className="fixed w-full h-[8rem] z-[5] bg-background">
+      <div className="fixed w-[100vw] h-[8rem] z-[100] bg-background">
         <LogoutButton />
       </div>
 
