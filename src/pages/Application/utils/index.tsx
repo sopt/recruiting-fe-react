@@ -1,37 +1,5 @@
 import type { PartType, StatusType } from '@/pages/Application/\btypes';
 
-enum ExecutiveType {
-  PRESIDENT = '회장',
-  VICE_PRESIDENT = '부회장',
-  MEDIA = '미디어',
-  PLAN = '기획',
-  DESIGN = '디자인',
-  SERVER = '서버',
-  WEB = '웹',
-  IOS = 'iOS',
-  ANDROID = '안드로이드',
-}
-
-export const getDoNotReadMessage = (item: string[]) => {
-  if (item.length === 0) return null;
-
-  const selectedParts = item.map(
-    (part) => ExecutiveType[part as keyof typeof ExecutiveType],
-  );
-
-  return `${selectedParts.join(', ')}이(가) 읽지 말라고 선택했어요.`;
-};
-
-export const getEvaluationMessage = (item: string[]) => {
-  if (item.length === 0) return null;
-
-  const selectedParts = item.map(
-    (part) => ExecutiveType[part as keyof typeof ExecutiveType],
-  );
-
-  return `${selectedParts.join(', ')}이(가) 평가를 완료했어요.`;
-};
-
 export const convertStatusToPassInfo = (
   status: StatusType,
 ): { applicationPass: boolean | null; finalPass: boolean | null } => {

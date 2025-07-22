@@ -14,11 +14,12 @@ import useDrag from '@/pages/Application/hooks/useDrag';
 import {
   convertPassInfoToStatus,
   convertStatusToPassInfo,
-  getEvaluationMessage,
   getPartName,
 } from '@/pages/Application/utils';
-import { getDoNotReadMessage } from '@/pages/Application/utils';
+
 import { ROUTES_CONFIG } from '@/routes/routeConfig';
+import { getEvaluationMessage } from '@/utils/message';
+import { getDoNotReadMessage } from '@/utils/message';
 import { CheckBox, Tag } from '@sopt-makers/ui';
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
