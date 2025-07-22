@@ -208,7 +208,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                         >
                           <CheckBox
                             checked={item.dontReadInfo.checkedByMe}
-                            onClick={(e) => {
+                            onChange={(e) => {
                               e.stopPropagation();
                               e.preventDefault();
                               handleEvaluation(
@@ -249,7 +249,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                       >
                         <CheckBox
                           checked={item.evaluatedInfo.checkedByMe}
-                          onClick={(e) => {
+                          onChange={(e) => {
                             e.preventDefault();
                             handleEvaluation(
                               item.id,
