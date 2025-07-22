@@ -14,11 +14,12 @@ import useDrag from '@/pages/Application/hooks/useDrag';
 import {
   convertPassInfoToStatus,
   convertStatusToPassInfo,
-  getEvaluationMessage,
   getPartName,
 } from '@/pages/Application/utils';
-import { getDoNotReadMessage } from '@/pages/Application/utils';
+
 import { ROUTES_CONFIG } from '@/routes/routeConfig';
+import { getEvaluationMessage } from '@/utils/message';
+import { getDoNotReadMessage } from '@/utils/message';
 import { CheckBox, Tag } from '@sopt-makers/ui';
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -72,7 +73,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
   return (
     <div
       ref={scrollContainerRef}
-      className="w-full overflow-x-auto overflow-y-hidden scroll-smooth scrollbar-hide pr-[12.4rem] cursor-grab active:cursor-grabbing"
+      className="w-full  overflow-x-auto overflow-y-hidden scroll-smooth scrollbar-hide pr-[12.4rem] pb-[5rem] cursor-grab active:cursor-grabbing"
       onMouseDown={(e) => {
         const target = e.target as HTMLElement;
         if (target.closest('[data-dropdown]')) {
@@ -141,8 +142,12 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
             </tr>
           ) : (
             data.map((item) => {
-              const doNotReadMessage = getDoNotReadMessage(item);
-              const evaluationMessage = getEvaluationMessage(item);
+              const doNotReadMessage = getDoNotReadMessage(
+                item.dontReadInfo.checkedList,
+              );
+              const evaluationMessage = getEvaluationMessage(
+                item.evaluatedInfo.checkedList,
+              );
               const currentStatus =
                 passStatusList[item.id] || convertPassInfoToStatus(item.status);
 
