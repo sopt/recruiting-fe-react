@@ -10,8 +10,7 @@ import { Tab } from '@sopt-makers/ui';
 import { useState } from 'react';
 import { useMemo } from 'react';
 
-const LIST_LIMIT = 10;
-const PAGE_LIMIT = 5;
+const PAGE_LIMIT = 10;
 
 const Application = () => {
   const [applicantInfo, setApplicantInfo] = useState<ApplicantState>({
@@ -20,7 +19,8 @@ const Application = () => {
     isEvaluated: false,
     isDontRead: false,
     isPassedOnly: false,
-    selectedPart: 'ALL',
+    selectedPart: '전체',
+    minRate: 0,
   });
 
   const { data: generationData } = useGetGeneration(applicantInfo.group);
@@ -35,12 +35,12 @@ const Application = () => {
     season: Number(applicantInfo.season),
     group: applicantInfo.group,
     offset: 0,
-    limit: LIST_LIMIT,
-    minRate: 0,
+    limit: PAGE_LIMIT,
+    minRate: applicantInfo.minRate,
     hideEvaluated: applicantInfo.isEvaluated,
     hideDontRead: applicantInfo.isDontRead,
     checkInterviewPass: applicantInfo.isPassedOnly,
-    ...(applicantInfo.selectedPart !== 'ALL' && {
+    ...(applicantInfo.selectedPart !== '전체' && {
       part: applicantInfo.selectedPart,
     }),
   };
@@ -75,7 +75,6 @@ const Application = () => {
         style="primary"
         size="md"
         tabItems={Object.keys(PART_TRANSLATOR) as PartType[]}
-        translator={PART_TRANSLATOR}
         onChange={(selectedPart) =>
           setApplicantInfo((prev) => ({ ...prev, selectedPart }))
         }

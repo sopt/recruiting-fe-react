@@ -1,4 +1,5 @@
 import queryClient from '@/apis/queryClient';
+import { QUERY_KEY } from '@/apis/queryKey';
 import type {
   GetApplicantListRequest,
   PartType,
@@ -11,16 +12,13 @@ import { postMinRate } from '@/pages/Application/apis/postMinRate';
 import { postPassStatus } from '@/pages/Application/apis/postPassStatus';
 import type { Group } from '@/pages/PostQuestion/types';
 
-import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
-
-const QUERY_KEY = {
-  APPLICANT_LIST: 'APPLICANT_LIST',
-};
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 export const useGetApplicantList = (params: GetApplicantListRequest) => {
-  return useSuspenseQuery({
+  return useQuery({
     queryKey: [QUERY_KEY.APPLICANT_LIST, params],
     queryFn: () => getApplicantList(params),
+    enabled: !!params.season,
   });
 };
 

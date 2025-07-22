@@ -14,10 +14,7 @@ import {
   convertStatusToPassInfo,
 } from '@/pages/Application/utils';
 import type { ApplicantType } from '@/pages/ApplicationDetail/types';
-import {
-  getDontReadMessage,
-  getEvalutionCompleteMessage,
-} from '@/pages/ApplicationDetail/utils';
+import { getDoNotReadMessage, getEvaluationMessage } from '@/utils/message';
 import { CheckBox } from '@sopt-makers/ui';
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -142,7 +139,7 @@ const Profile = ({ profileData }: ProfileProps) => {
             <div className="flex flex-row  gap-[0.6rem]">
               <AlertTriangle width={16} />
               <span className="label_5_11_sb text-secondary">
-                {getDontReadMessage(profileData.dontReadInfo.checkedList)}
+                {getDoNotReadMessage(profileData.dontReadInfo.checkedList)}
               </span>
             </div>
           )}
@@ -165,9 +162,7 @@ const Profile = ({ profileData }: ProfileProps) => {
           {profileData.evaluatedInfo.checkedList.length > 0 && (
             <div className="flex flex-row  gap-[0.6rem]">
               <span className="label_5_11_sb">
-                {getEvalutionCompleteMessage(
-                  profileData.evaluatedInfo.checkedList,
-                )}
+                {getEvaluationMessage(profileData.evaluatedInfo.checkedList)}
               </span>
             </div>
           )}

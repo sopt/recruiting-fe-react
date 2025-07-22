@@ -1,40 +1,4 @@
-import type {
-  ApplicationTableProps,
-  PartType,
-  StatusType,
-} from '@/pages/Application/\btypes';
-
-export const getDoNotReadMessage = (item: ApplicationTableProps['data'][0]) => {
-  if (item.dontReadInfo.checkedList.length === 0) return null;
-
-  const selectedParts = Object.keys(item.dontReadInfo.checkedList).filter(
-    (key) =>
-      item.dontReadInfo.checkedList![
-        key as keyof typeof item.dontReadInfo.checkedList
-      ],
-  );
-
-  if (selectedParts.length === 0) return null;
-
-  return `${selectedParts.join(', ')}이(가) 읽지 말라고 선택했어요.`;
-};
-
-export const getEvaluationMessage = (
-  item: ApplicationTableProps['data'][0],
-) => {
-  if (item.evaluatedInfo.checkedList.length === 0) return null;
-
-  const selectedParts = Object.keys(item.evaluatedInfo.checkedList).filter(
-    (key) =>
-      item.evaluatedInfo.checkedList![
-        key as keyof typeof item.evaluatedInfo.checkedList
-      ],
-  );
-
-  if (selectedParts.length === 0) return null;
-
-  return `${selectedParts.join(', ')}이(가) 평가를 완료했어요.`;
-};
+import type { PartType, StatusType } from '@/pages/Application/\btypes';
 
 export const convertStatusToPassInfo = (
   status: StatusType,
@@ -70,17 +34,17 @@ export const convertPassInfoToStatus = (passInfo: string) => {
 
 export const getPartName = (part: PartType) => {
   switch (part) {
-    case 'PLAN':
+    case '기획':
       return '기획';
-    case 'DESIGN':
+    case '디자인':
       return '디자인';
-    case 'IOS':
+    case 'ios':
       return 'iOS';
-    case 'WEB':
+    case '웹':
       return '웹';
-    case 'ANDROID':
+    case '안드로이드':
       return '안드로이드';
-    case 'SERVER':
+    case '서버':
       return '서버';
     default:
       return '전체';
