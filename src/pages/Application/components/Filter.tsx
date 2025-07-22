@@ -35,7 +35,7 @@ const Filter = ({
   const { mutate: postMinRate } = usePostMinRate();
 
   const minRateValue = useMemo(
-    () => (minimumRate === null ? 1 : decimalToPercentage(minimumRate)),
+    () => (minimumRate === null ? 0 : decimalToPercentage(minimumRate)),
     [minimumRate],
   );
 
@@ -62,7 +62,7 @@ const Filter = ({
   const handleOpenDialog = () => {
     postMinRate(
       {
-        minimumRate: minimumRate ? decimalToPercentage(minimumRate) : 1,
+        minimumRate: minimumRate ? decimalToPercentage(minimumRate) : 0,
         season: Number(applicantInfo.season) || 0,
         group: applicantInfo.group,
         selectedPart: applicantInfo.selectedPart,
