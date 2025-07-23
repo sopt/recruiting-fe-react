@@ -16,6 +16,7 @@
 
 @layer utilities {
   .custom-question-textArea textarea:disabled {
+    max-height: 100rem !important;
     color: white !important;
   }
 }
