@@ -16,8 +16,8 @@ const MinimumRateModal = ({
   return (
     <div className="flex flex-col gap-[2rem] w-[35.2rem]">
       <span className="break-keep mb-[0.4rem]">
-        지원서 항목 중 하나라도 그 항목의 최대 글자 수 기준에 미달한 지원자를
-        숨깁니다.
+        지원서에서 절반 이상의 답변이 글자 수 기준에 미달한 경우, 해당 지원자는
+        숨겨집니다.
       </span>
       <div className="p-[1.6rem] bg-gray700 rounded-[1.2rem] flex flex-col gap-[2.4rem]">
         <h3 className="title_5_18_sb text-white">
