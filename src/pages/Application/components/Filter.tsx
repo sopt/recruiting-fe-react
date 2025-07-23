@@ -29,6 +29,7 @@ const Filter = ({
   onRefresh,
 }: FilterProps) => {
   const [minimumRate, setMinimumRate] = useState<number | null>(null);
+  const [minimumRatePercent, setMinimumRatePercent] = useState<string>('');
   const [, setQuestions] = useState<QuestionCharLimit[]>([]);
 
   const { openDialog, closeDialog } = useContext(DialogContext);
@@ -50,14 +51,25 @@ const Filter = ({
 
   const handleChangeMinimumRate = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      const value = e.target.value.replace(/%/g, '');
+      const value = e.target.value;
 
       if (isNumberValue(value)) {
+        setMinimumRatePercent(value);
         setMinimumRate(value === '' ? null : Number(value));
       }
     },
     [],
   );
+
+  const handleBlurMinimumRate = useCallback(() => {
+    if (minimumRatePercent !== '') {
+      setMinimumRatePercent(`${minimumRatePercent}%`);
+    }
+  }, [minimumRatePercent]);
+
+  const handleFocusMinimumRate = useCallback(() => {
+    setMinimumRatePercent((prev) => prev.replace(/%/g, ''));
+  }, []);
 
   const handleOpenDialog = () => {
     postMinRate(
@@ -136,8 +148,10 @@ const Filter = ({
           <div className="flex gap-[0.6rem] items-center">
             <TextField
               placeholder="미달률 입력"
-              value={minimumRate !== null ? `${minimumRate}%` : ''}
+              value={minimumRatePercent}
               onChange={handleChangeMinimumRate}
+              onBlur={handleBlurMinimumRate}
+              onFocus={handleFocusMinimumRate}
               disabled={applicantInfo.selectedPart === '전체'}
             />
             <button
