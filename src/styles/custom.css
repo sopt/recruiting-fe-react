@@ -15,7 +15,14 @@
 }
 
 @layer utilities {
-  .custom-textArea textarea:disabled {
+  .custom-question-textArea textarea:disabled {
     color: white !important;
+  }
+}
+
+@layer utilities {
+  .custom-detail-textArea textarea:disabled {
+    max-height: 100rem !important;
+    color: #c3c3c6 !important;
   }
 }

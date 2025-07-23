@@ -55,7 +55,7 @@ const QnaItem = ({
         maxLength={700}
         value={answer?.answer}
         disabled
-        className="custom-textArea"
+        className="custom-detail-textArea"
       />
     </li>
   );
