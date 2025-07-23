@@ -202,3 +202,7 @@ div[role="dialog"] > div > div {
   max-height: none;
   margin-bottom: 0;
 }
+
+div > input:disabled::placeholder {
+  color: #515159;
+}
