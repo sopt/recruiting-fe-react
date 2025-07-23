@@ -29,7 +29,7 @@ const MinimumRateModal = ({
               key={question.questionId}
               className="flex body_2_16_r w-[10.8rem] justify-between text-gray10 [&>*:last-child]:text-gray100"
             >
-              <span>{question.charLimitLength}</span>
+              <span>{minimumRate === 0 ? '-' : question.charLimitLength}</span>
               <span>/</span>
               <span>{question.charLimit}</span>
             </div>

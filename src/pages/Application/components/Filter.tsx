@@ -138,11 +138,13 @@ const Filter = ({
               placeholder="미달률 입력"
               value={minimumRate !== null ? `${minimumRate}%` : ''}
               onChange={handleChangeMinimumRate}
+              disabled={applicantInfo.selectedPart === '전체'}
             />
             <button
               type="button"
-              className="bg-gray800 rounded-[1rem] px-[1.6rem] py-[1.4rem] flex items-center justify-center cursor-pointer hover:bg-gray700 transition-colors duration-200"
+              className="bg-gray800 rounded-[1rem] px-[1.6rem] py-[1.4rem] flex items-center justify-center cursor-pointer hover:bg-gray700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               onClick={handleRefresh}
+              disabled={minimumRate === null}
             >
               <Refresh width={20} height={20} />
             </button>
