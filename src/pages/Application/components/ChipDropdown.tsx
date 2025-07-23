@@ -76,7 +76,7 @@ const ChipDropDown = ({ status, onStatusChange }: ChipDropDownProps) => {
             {Object.keys(CHIP_STATUS).map((option) => (
               <button
                 key={option}
-                className="w-full p-2 transition-colors rounded-[1.3rem] duration-200 text-left cursor-pointer hover:bg-gray700"
+                className="w-full p-2 rounded-[1.3rem] text-left cursor-pointer hover:scale-105 transition-all duration-200"
                 type="button"
                 onClick={(e) => {
                   e.stopPropagation();

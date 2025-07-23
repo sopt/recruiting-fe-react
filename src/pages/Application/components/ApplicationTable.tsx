@@ -21,6 +21,7 @@ import { ROUTES_CONFIG } from '@/routes/routeConfig';
 import { getEvaluationMessage } from '@/utils/message';
 import { getDoNotReadMessage } from '@/utils/message';
 import { CheckBox, Tag } from '@sopt-makers/ui';
+import type React from 'react';
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -188,7 +189,9 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
                   >
-                    <div className={`${TD_BASE_STYLE} gap-[1rem] py-[1rem]`}>
+                    <div
+                      className={`${TD_BASE_STYLE} gap-[1rem] p-[1rem] justify-between`}
+                    >
                       <img
                         src={item.pictureUrl}
                         alt="프로필"
