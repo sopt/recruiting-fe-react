@@ -21,6 +21,7 @@ import { ROUTES_CONFIG } from '@/routes/routeConfig';
 import { getEvaluationMessage } from '@/utils/message';
 import { getDoNotReadMessage } from '@/utils/message';
 import { CheckBox, Tag } from '@sopt-makers/ui';
+import { useQueryClient } from '@tanstack/react-query';
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -37,6 +38,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
   );
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const { onDragStart, onDragMove, onDragEnd, onDragLeave } =
     useDrag(scrollContainerRef);
@@ -64,11 +66,20 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
     }));
 
     const { applicationPass, finalPass } = convertStatusToPassInfo(value);
-    postPassStatus({
-      applicantId: id,
-      applicationPass,
-      finalPass,
-    });
+    postPassStatus(
+      {
+        applicantId: id,
+        applicationPass,
+        finalPass,
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: ['applicant', 'detail', id],
+          });
+        },
+      },
+    );
   };
 
   const handleEvaluation = (
@@ -76,7 +87,16 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
     evaluationType: EvaluationToggleType,
     isChecked: boolean,
   ) => {
-    mutate({ applicantId, evaluationType, isChecked });
+    mutate(
+      { applicantId, evaluationType, isChecked },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: ['applicant', 'detail', applicantId],
+          });
+        },
+      },
+    );
   };
 
   return (

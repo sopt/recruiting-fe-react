@@ -12,7 +12,7 @@ const Layout = () => {
   return (
     <>
       <Nav />
-      <div className="ml-[33.6rem]">
+      <div>
         <CommonHeader />
       </div>
       <div className={hasTable ? 'ml-[12.4rem]' : 'ml-[33.6rem]'}>
