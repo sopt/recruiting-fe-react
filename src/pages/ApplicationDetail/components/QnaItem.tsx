@@ -52,7 +52,7 @@ const QnaItem = ({
         </a>
       )}
       <TextArea
-        maxLength={700}
+        maxLength={charLimit}
         value={answer?.answer}
         disabled
         className="custom-detail-textArea"
