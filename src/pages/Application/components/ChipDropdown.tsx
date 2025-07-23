@@ -37,11 +37,11 @@ const ChipDropDown = ({ status, onStatusChange }: ChipDropDownProps) => {
     };
 
     document.addEventListener('mousedown', handleClickOutside);
-    window.addEventListener('scroll', closeDropdown);
+    document.addEventListener('scroll', closeDropdown, true);
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
-      window.removeEventListener('scroll', closeDropdown);
+      document.removeEventListener('scroll', closeDropdown, true);
     };
   }, []);
 
