@@ -12,22 +12,31 @@ import { useMemo } from 'react';
 
 const PAGE_LIMIT = 10;
 
+const INITIAL_APPLICANT_INFO: ApplicantState = {
+  season: '',
+  group: 'YB',
+  dontReadInfo: {
+    checkedByMe: false,
+    checkedList: [],
+  },
+  evaluatedInfo: {
+    checkedByMe: false,
+    checkedList: [],
+  },
+  isPassedOnly: false,
+  selectedPart: '전체',
+  minRate: 0,
+};
+
 const Application = () => {
-  const [applicantInfo, setApplicantInfo] = useState<ApplicantState>({
-    season: '',
-    group: 'YB',
-    isEvaluated: false,
-    isDontRead: false,
-    isPassedOnly: false,
-    selectedPart: '전체',
-    minRate: 0,
-  });
+  const [applicantInfo, setApplicantInfo] = useState<ApplicantState>(
+    INITIAL_APPLICANT_INFO,
+  );
 
   const { data: generationData } = useGetGeneration(applicantInfo.group);
 
   const defaultSeason = generationData?.seasons[0]?.season.toString() ?? '';
-
-  if (!applicantInfo.season && defaultSeason) {
+  if (!applicantInfo.season) {
     setApplicantInfo((prev) => ({ ...prev, season: defaultSeason }));
   }
 
@@ -37,8 +46,8 @@ const Application = () => {
     offset: 0,
     limit: PAGE_LIMIT,
     minRate: applicantInfo.minRate,
-    hideEvaluated: applicantInfo.isEvaluated,
-    hideDontRead: applicantInfo.isDontRead,
+    hideEvaluated: applicantInfo.evaluatedInfo.checkedByMe,
+    hideDontRead: applicantInfo.dontReadInfo.checkedByMe,
     checkInterviewPass: applicantInfo.isPassedOnly,
     ...(applicantInfo.selectedPart !== '전체' && {
       part: applicantInfo.selectedPart,
@@ -64,31 +73,33 @@ const Application = () => {
   }, [currentPage, applicantList?.data]);
 
   return (
-    <div className="flex flex-col gap-[4.4rem] overflow-hidden">
-      <div className="flex flex-col gap-[4.4rem] justify-between pr-[12.4rem] pl-[21.2rem]">
-        <Filter
-          generationData={generationData}
-          applicantInfo={applicantInfo}
-          setApplicantInfo={setApplicantInfo}
-          onRefresh={refetch}
-        />
-        <Tab
-          style="primary"
-          size="md"
-          tabItems={Object.keys(PART_TRANSLATOR) as PartType[]}
-          onChange={(selectedPart) =>
-            setApplicantInfo((prev) => ({ ...prev, selectedPart }))
-          }
-        />
+    <>
+      <div className="flex flex-col gap-[4.4rem] overflow-hidden">
+        <div className="flex flex-col gap-[4.4rem] justify-between pr-[12.4rem] pl-[21.2rem]">
+          <Filter
+            generationData={generationData}
+            applicantInfo={applicantInfo}
+            setApplicantInfo={setApplicantInfo}
+            onRefresh={refetch}
+          />
+          <Tab
+            style="primary"
+            size="md"
+            tabItems={Object.keys(PART_TRANSLATOR) as PartType[]}
+            onChange={(selectedPart) =>
+              setApplicantInfo((prev) => ({ ...prev, selectedPart }))
+            }
+          />
+        </div>
+        <hr className="border-gray800 mt-[-4.7rem] w-[98rem] ml-[21.2rem]" />
+        <ApplicationTable data={paginatedData ?? []} />
       </div>
-      <hr className="border-gray800 mt-[-4.7rem] w-[98rem] ml-[21.2rem]" />
-      <ApplicationTable data={paginatedData ?? []} />
       <Pagination
         totalPages={totalPages}
         currentPage={currentPage}
         onPageChange={handlePageChange}
       />
-    </div>
+    </>
   );
 };
 

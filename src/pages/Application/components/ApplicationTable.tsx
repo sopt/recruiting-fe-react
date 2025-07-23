@@ -189,9 +189,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
                   >
-                    <div
-                      className={`${TD_BASE_STYLE} gap-[1rem] p-[1rem] justify-between`}
-                    >
+                    <div className={`${TD_BASE_STYLE} gap-[1rem] p-[1rem]`}>
                       <img
                         src={item.pictureUrl}
                         alt="프로필"
@@ -235,7 +233,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                         </div>
 
                         {item.dontReadInfo.checkedList.length > 0 && (
-                          <Tooltip.Root>
+                          <Tooltip.Root className="ml-auto">
                             <Tooltip.Trigger>
                               <div className="bg-orangeAlpha200 rounded-[10rem] p-[0.8rem]">
                                 <AlertTriangle width={16} height={16} />
@@ -272,7 +270,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                           }}
                         />
                         <span>평가 완료</span>
-                        <Tooltip.Root>
+                        <Tooltip.Root className="ml-[0.4rem]">
                           <Tooltip.Trigger>
                             <Tag shape="pill">
                               {item.evaluatedInfo.checkedList.length}
