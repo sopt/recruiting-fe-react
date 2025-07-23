@@ -26,7 +26,9 @@ export const usePostApplicantPassStatus = () => {
   return useMutation({
     mutationFn: (info: PostApplicantPassStatusRequest) => postPassStatus(info),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.APPLICANT_LIST] });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY.APPLICANT_LIST],
+      });
     },
   });
 };
@@ -36,7 +38,9 @@ export const usePostEvalution = () => {
     mutationFn: (evaluationInfo: PostEvaluationRequest) =>
       postEvaluation(evaluationInfo),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.APPLICANT_LIST] });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY.APPLICANT_LIST],
+      });
     },
   });
 };
