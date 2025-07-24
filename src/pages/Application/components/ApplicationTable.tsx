@@ -246,16 +246,18 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                         </div>
 
                         {item.dontReadInfo.checkedList.length > 0 && (
-                          <Tooltip.Root className="ml-auto">
-                            <Tooltip.Trigger>
-                              <div className="bg-orangeAlpha200 rounded-[10rem] p-[0.8rem] z-[20]">
-                                <AlertTriangle width={16} height={16} />
-                              </div>
-                            </Tooltip.Trigger>
-                            <Tooltip.Content className="!mt-[2.5rem]">
-                              <span>{doNotReadMessage}</span>
-                            </Tooltip.Content>
-                          </Tooltip.Root>
+                          <div className="ml-auto">
+                            <Tooltip.Root>
+                              <Tooltip.Trigger>
+                                <div className="bg-orangeAlpha200 rounded-[10rem] p-[0.8rem] z-[20]">
+                                  <AlertTriangle width={16} height={16} />
+                                </div>
+                              </Tooltip.Trigger>
+                              <Tooltip.Content className="!mt-[2.5rem]">
+                                <span>{doNotReadMessage}</span>
+                              </Tooltip.Content>
+                            </Tooltip.Root>
+                          </div>
                         )}
                       </div>
                     </div>
@@ -283,18 +285,20 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                           }}
                         />
                         <span>평가 완료</span>
-                        <Tooltip.Root className="ml-[0.4rem]">
-                          <Tooltip.Trigger>
-                            <Tag shape="pill">
-                              {item.evaluatedInfo.checkedList.length}
-                            </Tag>
-                          </Tooltip.Trigger>
-                          {item.evaluatedInfo.checkedList.length > 0 && (
-                            <Tooltip.Content className="!mt-[1.3rem] !mr-[-0.5rem]">
-                              <span>{evaluationMessage}</span>
-                            </Tooltip.Content>
-                          )}
-                        </Tooltip.Root>
+                        <div className="ml-[0.4rem]">
+                          <Tooltip.Root>
+                            <Tooltip.Trigger>
+                              <Tag shape="pill">
+                                {item.evaluatedInfo.checkedList.length}
+                              </Tag>
+                            </Tooltip.Trigger>
+                            {item.evaluatedInfo.checkedList.length > 0 && (
+                              <Tooltip.Content className="!mt-[1.3rem] !mr-[-0.5rem]">
+                                <span>{evaluationMessage}</span>
+                              </Tooltip.Content>
+                            )}
+                          </Tooltip.Root>
+                        </div>
                       </div>
                     </div>
                   </td>
