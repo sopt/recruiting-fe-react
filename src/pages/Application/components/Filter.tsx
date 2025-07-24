@@ -29,6 +29,7 @@ const Filter = ({
   onRefresh,
 }: FilterProps) => {
   const [minimumRate, setMinimumRate] = useState<number | null>(null);
+  const [minimumRatePercent, setMinimumRatePercent] = useState<string>('');
   const [, setQuestions] = useState<QuestionCharLimit[]>([]);
 
   const { openDialog, closeDialog } = useContext(DialogContext);
@@ -50,14 +51,25 @@ const Filter = ({
 
   const handleChangeMinimumRate = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      const value = e.target.value.replace(/%/g, '');
+      const value = e.target.value;
 
       if (isNumberValue(value)) {
+        setMinimumRatePercent(value);
         setMinimumRate(value === '' ? null : Number(value));
       }
     },
     [],
   );
+
+  const handleBlurMinimumRate = useCallback(() => {
+    if (minimumRatePercent !== '') {
+      setMinimumRatePercent(`${minimumRatePercent}%`);
+    }
+  }, [minimumRatePercent]);
+
+  const handleFocusMinimumRate = useCallback(() => {
+    setMinimumRatePercent((prev) => prev.replace(/%/g, ''));
+  }, []);
 
   const handleOpenDialog = () => {
     postMinRate(
@@ -74,7 +86,7 @@ const Filter = ({
             title: '글자 수 미달률 상세 보기',
             description: (
               <MinimumRateModal
-                minimumRate={minimumRate ?? 0}
+                minimumRate={minimumRate ?? 1}
                 questions={data.data.questions}
                 onClose={closeDialog}
               />
@@ -136,13 +148,17 @@ const Filter = ({
           <div className="flex gap-[0.6rem] items-center">
             <TextField
               placeholder="미달률 입력"
-              value={minimumRate !== null ? `${minimumRate}%` : ''}
+              value={minimumRatePercent}
               onChange={handleChangeMinimumRate}
+              onBlur={handleBlurMinimumRate}
+              onFocus={handleFocusMinimumRate}
+              disabled={applicantInfo.selectedPart === '전체'}
             />
             <button
               type="button"
-              className="bg-gray800 rounded-[1rem] px-[1.6rem] py-[1.4rem] flex items-center justify-center cursor-pointer hover:bg-gray700 transition-colors duration-200"
+              className="bg-gray800 rounded-[1rem] px-[1.6rem] py-[1.4rem] flex items-center justify-center cursor-pointer hover:bg-gray700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               onClick={handleRefresh}
+              disabled={minimumRate === null}
             >
               <Refresh width={20} height={20} />
             </button>
@@ -151,11 +167,14 @@ const Filter = ({
             <span className="flex body_3_14_r text-gray100">읽마 숨기기</span>
             <Toggle
               size="lg"
-              checked={applicantInfo.isDontRead}
+              checked={applicantInfo.dontReadInfo.checkedByMe}
               onClick={() =>
                 setApplicantInfo((prev) => ({
                   ...prev,
-                  isDontRead: !prev.isDontRead,
+                  dontReadInfo: {
+                    ...prev.dontReadInfo,
+                    checkedByMe: !prev.dontReadInfo.checkedByMe,
+                  },
                 }))
               }
             />
@@ -166,11 +185,14 @@ const Filter = ({
             </span>
             <Toggle
               size="lg"
-              checked={applicantInfo.isEvaluated}
+              checked={applicantInfo.evaluatedInfo.checkedByMe}
               onClick={() =>
                 setApplicantInfo((prev) => ({
                   ...prev,
-                  isEvaluated: !prev.isEvaluated,
+                  evaluatedInfo: {
+                    ...prev.evaluatedInfo,
+                    checkedByMe: !prev.evaluatedInfo.checkedByMe,
+                  },
                 }))
               }
             />

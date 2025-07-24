@@ -162,8 +162,12 @@ export interface QuestionCharLimit {
 export interface ApplicantState {
   season: string;
   group: Group;
-  isEvaluated: boolean;
-  isDontRead: boolean;
+  dontReadInfo: {
+    checkedByMe: boolean;
+  };
+  evaluatedInfo: {
+    checkedByMe: boolean;
+  };
   isPassedOnly: boolean;
   selectedPart: PartType;
   minRate: number;

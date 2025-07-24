@@ -37,11 +37,11 @@ const ChipDropDown = ({ status, onStatusChange }: ChipDropDownProps) => {
     };
 
     document.addEventListener('mousedown', handleClickOutside);
-    window.addEventListener('scroll', closeDropdown);
+    document.addEventListener('scroll', closeDropdown, true);
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
-      window.removeEventListener('scroll', closeDropdown);
+      document.removeEventListener('scroll', closeDropdown, true);
     };
   }, []);
 
@@ -70,13 +70,13 @@ const ChipDropDown = ({ status, onStatusChange }: ChipDropDownProps) => {
             className="fixed bg-gray800 w-[9.6rem] rounded-[1.3rem] shadow-lg z-[9999]"
             style={{
               top: buttonRef.current?.getBoundingClientRect().bottom! + 10,
-              left: buttonRef.current?.getBoundingClientRect().left!,
+              left: buttonRef.current?.getBoundingClientRect().left! - 5,
             }}
           >
             {Object.keys(CHIP_STATUS).map((option) => (
               <button
                 key={option}
-                className="w-full p-2 transition-colors rounded-[1.3rem] duration-200 text-left cursor-pointer hover:bg-gray700"
+                className="w-full p-2 rounded-[1.3rem] text-left cursor-pointer hover:scale-105 transition-all duration-200"
                 type="button"
                 onClick={(e) => {
                   e.stopPropagation();

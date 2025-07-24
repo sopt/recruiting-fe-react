@@ -10,7 +10,6 @@ import {
   usePostApplicantPassStatus,
   usePostEvalution,
 } from '@/pages/Application/hooks/queries';
-import useDrag from '@/pages/Application/hooks/useDrag';
 import {
   convertPassInfoToStatus,
   convertStatusToPassInfo,
@@ -21,8 +20,11 @@ import { ROUTES_CONFIG } from '@/routes/routeConfig';
 import { getEvaluationMessage } from '@/utils/message';
 import { getDoNotReadMessage } from '@/utils/message';
 import { CheckBox, Tag } from '@sopt-makers/ui';
+
 import { useQueryClient } from '@tanstack/react-query';
-import { useRef, useState } from 'react';
+import type React from 'react';
+
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const HEADER_BASE_STYLE =
@@ -36,12 +38,9 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
   const [passStatusList, setPassStatusList] = useState<Record<number, string>>(
     {},
   );
-  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-
-  const { onDragStart, onDragMove, onDragEnd, onDragLeave } =
-    useDrag(scrollContainerRef);
 
   const { mutate } = usePostEvalution();
   const { mutate: postPassStatus } = usePostApplicantPassStatus();
@@ -101,18 +100,13 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
 
   return (
     <div
-      ref={scrollContainerRef}
       className="w-full overflow-x-auto overflow-y-hidden scroll-smooth scrollbar-hide pr-[12.4rem] pb-[5rem] cursor-grab active:cursor-grabbing pl-[21.2rem]"
       onMouseDown={(e) => {
         const target = e.target as HTMLElement;
         if (target.closest('[data-dropdown]')) {
           return;
         }
-        onDragStart(e);
       }}
-      onMouseMove={(e) => onDragMove(e)}
-      onMouseUp={() => onDragEnd()}
-      onMouseLeave={() => onDragLeave()}
     >
       <table className="w-[122.5rem] table-fixed select-none">
         <thead>
@@ -208,7 +202,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
                   >
-                    <div className={`${TD_BASE_STYLE} gap-[1rem] py-[1rem]`}>
+                    <div className={`${TD_BASE_STYLE} gap-[1rem] p-[1rem]`}>
                       <img
                         src={item.pictureUrl}
                         alt="프로필"
@@ -237,6 +231,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                           }}
                         >
                           <CheckBox
+                            id={`dont-read-${item.id}`}
                             checked={item.dontReadInfo.checkedByMe}
                             onChange={(e) => {
                               e.stopPropagation();
@@ -248,20 +243,27 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                               );
                             }}
                           />
-                          <span>읽지 마시오</span>
+                          <label
+                            htmlFor={`dont-read-${item.id}`}
+                            className="cursor-pointer"
+                          >
+                            읽지 마시오
+                          </label>
                         </div>
 
                         {item.dontReadInfo.checkedList.length > 0 && (
-                          <Tooltip.Root>
-                            <Tooltip.Trigger>
-                              <div className="bg-orangeAlpha200 rounded-[10rem] p-[0.8rem]">
-                                <AlertTriangle width={16} height={16} />
-                              </div>
-                            </Tooltip.Trigger>
-                            <Tooltip.Content className="!mt-[2.5rem]">
-                              <span>{doNotReadMessage}</span>
-                            </Tooltip.Content>
-                          </Tooltip.Root>
+                          <div className="ml-auto">
+                            <Tooltip.Root>
+                              <Tooltip.Trigger>
+                                <div className="bg-orangeAlpha200 rounded-[10rem] p-[0.8rem] z-[20]">
+                                  <AlertTriangle width={16} height={16} />
+                                </div>
+                              </Tooltip.Trigger>
+                              <Tooltip.Content className="!mt-[2.5rem]">
+                                <span>{doNotReadMessage}</span>
+                              </Tooltip.Content>
+                            </Tooltip.Root>
+                          </div>
                         )}
                       </div>
                     </div>
@@ -278,6 +280,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                         }}
                       >
                         <CheckBox
+                          id={`evaluated-${item.id}`}
                           checked={item.evaluatedInfo.checkedByMe}
                           onChange={(e) => {
                             e.preventDefault();
@@ -288,19 +291,26 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                             );
                           }}
                         />
-                        <span>평가 완료</span>
-                        <Tooltip.Root>
-                          <Tooltip.Trigger>
-                            <Tag shape="pill">
-                              {item.evaluatedInfo.checkedList.length}
-                            </Tag>
-                          </Tooltip.Trigger>
-                          {item.evaluatedInfo.checkedList.length > 0 && (
-                            <Tooltip.Content className="!mt-[1.3rem] !mr-[-0.5rem]">
-                              <span>{evaluationMessage}</span>
-                            </Tooltip.Content>
-                          )}
-                        </Tooltip.Root>
+                        <label
+                          htmlFor={`evaluated-${item.id}`}
+                          className="cursor-pointer"
+                        >
+                          평가 완료
+                        </label>
+                        <div className="ml-[0.4rem]">
+                          <Tooltip.Root>
+                            <Tooltip.Trigger>
+                              <Tag shape="pill">
+                                {item.evaluatedInfo.checkedList.length}
+                              </Tag>
+                            </Tooltip.Trigger>
+                            {item.evaluatedInfo.checkedList.length > 0 && (
+                              <Tooltip.Content className="!mt-[1.3rem] !mr-[-0.5rem]">
+                                <span>{evaluationMessage}</span>
+                              </Tooltip.Content>
+                            )}
+                          </Tooltip.Root>
+                        </div>
                       </div>
                     </div>
                   </td>
