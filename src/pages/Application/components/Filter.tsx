@@ -83,7 +83,7 @@ const Filter = ({
         onSuccess: (data) => {
           setQuestions(data.data.questions);
           openDialog({
-            title: '글자 수 미달률 상세 보기',
+            title: '글자 수 미달률 지원서 상세 보기',
             description: (
               <MinimumRateModal
                 minimumRate={minimumRate ?? 1}
