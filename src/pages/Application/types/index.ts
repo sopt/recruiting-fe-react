@@ -164,11 +164,9 @@ export interface ApplicantState {
   group: Group;
   dontReadInfo: {
     checkedByMe: boolean;
-    checkedList: string[];
   };
   evaluatedInfo: {
     checkedByMe: boolean;
-    checkedList: string[];
   };
   isPassedOnly: boolean;
   selectedPart: PartType;

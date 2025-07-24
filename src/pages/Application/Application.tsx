@@ -17,11 +17,9 @@ const INITIAL_APPLICANT_INFO: ApplicantState = {
   group: 'YB',
   dontReadInfo: {
     checkedByMe: false,
-    checkedList: [],
   },
   evaluatedInfo: {
     checkedByMe: false,
-    checkedList: [],
   },
   isPassedOnly: false,
   selectedPart: '전체',
@@ -46,8 +44,8 @@ const Application = () => {
     offset: 0,
     limit: PAGE_LIMIT,
     minRate: applicantInfo.minRate,
-    hideEvaluated: applicantInfo.evaluatedInfo.checkedByMe,
     hideDontRead: applicantInfo.dontReadInfo.checkedByMe,
+    hideEvaluated: applicantInfo.evaluatedInfo.checkedByMe,
     checkInterviewPass: applicantInfo.isPassedOnly,
     ...(applicantInfo.selectedPart !== '전체' && {
       part: applicantInfo.selectedPart,
@@ -56,6 +54,8 @@ const Application = () => {
 
   const { data: applicantList, refetch } =
     useGetApplicantList(applicantListParams);
+
+  console.log(applicantList);
 
   const { currentPage, totalPages, handlePageChange } = usePagination({
     totalItems: applicantList?.data.data.length ?? 0,

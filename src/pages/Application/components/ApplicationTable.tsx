@@ -231,6 +231,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                           }}
                         >
                           <CheckBox
+                            id={`dont-read-${item.id}`}
                             checked={item.dontReadInfo.checkedByMe}
                             onChange={(e) => {
                               e.stopPropagation();
@@ -242,7 +243,12 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                               );
                             }}
                           />
-                          <span>읽지 마시오</span>
+                          <label
+                            htmlFor={`dont-read-${item.id}`}
+                            className="cursor-pointer"
+                          >
+                            읽지 마시오
+                          </label>
                         </div>
 
                         {item.dontReadInfo.checkedList.length > 0 && (
@@ -274,6 +280,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                         }}
                       >
                         <CheckBox
+                          id={`evaluated-${item.id}`}
                           checked={item.evaluatedInfo.checkedByMe}
                           onChange={(e) => {
                             e.preventDefault();
@@ -284,7 +291,12 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                             );
                           }}
                         />
-                        <span>평가 완료</span>
+                        <label
+                          htmlFor={`evaluated-${item.id}`}
+                          className="cursor-pointer"
+                        >
+                          평가 완료
+                        </label>
                         <div className="ml-[0.4rem]">
                           <Tooltip.Root>
                             <Tooltip.Trigger>
