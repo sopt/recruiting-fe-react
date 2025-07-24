@@ -14,7 +14,6 @@ const CommonHeader = () => {
       <div className="fixed w-[100vw] h-[8rem] z-[100] bg-background">
         <LogoutButton />
       </div>
-
       <h1 className="absolute top-[8.8rem] title_1_32_sb text-gray10 ml-[33.6rem]">
         {title}
       </h1>

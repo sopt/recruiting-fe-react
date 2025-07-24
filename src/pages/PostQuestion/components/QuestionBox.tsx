@@ -75,7 +75,11 @@ const QuestionBox = ({
           <span className="text-secondary">*</span>
         </h2>
         {isActive ? (
-          <TextArea value={content} disabled className="custom-textArea" />
+          <TextArea
+            value={content}
+            disabled
+            className="custom-question-textArea"
+          />
         ) : (
           <TextField
             placeholder="질문을 작성하세요."
