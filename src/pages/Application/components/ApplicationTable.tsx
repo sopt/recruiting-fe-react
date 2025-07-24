@@ -10,7 +10,6 @@ import {
   usePostApplicantPassStatus,
   usePostEvalution,
 } from '@/pages/Application/hooks/queries';
-import useDrag from '@/pages/Application/hooks/useDrag';
 import {
   convertPassInfoToStatus,
   convertStatusToPassInfo,
@@ -38,9 +37,6 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
   );
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
-
-  const { onDragStart, onDragMove, onDragEnd, onDragLeave } =
-    useDrag(scrollContainerRef);
 
   const { mutate } = usePostEvalution();
   const { mutate: postPassStatus } = usePostApplicantPassStatus();
@@ -82,18 +78,13 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
 
   return (
     <div
-      ref={scrollContainerRef}
       className="w-full overflow-x-auto overflow-y-hidden scroll-smooth scrollbar-hide pr-[12.4rem] pb-[5rem] cursor-grab active:cursor-grabbing pl-[21.2rem]"
       onMouseDown={(e) => {
         const target = e.target as HTMLElement;
         if (target.closest('[data-dropdown]')) {
           return;
         }
-        onDragStart(e);
       }}
-      onMouseMove={(e) => onDragMove(e)}
-      onMouseUp={() => onDragEnd()}
-      onMouseLeave={() => onDragLeave()}
     >
       <table className="w-[122.5rem] table-fixed select-none">
         <thead>
@@ -235,7 +226,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                         {item.dontReadInfo.checkedList.length > 0 && (
                           <Tooltip.Root className="ml-auto">
                             <Tooltip.Trigger>
-                              <div className="bg-orangeAlpha200 rounded-[10rem] p-[0.8rem]">
+                              <div className="bg-orangeAlpha200 rounded-[10rem] p-[0.8rem] z-[20]">
                                 <AlertTriangle width={16} height={16} />
                               </div>
                             </Tooltip.Trigger>
