@@ -54,8 +54,13 @@ const Filter = ({
       const value = e.target.value;
 
       if (isNumberValue(value)) {
-        setMinimumRatePercent(value);
-        setMinimumRate(value === '' ? null : Number(value));
+        if (Number(value) > 100) {
+          setMinimumRatePercent('100');
+          setMinimumRate(100);
+        } else {
+          setMinimumRatePercent(value);
+          setMinimumRate(value === '' ? null : Number(value));
+        }
       }
     },
     [],
@@ -86,7 +91,7 @@ const Filter = ({
             title: '글자 수 미달률 지원서 상세 보기',
             description: (
               <MinimumRateModal
-                minimumRate={minimumRate ?? 1}
+                minimumRate={minimumRate ?? 0}
                 questions={data.data.questions}
                 onClose={closeDialog}
               />
@@ -160,7 +165,6 @@ const Filter = ({
               onChange={handleChangeMinimumRate}
               onBlur={handleBlurMinimumRate}
               onFocus={handleFocusMinimumRate}
-              disabled={applicantInfo.selectedPart === '전체'}
             />
             <button
               type="button"
