@@ -104,27 +104,35 @@ const Filter = ({
           <SelectV2.Trigger>
             <div>
               <SelectV2.TriggerContent
-                placeholder={`${applicantInfo.season || generationData?.seasons[0]?.season.toString()}기`}
+                placeholder={
+                  generationData?.seasons &&
+                  generationData.seasons.length > 0 &&
+                  applicantInfo.season
+                    ? `${applicantInfo.season}기`
+                    : '기수를 등록해주세요'
+                }
               />
             </div>
           </SelectV2.Trigger>
-          <SelectV2.Menu>
-            {generationData?.seasons.map((option) => (
-              <SelectV2.MenuItem
-                key={option.season}
-                option={{
-                  label: `${option.season.toString()}기`,
-                  value: option.season.toString(),
-                }}
-                onClick={() =>
-                  setApplicantInfo((prev) => ({
-                    ...prev,
-                    season: option.season.toString(),
-                  }))
-                }
-              />
-            ))}
-          </SelectV2.Menu>
+          {generationData?.seasons && generationData.seasons.length > 0 ? (
+            <SelectV2.Menu>
+              {generationData.seasons.map((option) => (
+                <SelectV2.MenuItem
+                  key={option.season}
+                  option={{
+                    label: `${option.season.toString()}기`,
+                    value: option.season.toString(),
+                  }}
+                  onClick={() =>
+                    setApplicantInfo((prev) => ({
+                      ...prev,
+                      season: option.season.toString(),
+                    }))
+                  }
+                />
+              ))}
+            </SelectV2.Menu>
+          ) : null}
         </SelectV2.Root>
         <YbObRadioGroup
           group={applicantInfo.group}

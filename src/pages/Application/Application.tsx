@@ -9,6 +9,7 @@ import { useGetGeneration } from '@/pages/PostGeneration/hooks/queries';
 import { Tab } from '@sopt-makers/ui';
 import { useState } from 'react';
 import { useMemo } from 'react';
+import { useEffect } from 'react';
 
 const PAGE_LIMIT = 10;
 
@@ -33,11 +34,6 @@ const Application = () => {
 
   const { data: generationData } = useGetGeneration(applicantInfo.group);
 
-  const defaultSeason = generationData?.seasons[0]?.season.toString() ?? '';
-  if (!applicantInfo.season) {
-    setApplicantInfo((prev) => ({ ...prev, season: defaultSeason }));
-  }
-
   const applicantListParams = {
     season: Number(applicantInfo.season),
     group: applicantInfo.group,
@@ -55,8 +51,6 @@ const Application = () => {
   const { data: applicantList, refetch } =
     useGetApplicantList(applicantListParams);
 
-  console.log(applicantList);
-
   const { currentPage, totalPages, handlePageChange } = usePagination({
     totalItems: applicantList?.data.data.length ?? 0,
     limit: PAGE_LIMIT,
@@ -71,6 +65,15 @@ const Application = () => {
 
     return arr.slice(startIndex, endIndex);
   }, [currentPage, applicantList?.data]);
+
+  useEffect(() => {
+    if (generationData.seasons.length > 0) {
+      setApplicantInfo((prev) => ({
+        ...prev,
+        season: generationData.seasons[0].season.toString(),
+      }));
+    }
+  }, [generationData]);
 
   return (
     <>
