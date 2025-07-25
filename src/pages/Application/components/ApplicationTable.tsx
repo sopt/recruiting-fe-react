@@ -31,8 +31,8 @@ const HEADER_BASE_STYLE =
   'p-[1rem] text-gray100 body_3_14_m bg-gray700 border-gray600';
 const CELL_BASE_STYLE =
   'h-[6rem] text-center body_3_14_m bg-transparent border-b-[1px] border-gray700 align-middle';
-const TD_BASE_STYLE = 'h-full flex items-center';
-const TD_CONTENT_STYLE = 'w-full text-center break-words p-[0.8rem]';
+const TD_BASE_STYLE = 'h-full flex items-center cursor-pointer';
+const TD_CONTENT_STYLE = 'w-full text-center break-words p-[0.8rem] ';
 
 const ApplicationTable = ({ data }: ApplicationTableProps) => {
   const [passStatusList, setPassStatusList] = useState<Record<number, string>>(
@@ -100,7 +100,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
 
   return (
     <div
-      className="w-full overflow-x-auto overflow-y-hidden scroll-smooth scrollbar-hide pr-[12.4rem] pb-[5rem] cursor-grab active:cursor-grabbing pl-[21.2rem]"
+      className="w-full overflow-x-auto overflow-y-hidden scroll-smooth scrollbar-hide pr-[12.4rem] pb-[5rem] pl-[21.2rem]"
       onMouseDown={(e) => {
         const target = e.target as HTMLElement;
         if (target.closest('[data-dropdown]')) {
@@ -177,7 +177,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
               return (
                 <tr
                   key={item.id}
-                  className="hover:bg-gray900 transition-colors duration-300"
+                  className="hover:bg-gray900 transition-colors duration-300 cursor-pointer"
                   tabIndex={0}
                   onClick={() => goApplicationDetail(item.id)}
                   onKeyDown={(e) => goApplicationDetailKeyDown(e, item.id)}
@@ -245,7 +245,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                           />
                           <label
                             htmlFor={`dont-read-${item.id}`}
-                            className="cursor-pointer"
+                            className="flex items-center h-[3.2rem] cursor-pointer"
                           >
                             읽지 마시오
                           </label>
@@ -293,7 +293,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                         />
                         <label
                           htmlFor={`evaluated-${item.id}`}
-                          className="cursor-pointer"
+                          className="flex items-center h-[3.2rem] cursor-pointer"
                         >
                           평가 완료
                         </label>
