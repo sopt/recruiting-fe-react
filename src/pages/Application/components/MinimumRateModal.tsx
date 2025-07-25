@@ -21,7 +21,7 @@ const MinimumRateModal = ({
       </span>
       <div className="p-[1.6rem] bg-gray700 rounded-[1.2rem] flex flex-col gap-[2.4rem]">
         <h3 className="title_5_18_sb text-white">
-          입력된 {minimumRate > 0 ? `${minimumRate}%` : '-'} 적용시 최소 글자수
+          입력된 {minimumRate > 0 ? `${minimumRate}` : ''}% 적용시 최소 글자수
         </h3>
         <div className="grid grid-cols-2 w-full gap-[1.2rem] px-[1.6rem] justify-items-center">
           {questions.map((question) => (
