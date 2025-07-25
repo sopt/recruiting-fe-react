@@ -9,7 +9,7 @@ export const convertStatusToPassInfo = (
     case '서류 합격':
       return { applicationPass: true, finalPass: null };
     case '불합격':
-      return { applicationPass: false, finalPass: null };
+      return { applicationPass: false, finalPass: false };
     case '최종 합격':
       return { applicationPass: true, finalPass: true };
     default:
