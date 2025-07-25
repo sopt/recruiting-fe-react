@@ -49,10 +49,6 @@ export const usePostEvalution = () => {
       if (!previous) return;
 
       const prevList = previous?.data?.data ?? [];
-<<<<<<< HEAD
-=======
-
->>>>>>> 63793e3 (fix: 체크박스 낙관적 업데이트 적용)
       const newList = prevList.map((applicant) => {
         if (evaluationInfo.evaluationType === 'DONT_READ') {
           return {
