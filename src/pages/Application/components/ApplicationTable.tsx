@@ -31,7 +31,7 @@ const HEADER_BASE_STYLE =
   'p-[1rem] text-gray100 body_3_14_m bg-gray700 border-gray600';
 const CELL_BASE_STYLE =
   'h-[6rem] text-center body_3_14_m bg-transparent border-b-[1px] border-gray700 align-middle';
-const TD_BASE_STYLE = 'h-full flex items-center justify-center';
+const TD_BASE_STYLE = 'h-full flex items-center';
 const TD_CONTENT_STYLE = 'w-full text-center break-words p-[0.8rem]';
 
 const ApplicationTable = ({ data }: ApplicationTableProps) => {
@@ -190,7 +190,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
                   >
-                    <div className={TD_BASE_STYLE}>
+                    <div className={`${TD_BASE_STYLE} justify-center`}>
                       <ChipDropDown
                         status={currentStatus}
                         onStatusChange={(value) =>
@@ -208,7 +208,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                         alt="프로필"
                         className="w-[5.2rem] h-[7rem] object-cover rounded-[0.3rem]"
                       />
-                      <span className="break-words">{item.name}</span>
+                      <span className="break-words w-full">{item.name}</span>
                     </div>
                   </td>
                   <td
