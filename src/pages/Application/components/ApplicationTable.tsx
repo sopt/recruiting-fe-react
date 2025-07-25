@@ -245,7 +245,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                           />
                           <label
                             htmlFor={`dont-read-${item.id}`}
-                            className="cursor-pointer"
+                            className="flex items-center h-[3.2rem] cursor-pointer"
                           >
                             읽지 마시오
                           </label>
@@ -293,7 +293,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                         />
                         <label
                           htmlFor={`evaluated-${item.id}`}
-                          className="cursor-pointer"
+                          className="flex items-center h-[3.2rem] cursor-pointer"
                         >
                           평가 완료
                         </label>
