@@ -25,7 +25,7 @@ export const DEFAULT_DESCRIPTION_DATA = {
   content: '',
   placeholder: 'default',
   isFile: false,
-  charLimit: null,
+  charLimit: 100,
   required: false,
   isActive: false,
 };
