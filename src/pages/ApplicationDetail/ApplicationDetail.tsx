@@ -1,18 +1,22 @@
 import { ChevronLeft } from '@/assets/svg';
+
 import Profile from '@/pages/ApplicationDetail/components/Profile';
 import QnaList from '@/pages/ApplicationDetail/components/QnaList';
 
 import { useGetApplicantDetail } from '@/pages/ApplicationDetail/hooks/quries';
 import { ROUTES_CONFIG } from '@/routes/routeConfig';
+import { scrollToTop } from '@/utils/scroll';
 import { Tab } from '@sopt-makers/ui';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 type questionCategoryType = 'common' | 'part';
 
 const ApplicationDetail = () => {
   const [searchParams] = useSearchParams();
+
+  const qnaListRef = useRef<HTMLDivElement>(null);
 
   const applicantId = searchParams.get('id') ?? 0;
 
@@ -31,8 +35,12 @@ const ApplicationDetail = () => {
     navigate(ROUTES_CONFIG.application.path);
   };
 
+  useEffect(() => {
+    scrollToTop();
+  }, []);
+
   return (
-    <div className="flex flex-col gap-[4.8rem] w-[98rem] p-[2.4rem] mt-[3rem] mb-[16.2rem] rounded-[14px] bg-gray900  ">
+    <div className="flex flex-col gap-[4.8rem] w-[98rem] p-[2.4rem] mt-[3rem] mb-[16.2rem] rounded-[14px] bg-gray900">
       <header className="flex flex-row gap-[1.8rem] align-center h-[3.6rem]">
         <button
           type="button"
@@ -60,13 +68,15 @@ const ApplicationDetail = () => {
           />
         </div>
 
-        <QnaList
-          questions={
-            questionCategory === 'common'
-              ? applicationDetailData?.commonQuestions
-              : applicationDetailData?.partQuestions
-          }
-        />
+        <div ref={qnaListRef}>
+          <QnaList
+            questions={
+              questionCategory === 'common'
+                ? applicationDetailData?.commonQuestions
+                : applicationDetailData?.partQuestions
+            }
+          />
+        </div>
       </div>
     </div>
   );
