@@ -45,7 +45,7 @@ const Pagination = ({
           type="button"
           onClick={() => onPageChange(page)}
           aria-current={page === currentPage ? 'page' : undefined}
-          className={`${page === currentPage ? 'text-black bg-gray10' : 'text-gray200'} flex w-[4rem] h-[4rem] items-center justify-center rounded-[2rem] heading_6_18_b hover:text-white transition-all duration-200`}
+          className={`${page === currentPage ? 'text-black bg-gray10' : 'text-gray200'} flex w-[4rem] h-[4rem] items-center justify-center rounded-[2rem] heading_6_18_b hover:text-white transition-all duration-200 cursor-pointer`}
         >
           {page}
         </button>
