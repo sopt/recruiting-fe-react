@@ -10,7 +10,6 @@ import { Tab } from '@sopt-makers/ui';
 import { useState } from 'react';
 import { useMemo } from 'react';
 import { useEffect } from 'react';
-import { useRef } from 'react';
 
 const PAGE_LIMIT = 10;
 
@@ -32,7 +31,6 @@ const Application = () => {
   const [applicantInfo, setApplicantInfo] = useState<ApplicantState>(
     INITIAL_APPLICANT_INFO,
   );
-  const tableRef = useRef<HTMLDivElement>(null);
 
   const { data: generationData } = useGetGeneration(applicantInfo.group);
 
