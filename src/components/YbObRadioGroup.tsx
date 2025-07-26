@@ -3,24 +3,24 @@ import { Radio } from '@sopt-makers/ui';
 
 interface YbObRadioGroupProps {
   group: Group;
-  onChangeGroup: (group: Group) => void;
+  onChange: (group: Group) => void;
 }
 
-const YbObRadioGroup = ({ group, onChangeGroup }: YbObRadioGroupProps) => {
+const YbObRadioGroup = ({ group, onChange }: YbObRadioGroupProps) => {
   return (
     <div className="flex gap-[1.6rem]">
       <Radio
         size="lg"
         label="YB"
         checked={group === 'YB'}
-        onChange={() => onChangeGroup('YB')}
+        onChange={() => onChange('YB')}
       />
 
       <Radio
         size="lg"
         label="OB"
         checked={group === 'OB'}
-        onChange={() => onChangeGroup('OB')}
+        onChange={() => onChange('OB')}
       />
     </div>
   );

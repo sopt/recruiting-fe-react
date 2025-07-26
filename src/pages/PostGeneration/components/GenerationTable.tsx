@@ -3,8 +3,9 @@ import useDrag from '@/pages/Application/hooks/useDrag';
 import { useDeleteGeneration } from '@/pages/PostGeneration/hooks/queries';
 import type { Season } from '@/pages/PostGeneration/types';
 import { canDeleteGeneration, formatDate } from '@/pages/PostGeneration/utils';
+import { scrollToLeft } from '@/utils/scroll';
 import { Button, Dialog, DialogContext } from '@sopt-makers/ui';
-import { useContext, useRef } from 'react';
+import { type RefObject, useContext, useEffect, useRef } from 'react';
 
 interface GenerationTableProps {
   data: Season[];
@@ -54,6 +55,10 @@ const GenerationTable = ({ data }: GenerationTableProps) => {
       ),
     });
   };
+
+  useEffect(() => {
+    scrollToLeft(scrollContainerRef as RefObject<HTMLElement>);
+  }, [data]);
 
   return (
     <div

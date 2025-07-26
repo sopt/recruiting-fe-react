@@ -19,12 +19,13 @@ import {
 import { ROUTES_CONFIG } from '@/routes/routeConfig';
 import { getEvaluationMessage } from '@/utils/message';
 import { getDoNotReadMessage } from '@/utils/message';
+import { scrollToLeft } from '@/utils/scroll';
 import { CheckBox, Tag } from '@sopt-makers/ui';
 
 import { useQueryClient } from '@tanstack/react-query';
 import type React from 'react';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const HEADER_BASE_STYLE =
@@ -38,6 +39,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
   const [passStatusList, setPassStatusList] = useState<Record<number, string>>(
     {},
   );
+  const tableRef = useRef<HTMLDivElement>(null);
 
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -98,8 +100,13 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
     );
   };
 
+  useEffect(() => {
+    scrollToLeft(tableRef as React.RefObject<HTMLElement>);
+  }, [data]);
+
   return (
     <div
+      ref={tableRef}
       className="w-full overflow-x-auto overflow-y-hidden scroll-smooth scrollbar-hide pr-[12.4rem] pb-[5rem] pl-[21.2rem]"
       onMouseDown={(e) => {
         const target = e.target as HTMLElement;

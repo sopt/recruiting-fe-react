@@ -1,5 +1,6 @@
+import YbObRadioGroup from '@/components/YbObRadioGroup';
 import { useGetGeneration } from '@/pages/PostGeneration/hooks/queries';
-import YbObRadioGroup from '@/pages/PostQuestion/components/YbObRadioGroup';
+
 import type { FilterState } from '@/pages/PostQuestion/hooks/useFilterReducer';
 import type { Group } from '@/pages/PostQuestion/types';
 
@@ -45,7 +46,7 @@ const Filters = ({
         </SelectV2.Menu>
       </SelectV2.Root>
 
-      <YbObRadioGroup group={filterState.group} setGroup={handleGroupChange} />
+      <YbObRadioGroup group={filterState.group} onChange={handleGroupChange} />
     </div>
   );
 };

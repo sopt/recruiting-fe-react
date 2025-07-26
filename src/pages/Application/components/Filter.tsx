@@ -110,16 +110,14 @@ const Filter = ({
             <div>
               <SelectV2.TriggerContent
                 placeholder={
-                  generationData?.seasons &&
-                  generationData.seasons.length > 0 &&
-                  applicantInfo.season
+                  generationData.seasons.length > 0
                     ? `${applicantInfo.season}기`
                     : '기수를 등록해주세요'
                 }
               />
             </div>
           </SelectV2.Trigger>
-          {generationData?.seasons && generationData.seasons.length > 0 ? (
+          {generationData.seasons.length > 0 ? (
             <SelectV2.Menu>
               {generationData.seasons.map((option) => (
                 <SelectV2.MenuItem
@@ -141,7 +139,7 @@ const Filter = ({
         </SelectV2.Root>
         <YbObRadioGroup
           group={applicantInfo.group}
-          onChangeGroup={(group) =>
+          onChange={(group) =>
             setApplicantInfo((prev) => ({
               ...prev,
               group,
