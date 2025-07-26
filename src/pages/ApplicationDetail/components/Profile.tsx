@@ -123,9 +123,10 @@ const Profile = ({ profileData }: ProfileProps) => {
         <div className="flex flex-col gap-[0.7rem] w-[32rem]">
           <div className="flex flex-row gap-[0.8rem]">
             <CheckBox
+              id="dontRead"
               size="lg"
               checked={profileData.dontReadInfo.checkedByMe}
-              onClick={() =>
+              onChange={() =>
                 handleEvaluationClick(
                   profileData.id,
                   'DONT_READ',
@@ -133,7 +134,12 @@ const Profile = ({ profileData }: ProfileProps) => {
                 )
               }
             />
-            <span className="body_2_16_m text-white">읽지 마시오</span>
+            <label
+              htmlFor="dontRead"
+              className="body_2_16_m text-white cursor-pointer"
+            >
+              읽지 마시오
+            </label>
           </div>
           {profileData.dontReadInfo.checkedList.length > 0 && (
             <div className="flex flex-row  gap-[0.6rem]">
@@ -147,9 +153,10 @@ const Profile = ({ profileData }: ProfileProps) => {
         <div className="flex flex-col gap-[0.7rem] w-[32rem]">
           <div className="flex flex-row gap-[0.8rem]">
             <CheckBox
+              id="evaluation"
               size="lg"
               checked={profileData.evaluatedInfo.checkedByMe}
-              onClick={() =>
+              onChange={() =>
                 handleEvaluationClick(
                   profileData.id,
                   'EVALUATION',
@@ -157,7 +164,12 @@ const Profile = ({ profileData }: ProfileProps) => {
                 )
               }
             />
-            <span className="body_2_16_m text-white">평가 완료</span>
+            <label
+              htmlFor="evaluation"
+              className="body_2_16_m text-white cursor-pointer"
+            >
+              평가 완료
+            </label>
           </div>
           {profileData.evaluatedInfo.checkedList.length > 0 && (
             <div className="flex flex-row  gap-[0.6rem]">
