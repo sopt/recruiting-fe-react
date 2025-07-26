@@ -141,7 +141,7 @@ const Filter = ({
         </SelectV2.Root>
         <YbObRadioGroup
           group={applicantInfo.group}
-          onChangeGroup={(group) =>
+          onChange={(group) =>
             setApplicantInfo((prev) => ({
               ...prev,
               group,

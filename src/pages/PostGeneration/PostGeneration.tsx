@@ -55,7 +55,7 @@ const PostGeneration = () => {
   return (
     <div className="flex flex-col gap-[4.2rem] mt-[3.1rem] overflow-hidden">
       <div className="flex justify-between pr-[12.4rem] pl-[21.2rem]">
-        <YbObRadioGroup group={group} onChangeGroup={setGroup} />
+        <YbObRadioGroup group={group} onChange={setGroup} />
         <Button variant="fill" onClick={handleAddGeneration}>
           기수 추가
         </Button>
