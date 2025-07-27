@@ -70,7 +70,7 @@ const ChipDropDown = ({ status, onStatusChange }: ChipDropDownProps) => {
             className="fixed bg-gray800 w-[9.6rem] rounded-[1.3rem] shadow-lg z-[9999]"
             style={{
               top: buttonRef.current?.getBoundingClientRect().bottom! + 10,
-              left: buttonRef.current?.getBoundingClientRect().left! - 5,
+              left: buttonRef.current?.getBoundingClientRect().left! - 10,
             }}
           >
             {Object.keys(CHIP_STATUS).map((option) => (
