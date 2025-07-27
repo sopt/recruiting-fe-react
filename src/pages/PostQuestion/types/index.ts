@@ -1,18 +1,11 @@
-export type PartName =
-  | '공통'
-  | '기획'
-  | '디자인'
-  | '서버'
-  | 'ios'
-  | '안드로이드'
-  | '웹';
+import type { PartType } from "@/pages/Application/\btypes";
 
-export type Group = 'YB' | 'OB';
+export type Group = "YB" | "OB";
 
 export type Question = {
   id?: number;
   questionOrder: number;
-  part: Omit<PartName, '공통'> | null;
+  part: Omit<PartType, "ALL"> | null;
   content: string;
   isDescription: boolean;
   charLimit: number | null;

@@ -1,43 +1,42 @@
-import { AlertTriangle } from '@/assets/svg';
-import Tooltip from '@/components/Tooltip';
+import { AlertTriangle } from "@/assets/svg";
+import Tooltip from "@/components/Tooltip";
 import type {
   EvaluationToggleType,
   StatusType,
-} from '@/pages/Application/\btypes';
-import type { ApplicationTableProps } from '@/pages/Application/\btypes';
-import ChipDropDown from '@/pages/Application/components/ChipDropdown';
+} from "@/pages/Application/\btypes";
+import type { ApplicationTableProps } from "@/pages/Application/\btypes";
+import ChipDropDown from "@/pages/Application/components/ChipDropdown";
 import {
   usePostApplicantPassStatus,
   usePostEvalution,
-} from '@/pages/Application/hooks/queries';
+} from "@/pages/Application/hooks/queries";
 import {
   convertPassInfoToStatus,
   convertStatusToPassInfo,
-  getPartName,
-} from '@/pages/Application/utils';
+} from "@/pages/Application/utils";
 
-import { ROUTES_CONFIG } from '@/routes/routeConfig';
-import { getEvaluationMessage } from '@/utils/message';
-import { getDoNotReadMessage } from '@/utils/message';
-import { scrollToLeft } from '@/utils/scroll';
-import { CheckBox, Tag } from '@sopt-makers/ui';
+import { ROUTES_CONFIG } from "@/routes/routeConfig";
+import { getEvaluationMessage } from "@/utils/message";
+import { getDoNotReadMessage } from "@/utils/message";
+import { scrollToLeft } from "@/utils/scroll";
+import { CheckBox, Tag } from "@sopt-makers/ui";
 
-import { useQueryClient } from '@tanstack/react-query';
-import type React from 'react';
+import { useQueryClient } from "@tanstack/react-query";
+import type React from "react";
 
-import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const HEADER_BASE_STYLE =
-  'p-[1rem] text-gray100 body_3_14_m bg-gray700 border-gray600';
+  "p-[1rem] text-gray100 body_3_14_m bg-gray700 border-gray600";
 const CELL_BASE_STYLE =
-  'h-[6rem] text-center body_3_14_m bg-transparent border-b-[1px] border-gray700 align-middle';
-const TD_BASE_STYLE = 'h-full flex items-center cursor-pointer';
-const TD_CONTENT_STYLE = 'w-full text-center break-words p-[0.8rem] ';
+  "h-[6rem] text-center body_3_14_m bg-transparent border-b-[1px] border-gray700 align-middle";
+const TD_BASE_STYLE = "h-full flex items-center cursor-pointer";
+const TD_CONTENT_STYLE = "w-full text-center break-words p-[0.8rem] ";
 
 const ApplicationTable = ({ data }: ApplicationTableProps) => {
   const [passStatusList, setPassStatusList] = useState<Record<number, string>>(
-    {},
+    {}
   );
   const tableRef = useRef<HTMLDivElement>(null);
 
@@ -53,9 +52,9 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
 
   const goApplicationDetailKeyDown = (
     e: React.KeyboardEvent,
-    applicantId: number,
+    applicantId: number
   ) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       goApplicationDetail(applicantId);
     }
   };
@@ -76,27 +75,27 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
       {
         onSuccess: () => {
           queryClient.invalidateQueries({
-            queryKey: ['applicant', 'detail', id],
+            queryKey: ["applicant", "detail", id],
           });
         },
-      },
+      }
     );
   };
 
   const handleEvaluation = (
     applicantId: number,
     evaluationType: EvaluationToggleType,
-    isChecked: boolean,
+    isChecked: boolean
   ) => {
     mutate(
       { applicantId, evaluationType, isChecked },
       {
         onSuccess: () => {
           queryClient.invalidateQueries({
-            queryKey: ['applicant', 'detail', applicantId],
+            queryKey: ["applicant", "detail", applicantId],
           });
         },
-      },
+      }
     );
   };
 
@@ -110,7 +109,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
       className="w-full overflow-x-auto overflow-y-hidden scroll-smooth scrollbar-hide pr-[12.4rem] pb-[5rem] pl-[21.2rem]"
       onMouseDown={(e) => {
         const target = e.target as HTMLElement;
-        if (target.closest('[data-dropdown]')) {
+        if (target.closest("[data-dropdown]")) {
           return;
         }
       }}
@@ -173,10 +172,10 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
           ) : (
             data.map((item) => {
               const doNotReadMessage = getDoNotReadMessage(
-                item.dontReadInfo.checkedList,
+                item.dontReadInfo.checkedList
               );
               const evaluationMessage = getEvaluationMessage(
-                item.evaluatedInfo.checkedList,
+                item.evaluatedInfo.checkedList
               );
               const currentStatus =
                 passStatusList[item.id] || convertPassInfoToStatus(item.status);
@@ -221,9 +220,7 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
                   >
-                    <div className={TD_CONTENT_STYLE}>
-                      {getPartName(item.part)}
-                    </div>
+                    <div className={TD_CONTENT_STYLE}>{item.part}</div>
                   </td>
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px] px-[1.2rem] py-[1rem] text-left`}
@@ -245,8 +242,8 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                               e.preventDefault();
                               handleEvaluation(
                                 item.id,
-                                'DONT_READ',
-                                !item.dontReadInfo.checkedByMe,
+                                "DONT_READ",
+                                !item.dontReadInfo.checkedByMe
                               );
                             }}
                           />
@@ -293,8 +290,8 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
                             e.preventDefault();
                             handleEvaluation(
                               item.id,
-                              'EVALUATION',
-                              !item.evaluatedInfo.checkedByMe,
+                              "EVALUATION",
+                              !item.evaluatedInfo.checkedByMe
                             );
                           }}
                         />

@@ -1,10 +1,10 @@
-import { useDebouncedCallback } from '@/hooks/useDebounceCallback';
-import { usePostQuestionsSave } from '@/pages/PostQuestion/hooks/quries';
-import type { FilterState } from '@/pages/PostQuestion/hooks/useFilterReducer';
-import type { qustionListTypes } from '@/pages/PostQuestion/types/form';
-import { Button } from '@sopt-makers/ui';
-import { useQueryClient } from '@tanstack/react-query';
-import { useFormContext } from 'react-hook-form';
+import { useDebouncedCallback } from "@/hooks/useDebounceCallback";
+import { usePostQuestionsSave } from "@/pages/PostQuestion/hooks/quries";
+import type { FilterState } from "@/pages/PostQuestion/hooks/useFilterReducer";
+import type { qustionListTypes } from "@/pages/PostQuestion/types/form";
+import { Button } from "@sopt-makers/ui";
+import { useQueryClient } from "@tanstack/react-query";
+import { useFormContext } from "react-hook-form";
 
 interface TemporarySaveButtonProps {
   filterState: FilterState;
@@ -25,11 +25,11 @@ const TemporarySaveButton = ({
   const queryClient = useQueryClient();
 
   const handleQuetsionsSave = () => {
-    const questions = watch('questionList').map((question, index) => {
+    const questions = watch("questionList").map((question, index) => {
       return {
         id: question.id,
         questionOrder: index,
-        part: filterState.part === '공통' ? null : filterState.part,
+        part: filterState.part === "ALL" ? null : filterState.part,
         content: question.content,
         isDescription: question.isDescription,
         charLimit: question.charLimit,
@@ -50,7 +50,7 @@ const TemporarySaveButton = ({
     saveMutate(requestData, {
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: ['question', 'list', filterState.season, filterState.group],
+          queryKey: ["question", "list", filterState.season, filterState.group],
         });
       },
     });
