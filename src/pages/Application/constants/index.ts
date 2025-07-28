@@ -1,13 +1,3 @@
-export const PART_TRANSLATOR = {
-  전체: '공통',
-  기획: '기획',
-  디자인: '디자인',
-  서버: '서버',
-  iOS: 'iOS',
-  안드로이드: '안드로이드',
-  웹: '웹',
-};
-
 export const EXECUTIVE_TRANSLATOR = {
   ALL: '전체',
   PLAN: '기획',
@@ -29,3 +19,5 @@ export const CHIP_STATUS = {
   '서류 합격': 'text-information bg-greenAlpha100 border-greenAlpha400',
   불합격: 'text-error bg-redAlpha100 border-redAlpha600',
 };
+
+export const COMMON_QUESTION = '공통';
