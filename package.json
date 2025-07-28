@@ -10,20 +10,28 @@
     "lint": "biome lint --write",
     "format": "biome format --write",
     "check": "biome check --write",
-    "reporter": "biome check --reporter=summary"
+    "reporter": "biome check --reporter=summary",
+    "svgr": "npx @svgr/cli -d src/assets/svg --ignore-existing --typescript --no-dimensions public/svg"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.1.1",
     "@sopt-makers/colors": "^3.0.3",
     "@sopt-makers/fonts": "^2.0.2",
+    "@sopt-makers/icons": "^1.1.0",
     "@sopt-makers/ui": "^2.8.12",
     "@tailwindcss/vite": "^4.1.10",
     "@tanstack/react-query": "^5.80.7",
     "@tanstack/react-query-devtools": "^5.80.7",
+    "clsx": "^2.1.1",
+    "dayjs": "^1.11.13",
     "ky": "^1.8.1",
     "react": "^19.1.0",
+    "react-calendar": "^6.0.0",
     "react-dom": "^19.1.0",
+    "react-hook-form": "^7.58.1",
     "react-router-dom": "^7.6.2",
-    "tailwindcss": "^4.1.10"
+    "tailwindcss": "^4.1.10",
+    "zod": "^3.25.67"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
@@ -31,13 +39,16 @@
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
     "@vitejs/plugin-react": "^4.4.1",
+    "autoprefixer": "^10.4.21",
     "eslint": "^9.25.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
+    "postcss": "^8.5.5",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.30.1",
     "vite": "^6.3.5",
+    "vite-plugin-svgr": "^4.3.0",
     "vite-tsconfig-paths": "^5.1.4"
   }
 }

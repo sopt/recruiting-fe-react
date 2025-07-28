@@ -1,0 +1,384 @@
+@import "tailwindcss";
+
+@theme {
+  --color-white: #ffffff;
+  --color-gray10: #fcfcfc;
+  --color-gray30: #f0f0f0;
+  --color-gray50: #e4e4e5;
+  --color-gray100: #c3c3c6;
+  --color-gray200: #9d9da4;
+  --color-gray300: #808087;
+  --color-gray400: #66666d;
+  --color-gray500: #515159;
+  --color-gray600: #3f3f47;
+  --color-gray700: #2e2e35;
+  --color-gray800: #202025;
+  --color-gray900: #17181c;
+  --color-gray950: #0f1012;
+  --color-black: #000000;
+
+  --color-blue50: #c8e1ff;
+  --color-blue100: #8fc0ff;
+  --color-blue200: #619eff;
+  --color-blue300: #4485ff;
+  --color-blue400: #346ffa;
+  --color-blue500: #2c53df;
+  --color-blue600: #2649b3;
+  --color-blue700: #253b8c;
+  --color-blue800: #23306a;
+  --color-blue900: #20274d;
+
+  --color-red50: #ffd1d3;
+  --color-red100: #ffa8ad;
+  --color-red200: #fe818b;
+  --color-red300: #fa616d;
+  --color-red400: #f04251;
+  --color-red500: #ca2f3d;
+  --color-red600: #9e2733;
+  --color-red700: #7a242d;
+  --color-red800: #562025;
+  --color-red900: #3c2020;
+
+  --color-green50: #ccffec;
+  --color-green100: #82f6cb;
+  --color-green200: #4ee4ad;
+  --color-green300: #26cf91;
+  --color-green400: #16bf81;
+  --color-green500: #13a06c;
+  --color-green600: #138a5e;
+  --color-green700: #136d4c;
+  --color-green800: #13533c;
+  --color-green900: #15372b;
+
+  --color-yellow50: #fff4d4;
+  --color-yellow100: #ffe9b2;
+  --color-yellow200: #ffde8a;
+  --color-yellow300: #ffcd59;
+  --color-yellow400: #ffc234;
+  --color-yellow500: #ffb326;
+  --color-yellow600: #eba01e;
+  --color-yellow700: #b57b1d;
+  --color-yellow800: #72531e;
+  --color-yellow900: #3d301a;
+
+  --color-orange50: #ffece5;
+  --color-orange100: #ffcebd;
+  --color-orange200: #ffa480;
+  --color-orange300: #ff834a;
+  --color-orange400: #f77234;
+  --color-orange500: #d4591c;
+  --color-orange600: #ad4e17;
+  --color-orange700: #853d11;
+  --color-orange800: #5c2b0c;
+  --color-orange900: #422109;
+
+  --color-attention: #ffc234;
+  --color-error: #f04251;
+  --color-background: #0f1012;
+  --color-backgroundDimmed: rgba(15, 15, 18, 0.8);
+  --color-secondary: #f77234;
+  --color-success: #346ffa;
+  --color-information: #16bf81;
+
+  --color-redAlpha100: rgba(240, 66, 81, 0.1);
+  --color-redAlpha200: rgba(240, 66, 81, 0.2);
+  --color-redAlpha300: rgba(240, 66, 81, 0.3);
+  --color-redAlpha400: rgba(240, 66, 81, 0.4);
+  --color-redAlpha500: rgba(240, 66, 81, 0.5);
+  --color-redAlpha600: rgba(240, 66, 81, 0.6);
+  --color-redAlpha700: rgba(240, 66, 81, 0.7);
+  --color-redAlpha800: rgba(240, 66, 81, 0.8);
+  --color-redAlpha900: rgba(240, 66, 81, 0.9);
+
+  --color-orangeAlpha100: rgba(247, 114, 52, 0.1);
+  --color-orangeAlpha200: rgba(247, 114, 52, 0.2);
+  --color-orangeAlpha300: rgba(247, 114, 52, 0.3);
+  --color-orangeAlpha400: rgba(247, 114, 52, 0.4);
+  --color-orangeAlpha500: rgba(247, 114, 52, 0.5);
+  --color-orangeAlpha600: rgba(247, 114, 52, 0.6);
+  --color-orangeAlpha700: rgba(247, 114, 52, 0.7);
+  --color-orangeAlpha800: rgba(247, 114, 52, 0.8);
+  --color-orangeAlpha900: rgba(247, 114, 52, 0.9);
+
+  --color-blueAlpha100: rgba(52, 111, 250, 0.1);
+  --color-blueAlpha200: rgba(52, 111, 250, 0.2);
+  --color-blueAlpha300: rgba(52, 111, 250, 0.3);
+  --color-blueAlpha400: rgba(52, 111, 250, 0.4);
+  --color-blueAlpha500: rgba(52, 111, 250, 0.5);
+  --color-blueAlpha600: rgba(52, 111, 250, 0.6);
+  --color-blueAlpha700: rgba(52, 111, 250, 0.7);
+  --color-blueAlpha800: rgba(52, 111, 250, 0.8);
+  --color-blueAlpha900: rgba(52, 111, 250, 0.9);
+
+  --color-greenAlpha100: rgba(22, 191, 129, 0.1);
+  --color-greenAlpha200: rgba(22, 191, 129, 0.2);
+  --color-greenAlpha300: rgba(22, 191, 129, 0.3);
+  --color-greenAlpha400: rgba(22, 191, 129, 0.4);
+  --color-greenAlpha500: rgba(22, 191, 129, 0.5);
+  --color-greenAlpha600: rgba(22, 191, 129, 0.6);
+  --color-greenAlpha700: rgba(22, 191, 129, 0.7);
+  --color-greenAlpha800: rgba(22, 191, 129, 0.8);
+  --color-greenAlpha900: rgba(22, 191, 129, 0.9);
+
+  --color-grayAlpha100: rgba(15, 15, 18, 0.1);
+  --color-grayAlpha200: rgba(15, 15, 18, 0.2);
+  --color-grayAlpha300: rgba(15, 15, 18, 0.3);
+  --color-grayAlpha400: rgba(15, 15, 18, 0.4);
+  --color-grayAlpha500: rgba(15, 15, 18, 0.5);
+  --color-grayAlpha600: rgba(15, 15, 18, 0.6);
+  --color-grayAlpha700: rgba(15, 15, 18, 0.7);
+  --color-grayAlpha800: rgba(15, 15, 18, 0.8);
+  --color-grayAlpha900: rgba(15, 15, 18, 0.9);
+}
+
+@utility heading_1_48_b {
+  font-family: "SUIT", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 72px;
+  letter-spacing: -2%;
+}
+
+@utility heading_2_32_b {
+  font-family: "SUIT", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 48px;
+  letter-spacing: -2%;
+}
+
+@utility heading_3_28_b {
+  font-family: "SUIT", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 42px;
+  letter-spacing: -2%;
+}
+
+@utility heading_4_24_b {
+  font-family: "SUIT", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 36px;
+  letter-spacing: -2%;
+}
+
+@utility heading_5_20_b {
+  font-family: "SUIT", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 30px;
+  letter-spacing: -2%;
+}
+
+@utility heading_6_18_b {
+  font-family: "SUIT", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 28px;
+  letter-spacing: -2%;
+}
+
+@utility heading_7_16_b {
+  font-family: "SUIT", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -2%;
+}
+
+@utility title_1_32_sb {
+  font-family: "SUIT", sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 48px;
+  letter-spacing: -2%;
+}
+
+@utility title_2_28_sb {
+  font-family: "SUIT", sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 28px;
+  line-height: 42px;
+  letter-spacing: -2%;
+}
+
+@utility title_3_24_sb {
+  font-family: "SUIT", sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 36px;
+  letter-spacing: -2%;
+}
+
+@utility title_4_20_sb {
+  font-family: "SUIT", sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 30px;
+  letter-spacing: -2%;
+}
+
+@utility title_5_18_sb {
+  font-family: "SUIT", sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 28px;
+  letter-spacing: -2%;
+}
+
+@utility title_6_16_sb {
+  font-family: "SUIT", sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -1.5%;
+}
+
+@utility title_7_14_sb {
+  font-family: "SUIT", sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: -1.5%;
+}
+
+@utility body_1_18_m {
+  font-family: "SUIT", sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 30px;
+  letter-spacing: -1.5%;
+}
+
+@utility body_2_16_m {
+  font-family: "SUIT", sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 26px;
+  letter-spacing: -1.5%;
+}
+
+@utility body_2_16_r {
+  font-family: "SUIT", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 26px;
+  letter-spacing: -1.5%;
+}
+
+@utility body_3_14_m {
+  font-family: "SUIT", sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 22px;
+  letter-spacing: -1.5%;
+}
+
+@utility body_3_14_r {
+  font-family: "SUIT", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  letter-spacing: -1.5%;
+}
+
+@utility body_3_14_l {
+  font-family: "SUIT", sans-serif;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 22px;
+  letter-spacing: -1.5%;
+}
+
+@utility body_4_13_m {
+  font-family: "SUIT", sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 20px;
+  letter-spacing: -1.5%;
+}
+
+@utility body_4_13_r {
+  font-family: "SUIT", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 20px;
+  letter-spacing: -1.5%;
+}
+
+@utility body_4_13_l {
+  font-family: "SUIT", sans-serif;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 13px;
+  line-height: 20px;
+  letter-spacing: -1.5%;
+}
+
+@utility label_1_18_sb {
+  font-family: "SUIT", sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 19px;
+  line-height: 24px;
+  letter-spacing: -2%;
+}
+
+@utility label_2_16_sb {
+  font-family: "SUIT", sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 22px;
+  letter-spacing: -2%;
+}
+
+@utility label_3_14_sb {
+  font-family: "SUIT", sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: -2%;
+}
+
+@utility label_4_12_sb {
+  font-family: "SUIT", sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: -2%;
+}
+
+@utility label_5_11_sb {
+  font-family: "SUIT", sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 11px;
+  line-height: 14px;
+  letter-spacing: -2%;
+}

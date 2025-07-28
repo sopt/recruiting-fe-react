@@ -1,9 +1,32 @@
-import { createBrowserRouter } from 'react-router-dom';
-import App from '@/App';
+import Layout from '@/layout/Layout';
+import Application from '@/pages/Application/Application';
+import ApplicationDetail from '@/pages/ApplicationDetail/ApplicationDetail';
+import Login from '@/pages/Login/Login';
+import PostGeneration from '@/pages/PostGeneration/PostGeneration';
+import PostQuestion from '@/pages/PostQuestion/PostQuestion';
+import { ROUTES_CONFIG } from '@/routes/routeConfig';
+import { Navigate, createBrowserRouter } from 'react-router-dom';
 
 export const router = createBrowserRouter([
   {
+    path: ROUTES_CONFIG.login.path,
+    element: <Login />,
+  },
+  {
     path: '/',
-    element: <App />,
+    element: <Layout />,
+    children: [
+      {
+        index: true,
+        element: <Navigate to={ROUTES_CONFIG.application.path} replace />,
+      },
+      { path: ROUTES_CONFIG.application.path, element: <Application /> },
+      { path: ROUTES_CONFIG.postQuestion.path, element: <PostQuestion /> },
+      { path: ROUTES_CONFIG.postGeneration.path, element: <PostGeneration /> },
+      {
+        path: ROUTES_CONFIG.applicationDetail.path,
+        element: <ApplicationDetail />,
+      },
+    ],
   },
 ]);

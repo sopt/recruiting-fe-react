@@ -1,0 +1,29 @@
+@layer utilities {
+  .custom-tab > div {
+    @apply flex gap-[2.4rem];
+  }
+
+  .custom-tab > div > div {
+    @apply w-1/2;
+  }
+}
+
+@layer utilities {
+  .custom-textField input:disabled {
+    color: white !important;
+  }
+}
+
+@layer utilities {
+  .custom-question-textArea textarea:disabled {
+    max-height: 100rem !important;
+    color: white !important;
+  }
+}
+
+@layer utilities {
+  .custom-detail-textArea textarea:disabled {
+    max-height: 100rem !important;
+    color: #c3c3c6 !important;
+  }
+}
