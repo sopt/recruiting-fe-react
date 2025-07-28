@@ -13,7 +13,7 @@ interface Props {
   selectedDateFieldName: string;
   error?: string;
   onDateSelect?: (date: string) => void;
-  onClose?: () => void;
+  onClose: () => void;
 }
 
 const formatCalendarDate = (date: Date) => {
@@ -37,15 +37,15 @@ const CalendarInputForm = ({
   const isSingleRange =
     Array.isArray(selectedDate) && selectedDate[0] === selectedDate[1];
 
-  const handleDateChange = (value: Date | [Date, Date]) => {
+  const handleDateChange = (value: Value) => {
     if (Array.isArray(value)) {
+      const [start, end] = value;
       setRangeValue(value);
 
-      const [start, end] = value;
       if (start && end) {
         const formatted = [formatCalendarDate(start), formatCalendarDate(end)];
         setSelectedDate(formatted);
-        onClose?.();
+        onClose();
       }
     }
   };
@@ -68,9 +68,8 @@ const CalendarInputForm = ({
       prev2Label={null}
       minDetail="month"
       maxDetail="month"
-      onClickDay={handleDateChange}
       calendarType="gregory"
-      onChange={(value: Value) => handleDateChange(value as [Date, Date])}
+      onChange={handleDateChange}
       tileClassName={isSingleRange ? 'react-calendar__tile--single' : undefined}
     />
   );

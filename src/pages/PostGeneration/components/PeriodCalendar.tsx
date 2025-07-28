@@ -19,6 +19,13 @@ const PeriodCalendar = ({
   const [activeInput, setActiveInput] = useState<'start' | 'end' | null>(null);
   const calendarRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    if (selectedDateRange?.[0] && selectedDateRange?.[1] && isCalendarOpen) {
+      setIsCalendarOpen(false);
+      setActiveInput(null);
+    }
+  }, [selectedDateRange, isCalendarOpen]);
+
   const handleInputClick = (target: 'start' | 'end') => {
     setActiveInput(target);
     setIsCalendarOpen(true);
@@ -95,6 +102,7 @@ const PeriodCalendar = ({
             value={selectedDateRange?.[1] || ''}
             placeholder="YYYY.MM.DD"
             readOnly
+            onClick={() => handleInputClick('end')}
             className="relative flex items-center w-[12.3rem] cursor-pointer text-[1.6rem] font-medium bg-transparent border-none placeholder:text-gray500 focus:outline-none"
           />
           <IconCalendar style={{ width: '24' }} />
@@ -106,7 +114,9 @@ const PeriodCalendar = ({
               setSelectedDate={onSelectDateRange}
               selectedDateFieldName="date-range"
               onDateSelect={handleDateSelect}
-              onClose={() => setIsCalendarOpen(false)}
+              onClose={() => {
+                setIsCalendarOpen(false);
+              }}
             />
           </div>
         )}

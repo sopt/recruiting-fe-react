@@ -9,6 +9,7 @@ import {
   postGenerationSchema,
 } from '@/pages/PostGeneration/types';
 import { formatDate } from '@/pages/PostGeneration/utils';
+import { scrollToBottom } from '@/utils/scroll';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Button,
@@ -17,7 +18,7 @@ import {
   TextArea,
   TextField,
 } from '@sopt-makers/ui';
-import { useContext, useMemo } from 'react';
+import { type RefObject, useContext, useMemo, useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 const DEFAULT_FORM_VALUES: PostGenerationFormData = {
@@ -31,6 +32,7 @@ const DEFAULT_FORM_VALUES: PostGenerationFormData = {
 };
 
 const PostGenerationModal = () => {
+  const dialogRef = useRef<HTMLFormElement | null>(null);
   const { closeDialog } = useContext(DialogContext);
 
   const {
@@ -46,15 +48,6 @@ const PostGenerationModal = () => {
   const watchedValues = watch();
 
   const { data: generationData } = useGetGeneration(watchedValues.type);
-
-  const isDuplicate = useMemo(() => {
-    const inputSeason = Number(watchedValues.generation);
-    const inputType = watchedValues.type;
-
-    return generationData.seasons.some(
-      (season) => season.season === inputSeason && season.group === inputType,
-    );
-  }, [watchedValues.generation, watchedValues.type, generationData?.seasons]);
 
   const { mutate: postGeneration } = usePostGeneration({
     season: Number(watchedValues.generation),
@@ -76,11 +69,31 @@ const PostGenerationModal = () => {
     closeDialog();
   };
 
+  const handleGenerationBlur = () => {
+    if (watchedValues.generation && watchedValues.generationName) {
+      requestAnimationFrame(() => {
+        scrollToBottom(dialogRef as RefObject<HTMLElement>);
+      });
+    }
+  };
+
+  const isDuplicate = useMemo(() => {
+    const inputSeason = Number(watchedValues.generation);
+    const inputType = watchedValues.type;
+
+    return generationData.seasons.some(
+      (season) => season.season === inputSeason && season.group === inputType,
+    );
+  }, [watchedValues.generation, watchedValues.type, generationData?.seasons]);
+
   const isDisabled = !isValid || isDuplicate;
 
   return (
     <div className="flex flex-col gap-[2.4rem] w-[58rem] !overflow-hidden">
-      <form className="flex flex-col w-[64rem] justify-between !max-h-[52.7rem] !overflow-y-scroll !p-[0.2rem] !pt-[2.6rem] !pb-[10rem]">
+      <form
+        ref={dialogRef}
+        className="flex flex-col w-[64rem] justify-between !max-h-[52.7rem] !overflow-y-scroll !p-[0.2rem] !pt-[2.6rem] !pb-[10rem]"
+      >
         <div className="flex flex-col !gap-[3.2rem]">
           <div className="!flex !flex-col !gap-[0.8rem]">
             <Controller
@@ -116,6 +129,7 @@ const PostGenerationModal = () => {
                     errorMessage="이미 추가된 기수입니다."
                     className="[&>div:nth-child(2)]:!mt-[0.8rem] [&>div:nth-child(2)]:!bg-gray700 [&>div:nth-child(2)]:!w-[18rem]"
                     required
+                    onBlur={handleGenerationBlur}
                   />
                 </div>
               )}
