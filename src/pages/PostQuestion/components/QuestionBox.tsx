@@ -206,7 +206,7 @@ const QuestionBox = ({
                     onChange(newValue);
 
                     if (newValue === false) {
-                      setValue(`questionList.${index}.link`, undefined);
+                      setValue(`questionList.${index}.link`, null);
                     }
                   }}
                   checked={value}
