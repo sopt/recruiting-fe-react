@@ -28,7 +28,7 @@ const Header = ({
         handleSeasonChange={handleSeasonChange}
       />
       <Tab
-        selectedInitial={"ALL" as PartType}
+        selectedInitial={"공통" as PartType}
         style="primary"
         size="md"
         onChange={handleTabChange}

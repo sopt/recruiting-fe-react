@@ -29,7 +29,7 @@ const TemporarySaveButton = ({
       return {
         id: question.id,
         questionOrder: index,
-        part: filterState.part === "ALL" ? null : filterState.part,
+        part: filterState.part === "공통" ? null : filterState.part,
         content: question.content,
         isDescription: question.isDescription,
         charLimit: question.charLimit,

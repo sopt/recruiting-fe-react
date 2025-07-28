@@ -28,7 +28,7 @@ const INITIAL_APPLICANT_INFO: ApplicantState = {
     checkedByMe: false,
   },
   isPassedOnly: false,
-  selectedPart: "ALL",
+  selectedPart: "공통",
   minRate: 0,
 };
 
@@ -48,7 +48,7 @@ const Application = () => {
     hideDontRead: applicantInfo.dontReadInfo.checkedByMe,
     hideEvaluated: applicantInfo.evaluatedInfo.checkedByMe,
     checkInterviewPass: applicantInfo.isPassedOnly,
-    ...(applicantInfo.selectedPart !== "ALL" && {
+    ...(applicantInfo.selectedPart !== "공통" && {
       part: applicantInfo.selectedPart,
     }),
   };
