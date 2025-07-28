@@ -74,20 +74,19 @@ const QuestionBox = ({
           {`질문 ${index + (hasDescription ? 0 : 1)}`}
           <span className="text-secondary">*</span>
         </h2>
-        {isActive ? (
-          <TextArea
-            value={content}
-            disabled
-            className="custom-question-textArea"
-          />
-        ) : (
-          <TextField
-            placeholder="질문을 작성하세요."
-            disabled={isActive}
-            className="custom-textField"
-            {...register(`questionList.${index}.content`)}
-          />
-        )}
+
+        <Controller
+          control={control}
+          name={`questionList.${index}.content`}
+          render={({ field }) => (
+            <TextArea
+              {...field}
+              disabled={isActive}
+              className="custom-question-textArea"
+              placeholder="질문을 작성하세요."
+            />
+          )}
+        />
 
         {isLink && (
           <TextField
