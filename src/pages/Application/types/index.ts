@@ -1,15 +1,5 @@
 import type { Group } from "@/pages/PostQuestion/types";
 
-export type MakersPartType =
-  | "ALL"
-  | "PM"
-  | "PD"
-  | "CX"
-  | "FE"
-  | "BE"
-  | "iOS"
-  | "Android";
-
 export type PartType =
   // | "전체"
   // | "기획"
