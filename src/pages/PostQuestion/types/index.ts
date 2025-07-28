@@ -1,11 +1,11 @@
-import type { PartType } from "@/pages/Application/\btypes";
+import type { PartType } from '@/pages/Application/\btypes';
 
-export type Group = "YB" | "OB";
+export type Group = 'YB' | 'OB';
 
 export type Question = {
   id?: number;
   questionOrder: number;
-  part: Omit<PartType, "ALL"> | null;
+  part: Omit<PartType, 'ALL'> | null;
   content: string;
   isDescription: boolean;
   charLimit: number | null;
@@ -42,5 +42,6 @@ export type PartQuestionList = {
 
 export type QuestionListResponse = {
   err: boolean;
+  commonQuestions: Question[];
   partQuestions: PartQuestionList[];
 };
