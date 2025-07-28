@@ -8,7 +8,7 @@ export type PartType =
   // | "ios"
   // | "안드로이드"
   // | "웹";
-  "ALL" | "PM" | "PD" | "CX" | "FE" | "BE" | "iOS" | "Android";
+  "공통" | "PM" | "PD" | "CX" | "FE" | "BE" | "iOS" | "Android";
 
 export enum Part {
   // ALL = "ALL",
@@ -18,7 +18,7 @@ export enum Part {
   // IOS = "IOS",
   // ANDROID = "ANDROID",
   // WEB = "WEB",
-  "ALL" = "ALL",
+  "공통" = "공통",
   "PM" = "PM",
   "PD" = "PD",
   "CX" = "CX",

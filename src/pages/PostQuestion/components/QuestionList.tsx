@@ -11,6 +11,7 @@ import { useGetQuestionList } from '@/pages/PostQuestion/hooks/quries';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import type { FilterState } from '@/pages/PostQuestion/hooks/useFilterReducer';
+import { COMMON_QUESTION } from '@/pages/Application/constants';
 
 interface QuestionListProps {
   filterState: FilterState;
@@ -41,9 +42,12 @@ const QuestionList = ({
   });
 
   useEffect(() => {
-    const partQuestions = questionListData?.find(
-      (questionList) => questionList.part === filterState.part,
-    )?.questions;
+    const partQuestions =
+      filterState.part === COMMON_QUESTION
+        ? questionListData?.commonQuestions
+        : questionListData?.partQuestions.find(
+            (questionList) => questionList.part === filterState.part,
+          )?.questions;
 
     const resetData = partQuestions ? partQuestions : [DEFAULT_QUESTION_DATA];
 

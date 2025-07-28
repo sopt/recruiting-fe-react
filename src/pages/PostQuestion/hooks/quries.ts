@@ -30,13 +30,20 @@ export const useGetQuestionList = (season: number, group: Group) => {
     retry: 0,
     enabled: season !== 0,
     // 질문 데이터에 isLink 값 추가
-    select: (data) =>
-      data.partQuestions.map((partQuestion) => ({
-        ...partQuestion,
-        questions: partQuestion.questions.map((question) => ({
+    select: (data) => {
+      return {
+        commonQuestions: data.commonQuestions.map((question) => ({
           ...question,
           isLink: !!question.link,
         })),
-      })),
+        partQuestions: data.partQuestions.map((partQuestion) => ({
+          ...partQuestion,
+          questions: partQuestion.questions.map((question) => ({
+            ...question,
+            isLink: !!question.link,
+          })),
+        })),
+      };
+    },
   });
 };

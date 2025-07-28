@@ -1,9 +1,10 @@
-import { Part, type PartType } from "@/pages/Application/\btypes";
-import Filters from "@/pages/PostQuestion/components/Filters";
-import type { FilterState } from "@/pages/PostQuestion/hooks/useFilterReducer";
-import type { Group } from "@/pages/PostQuestion/types";
-import { Tab } from "@sopt-makers/ui";
-import type { RefObject } from "react";
+import { Part, type PartType } from '@/pages/Application/\btypes';
+import { COMMON_QUESTION } from '@/pages/Application/constants';
+import Filters from '@/pages/PostQuestion/components/Filters';
+import type { FilterState } from '@/pages/PostQuestion/hooks/useFilterReducer';
+import type { Group } from '@/pages/PostQuestion/types';
+import { Tab } from '@sopt-makers/ui';
+import type { RefObject } from 'react';
 
 interface HeaderProps {
   filterState: FilterState;
@@ -28,7 +29,7 @@ const Header = ({
         handleSeasonChange={handleSeasonChange}
       />
       <Tab
-        selectedInitial={"ALL" as PartType}
+        selectedInitial={COMMON_QUESTION as PartType}
         style="primary"
         size="md"
         onChange={handleTabChange}

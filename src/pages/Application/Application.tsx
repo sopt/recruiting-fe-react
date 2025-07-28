@@ -1,26 +1,27 @@
-import Pagination from "@/components/Pagination";
-import usePagination from "@/hooks/usePagination";
+import Pagination from '@/components/Pagination';
+import usePagination from '@/hooks/usePagination';
 import {
   Part,
   type ApplicantState,
   type PartType,
-} from "@/pages/Application/\btypes";
+} from '@/pages/Application/\btypes';
 
-import ApplicationTable from "@/pages/Application/components/ApplicationTable";
-import Filter from "@/pages/Application/components/Filter";
+import ApplicationTable from '@/pages/Application/components/ApplicationTable';
+import Filter from '@/pages/Application/components/Filter';
+import { COMMON_QUESTION } from '@/pages/Application/constants';
 
-import { useGetApplicantList } from "@/pages/Application/hooks/queries";
-import { useGetGeneration } from "@/pages/PostGeneration/hooks/queries";
-import { Tab } from "@sopt-makers/ui";
-import { useState } from "react";
-import { useMemo } from "react";
-import { useEffect } from "react";
+import { useGetApplicantList } from '@/pages/Application/hooks/queries';
+import { useGetGeneration } from '@/pages/PostGeneration/hooks/queries';
+import { Tab } from '@sopt-makers/ui';
+import { useState } from 'react';
+import { useMemo } from 'react';
+import { useEffect } from 'react';
 
 const PAGE_LIMIT = 10;
 
 const INITIAL_APPLICANT_INFO: ApplicantState = {
-  season: "",
-  group: "YB",
+  season: '',
+  group: 'YB',
   dontReadInfo: {
     checkedByMe: false,
   },
@@ -28,13 +29,13 @@ const INITIAL_APPLICANT_INFO: ApplicantState = {
     checkedByMe: false,
   },
   isPassedOnly: false,
-  selectedPart: "ALL",
+  selectedPart: COMMON_QUESTION,
   minRate: 0,
 };
 
 const Application = () => {
   const [applicantInfo, setApplicantInfo] = useState<ApplicantState>(
-    INITIAL_APPLICANT_INFO
+    INITIAL_APPLICANT_INFO,
   );
 
   const { data: generationData } = useGetGeneration(applicantInfo.group);
@@ -48,7 +49,7 @@ const Application = () => {
     hideDontRead: applicantInfo.dontReadInfo.checkedByMe,
     hideEvaluated: applicantInfo.evaluatedInfo.checkedByMe,
     checkInterviewPass: applicantInfo.isPassedOnly,
-    ...(applicantInfo.selectedPart !== "ALL" && {
+    ...(applicantInfo.selectedPart !== COMMON_QUESTION && {
       part: applicantInfo.selectedPart,
     }),
   };

@@ -149,7 +149,7 @@ const QuestionBox = ({
                 <>
                   <span className="body_2_16_m text-gray-600">파일업로드</span>
                   <span className="body_2_16_m text-gray-500">
-                    50mb 이하 | pdf,pptx
+                    50mb 이하 | pdf
                   </span>
                 </>
               </div>
