@@ -15,3 +15,12 @@ export const scrollToLeft = (elementRef?: RefObject<HTMLElement>) => {
     });
   }
 };
+
+export const scrollToBottom = (elementRef?: RefObject<HTMLElement>) => {
+  if (elementRef?.current) {
+    elementRef.current.scrollTo({
+      top: elementRef.current.scrollHeight,
+      behavior: 'smooth',
+    });
+  }
+};
