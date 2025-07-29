@@ -1,6 +1,7 @@
 import { Trash } from '@/assets/svg';
-import { TextField, useToast } from '@sopt-makers/ui';
-import { useFormContext } from 'react-hook-form';
+import { TextArea, useToast } from '@sopt-makers/ui';
+import { useEffect } from 'react';
+import { Controller, useFormContext } from 'react-hook-form';
 
 interface DescriptionBoxProps {
   deleteDescription: () => void;
@@ -9,9 +10,20 @@ interface DescriptionBoxProps {
 const DescriptionBox = ({ deleteDescription }: DescriptionBoxProps) => {
   const { open: openToast } = useToast();
 
-  const { register, watch } = useFormContext();
+  const { watch, control } = useFormContext();
 
   const isActive = watch(`questionList.${0}.isActive`);
+  const content = watch(`questionList.${0}.content`);
+
+  useEffect(() => {
+    const textareas = document.querySelectorAll('textarea');
+    if (textareas) {
+      for (const textarea of textareas) {
+        textarea.style.height = 'auto';
+        textarea.style.height = `${textarea.scrollHeight}px`;
+      }
+    }
+  }, [content]);
 
   const handleDescriptionDelete = () => {
     openToast({
@@ -29,11 +41,17 @@ const DescriptionBox = ({ deleteDescription }: DescriptionBoxProps) => {
         <h2 className=" title_3_24_sb">
           설명글<span className="text-secondary">*</span>
         </h2>
-        <TextField
-          placeholder="설명을 입력하세요."
-          disabled={isActive}
-          className="custom-textField"
-          {...register('questionList.0.content')}
+        <Controller
+          control={control}
+          name={'questionList.0.content'}
+          render={({ field }) => (
+            <TextArea
+              {...field}
+              disabled={isActive}
+              className="custom-question-textArea"
+              placeholder="설명을 입력하세요."
+            />
+          )}
         />
       </section>
 
