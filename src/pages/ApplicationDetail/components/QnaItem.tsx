@@ -10,7 +10,8 @@ const QnaItem = ({
   isFile,
   answer,
   required,
-}: QuestionType) => {
+  orderOffset,
+}: QuestionType & { orderOffset: number }) => {
   useEffect(() => {
     const textareas = document.querySelectorAll('textarea');
     if (textareas) {
@@ -24,7 +25,7 @@ const QnaItem = ({
   return (
     <li className="flex flex-col gap-[0.8rem]">
       <p className="title_5_18_sb text-white">
-        {`${questionOrder}. ${content} (${charLimit}자)`}
+        {`${questionOrder + orderOffset}. ${content} (${charLimit}자)`}
         {required && (
           <span className="inline-block align-middle translate-y-[-2px] translate-x-[3px]">
             <Ellipse width={8} />
