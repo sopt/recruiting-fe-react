@@ -8,6 +8,8 @@ interface QnaListProps {
 const QnaList = ({ questions }: QnaListProps) => {
   if (!questions) return <></>;
 
+  const orderOffset = questions[0]?.isDescription ? 0 : 1;
+
   return (
     <>
       <ul className="flex flex-col gap-[5.2rem]">
@@ -20,7 +22,11 @@ const QnaList = ({ questions }: QnaListProps) => {
               {questionData.content}
             </li>
           ) : (
-            <QnaItem key={questionData.id} {...questionData} />
+            <QnaItem
+              key={questionData.id}
+              orderOffset={orderOffset}
+              {...questionData}
+            />
           );
         })}
       </ul>
