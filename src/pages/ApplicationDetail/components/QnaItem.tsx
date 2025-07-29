@@ -9,6 +9,7 @@ const QnaItem = ({
   charLimit,
   isFile,
   answer,
+  required,
 }: QuestionType) => {
   useEffect(() => {
     const textareas = document.querySelectorAll('textarea');
@@ -24,9 +25,11 @@ const QnaItem = ({
     <li className="flex flex-col gap-[0.8rem]">
       <p className="title_5_18_sb text-white">
         {`${questionOrder}. ${content} (${charLimit}자)`}
-        <span className="inline-block align-middle translate-y-[-2px] translate-x-[3px]">
-          <Ellipse width={8} />
-        </span>
+        {required && (
+          <span className="inline-block align-middle translate-y-[-2px] translate-x-[3px]">
+            <Ellipse width={8} />
+          </span>
+        )}
       </p>
       {isFile && (
         <a
