@@ -152,7 +152,7 @@ const PeriodCalendar = ({
         </div>
 
         {isCalendarOpen && (
-          <div className="absolute z-[100] w-[33.6rem] h-auto top-full left-[0rem] mt-2 bg-gray600 text-gray10 p-4 rounded-2xl shadow-lg">
+          <div className="absolute z-[100] w-[33.6rem] h-auto top-full left-[0rem] mt-[1.6rem] bg-gray600 text-gray10 p-4 rounded-2xl shadow-lg">
             <CalendarInputForm
               selectedDate={selectedDateRange}
               setSelectedDate={onSelectDateRange}
