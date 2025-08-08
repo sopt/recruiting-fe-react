@@ -1,12 +1,18 @@
-import CalendarInputForm from '@/pages/PostGeneration/components/Calendar';
 import { IconCalendar } from '@sopt-makers/icons';
+import { TextField } from '@sopt-makers/ui';
 import { useEffect, useRef, useState } from 'react';
+import CalendarInputForm from '@/pages/PostGeneration/components/Calendar';
+import { formatTimeValue } from '@/pages/PostGeneration/utils';
 
 interface PeriodCalendarProps {
   label: string;
   required?: boolean;
   selectedDateRange: string[];
   onSelectDateRange: (dateRange: string[]) => void;
+  startTime: string;
+  onStartTimeChange: (time: string) => void;
+  endTime: string;
+  onEndTimeChange: (time: string) => void;
 }
 
 const PeriodCalendar = ({
@@ -14,10 +20,22 @@ const PeriodCalendar = ({
   required = false,
   selectedDateRange,
   onSelectDateRange,
+  startTime,
+  endTime,
+  onStartTimeChange,
+  onEndTimeChange,
 }: PeriodCalendarProps) => {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const [startTimeValue, setStartTimeValue] = useState(startTime);
+  const [endTimeValue, setEndTimeValue] = useState(endTime);
+
   const [activeInput, setActiveInput] = useState<'start' | 'end' | null>(null);
   const calendarRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setStartTimeValue(startTime);
+    setEndTimeValue(endTime);
+  }, [startTime, endTime]);
 
   useEffect(() => {
     if (selectedDateRange?.[0] && selectedDateRange?.[1] && isCalendarOpen) {
@@ -75,40 +93,66 @@ const PeriodCalendar = ({
         className="flex gap-[0.8rem] relative items-center"
         ref={calendarRef}
       >
-        <div
-          className="flex px-[1.6rem] py-[1.3rem] w-[20.5rem] gap-[2.6rem] text-gray10 bg-gray700 rounded-[10px] justify-between items-center cursor-pointer"
-          onClick={() => handleInputClick('start')}
-          onKeyUp={(e) => e.key === 'Enter' && handleInputClick('start')}
-        >
-          <input
-            type="text"
-            value={selectedDateRange?.[0] || ''}
-            placeholder="YYYY.MM.DD"
-            readOnly
-            className="flex items-center w-[12.3rem] cursor-pointer text-[1.6rem] font-medium bg-transparent border-none placeholder:text-gray500 focus:outline-none"
+        <div className="flex gap-[1.2rem]">
+          <button
+            type="button"
+            className="flex px-[1.6rem] py-[1.3rem] w-[17rem] text-gray10 bg-gray700 rounded-[10px] justify-between items-center cursor-pointer"
+            onClick={() => handleInputClick('start')}
+            onKeyUp={(e) => e.key === 'Enter' && handleInputClick('start')}
+          >
+            <input
+              type="text"
+              value={selectedDateRange?.[0] || ''}
+              placeholder="YYYY.MM.DD"
+              readOnly
+              className="flex items-center w-[12.3rem] cursor-pointer text-[1.6rem] font-medium bg-transparent border-none placeholder:text-gray500 focus:outline-none"
+            />
+            <IconCalendar style={{ width: '24', flexShrink: 0 }} />
+          </button>
+          <TextField
+            placeholder="00:00"
+            className="w-[11.2rem] [&>div]:!bg-gray700"
+            value={formatTimeValue(startTimeValue)}
+            onChange={(e) => {
+              const formattedValue = e.target.value.replace(/\D/g, '');
+              setStartTimeValue(formattedValue);
+              onStartTimeChange(formattedValue);
+            }}
           />
-          <IconCalendar style={{ width: '24' }} />
         </div>
 
         <p className="text-gray-400 text-[1.4rem] font-semibold">-</p>
-
-        <div
-          className="flex px-[1.6rem] py-[1.3rem] w-[20.5rem] text-gray10 bg-gray700 rounded-[10px] justify-between items-center cursor-pointer"
-          onClick={() => handleInputClick('end')}
-          onKeyUp={(e) => e.key === 'Enter' && handleInputClick('end')}
-        >
-          <input
-            type="text"
-            value={selectedDateRange?.[1] || ''}
-            placeholder="YYYY.MM.DD"
-            readOnly
+        <div className="flex gap-[1.2rem]">
+          <button
+            type="button"
+            className="flex px-[1.6rem] py-[1.3rem] w-[17rem] text-gray10 bg-gray700 rounded-[10px] justify-between items-center"
             onClick={() => handleInputClick('end')}
-            className="relative flex items-center w-[12.3rem] cursor-pointer text-[1.6rem] font-medium bg-transparent border-none placeholder:text-gray500 focus:outline-none"
+            onKeyUp={(e) => e.key === 'Enter' && handleInputClick('end')}
+          >
+            <input
+              type="text"
+              value={selectedDateRange?.[1] || ''}
+              placeholder="YYYY.MM.DD"
+              readOnly
+              onClick={() => handleInputClick('end')}
+              className="relative flex items-center w-[12.3rem] cursor-pointer text-[1.6rem] font-medium bg-transparent border-none placeholder:text-gray500 focus:outline-none"
+            />
+            <IconCalendar style={{ width: '24', flexShrink: 0 }} />
+          </button>
+          <TextField
+            placeholder="00:00"
+            className="w-[11.2rem] [&>div]:!bg-gray700"
+            value={formatTimeValue(endTimeValue)}
+            onChange={(e) => {
+              const formattedValue = e.target.value.replace(/\D/g, '');
+              setEndTimeValue(formattedValue);
+              onEndTimeChange(formattedValue);
+            }}
           />
-          <IconCalendar style={{ width: '24' }} />
         </div>
+
         {isCalendarOpen && (
-          <div className="absolute z-[100] w-[33.6rem] h-auto top-full left-[5rem] mt-2 bg-gray600 text-gray10 p-4 rounded-2xl shadow-lg">
+          <div className="absolute z-[100] w-[33.6rem] h-auto top-full left-[0rem] mt-2 bg-gray600 text-gray10 p-4 rounded-2xl shadow-lg">
             <CalendarInputForm
               selectedDate={selectedDateRange}
               setSelectedDate={onSelectDateRange}

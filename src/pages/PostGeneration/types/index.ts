@@ -49,6 +49,14 @@ export const postGenerationSchema = z.object({
     start: z.string().min(1),
     end: z.string().min(1),
   }),
+  applicationStartTime: z.string().min(1),
+  applicationEndTime: z.string().min(1),
+  applicationResultStartTime: z.string().min(1),
+  applicationResultEndTime: z.string().min(1),
+  interviewStartTime: z.string().min(1),
+  interviewEndTime: z.string().min(1),
+  finalResultStartTime: z.string().min(1),
+  finalResultEndTime: z.string().min(1),
 });
 
 export type PostGenerationFormData = z.infer<typeof postGenerationSchema>;

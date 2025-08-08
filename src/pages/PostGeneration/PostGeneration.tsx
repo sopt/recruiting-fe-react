@@ -1,13 +1,11 @@
-import { Close } from '@/assets/svg';
+import { Button, DialogContext } from '@sopt-makers/ui';
+import { useContext, useMemo, useState } from 'react';
 import Pagination from '@/components/Pagination';
 import YbObRadioGroup from '@/components/YbObRadioGroup';
 import usePagination from '@/hooks/usePagination';
 import GenerationTable from '@/pages/PostGeneration/components/GenerationTable';
 import { useGetGeneration } from '@/pages/PostGeneration/hooks/queries';
 import type { Group } from '@/pages/PostQuestion/types';
-import { Button, DialogContext } from '@sopt-makers/ui';
-import { useContext, useState } from 'react';
-import { useMemo } from 'react';
 import PostGenerationModal from './components/PostGenerationModal';
 
 const LIMIT = 10;
@@ -29,24 +27,11 @@ const PostGeneration = () => {
     return generationData?.seasons.slice(startIndex, endIndex);
   }, [currentPage, generationData, group]);
 
-  const { openDialog, closeDialog } = useContext(DialogContext);
+  const { openDialog } = useContext(DialogContext);
 
   const handleAddGeneration = () => {
     const option = {
-      title: (
-        <div className="flex justify-between items-center pb-[2.2rem] pl-[0.2rem]">
-          <h1 className="font-bold text-[2.8rem] font-weight-[700]">
-            신규 기수 등록
-          </h1>
-          <button
-            type="button"
-            onClick={closeDialog}
-            className="p-[1rem] cursor-pointer"
-          >
-            <Close width={24} height={24} />
-          </button>
-        </div>
-      ),
+      title: '',
       description: <PostGenerationModal />,
     };
     openDialog(option);
