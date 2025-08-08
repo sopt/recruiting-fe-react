@@ -11,7 +11,7 @@ const CHIP_BASE_STYLE =
 const Chip = ({ children, className, ...props }: ChipProps) => {
   return (
     <div
-      aria-label={`${children} chip`}
+      aria-description={`${children} chip`}
       className={`${CHIP_BASE_STYLE} ${className || ''}`}
       {...props}
     >
