@@ -1,4 +1,5 @@
 import { ChevronLeft } from "@/assets/svg";
+import BackToTopButton from "@/components/BackToTopButton";
 
 import Profile from "@/pages/ApplicationDetail/components/Profile";
 import QnaList from "@/pages/ApplicationDetail/components/QnaList";
@@ -79,6 +80,8 @@ const ApplicationDetail = () => {
           />
         </div>
       </div>
+
+      <BackToTopButton />
     </div>
   );
 };
