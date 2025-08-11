@@ -1,10 +1,9 @@
-import SvgBubblePoint from '@/assets/svg/BubblePoint';
-import { TooltipProvider } from '@/contexts/TooltipContext';
-import { useTooltipContext } from '@/contexts/TooltipContext';
-import { useTooltip } from '@/hooks/useTooltip';
 import clsx from 'clsx';
 import type { HTMLAttributes, PropsWithChildren } from 'react';
 import { forwardRef, useId, useImperativeHandle } from 'react';
+import SvgBubblePoint from '@/assets/svg/BubblePoint';
+import { TooltipProvider, useTooltipContext } from '@/contexts/TooltipContext';
+import { useTooltip } from '@/hooks/useTooltip';
 
 interface TooltipRootProps extends HTMLAttributes<HTMLDivElement> {
   isOpen?: boolean;
@@ -30,6 +29,7 @@ const TooltipTrigger = ({ children }: PropsWithChildren) => {
   const { triggerRef, showTooltip, hideTooltip, id } = useTooltipContext();
 
   return (
+    // biome-ignore lint/a11y/noStaticElementInteractions: 툴팁 트리거
     <div
       className="flex items-center gap-[0.4rem] whitespace-nowrap text-gray-300 text-label_4_12_sb z-10"
       onMouseEnter={showTooltip}
