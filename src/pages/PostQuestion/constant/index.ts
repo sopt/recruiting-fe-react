@@ -2,7 +2,7 @@ export const DEFAULT_QUESTION_DATA = {
   isLink: false,
   isDescription: false,
   content: "",
-  placeholder: "",
+  placeholder: "내용을 작성해주세요.",
   isFile: false,
   charLimit: null,
   required: false,
