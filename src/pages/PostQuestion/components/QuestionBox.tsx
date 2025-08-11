@@ -1,15 +1,15 @@
-import { Add, Arrange, Check, InfoCircle, Link, Trash } from '@/assets/svg';
-import Tooltip from '@/components/Tooltip';
-import type { qustionListTypes } from '@/pages/PostQuestion/types/form';
+import { Add, Arrange, Check, InfoCircle, Link, Trash } from "@/assets/svg";
+import Tooltip from "@/components/Tooltip";
+import type { qustionListTypes } from "@/pages/PostQuestion/types/form";
 import {
   CheckBox,
   TextArea,
   TextField,
   Toggle,
   useToast,
-} from '@sopt-makers/ui';
-import { useEffect } from 'react';
-import { Controller, useFormContext } from 'react-hook-form';
+} from "@sopt-makers/ui";
+import { useEffect } from "react";
+import { Controller, useFormContext } from "react-hook-form";
 
 interface QuestionBoxProps {
   index: number;
@@ -39,10 +39,10 @@ const QuestionBox = ({
   const content = watch(`questionList.${index}.content`);
 
   useEffect(() => {
-    const textareas = document.querySelectorAll('textarea');
+    const textareas = document.querySelectorAll("textarea");
     if (textareas) {
       for (const textarea of textareas) {
-        textarea.style.height = 'auto';
+        textarea.style.height = "auto";
         textarea.style.height = `${textarea.scrollHeight}px`;
       }
     }
@@ -51,15 +51,19 @@ const QuestionBox = ({
   const handleDeleteQuestionClick = () => {
     deleteQuestion();
     openToast({
-      icon: 'error',
-      content: '삭제한 내용은 저장해야 최종 반영돼요.',
+      icon: "error",
+      content: "삭제한 내용은 저장해야 최종 반영돼요.",
     });
   };
 
   return (
     <li className="flex flex-row items-center gap-[3.2rem]">
       <div
-        className={`flex flex-col gap-[2rem] px-[3.2rem] pb-[2rem]  border-1 border-gray500 rounded-xl  ${isActive ? 'py-[2rem] bg-background w-full' : ' bg-gray900 w-[78.4rem]'}`}
+        className={`flex flex-col gap-[2rem] px-[3.2rem] pb-[2rem]  border-1 border-gray500 rounded-xl  ${
+          isActive
+            ? "py-[2rem] bg-background w-full"
+            : " bg-gray900 w-[78.4rem]"
+        }`}
       >
         {!isActive && (
           <div className="flex justify-center ">
@@ -72,7 +76,6 @@ const QuestionBox = ({
             <p className="label_4_12_sb text-secondary">*필수질문</p>
           )}
           {`질문 ${index + (hasDescription ? 0 : 1)}`}
-          <span className="text-secondary">*</span>
         </h2>
 
         <Controller
