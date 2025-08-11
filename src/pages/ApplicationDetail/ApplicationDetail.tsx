@@ -1,29 +1,29 @@
-import { ChevronLeft } from '@/assets/svg';
+import { ChevronLeft } from "@/assets/svg";
 
-import Profile from '@/pages/ApplicationDetail/components/Profile';
-import QnaList from '@/pages/ApplicationDetail/components/QnaList';
+import Profile from "@/pages/ApplicationDetail/components/Profile";
+import QnaList from "@/pages/ApplicationDetail/components/QnaList";
 
-import { useGetApplicantDetail } from '@/pages/ApplicationDetail/hooks/quries';
-import { ROUTES_CONFIG } from '@/routes/routeConfig';
-import { scrollToTop } from '@/utils/scroll';
-import { Tab } from '@sopt-makers/ui';
+import { useGetApplicantDetail } from "@/pages/ApplicationDetail/hooks/quries";
+import { ROUTES_CONFIG } from "@/routes/routeConfig";
+import { scrollToTop } from "@/utils/scroll";
+import { Tab } from "@sopt-makers/ui";
 
-import { useEffect, useRef, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useEffect, useRef, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
-type questionCategoryType = 'common' | 'part';
+type questionCategoryType = "common" | "part";
 
 const ApplicationDetail = () => {
   const [searchParams] = useSearchParams();
 
   const qnaListRef = useRef<HTMLDivElement>(null);
 
-  const applicantId = searchParams.get('id') ?? 0;
+  const applicantId = searchParams.get("id") ?? 0;
 
   const { data: applicationDetailData } = useGetApplicantDetail(+applicantId);
 
   const [questionCategory, setQuestionCategory] =
-    useState<questionCategoryType>('common');
+    useState<questionCategoryType>("common");
 
   const handleTabChange = (tab: questionCategoryType) => {
     setQuestionCategory(tab);
@@ -54,24 +54,25 @@ const ApplicationDetail = () => {
 
       <div className="flex flex-col gap-[3.2rem] mx-[13rem]">
         <Profile profileData={applicationDetailData?.applicant} />
-        <div className="custom-tab mt-[4rem]">
-          <Tab
-            selectedInitial="common"
-            size="lg"
-            style="secondary"
-            tabItems={['common', 'part']}
-            translator={{
-              common: '공통 질문',
-              part: '파트별 질문',
-            }}
-            onChange={handleTabChange}
-          />
+        <div className="sticky mt-[2rem] pt-[2rem] top-[8rem] bg-gray900 z-10">
+          <div className="custom-tab">
+            <Tab
+              selectedInitial="common"
+              size="lg"
+              style="secondary"
+              tabItems={["common", "part"]}
+              translator={{
+                common: "공통 질문",
+                part: "파트별 질문",
+              }}
+              onChange={handleTabChange}
+            />
+          </div>
         </div>
-
         <div ref={qnaListRef}>
           <QnaList
             questions={
-              questionCategory === 'common'
+              questionCategory === "common"
                 ? applicationDetailData?.commonQuestions
                 : applicationDetailData?.partQuestions
             }
