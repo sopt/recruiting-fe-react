@@ -36,7 +36,7 @@ const RegisterButton = ({
       description: (
         <div className="mb-[2rem] flex flex-col mt-[1.2rem] gap-[3.6rem]">
           <p className="whitespace-pre-line">
-            최종 등록 후 질문 수정이 불가능해요.
+            최종 등록 후 질문 수정은 어드민팀에 문의해 주세요.
           </p>
           <Dialog.Footer align="right">
             <Button theme="black" onClick={closeDialog}>
