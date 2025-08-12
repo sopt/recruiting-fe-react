@@ -1,69 +1,91 @@
 import { IconCalendar } from '@sopt-makers/icons';
 import { TextField } from '@sopt-makers/ui';
 import { useEffect, useRef, useState } from 'react';
+import { type Control, useController } from 'react-hook-form';
 import CalendarInputForm from '@/pages/PostGeneration/components/Calendar';
+import type {
+  DateRangeField,
+  PostGenerationFormData,
+  TimeField,
+} from '@/pages/PostGeneration/types';
 import { formatTimeValue } from '@/pages/PostGeneration/utils';
 
 interface PeriodCalendarProps {
   label: string;
   required?: boolean;
-  selectedDateRange: string[];
-  onSelectDateRange: (dateRange: string[]) => void;
-  startTime: string;
-  onStartTimeChange: (time: string) => void;
-  endTime: string;
-  onEndTimeChange: (time: string) => void;
+  dateRange: DateRangeField;
+  startTime: TimeField;
+  endTime: TimeField;
+  control: Control<PostGenerationFormData>;
 }
 
 const PeriodCalendar = ({
   label,
   required = false,
-  selectedDateRange,
-  onSelectDateRange,
+  dateRange,
   startTime,
   endTime,
-  onStartTimeChange,
-  onEndTimeChange,
+  control,
 }: PeriodCalendarProps) => {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-  const [startTimeValue, setStartTimeValue] = useState(startTime);
-  const [endTimeValue, setEndTimeValue] = useState(endTime);
-
   const [activeInput, setActiveInput] = useState<'start' | 'end' | null>(null);
+
   const calendarRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    setStartTimeValue(startTime);
-    setEndTimeValue(endTime);
-  }, [startTime, endTime]);
+  const { field: dateRangeField } = useController({
+    name: dateRange,
+    control,
+  });
 
-  useEffect(() => {
-    if (selectedDateRange?.[0] && selectedDateRange?.[1] && isCalendarOpen) {
-      setIsCalendarOpen(false);
-      setActiveInput(null);
-    }
-  }, [selectedDateRange, isCalendarOpen]);
+  const { field: startTimeField } = useController({
+    name: startTime,
+    control,
+  });
+
+  const { field: endTimeField } = useController({
+    name: endTime,
+    control,
+  });
 
   const handleInputClick = (target: 'start' | 'end') => {
     setActiveInput(target);
     setIsCalendarOpen(true);
   };
 
+  const selectedDateRange = [
+    dateRangeField.value?.start,
+    dateRangeField.value?.end,
+  ];
+
   const handleDateSelect = (date: string) => {
     if (activeInput === 'start') {
       const end = selectedDateRange[1];
       if (end && date > end) {
-        onSelectDateRange([end, date]);
+        dateRangeField.onChange({ start: end, end: date });
       } else {
-        onSelectDateRange([date, end]);
+        dateRangeField.onChange({ start: date, end });
       }
     } else if (activeInput === 'end') {
       const start = selectedDateRange[0];
       if (start && date < start) {
-        onSelectDateRange([date, start]);
+        dateRangeField.onChange({ start: date, end: start });
       } else {
-        onSelectDateRange([start, date]);
+        dateRangeField.onChange({ start, end: date });
       }
+    }
+  };
+
+  const handleOnSelectDateRange = (dateRange: string[]) => {
+    dateRangeField.onChange({
+      start: dateRange[0],
+      end: dateRange[1],
+    });
+
+    if (dateRange[0] && dateRange[1]) {
+      setTimeout(() => {
+        setIsCalendarOpen(false);
+        setActiveInput(null);
+      }, 100);
     }
   };
 
@@ -112,16 +134,16 @@ const PeriodCalendar = ({
           <TextField
             placeholder="00:00"
             className="w-[11.2rem] [&>div]:!bg-gray700"
-            value={formatTimeValue(startTimeValue)}
+            value={formatTimeValue(startTimeField.value || '')}
             onChange={(e) => {
               const formattedValue = e.target.value.replace(/\D/g, '');
-              setStartTimeValue(formattedValue);
-              onStartTimeChange(formattedValue);
+              startTimeField.onChange(formattedValue);
             }}
           />
         </div>
 
         <p className="text-gray-400 text-[1.4rem] font-semibold">-</p>
+
         <div className="flex gap-[1.2rem]">
           <button
             type="button"
@@ -142,11 +164,10 @@ const PeriodCalendar = ({
           <TextField
             placeholder="00:00"
             className="w-[11.2rem] [&>div]:!bg-gray700"
-            value={formatTimeValue(endTimeValue)}
+            value={formatTimeValue(endTimeField.value || '')}
             onChange={(e) => {
               const formattedValue = e.target.value.replace(/\D/g, '');
-              setEndTimeValue(formattedValue);
-              onEndTimeChange(formattedValue);
+              endTimeField.onChange(formattedValue);
             }}
           />
         </div>
@@ -155,11 +176,12 @@ const PeriodCalendar = ({
           <div className="absolute z-[100] w-[33.6rem] h-auto top-full left-[0rem] mt-[1.6rem] bg-gray600 text-gray10 p-4 rounded-2xl shadow-lg">
             <CalendarInputForm
               selectedDate={selectedDateRange}
-              setSelectedDate={onSelectDateRange}
+              setSelectedDate={handleOnSelectDateRange}
               selectedDateFieldName="date-range"
               onDateSelect={handleDateSelect}
               onClose={() => {
                 setIsCalendarOpen(false);
+                setActiveInput(null);
               }}
             />
           </div>

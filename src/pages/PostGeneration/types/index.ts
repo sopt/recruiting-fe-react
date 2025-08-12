@@ -60,3 +60,19 @@ export const postGenerationSchema = z.object({
 });
 
 export type PostGenerationFormData = z.infer<typeof postGenerationSchema>;
+
+export type DateRangeField =
+  | 'application'
+  | 'applicationResult'
+  | 'interview'
+  | 'finalResult';
+
+export type TimeField =
+  | 'applicationStartTime'
+  | 'applicationEndTime'
+  | 'applicationResultStartTime'
+  | 'applicationResultEndTime'
+  | 'interviewStartTime'
+  | 'interviewEndTime'
+  | 'finalResultStartTime'
+  | 'finalResultEndTime';

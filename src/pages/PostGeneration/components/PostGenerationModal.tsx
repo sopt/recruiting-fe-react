@@ -177,25 +177,14 @@ const PostGenerationModal = () => {
               <Controller
                 name="application"
                 control={control}
-                render={({ field }) => (
+                render={() => (
                   <PeriodCalendar
                     label="서류 접수 기간"
                     required
-                    selectedDateRange={[field.value.start, field.value.end]}
-                    onSelectDateRange={(dateRange) => {
-                      field.onChange({
-                        start: dateRange[0],
-                        end: dateRange[1],
-                      });
-                    }}
-                    startTime={watch('applicationStartTime')}
-                    onStartTimeChange={(time) =>
-                      setValue('applicationStartTime', time)
-                    }
-                    endTime={watch('applicationEndTime')}
-                    onEndTimeChange={(time) =>
-                      setValue('applicationEndTime', time)
-                    }
+                    dateRange="application"
+                    startTime="applicationStartTime"
+                    endTime="applicationEndTime"
+                    control={control}
                   />
                 )}
               />
@@ -203,25 +192,14 @@ const PostGenerationModal = () => {
               <Controller
                 name="applicationResult"
                 control={control}
-                render={({ field }) => (
+                render={() => (
                   <PeriodCalendar
                     label="서류 결과 확인 기간"
                     required
-                    selectedDateRange={[field.value.start, field.value.end]}
-                    onSelectDateRange={(dateRange) => {
-                      field.onChange({
-                        start: dateRange[0],
-                        end: dateRange[1],
-                      });
-                    }}
-                    startTime={watch('applicationResultStartTime')}
-                    onStartTimeChange={(time) =>
-                      setValue('applicationResultStartTime', time)
-                    }
-                    endTime={watch('applicationResultEndTime')}
-                    onEndTimeChange={(time) =>
-                      setValue('applicationResultEndTime', time)
-                    }
+                    dateRange="applicationResult"
+                    startTime="applicationResultStartTime"
+                    endTime="applicationResultEndTime"
+                    control={control}
                   />
                 )}
               />
@@ -229,25 +207,14 @@ const PostGenerationModal = () => {
               <Controller
                 name="interview"
                 control={control}
-                render={({ field }) => (
+                render={() => (
                   <PeriodCalendar
                     label="면접 기간"
                     required
-                    selectedDateRange={[field.value.start, field.value.end]}
-                    onSelectDateRange={(dateRange) => {
-                      field.onChange({
-                        start: dateRange[0],
-                        end: dateRange[1],
-                      });
-                    }}
-                    startTime={watch('interviewStartTime')}
-                    onStartTimeChange={(time) =>
-                      setValue('interviewStartTime', time)
-                    }
-                    endTime={watch('interviewEndTime')}
-                    onEndTimeChange={(time) =>
-                      setValue('interviewEndTime', time)
-                    }
+                    dateRange="interview"
+                    startTime="interviewStartTime"
+                    endTime="interviewEndTime"
+                    control={control}
                   />
                 )}
               />
@@ -255,25 +222,14 @@ const PostGenerationModal = () => {
               <Controller
                 name="finalResult"
                 control={control}
-                render={({ field }) => (
+                render={() => (
                   <PeriodCalendar
                     label="최종 결과 확인 기간"
                     required
-                    selectedDateRange={[field.value.start, field.value.end]}
-                    onSelectDateRange={(dateRange) => {
-                      field.onChange({
-                        start: dateRange[0],
-                        end: dateRange[1],
-                      });
-                    }}
-                    startTime={watch('finalResultStartTime')}
-                    onStartTimeChange={(time) =>
-                      setValue('finalResultStartTime', time)
-                    }
-                    endTime={watch('finalResultEndTime')}
-                    onEndTimeChange={(time) =>
-                      setValue('finalResultEndTime', time)
-                    }
+                    dateRange="finalResult"
+                    startTime="finalResultStartTime"
+                    endTime="finalResultEndTime"
+                    control={control}
                   />
                 )}
               />
