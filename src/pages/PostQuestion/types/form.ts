@@ -1,24 +1,25 @@
-import { z } from 'zod/v4';
+import { z } from "zod/v4";
 
 const ERROR_MESSAGE = {
-  INVALID_URL: '유효한 링크를 입력해주세요.',
-  ONLY_NUMBER: '숫자인지 다시 확인해주세요.',
+  INVALID_URL: "유효한 링크를 입력해주세요.",
+  ONLY_NUMBER: "숫자인지 다시 확인해주세요.",
+  REQUIRED_FIELD: "값을 입력해주세요.",
 };
 
 const questionSchema = z
   .object({
     id: z.number().optional(),
-    content: z.string().min(1),
+    content: z.string().min(1, { error: ERROR_MESSAGE.REQUIRED_FIELD }),
     isDescription: z.boolean(),
     isLink: z.boolean(),
-    link: z.url({ message: ERROR_MESSAGE.INVALID_URL }).nullable().optional(),
-    placeholder: z.string().min(1),
+    link: z.url({ error: ERROR_MESSAGE.INVALID_URL }).nullable().optional(),
+    placeholder: z.string().min(1, { error: ERROR_MESSAGE.REQUIRED_FIELD }),
     isFile: z.boolean(),
     charLimit: z
-      .number({ message: ERROR_MESSAGE.ONLY_NUMBER })
+      .number({ error: ERROR_MESSAGE.ONLY_NUMBER })
       .nullable()
       .refine((val) => val !== null, {
-        message: ERROR_MESSAGE.ONLY_NUMBER,
+        error: ERROR_MESSAGE.ONLY_NUMBER,
       }),
     required: z.boolean(),
     isActive: z.boolean(),
@@ -26,10 +27,10 @@ const questionSchema = z
   .check((ctx) => {
     if (ctx.value.isLink && !ctx.value.link) {
       ctx.issues.push({
-        message: '필수 입력란입니다.',
+        message: "필수 입력란입니다.",
         input: ctx.value,
-        path: ['link'],
-        code: 'custom',
+        path: ["link"],
+        code: "custom",
       });
     }
   });

@@ -87,6 +87,8 @@ const QuestionBox = ({
               disabled={isActive}
               className="custom-question-textArea"
               placeholder="질문을 작성하세요."
+              isError={!!errors.questionList?.[index]?.content}
+              errorMessage={errors.questionList?.[index]?.content?.message}
             />
           )}
         />
@@ -169,6 +171,8 @@ const QuestionBox = ({
             disabled={isActive}
             className="custom-textField"
             required
+            isError={!!errors.questionList?.[index]?.placeholder}
+            errorMessage={errors.questionList?.[index]?.placeholder?.message}
             {...register(`questionList.${index}.placeholder`)}
           />
         </div>
