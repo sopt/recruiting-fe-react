@@ -50,6 +50,8 @@ const QuestionBox = ({
   }, [content]);
 
   useEffect(() => {
+    if (isActive) return;
+
     if (isAnswer) {
       setValue(`questionList.${index}.placeholder`, '내용을 작성해주세요.');
     } else {
