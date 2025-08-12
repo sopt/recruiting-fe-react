@@ -18,7 +18,7 @@ import {
   type PostGenerationFormData,
   postGenerationSchema,
 } from '@/pages/PostGeneration/types';
-import { formatDate, formatTime } from '@/pages/PostGeneration/utils';
+import { formatDateWithBar, formatTime } from '@/pages/PostGeneration/utils';
 import { scrollToBottom } from '@/utils/scroll';
 
 const DEFAULT_FORM_VALUES: PostGenerationFormData = {
@@ -43,14 +43,18 @@ const PostGenerationModal = () => {
   const dialogRef = useRef<HTMLFormElement | null>(null);
   const { closeDialog } = useContext(DialogContext);
 
-  const { control, handleSubmit, watch, setValue } =
-    useForm<PostGenerationFormData>({
-      resolver: zodResolver(postGenerationSchema),
-      defaultValues: DEFAULT_FORM_VALUES,
-      mode: 'onChange',
-      reValidateMode: 'onChange',
-      criteriaMode: 'all',
-    });
+  const {
+    control,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<PostGenerationFormData>({
+    resolver: zodResolver(postGenerationSchema),
+    defaultValues: DEFAULT_FORM_VALUES,
+    mode: 'onChange',
+    reValidateMode: 'onChange',
+    criteriaMode: 'all',
+  });
 
   const watchedValues = watch();
 
@@ -60,14 +64,14 @@ const PostGenerationModal = () => {
     season: Number(watchedValues.generation),
     type: watchedValues.type,
     name: watchedValues.generationName,
-    applicationStart: `${formatDate(watchedValues.application.start)} ${formatTime(watchedValues.applicationStartTime)}`,
-    applicationEnd: `${formatDate(watchedValues.application.end)} ${formatTime(watchedValues.applicationEndTime)}`,
-    interviewStart: `${formatDate(watchedValues.interview.start)} ${formatTime(watchedValues.interviewStartTime)}`,
-    interviewEnd: `${formatDate(watchedValues.interview.end)} ${formatTime(watchedValues.interviewEndTime)}`,
-    applicationResultStart: `${formatDate(watchedValues.applicationResult.start)} ${formatTime(watchedValues.applicationResultStartTime)}`,
-    applicationResultEnd: `${formatDate(watchedValues.applicationResult.end)} ${formatTime(watchedValues.applicationResultEndTime)}`,
-    finalResultStart: `${formatDate(watchedValues.finalResult.start)} ${formatTime(watchedValues.finalResultStartTime)}`,
-    finalResultEnd: `${formatDate(watchedValues.finalResult.end)} ${formatTime(watchedValues.finalResultEndTime)}`,
+    applicationStart: `${formatDateWithBar(watchedValues.application.start)} ${formatTime(watchedValues.applicationStartTime)}`,
+    applicationEnd: `${formatDateWithBar(watchedValues.application.end)} ${formatTime(watchedValues.applicationEndTime)}`,
+    interviewStart: `${formatDateWithBar(watchedValues.interview.start)} ${formatTime(watchedValues.interviewStartTime)}`,
+    interviewEnd: `${formatDateWithBar(watchedValues.interview.end)} ${formatTime(watchedValues.interviewEndTime)}`,
+    applicationResultStart: `${formatDateWithBar(watchedValues.applicationResult.start)} ${formatTime(watchedValues.applicationResultStartTime)}`,
+    applicationResultEnd: `${formatDateWithBar(watchedValues.applicationResult.end)} ${formatTime(watchedValues.applicationResultEndTime)}`,
+    finalResultStart: `${formatDateWithBar(watchedValues.finalResult.start)} ${formatTime(watchedValues.finalResultStartTime)}`,
+    finalResultEnd: `${formatDateWithBar(watchedValues.finalResult.end)} ${formatTime(watchedValues.finalResultEndTime)}`,
   });
 
   const onSubmit = () => {
@@ -177,25 +181,16 @@ const PostGenerationModal = () => {
               <Controller
                 name="application"
                 control={control}
-                render={({ field }) => (
+                render={() => (
                   <PeriodCalendar
                     label="서류 접수 기간"
                     required
-                    selectedDateRange={[field.value.start, field.value.end]}
-                    onSelectDateRange={(dateRange) => {
-                      field.onChange({
-                        start: dateRange[0],
-                        end: dateRange[1],
-                      });
-                    }}
-                    startTime={watch('applicationStartTime')}
-                    onStartTimeChange={(time) =>
-                      setValue('applicationStartTime', time)
-                    }
-                    endTime={watch('applicationEndTime')}
-                    onEndTimeChange={(time) =>
-                      setValue('applicationEndTime', time)
-                    }
+                    dateRange="application"
+                    startTime="applicationStartTime"
+                    endTime="applicationEndTime"
+                    startTimeError={errors.applicationStartTime}
+                    endTimeError={errors.applicationEndTime}
+                    control={control}
                   />
                 )}
               />
@@ -203,25 +198,16 @@ const PostGenerationModal = () => {
               <Controller
                 name="applicationResult"
                 control={control}
-                render={({ field }) => (
+                render={() => (
                   <PeriodCalendar
                     label="서류 결과 확인 기간"
                     required
-                    selectedDateRange={[field.value.start, field.value.end]}
-                    onSelectDateRange={(dateRange) => {
-                      field.onChange({
-                        start: dateRange[0],
-                        end: dateRange[1],
-                      });
-                    }}
-                    startTime={watch('applicationResultStartTime')}
-                    onStartTimeChange={(time) =>
-                      setValue('applicationResultStartTime', time)
-                    }
-                    endTime={watch('applicationResultEndTime')}
-                    onEndTimeChange={(time) =>
-                      setValue('applicationResultEndTime', time)
-                    }
+                    dateRange="applicationResult"
+                    startTime="applicationResultStartTime"
+                    endTime="applicationResultEndTime"
+                    startTimeError={errors.applicationResultStartTime}
+                    endTimeError={errors.applicationResultEndTime}
+                    control={control}
                   />
                 )}
               />
@@ -229,25 +215,16 @@ const PostGenerationModal = () => {
               <Controller
                 name="interview"
                 control={control}
-                render={({ field }) => (
+                render={() => (
                   <PeriodCalendar
                     label="면접 기간"
                     required
-                    selectedDateRange={[field.value.start, field.value.end]}
-                    onSelectDateRange={(dateRange) => {
-                      field.onChange({
-                        start: dateRange[0],
-                        end: dateRange[1],
-                      });
-                    }}
-                    startTime={watch('interviewStartTime')}
-                    onStartTimeChange={(time) =>
-                      setValue('interviewStartTime', time)
-                    }
-                    endTime={watch('interviewEndTime')}
-                    onEndTimeChange={(time) =>
-                      setValue('interviewEndTime', time)
-                    }
+                    dateRange="interview"
+                    startTime="interviewStartTime"
+                    endTime="interviewEndTime"
+                    startTimeError={errors.interviewStartTime}
+                    endTimeError={errors.interviewEndTime}
+                    control={control}
                   />
                 )}
               />
@@ -255,25 +232,16 @@ const PostGenerationModal = () => {
               <Controller
                 name="finalResult"
                 control={control}
-                render={({ field }) => (
+                render={() => (
                   <PeriodCalendar
                     label="최종 결과 확인 기간"
                     required
-                    selectedDateRange={[field.value.start, field.value.end]}
-                    onSelectDateRange={(dateRange) => {
-                      field.onChange({
-                        start: dateRange[0],
-                        end: dateRange[1],
-                      });
-                    }}
-                    startTime={watch('finalResultStartTime')}
-                    onStartTimeChange={(time) =>
-                      setValue('finalResultStartTime', time)
-                    }
-                    endTime={watch('finalResultEndTime')}
-                    onEndTimeChange={(time) =>
-                      setValue('finalResultEndTime', time)
-                    }
+                    dateRange="finalResult"
+                    startTime="finalResultStartTime"
+                    endTime="finalResultEndTime"
+                    startTimeError={errors.finalResultStartTime}
+                    endTimeError={errors.finalResultEndTime}
+                    control={control}
                   />
                 )}
               />

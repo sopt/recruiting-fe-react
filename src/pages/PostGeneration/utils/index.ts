@@ -1,5 +1,11 @@
 import dayjs from 'dayjs';
 
+export const formatDateWithBar = (dateString: string): string => {
+  if (!dateString) return '';
+
+  return dayjs(dateString).format('YYYY-MM-DD');
+};
+
 export const formatDate = (dateString: string): string => {
   if (!dateString) return '';
 

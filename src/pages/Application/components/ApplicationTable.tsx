@@ -11,6 +11,7 @@ import type {
   StatusType,
 } from '@/pages/Application/\btypes';
 import ChipDropDown from '@/pages/Application/components/ChipDropdown';
+import SkeletonTable from '@/pages/Application/components/SkeletonTable';
 import {
   usePostApplicantPassStatus,
   usePostEvalution,
@@ -30,7 +31,7 @@ const CELL_BASE_STYLE =
 const TD_BASE_STYLE = 'h-full flex items-center cursor-pointer';
 const TD_CONTENT_STYLE = 'w-full text-center break-words p-[0.8rem] ';
 
-const ApplicationTable = ({ data }: ApplicationTableProps) => {
+const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
   const [passStatusList, setPassStatusList] = useState<Record<number, string>>(
     {},
   );
@@ -160,12 +161,16 @@ const ApplicationTable = ({ data }: ApplicationTableProps) => {
           </tr>
         </thead>
         <tbody>
-          {data.length === 0 ? (
+          {data.length === 0 && !isLoading ? (
             <tr>
               <td colSpan={13} className={`${CELL_BASE_STYLE} text-gray200`}>
                 확인할 수 있는 지원서가 없어요.
               </td>
             </tr>
+          ) : isLoading ? (
+            Array.from({ length: 5 }).map((_, index) => (
+              <SkeletonTable key={index} />
+            ))
           ) : (
             data.map((item) => {
               const doNotReadMessage = getDoNotReadMessage(
