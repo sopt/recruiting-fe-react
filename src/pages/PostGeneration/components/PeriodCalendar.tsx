@@ -1,7 +1,7 @@
 import { IconCalendar } from '@sopt-makers/icons';
 import { TextField } from '@sopt-makers/ui';
 import { useEffect, useRef, useState } from 'react';
-import { type Control, useController } from 'react-hook-form';
+import { type Control, type FieldError, useController } from 'react-hook-form';
 import CalendarInputForm from '@/pages/PostGeneration/components/Calendar';
 import type {
   DateRangeField,
@@ -17,6 +17,8 @@ interface PeriodCalendarProps {
   startTime: TimeField;
   endTime: TimeField;
   control: Control<PostGenerationFormData>;
+  startTimeError?: FieldError;
+  endTimeError?: FieldError;
 }
 
 const PeriodCalendar = ({
@@ -26,6 +28,8 @@ const PeriodCalendar = ({
   startTime,
   endTime,
   control,
+  startTimeError,
+  endTimeError,
 }: PeriodCalendarProps) => {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [activeInput, setActiveInput] = useState<'start' | 'end' | null>(null);
@@ -140,6 +144,7 @@ const PeriodCalendar = ({
               const formattedValue = e.target.value.replace(/\D/g, '');
               startTimeField.onChange(formattedValue);
             }}
+            isError={!!startTimeError}
           />
         </div>
 
@@ -170,6 +175,7 @@ const PeriodCalendar = ({
               const formattedValue = e.target.value.replace(/\D/g, '');
               endTimeField.onChange(formattedValue);
             }}
+            isError={!!endTimeError}
           />
         </div>
 

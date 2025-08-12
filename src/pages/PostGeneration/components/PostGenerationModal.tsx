@@ -18,7 +18,7 @@ import {
   type PostGenerationFormData,
   postGenerationSchema,
 } from '@/pages/PostGeneration/types';
-import { formatDate, formatTime } from '@/pages/PostGeneration/utils';
+import { formatDateWithBar, formatTime } from '@/pages/PostGeneration/utils';
 import { scrollToBottom } from '@/utils/scroll';
 
 const DEFAULT_FORM_VALUES: PostGenerationFormData = {
@@ -43,14 +43,18 @@ const PostGenerationModal = () => {
   const dialogRef = useRef<HTMLFormElement | null>(null);
   const { closeDialog } = useContext(DialogContext);
 
-  const { control, handleSubmit, watch, setValue } =
-    useForm<PostGenerationFormData>({
-      resolver: zodResolver(postGenerationSchema),
-      defaultValues: DEFAULT_FORM_VALUES,
-      mode: 'onChange',
-      reValidateMode: 'onChange',
-      criteriaMode: 'all',
-    });
+  const {
+    control,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<PostGenerationFormData>({
+    resolver: zodResolver(postGenerationSchema),
+    defaultValues: DEFAULT_FORM_VALUES,
+    mode: 'onChange',
+    reValidateMode: 'onChange',
+    criteriaMode: 'all',
+  });
 
   const watchedValues = watch();
 
@@ -60,14 +64,14 @@ const PostGenerationModal = () => {
     season: Number(watchedValues.generation),
     type: watchedValues.type,
     name: watchedValues.generationName,
-    applicationStart: `${formatDate(watchedValues.application.start)} ${formatTime(watchedValues.applicationStartTime)}`,
-    applicationEnd: `${formatDate(watchedValues.application.end)} ${formatTime(watchedValues.applicationEndTime)}`,
-    interviewStart: `${formatDate(watchedValues.interview.start)} ${formatTime(watchedValues.interviewStartTime)}`,
-    interviewEnd: `${formatDate(watchedValues.interview.end)} ${formatTime(watchedValues.interviewEndTime)}`,
-    applicationResultStart: `${formatDate(watchedValues.applicationResult.start)} ${formatTime(watchedValues.applicationResultStartTime)}`,
-    applicationResultEnd: `${formatDate(watchedValues.applicationResult.end)} ${formatTime(watchedValues.applicationResultEndTime)}`,
-    finalResultStart: `${formatDate(watchedValues.finalResult.start)} ${formatTime(watchedValues.finalResultStartTime)}`,
-    finalResultEnd: `${formatDate(watchedValues.finalResult.end)} ${formatTime(watchedValues.finalResultEndTime)}`,
+    applicationStart: `${formatDateWithBar(watchedValues.application.start)} ${formatTime(watchedValues.applicationStartTime)}`,
+    applicationEnd: `${formatDateWithBar(watchedValues.application.end)} ${formatTime(watchedValues.applicationEndTime)}`,
+    interviewStart: `${formatDateWithBar(watchedValues.interview.start)} ${formatTime(watchedValues.interviewStartTime)}`,
+    interviewEnd: `${formatDateWithBar(watchedValues.interview.end)} ${formatTime(watchedValues.interviewEndTime)}`,
+    applicationResultStart: `${formatDateWithBar(watchedValues.applicationResult.start)} ${formatTime(watchedValues.applicationResultStartTime)}`,
+    applicationResultEnd: `${formatDateWithBar(watchedValues.applicationResult.end)} ${formatTime(watchedValues.applicationResultEndTime)}`,
+    finalResultStart: `${formatDateWithBar(watchedValues.finalResult.start)} ${formatTime(watchedValues.finalResultStartTime)}`,
+    finalResultEnd: `${formatDateWithBar(watchedValues.finalResult.end)} ${formatTime(watchedValues.finalResultEndTime)}`,
   });
 
   const onSubmit = () => {
@@ -184,6 +188,8 @@ const PostGenerationModal = () => {
                     dateRange="application"
                     startTime="applicationStartTime"
                     endTime="applicationEndTime"
+                    startTimeError={errors.applicationStartTime}
+                    endTimeError={errors.applicationEndTime}
                     control={control}
                   />
                 )}
@@ -199,6 +205,8 @@ const PostGenerationModal = () => {
                     dateRange="applicationResult"
                     startTime="applicationResultStartTime"
                     endTime="applicationResultEndTime"
+                    startTimeError={errors.applicationResultStartTime}
+                    endTimeError={errors.applicationResultEndTime}
                     control={control}
                   />
                 )}
@@ -214,6 +222,8 @@ const PostGenerationModal = () => {
                     dateRange="interview"
                     startTime="interviewStartTime"
                     endTime="interviewEndTime"
+                    startTimeError={errors.interviewStartTime}
+                    endTimeError={errors.interviewEndTime}
                     control={control}
                   />
                 )}
@@ -229,6 +239,8 @@ const PostGenerationModal = () => {
                     dateRange="finalResult"
                     startTime="finalResultStartTime"
                     endTime="finalResultEndTime"
+                    startTimeError={errors.finalResultStartTime}
+                    endTimeError={errors.finalResultEndTime}
                     control={control}
                   />
                 )}
