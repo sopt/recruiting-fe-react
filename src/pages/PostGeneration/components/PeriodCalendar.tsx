@@ -52,6 +52,11 @@ const PeriodCalendar = ({
     setIsCalendarOpen(true);
   };
 
+  const handleCloseCalendar = () => {
+    setIsCalendarOpen(false);
+    setActiveInput(null);
+  };
+
   const selectedDateRange = [
     dateRangeField.value?.start,
     dateRangeField.value?.end,
@@ -82,26 +87,22 @@ const PeriodCalendar = ({
     });
 
     if (dateRange[0] && dateRange[1]) {
-      setTimeout(() => {
-        setIsCalendarOpen(false);
-        setActiveInput(null);
-      }, 100);
+      handleCloseCalendar();
     }
   };
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
+    const handleClickOutside = (event: PointerEvent) => {
       if (
         calendarRef.current &&
         !calendarRef.current.contains(event.target as Node)
       ) {
-        setIsCalendarOpen(false);
-        setActiveInput(null);
+        handleCloseCalendar();
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('pointerdown', handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('pointerdown', handleClickOutside);
     };
   }, [isCalendarOpen]);
 
@@ -119,7 +120,7 @@ const PeriodCalendar = ({
           <button
             type="button"
             className="flex px-[1.6rem] py-[1.3rem] w-[17rem] text-gray10 bg-gray700 rounded-[10px] justify-between items-center cursor-pointer"
-            onClick={() => handleInputClick('start')}
+            onMouseDown={() => handleInputClick('start')}
             onKeyUp={(e) => e.key === 'Enter' && handleInputClick('start')}
           >
             <input
@@ -148,7 +149,7 @@ const PeriodCalendar = ({
           <button
             type="button"
             className="flex px-[1.6rem] py-[1.3rem] w-[17rem] text-gray10 bg-gray700 rounded-[10px] justify-between items-center"
-            onClick={() => handleInputClick('end')}
+            onMouseDown={() => handleInputClick('end')}
             onKeyUp={(e) => e.key === 'Enter' && handleInputClick('end')}
           >
             <input
@@ -173,18 +174,18 @@ const PeriodCalendar = ({
         </div>
 
         {isCalendarOpen && (
-          <div className="absolute z-[100] w-[33.6rem] h-auto top-full left-[0rem] mt-[1.6rem] bg-gray600 text-gray10 p-4 rounded-2xl shadow-lg">
+          <button
+            type="button"
+            className="absolute z-[100] w-[33.6rem] h-auto top-full left-[0rem] mt-[1.6rem] bg-gray600 text-gray10 p-4 rounded-2xl shadow-lg"
+          >
             <CalendarInputForm
               selectedDate={selectedDateRange}
               setSelectedDate={handleOnSelectDateRange}
               selectedDateFieldName="date-range"
               onDateSelect={handleDateSelect}
-              onClose={() => {
-                setIsCalendarOpen(false);
-                setActiveInput(null);
-              }}
+              onClose={handleCloseCalendar}
             />
-          </div>
+          </button>
         )}
       </div>
     </label>
