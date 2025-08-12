@@ -27,3 +27,9 @@
     color: #c3c3c6 !important;
   }
 }
+
+@layer utilities {
+  .custom-checkbox input:disabled + div {
+    background-color: #515159 !important;
+  }
+}

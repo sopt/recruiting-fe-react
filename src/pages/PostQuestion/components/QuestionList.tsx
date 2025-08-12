@@ -1,17 +1,16 @@
+import { Button } from '@sopt-makers/ui';
+import { useEffect, useState } from 'react';
+import { useFieldArray, useFormContext } from 'react-hook-form';
 import { Add } from '@/assets/svg';
+import { COMMON_QUESTION } from '@/pages/Application/constants';
 import DescriptionBox from '@/pages/PostQuestion/components/DescriptionBox';
 import QuestionBox from '@/pages/PostQuestion/components/QuestionBox';
 import {
   DEFAULT_DESCRIPTION_DATA,
   DEFAULT_QUESTION_DATA,
 } from '@/pages/PostQuestion/constant';
-
-import { Button } from '@sopt-makers/ui';
 import { useGetQuestionList } from '@/pages/PostQuestion/hooks/quries';
-import { useFieldArray, useFormContext } from 'react-hook-form';
-import { useEffect, useState } from 'react';
 import type { FilterState } from '@/pages/PostQuestion/hooks/useFilterReducer';
-import { COMMON_QUESTION } from '@/pages/Application/constants';
 
 interface QuestionListProps {
   filterState: FilterState;

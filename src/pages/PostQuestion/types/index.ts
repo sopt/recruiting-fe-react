@@ -11,7 +11,7 @@ export type Question = {
   charLimit: number | null;
   required: boolean;
   link?: string | null;
-  placeholder: string;
+  placeholder: string | null;
   isFile: boolean;
 };
 
