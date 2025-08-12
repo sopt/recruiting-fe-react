@@ -1,11 +1,11 @@
-import { useDebouncedCallback } from "@/hooks/useDebounceCallback";
-import { COMMON_QUESTION } from "@/pages/Application/constants";
-import { usePostQuestionsRegister } from "@/pages/PostQuestion/hooks/quries";
-import type { FilterState } from "@/pages/PostQuestion/hooks/useFilterReducer";
-import type { qustionListTypes } from "@/pages/PostQuestion/types/form";
-import { Button, Dialog, useDialog } from "@sopt-makers/ui";
-import { useQueryClient } from "@tanstack/react-query";
-import { useFormContext } from "react-hook-form";
+import { Button, Dialog, useDialog } from '@sopt-makers/ui';
+import { useQueryClient } from '@tanstack/react-query';
+import { useFormContext } from 'react-hook-form';
+import { useDebouncedCallback } from '@/hooks/useDebounceCallback';
+import { COMMON_QUESTION } from '@/pages/Application/constants';
+import { usePostQuestionsRegister } from '@/pages/PostQuestion/hooks/quries';
+import type { FilterState } from '@/pages/PostQuestion/hooks/useFilterReducer';
+import type { qustionListTypes } from '@/pages/PostQuestion/types/form';
 
 interface RegisterButtonProps {
   filterState: FilterState;
@@ -28,11 +28,11 @@ const RegisterButton = ({
 
   const { mutate: registerMutate } = usePostQuestionsRegister();
 
-  const questionList = watch("questionList");
+  const questionList = watch('questionList');
 
   const handleRegisterClick = () => {
     openDialog({
-      title: "최종 등록을 진행하시겠어요?",
+      title: '최종 등록을 진행하시겠어요?',
       description: (
         <div className="mb-[2rem] flex flex-col mt-[1.2rem] gap-[3.6rem]">
           <p className="whitespace-pre-line">
@@ -86,7 +86,7 @@ const RegisterButton = ({
     registerMutate(requestData, {
       onSuccess: () =>
         queryClient.invalidateQueries({
-          queryKey: ["question", "list", filterState.season, filterState.group],
+          queryKey: ['question', 'list', filterState.season, filterState.group],
         }),
     });
   };

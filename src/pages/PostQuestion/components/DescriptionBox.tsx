@@ -1,7 +1,7 @@
-import { Trash } from '@/assets/svg';
 import { TextArea, useToast } from '@sopt-makers/ui';
 import { useEffect } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
+import { Trash } from '@/assets/svg';
 
 interface DescriptionBoxProps {
   deleteDescription: () => void;
@@ -36,7 +36,9 @@ const DescriptionBox = ({ deleteDescription }: DescriptionBoxProps) => {
   return (
     <div className="flex flex-row items-center gap-[3.2rem] mb-[1.2rem]">
       <section
-        className={`flex flex-col gap-[2rem] px-[3.2rem] py-[2rem] border-1 border-gray500 rounded-xl  ${isActive ? 'py-[2rem] bg-background w-full' : 'bg-gray900 w-[78.4rem]'}`}
+        className={`flex flex-col gap-[2rem] px-[3.2rem] py-[2rem] border-1 border-gray500 rounded-xl  ${
+          isActive ? 'py-[2rem] bg-background w-full' : 'bg-gray900 w-[78.4rem]'
+        }`}
       >
         <h2 className=" title_3_24_sb">
           설명글<span className="text-secondary">*</span>
