@@ -147,7 +147,7 @@ const QuestionBox = ({
 
         <hr className="border-gray700" />
 
-        {isAnswer && (
+        {(isActive || isAnswer) && (
           <div className="relative">
             <div className="absolute flex justify-end w-full">
               <div className="flex gap-[0.2rem] items-center label_4_12_sb text-gray30">
@@ -242,7 +242,7 @@ const QuestionBox = ({
 
         {!isFile && <hr className="border-gray700" />}
 
-        {isAnswer && (
+        {(isActive || isAnswer) && (
           <div className="w-[26.8rem]">
             <TextField
               labelText="최대 글자수"
