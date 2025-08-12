@@ -96,7 +96,7 @@ const PeriodCalendar = ({
   };
 
   useEffect(() => {
-    const handleClickOutside = (event: PointerEvent) => {
+    const handleClickOutside = (event: MouseEvent) => {
       if (
         calendarRef.current &&
         !calendarRef.current.contains(event.target as Node)
@@ -104,9 +104,9 @@ const PeriodCalendar = ({
         handleCloseCalendar();
       }
     };
-    document.addEventListener('pointerdown', handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      document.removeEventListener('pointerdown', handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isCalendarOpen]);
 
@@ -180,10 +180,7 @@ const PeriodCalendar = ({
         </div>
 
         {isCalendarOpen && (
-          <button
-            type="button"
-            className="absolute z-[100] w-[33.6rem] h-auto top-full left-[0rem] mt-[1.6rem] bg-gray600 text-gray10 p-4 rounded-2xl shadow-lg"
-          >
+          <div className="absolute z-[100] w-[33.6rem] h-auto top-full left-[0rem] mt-[1.6rem] bg-gray600 text-gray10 p-4 rounded-2xl shadow-lg">
             <CalendarInputForm
               selectedDate={selectedDateRange}
               setSelectedDate={handleOnSelectDateRange}
@@ -191,7 +188,7 @@ const PeriodCalendar = ({
               onDateSelect={handleDateSelect}
               onClose={handleCloseCalendar}
             />
-          </button>
+          </div>
         )}
       </div>
     </label>
