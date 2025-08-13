@@ -1,11 +1,13 @@
 import { Tab } from '@sopt-makers/ui';
 import { useEffect, useMemo, useState } from 'react';
 import Pagination from '@/components/Pagination';
+import { IS_SOPT } from '@/constants';
 import usePagination from '@/hooks/usePagination';
 import {
   type ApplicantState,
   Part,
   type PartType,
+  type SoptPartType,
 } from '@/pages/Application/\btypes';
 import ApplicationTable from '@/pages/Application/components/ApplicationTable';
 import Filter from '@/pages/Application/components/Filter';
@@ -80,6 +82,14 @@ const Application = () => {
     }
   }, [generationData]);
 
+  const tabItems = useMemo(() => {
+    if (IS_SOPT) {
+      return Object.keys(Part) as SoptPartType[];
+    }
+
+    return Object.keys(Part) as PartType[];
+  }, [IS_SOPT]);
+
   return (
     <>
       <div className="flex flex-col gap-[4.4rem] overflow-hidden">
@@ -93,7 +103,7 @@ const Application = () => {
           <Tab
             style="primary"
             size="md"
-            tabItems={Object.keys(Part) as PartType[]}
+            tabItems={tabItems}
             onChange={(selectedPart) =>
               setApplicantInfo((prev) => ({ ...prev, selectedPart }))
             }
