@@ -1,21 +1,17 @@
+import { Tab } from '@sopt-makers/ui';
+import { useEffect, useMemo, useState } from 'react';
 import Pagination from '@/components/Pagination';
 import usePagination from '@/hooks/usePagination';
 import {
-  Part,
   type ApplicantState,
+  Part,
   type PartType,
 } from '@/pages/Application/\btypes';
-
 import ApplicationTable from '@/pages/Application/components/ApplicationTable';
 import Filter from '@/pages/Application/components/Filter';
 import { COMMON_QUESTION } from '@/pages/Application/constants';
-
 import { useGetApplicantList } from '@/pages/Application/hooks/queries';
 import { useGetGeneration } from '@/pages/PostGeneration/hooks/queries';
-import { Tab } from '@sopt-makers/ui';
-import { useState } from 'react';
-import { useMemo } from 'react';
-import { useEffect } from 'react';
 
 const PAGE_LIMIT = 10;
 
@@ -54,8 +50,11 @@ const Application = () => {
     }),
   };
 
-  const { data: applicantList, refetch } =
-    useGetApplicantList(applicantListParams);
+  const {
+    data: applicantList,
+    refetch,
+    isLoading,
+  } = useGetApplicantList(applicantListParams);
 
   const { currentPage, totalPages, handlePageChange } = usePagination({
     totalItems: applicantList?.data.data.length ?? 0,
@@ -101,7 +100,7 @@ const Application = () => {
           />
         </div>
         <hr className="border-gray800 mt-[-4.7rem] w-[98rem] ml-[21.2rem]" />
-        <ApplicationTable data={paginatedData ?? []} />
+        <ApplicationTable data={paginatedData ?? []} isLoading={isLoading} />
       </div>
       <Pagination
         totalPages={totalPages}

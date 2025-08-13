@@ -1,11 +1,14 @@
+import { Button, Dialog, DialogContext } from '@sopt-makers/ui';
+import { type RefObject, useContext, useEffect, useRef } from 'react';
 import { Trash } from '@/assets/svg';
 import useDrag from '@/pages/Application/hooks/useDrag';
 import { useDeleteGeneration } from '@/pages/PostGeneration/hooks/queries';
 import type { Season } from '@/pages/PostGeneration/types';
-import { canDeleteGeneration, formatDate } from '@/pages/PostGeneration/utils';
+import {
+  canDeleteGeneration,
+  formatFullDate,
+} from '@/pages/PostGeneration/utils';
 import { scrollToLeft } from '@/utils/scroll';
-import { Button, Dialog, DialogContext } from '@sopt-makers/ui';
-import { type RefObject, useContext, useEffect, useRef } from 'react';
 
 interface GenerationTableProps {
   data: Season[];
@@ -14,7 +17,7 @@ interface GenerationTableProps {
 const HEADER_BASE_STYLE =
   'p-[1rem] text-gray100 body_3_14_m bg-gray700 border-gray600';
 const CELL_BASE_STYLE =
-  'h-[6rem] text-center body_3_14_m bg-transparent border-b-[1px] border-gray700 align-middle';
+  'h-[8rem] text-center body_3_14_m bg-transparent border-b-[1px] border-gray700 align-middle';
 
 const GenerationTable = ({ data }: GenerationTableProps) => {
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
@@ -61,6 +64,7 @@ const GenerationTable = ({ data }: GenerationTableProps) => {
   }, [data]);
 
   return (
+    // biome-ignore lint/a11y/noStaticElementInteractions: 테이블 스크롤 기능
     <div
       ref={scrollContainerRef}
       onMouseDown={(e) => {
@@ -79,12 +83,12 @@ const GenerationTable = ({ data }: GenerationTableProps) => {
         <thead>
           <tr>
             <th
-              className={`w-[11rem] rounded-tl-[1rem] border-r-[1px] border-gray600 ${HEADER_BASE_STYLE}`}
+              className={`min-w-[11rem] rounded-tl-[1rem] border-r-[1px] border-gray600 ${HEADER_BASE_STYLE}`}
             >
               기수
             </th>
             <th
-              className={`w-[11rem] border-r-[1px] border-gray600 ${HEADER_BASE_STYLE}`}
+              className={`min-w-[14rem] border-r-[1px] border-gray600 ${HEADER_BASE_STYLE}`}
             >
               이름
             </th>
@@ -135,35 +139,35 @@ const GenerationTable = ({ data }: GenerationTableProps) => {
                   </div>
                 </td>
                 <td className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}>
-                  <div className="h-full flex items-center justify-evenly gap-[0.5rem]">
-                    <p>{formatDate(item.applicationStart)}</p>
+                  <div className="h-full flex items-center justify-evenly gap-[0.5rem] p-[1.5rem]">
+                    <p>{formatFullDate(item.applicationStart)}</p>
                     <p>~</p>
-                    <p>{formatDate(item.applicationEnd)}</p>
+                    <p>{formatFullDate(item.applicationEnd)}</p>
                   </div>
                 </td>
                 <td className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}>
-                  <div className="h-full flex items-center justify-evenly gap-[0.5rem]">
-                    <p>{formatDate(item.applicationResultStart)}</p>
+                  <div className="h-full flex items-center justify-evenly gap-[0.5rem] p-[1.5rem]">
+                    <p>{formatFullDate(item.applicationResultStart)}</p>
                     <p>~</p>
-                    <p>{formatDate(item.applicationResultEnd)}</p>
+                    <p>{formatFullDate(item.applicationResultEnd)}</p>
                   </div>
                 </td>
                 <td className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}>
-                  <div className="h-full flex items-center justify-evenly gap-[0.5rem]">
-                    <p>{formatDate(item.interviewStart)}</p>
+                  <div className="h-full flex items-center justify-evenly gap-[0.5rem] p-[1.5rem]">
+                    <p>{formatFullDate(item.interviewStart)}</p>
                     <p>~</p>
-                    <p>{formatDate(item.interviewEnd)}</p>
+                    <p>{formatFullDate(item.interviewEnd)}</p>
                   </div>
                 </td>
                 <td className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}>
-                  <div className="h-full flex items-center justify-evenly gap-[0.5rem]">
-                    <p>{formatDate(item.finalResultStart)}</p>
+                  <div className="h-full flex items-center justify-evenly gap-[0.5rem] p-[1.5rem]">
+                    <p>{formatFullDate(item.finalResultStart)}</p>
                     <p>~</p>
-                    <p>{formatDate(item.finalResultEnd)}</p>
+                    <p>{formatFullDate(item.finalResultEnd)}</p>
                   </div>
                 </td>
                 <td className={`${CELL_BASE_STYLE}`}>
-                  <div className="h-full flex items-center justify-center">
+                  <div className="min-w-[6rem] h-full flex items-center justify-center">
                     <button
                       type="button"
                       className="cursor-pointer hover:opacity-70 transition-opacity disabled:cursor-not-allowed"

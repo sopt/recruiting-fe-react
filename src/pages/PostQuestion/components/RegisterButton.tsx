@@ -1,11 +1,11 @@
+import { Button, Dialog, useDialog } from '@sopt-makers/ui';
+import { useQueryClient } from '@tanstack/react-query';
+import { useFormContext } from 'react-hook-form';
 import { useDebouncedCallback } from '@/hooks/useDebounceCallback';
 import { COMMON_QUESTION } from '@/pages/Application/constants';
 import { usePostQuestionsRegister } from '@/pages/PostQuestion/hooks/quries';
 import type { FilterState } from '@/pages/PostQuestion/hooks/useFilterReducer';
 import type { qustionListTypes } from '@/pages/PostQuestion/types/form';
-import { Button, Dialog, useDialog } from '@sopt-makers/ui';
-import { useQueryClient } from '@tanstack/react-query';
-import { useFormContext } from 'react-hook-form';
 
 interface RegisterButtonProps {
   filterState: FilterState;
@@ -23,7 +23,7 @@ const RegisterButton = ({
   const {
     handleSubmit,
     watch,
-    formState: { isSubmitting, isValid },
+    formState: { isSubmitting },
   } = useFormContext<qustionListTypes>();
 
   const { mutate: registerMutate } = usePostQuestionsRegister();
@@ -36,7 +36,7 @@ const RegisterButton = ({
       description: (
         <div className="mb-[2rem] flex flex-col mt-[1.2rem] gap-[3.6rem]">
           <p className="whitespace-pre-line">
-            최종 등록 후 질문 수정이 불가능해요.
+            최종 등록 후 질문 수정은 어드민팀에 문의해 주세요.
           </p>
           <Dialog.Footer align="right">
             <Button theme="black" onClick={closeDialog}>
@@ -45,7 +45,10 @@ const RegisterButton = ({
             <Button
               type="button"
               theme="white"
-              onClick={handleSubmit(registQuestions)}
+              onClick={() => {
+                handleSubmit(registQuestions)();
+                closeDialog();
+              }}
             >
               최종 등록
             </Button>
@@ -96,7 +99,7 @@ const RegisterButton = ({
       variant="fill"
       size="md"
       onClick={debouncedRegisterClick}
-      disabled={isSubmitting || !isValid || questionList[0]?.isActive}
+      disabled={isSubmitting || questionList[0]?.isActive}
     >
       최종 등록하기
     </Button>
