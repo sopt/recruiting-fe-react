@@ -65,15 +65,8 @@ const QuestionBox = ({
     if (isActive) return;
 
     if (isAnswer) {
-      const currentPlaceholder = watch(`questionList.${index}.placeholder`) as
-        | string
-        | null
-        | undefined;
-      if (
-        !currentPlaceholder ||
-        (typeof currentPlaceholder === 'string' &&
-          currentPlaceholder.trim() === '')
-      ) {
+      const currentPlaceholder = watch(`questionList.${index}.placeholder`);
+      if (!currentPlaceholder || currentPlaceholder.trim() === '') {
         setValue(`questionList.${index}.placeholder`, '내용을 작성해주세요.');
       }
     } else {
@@ -301,11 +294,10 @@ const QuestionBox = ({
                       setValue(`questionList.${index}.isAnswer`, true);
                       const currentPlaceholder = watch(
                         `questionList.${index}.placeholder`,
-                      ) as string | null | undefined;
+                      );
                       if (
                         !currentPlaceholder ||
-                        (typeof currentPlaceholder === 'string' &&
-                          currentPlaceholder.trim() === '')
+                        currentPlaceholder.trim() === ''
                       ) {
                         setValue(
                           `questionList.${index}.placeholder`,
@@ -349,7 +341,12 @@ const QuestionBox = ({
                 disabled={!isFile || required}
                 onChange={(e) => {
                   if (!isFile || required) return;
-                  setValue(`questionList.${index}.isAnswer`, e.target.checked);
+                  const checked = e.target.checked;
+                  setValue(`questionList.${index}.isAnswer`, checked);
+                  if (!checked) {
+                    setValue(`questionList.${index}.placeholder`, null);
+                    setValue(`questionList.${index}.charLimit`, null);
+                  }
                 }}
               />
             </div>
