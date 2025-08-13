@@ -210,13 +210,15 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
                   >
-                    <div className={`${TD_BASE_STYLE} gap-[1rem] p-[1rem]`}>
+                    <div
+                      className={`${TD_BASE_STYLE} gap-[1rem] p-[1rem] justify-center`}
+                    >
                       <img
                         src={item.pictureUrl}
                         alt="프로필"
                         className="w-[5.2rem] h-[7rem] object-cover rounded-[0.3rem]"
                       />
-                      <span className="break-words w-full">{item.name}</span>
+                      <span className="break-words">{item.name}</span>
                     </div>
                   </td>
                   <td
