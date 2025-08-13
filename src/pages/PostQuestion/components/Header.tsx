@@ -7,7 +7,7 @@ import {
   SoptPart,
   type SoptPartType,
 } from '@/pages/Application/\btypes';
-import { COMMON_QUESTION, SOPT_COMMON } from '@/pages/Application/constants';
+import { COMMON_QUESTION } from '@/pages/Application/constants';
 import Filters from '@/pages/PostQuestion/components/Filters';
 import type { FilterState } from '@/pages/PostQuestion/hooks/useFilterReducer';
 import type { Group } from '@/pages/PostQuestion/types';
@@ -24,8 +24,6 @@ const tabItems = IS_SOPT
   ? (Object.keys(SoptPart) as SoptPartType[])
   : (Object.keys(Part) as PartType[]);
 
-const selectedInitial = IS_SOPT ? SOPT_COMMON : COMMON_QUESTION;
-
 const Header = ({
   filterState,
   handleTabChange,
@@ -41,7 +39,7 @@ const Header = ({
         handleSeasonChange={handleSeasonChange}
       />
       <Tab
-        selectedInitial={selectedInitial}
+        selectedInitial={COMMON_QUESTION}
         style="primary"
         size="md"
         onChange={handleTabChange}

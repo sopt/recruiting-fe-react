@@ -25,7 +25,8 @@ const QnaItem = ({
   return (
     <li className="flex flex-col gap-[0.8rem]">
       <p className="title_5_18_sb text-white">
-        {`${questionOrder + orderOffset}. ${content} (${charLimit}자)`}
+        {`${questionOrder + orderOffset}. ${content}`}
+        {charLimit !== null && ` (${charLimit}자)`}
         {required && (
           <span className="inline-block align-middle translate-y-[-2px] translate-x-[3px]">
             <Ellipse width={8} />
@@ -55,12 +56,14 @@ const QnaItem = ({
           )}
         </a>
       )}
-      <TextArea
-        maxLength={charLimit}
-        value={answer?.answer}
-        disabled
-        className="custom-detail-textArea"
-      />
+      {answer?.answer !== null && (
+        <TextArea
+          maxLength={charLimit}
+          value={answer?.answer}
+          disabled
+          className="custom-detail-textArea"
+        />
+      )}
     </li>
   );
 };

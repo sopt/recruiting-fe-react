@@ -1,7 +1,6 @@
 import { useReducer } from 'react';
-import { IS_SOPT } from '@/constants';
 import type { PartType, SoptPartType } from '@/pages/Application/\btypes';
-import { COMMON_QUESTION, SOPT_COMMON } from '@/pages/Application/constants';
+import { COMMON_QUESTION } from '@/pages/Application/constants';
 import type { Group } from '@/pages/PostQuestion/types';
 
 export type FilterState = {
@@ -30,7 +29,7 @@ const reducer = (state: FilterState, action: FilterAction): FilterState => {
 
 export const useFilterReducer = () => {
   const initialState: FilterState = {
-    part: IS_SOPT ? SOPT_COMMON : COMMON_QUESTION,
+    part: COMMON_QUESTION,
     group: 'YB',
     season: 0,
   };

@@ -11,7 +11,7 @@ import {
 } from '@/pages/Application/\btypes';
 import ApplicationTable from '@/pages/Application/components/ApplicationTable';
 import Filter from '@/pages/Application/components/Filter';
-import { COMMON_QUESTION, SOPT_COMMON } from '@/pages/Application/constants';
+import { COMMON_QUESTION } from '@/pages/Application/constants';
 import { useGetApplicantList } from '@/pages/Application/hooks/queries';
 import { useGetGeneration } from '@/pages/PostGeneration/hooks/queries';
 
@@ -52,10 +52,9 @@ const Application = () => {
     hideDontRead: applicantInfo.dontReadInfo.checkedByMe,
     hideEvaluated: applicantInfo.evaluatedInfo.checkedByMe,
     checkInterviewPass: applicantInfo.isPassedOnly,
-    ...(applicantInfo.selectedPart !== COMMON_QUESTION &&
-      applicantInfo.selectedPart !== SOPT_COMMON && {
-        part: applicantInfo.selectedPart,
-      }),
+    ...(applicantInfo.selectedPart !== COMMON_QUESTION && {
+      part: applicantInfo.selectedPart,
+    }),
   };
 
   const {

@@ -1,3 +1,6 @@
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
 import { AlertTriangleFilled } from '@/assets/svg';
 import { useIntersectionObserver } from '@/hooks/useIntersectorObservor';
 import Header from '@/pages/PostQuestion/components/Header';
@@ -10,9 +13,6 @@ import {
   questionsListSchema,
   type qustionListTypes,
 } from '@/pages/PostQuestion/types/form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
 
 const PostQuestion = () => {
   const [deleteQuestionIds, setDeleteQuestionIds] = useState<number[]>([]);

@@ -66,10 +66,10 @@ const RegisterButton = ({
         part: filterState.part === COMMON_QUESTION ? null : filterState.part,
         content: question.content,
         isDescription: question.isDescription,
-        charLimit: question.charLimit,
+        charLimit: question.isAnswer ? question.charLimit : null,
         required: question.required,
         link: question.link,
-        placeholder: question.placeholder,
+        placeholder: question.isAnswer ? question.placeholder : null,
         isFile: question.isFile,
       };
     });

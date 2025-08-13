@@ -50,10 +50,25 @@ const QuestionBox = ({
   }, [content]);
 
   useEffect(() => {
+    if (!isFile && !isAnswer) {
+      setValue(`questionList.${index}.isAnswer`, true);
+    }
+  }, [isFile]);
+
+  useEffect(() => {
+    if (required && !isAnswer) {
+      setValue(`questionList.${index}.isAnswer`, true);
+    }
+  }, [required]);
+
+  useEffect(() => {
     if (isActive) return;
 
     if (isAnswer) {
-      setValue(`questionList.${index}.placeholder`, '내용을 작성해주세요.');
+      const currentPlaceholder = watch(`questionList.${index}.placeholder`);
+      if (!currentPlaceholder || currentPlaceholder.trim() === '') {
+        setValue(`questionList.${index}.placeholder`, '내용을 작성해주세요.');
+      }
     } else {
       setValue(`questionList.${index}.placeholder`, null);
       setValue(`questionList.${index}.charLimit`, null);
@@ -277,10 +292,18 @@ const QuestionBox = ({
                     onChange(!value);
                     if (value === false) {
                       setValue(`questionList.${index}.isAnswer`, true);
-                      setValue(
+                      const currentPlaceholder = watch(
                         `questionList.${index}.placeholder`,
-                        '내용을 작성해주세요.',
                       );
+                      if (
+                        !currentPlaceholder ||
+                        currentPlaceholder.trim() === ''
+                      ) {
+                        setValue(
+                          `questionList.${index}.placeholder`,
+                          '내용을 작성해주세요.',
+                        );
+                      }
                     }
                   }}
                   checked={value}
@@ -314,26 +337,42 @@ const QuestionBox = ({
             <div className="custom-checkbox">
               <CheckBox
                 size="lg"
-                checked={!isFile ? true : isAnswer}
-                disabled={!isFile}
-                onClick={() =>
-                  setValue(`questionList.${index}.isAnswer`, !isAnswer)
-                }
+                checked={isAnswer}
+                disabled={!isFile || required}
+                onChange={(e) => {
+                  if (!isFile || required) return;
+                  const checked = e.target.checked;
+                  setValue(`questionList.${index}.isAnswer`, checked);
+                  if (!checked) {
+                    setValue(`questionList.${index}.placeholder`, null);
+                    setValue(`questionList.${index}.charLimit`, null);
+                  }
+                }}
               />
             </div>
-            <span className={`body_2_16_m ${!isFile && 'text-gray300'}`}>
+            <span
+              className={`body_2_16_m ${(!isFile || required) && 'text-gray300'}`}
+            >
               주관식
             </span>
           </div>
 
           <div className="flex flex-row items-center gap-[1rem]">
-            <CheckBox
-              size="lg"
-              checked={isFile}
-              onClick={() => {
-                setValue(`questionList.${index}.isAnswer`, true);
-              }}
-              {...register(`questionList.${index}.isFile`)}
+            <Controller
+              control={control}
+              name={`questionList.${index}.isFile`}
+              render={({ field: { value, onChange } }) => (
+                <CheckBox
+                  size="lg"
+                  checked={value}
+                  onChange={(e) => {
+                    onChange(e.target.checked);
+                    if (e.target.checked) {
+                      setValue(`questionList.${index}.isAnswer`, true);
+                    }
+                  }}
+                />
+              )}
             />
             <span className="body_2_16_m ">파일 업로드</span>
           </div>
