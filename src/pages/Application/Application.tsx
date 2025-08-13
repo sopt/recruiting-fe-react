@@ -1,15 +1,18 @@
 import { Tab } from '@sopt-makers/ui';
 import { useEffect, useMemo, useState } from 'react';
 import Pagination from '@/components/Pagination';
+import { IS_SOPT } from '@/constants';
 import usePagination from '@/hooks/usePagination';
 import {
   type ApplicantState,
   Part,
   type PartType,
+  SoptPart,
+  type SoptPartType,
 } from '@/pages/Application/\btypes';
 import ApplicationTable from '@/pages/Application/components/ApplicationTable';
 import Filter from '@/pages/Application/components/Filter';
-import { COMMON_QUESTION } from '@/pages/Application/constants';
+import { COMMON_QUESTION, SOPT_COMMON } from '@/pages/Application/constants';
 import { useGetApplicantList } from '@/pages/Application/hooks/queries';
 import { useGetGeneration } from '@/pages/PostGeneration/hooks/queries';
 
@@ -29,6 +32,10 @@ const INITIAL_APPLICANT_INFO: ApplicantState = {
   minRate: 0,
 };
 
+const tabItems = IS_SOPT
+  ? (Object.keys(SoptPart) as SoptPartType[])
+  : (Object.keys(Part) as PartType[]);
+
 const Application = () => {
   const [applicantInfo, setApplicantInfo] = useState<ApplicantState>(
     INITIAL_APPLICANT_INFO,
@@ -45,7 +52,7 @@ const Application = () => {
     hideDontRead: applicantInfo.dontReadInfo.checkedByMe,
     hideEvaluated: applicantInfo.evaluatedInfo.checkedByMe,
     checkInterviewPass: applicantInfo.isPassedOnly,
-    ...(applicantInfo.selectedPart !== COMMON_QUESTION && {
+    ...(applicantInfo.selectedPart !== (COMMON_QUESTION || SOPT_COMMON) && {
       part: applicantInfo.selectedPart,
     }),
   };
@@ -93,7 +100,7 @@ const Application = () => {
           <Tab
             style="primary"
             size="md"
-            tabItems={Object.keys(Part) as PartType[]}
+            tabItems={tabItems}
             onChange={(selectedPart) =>
               setApplicantInfo((prev) => ({ ...prev, selectedPart }))
             }

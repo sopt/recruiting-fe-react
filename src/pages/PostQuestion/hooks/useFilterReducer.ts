@@ -1,16 +1,17 @@
-import type { PartType } from '@/pages/Application/\btypes';
-import { COMMON_QUESTION } from '@/pages/Application/constants';
-import type { Group } from '@/pages/PostQuestion/types';
 import { useReducer } from 'react';
+import { IS_SOPT } from '@/constants';
+import type { PartType, SoptPartType } from '@/pages/Application/\btypes';
+import { COMMON_QUESTION, SOPT_COMMON } from '@/pages/Application/constants';
+import type { Group } from '@/pages/PostQuestion/types';
 
 export type FilterState = {
-  part: PartType;
+  part: PartType | SoptPartType;
   group: Group;
   season: number;
 };
 
 export type FilterAction =
-  | { type: 'SET_PART'; payload: PartType }
+  | { type: 'SET_PART'; payload: PartType | SoptPartType }
   | { type: 'SET_GROUP'; payload: Group }
   | { type: 'SET_SEASON'; payload: number };
 
@@ -29,7 +30,7 @@ const reducer = (state: FilterState, action: FilterAction): FilterState => {
 
 export const useFilterReducer = () => {
   const initialState: FilterState = {
-    part: COMMON_QUESTION,
+    part: IS_SOPT ? SOPT_COMMON : COMMON_QUESTION,
     group: 'YB',
     season: 0,
   };
@@ -38,12 +39,13 @@ export const useFilterReducer = () => {
 
   const handleFilterChange = (
     type: FilterAction['type'],
-    value: PartType | Group | number,
+    value: PartType | SoptPartType | Group | number,
   ) => {
     dispatch({ type, payload: value } as FilterAction);
   };
 
-  const setPart = (value: PartType) => handleFilterChange('SET_PART', value);
+  const setPart = (value: PartType | SoptPartType) =>
+    handleFilterChange('SET_PART', value);
   const setGroup = (value: Group) => handleFilterChange('SET_GROUP', value);
   const setSeason = (value: number) => handleFilterChange('SET_SEASON', value);
 
