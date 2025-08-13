@@ -150,7 +150,7 @@ export interface PostMinRateRequest {
   minimumRate: number;
   season: string;
   group: Group;
-  selectedPart: PartType;
+  selectedPart: PartType | SoptPartType;
 }
 
 export interface PostMinRateResponse {
