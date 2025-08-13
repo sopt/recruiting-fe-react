@@ -9,6 +9,16 @@ export type SoptPartType =
   | '안드로이드'
   | '웹';
 
+export enum SoptPart {
+  전체 = '전체',
+  기획 = '기획',
+  디자인 = '디자인',
+  서버 = '서버',
+  iOS = 'iOS',
+  안드로이드 = '안드로이드',
+  웹 = '웹',
+}
+
 export type PartType =
   | '공통'
   | 'PM'
