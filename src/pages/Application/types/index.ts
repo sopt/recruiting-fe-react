@@ -1,23 +1,35 @@
 import type { Group } from '@/pages/PostQuestion/types';
 
+export type SoptPartType =
+  | '전체'
+  | '기획'
+  | '디자인'
+  | '서버'
+  | 'iOS'
+  | '안드로이드'
+  | '웹';
+
+export enum SoptPart {
+  전체 = '전체',
+  기획 = '기획',
+  디자인 = '디자인',
+  서버 = '서버',
+  iOS = 'iOS',
+  안드로이드 = '안드로이드',
+  웹 = '웹',
+}
+
 export type PartType =
-  // | "전체"
-  // | "기획"
-  // | "디자인"
-  // | "서버"
-  // | "ios"
-  // | "안드로이드"
-  // | "웹";
-  '공통' | 'PM' | 'PD' | 'CX' | 'FE' | 'BE' | 'iOS' | 'Android';
+  | '공통'
+  | 'PM'
+  | 'PD'
+  | 'CX'
+  | 'FE'
+  | 'BE'
+  | 'iOS'
+  | 'Android';
 
 export enum Part {
-  // ALL = "ALL",
-  // PLAN = "PLAN",
-  // DESIGN = "DESIGN",
-  // SERVER = "SERVER",
-  // IOS = "IOS",
-  // ANDROID = "ANDROID",
-  // WEB = "WEB",
   공통 = '공통',
   PM = 'PM',
   PD = 'PD',
@@ -59,7 +71,7 @@ export interface ApplicationTableProps {
     status: StatusType;
     name: string;
     pictureUrl: string;
-    part: PartType;
+    part: PartType | SoptPartType;
     dontReadInfo: {
       checkedByMe: boolean;
       checkedList: string[];
@@ -83,7 +95,7 @@ export interface ApplicationTableProps {
 export interface GetApplicantListRequest {
   season: number;
   group: Group;
-  part?: PartType;
+  part?: PartType | SoptPartType;
   offset: number;
   limit: number;
   minRate: number;
@@ -101,7 +113,7 @@ export interface GetApplicantListResponse {
       status: StatusType;
       name: string;
       pictureUrl: string;
-      part: PartType;
+      part: PartType | SoptPartType;
       dontReadInfo: {
         checkedByMe: boolean;
         checkedList: string[];
@@ -141,7 +153,7 @@ export interface PostMinRateRequest {
   minimumRate: number;
   season: string;
   group: Group;
-  selectedPart: PartType;
+  selectedPart: PartType | SoptPartType;
 }
 
 export interface PostMinRateResponse {
@@ -179,6 +191,6 @@ export interface ApplicantState {
     checkedByMe: boolean;
   };
   isPassedOnly: boolean;
-  selectedPart: PartType;
+  selectedPart: PartType | SoptPartType;
   minRate: number;
 }

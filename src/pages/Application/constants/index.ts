@@ -21,3 +21,4 @@ export const CHIP_STATUS = {
 };
 
 export const COMMON_QUESTION = '공통';
+export const SOPT_COMMON = '전체';

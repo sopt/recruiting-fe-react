@@ -7,6 +7,7 @@ import type {
   PartType,
   PostApplicantPassStatusRequest,
   PostEvaluationRequest,
+  SoptPartType,
 } from '@/pages/Application/\btypes';
 import { getApplicantList } from '@/pages/Application/apis/getApplicantList';
 import { postEvaluation } from '@/pages/Application/apis/postEvaluation';
@@ -96,7 +97,7 @@ export const usePostMinRate = () => {
       minimumRate: number;
       season: number;
       group: Group;
-      selectedPart: PartType;
+      selectedPart: PartType | SoptPartType;
     }) =>
       postMinRate(info.minimumRate, info.season, info.group, info.selectedPart),
   });

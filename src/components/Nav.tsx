@@ -1,6 +1,6 @@
+import { Link, useLocation } from 'react-router-dom';
 import { Application, Cardinal, Edit } from '@/assets/svg';
 import { ROUTES_CONFIG } from '@/routes/routeConfig';
-import { Link, useLocation } from 'react-router-dom';
 
 const MENU_LIST = [
   {
