@@ -1,3 +1,6 @@
+import { DialogContext, SelectV2, TextField, Toggle } from '@sopt-makers/ui';
+import type { ChangeEvent } from 'react';
+import { useCallback, useContext, useMemo, useState } from 'react';
 import { InfoCircle, Refresh } from '@/assets/svg';
 import YbObRadioGroup from '@/components/YbObRadioGroup';
 import type {
@@ -5,13 +8,11 @@ import type {
   QuestionCharLimit,
 } from '@/pages/Application/\btypes';
 import MinimumRateModal from '@/pages/Application/components/MinimumRateModal';
+import { COMMON_QUESTION } from '@/pages/Application/constants';
 import { usePostMinRate } from '@/pages/Application/hooks/queries';
 import { isNumberValue } from '@/pages/Application/utils/regex';
 import type { GetGenerationResponse } from '@/pages/PostGeneration/types';
 import { decimalToPercentage } from '@/utils';
-import { DialogContext, SelectV2, TextField, Toggle } from '@sopt-makers/ui';
-import { useCallback, useContext, useMemo, useState } from 'react';
-import type { ChangeEvent } from 'react';
 
 interface FilterProps {
   generationData: GetGenerationResponse;
@@ -94,6 +95,7 @@ const Filter = ({
                 minimumRate={minimumRate ?? 0}
                 questions={data.data.questions}
                 onClose={closeDialog}
+                isCommon={applicantInfo.selectedPart === COMMON_QUESTION}
               />
             ),
           });
