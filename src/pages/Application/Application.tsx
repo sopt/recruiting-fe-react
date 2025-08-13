@@ -1,8 +1,7 @@
 import { Tab } from '@sopt-makers/ui';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Pagination from '@/components/Pagination';
 import { IS_SOPT } from '@/constants';
-import usePagination from '@/hooks/usePagination';
 import {
   type ApplicantState,
   Part,
@@ -40,21 +39,23 @@ const Application = () => {
   const [applicantInfo, setApplicantInfo] = useState<ApplicantState>(
     INITIAL_APPLICANT_INFO,
   );
+  const [currentPage, setCurrentPage] = useState(1);
 
   const { data: generationData } = useGetGeneration(applicantInfo.group);
 
   const applicantListParams = {
     season: Number(applicantInfo.season),
     group: applicantInfo.group,
-    offset: 0,
+    offset: (currentPage - 1) * PAGE_LIMIT,
     limit: PAGE_LIMIT,
     minRate: applicantInfo.minRate,
     hideDontRead: applicantInfo.dontReadInfo.checkedByMe,
     hideEvaluated: applicantInfo.evaluatedInfo.checkedByMe,
     checkInterviewPass: applicantInfo.isPassedOnly,
-    ...(applicantInfo.selectedPart !== (COMMON_QUESTION || SOPT_COMMON) && {
-      part: applicantInfo.selectedPart,
-    }),
+    ...(applicantInfo.selectedPart !== COMMON_QUESTION &&
+      applicantInfo.selectedPart !== SOPT_COMMON && {
+        part: applicantInfo.selectedPart,
+      }),
   };
 
   const {
@@ -63,20 +64,9 @@ const Application = () => {
     isLoading,
   } = useGetApplicantList(applicantListParams);
 
-  const { currentPage, totalPages, handlePageChange } = usePagination({
-    totalItems: applicantList?.data.data.length ?? 0,
-    limit: PAGE_LIMIT,
-  });
-
-  const paginatedData = useMemo(() => {
-    const arr = Array.isArray(applicantList?.data.data)
-      ? applicantList.data.data
-      : [];
-    const startIndex = (currentPage - 1) * PAGE_LIMIT;
-    const endIndex = startIndex + PAGE_LIMIT;
-
-    return arr.slice(startIndex, endIndex);
-  }, [currentPage, applicantList?.data]);
+  const totalPages =
+    applicantList?.data.meta.totalPage ??
+    Math.ceil((applicantList?.data.meta.total ?? 0) / PAGE_LIMIT);
 
   useEffect(() => {
     if (generationData.seasons.length > 0) {
@@ -86,6 +76,18 @@ const Application = () => {
       }));
     }
   }, [generationData]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [
+    applicantInfo.season,
+    applicantInfo.group,
+    applicantInfo.dontReadInfo.checkedByMe,
+    applicantInfo.evaluatedInfo.checkedByMe,
+    applicantInfo.isPassedOnly,
+    applicantInfo.selectedPart,
+    applicantInfo.minRate,
+  ]);
 
   return (
     <>
@@ -101,18 +103,22 @@ const Application = () => {
             style="primary"
             size="md"
             tabItems={tabItems}
-            onChange={(selectedPart) =>
-              setApplicantInfo((prev) => ({ ...prev, selectedPart }))
-            }
+            onChange={(selectedPart) => {
+              setApplicantInfo((prev) => ({ ...prev, selectedPart }));
+              setCurrentPage(1);
+            }}
           />
         </div>
         <hr className="border-gray800 mt-[-4.7rem] w-[98rem] ml-[21.2rem]" />
-        <ApplicationTable data={paginatedData ?? []} isLoading={isLoading} />
+        <ApplicationTable
+          data={applicantList?.data.data ?? []}
+          isLoading={isLoading}
+        />
       </div>
       <Pagination
         totalPages={totalPages}
         currentPage={currentPage}
-        onPageChange={handlePageChange}
+        onPageChange={setCurrentPage}
       />
     </>
   );

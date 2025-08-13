@@ -131,6 +131,13 @@ export interface GetApplicantListResponse {
       email: string;
       phone: string;
     }[];
+    meta: {
+      currentPage: number;
+      limit: number;
+      offset: number;
+      total: number;
+      totalPage: number;
+    };
   };
 }
 
