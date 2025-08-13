@@ -1,9 +1,9 @@
+import { useToast } from '@sopt-makers/ui';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { getQuestionList } from '@/pages/PostQuestion/apis/getQuestionList';
 import { postQuestionsRegister } from '@/pages/PostQuestion/apis/postQuestionsRegister';
 import { postQuestionsSave } from '@/pages/PostQuestion/apis/postQuestionsSave';
 import type { Group, QuestionSubmitRequest } from '@/pages/PostQuestion/types';
-import { useToast } from '@sopt-makers/ui';
-import { useMutation, useQuery } from '@tanstack/react-query';
 
 export const usePostQuestionsSave = () => {
   const { open } = useToast();
@@ -29,18 +29,20 @@ export const useGetQuestionList = (season: number, group: Group) => {
     queryFn: () => getQuestionList(season, group),
     retry: 0,
     enabled: season !== 0,
-    // 질문 데이터에 isLink 값 추가
+    // 질문 데이터에 isLink, isAnswer 유도 값 추가 (charLimit이 null이면 주관식 해제)
     select: (data) => {
       return {
         commonQuestions: data.commonQuestions.map((question) => ({
           ...question,
           isLink: !!question.link,
+          isAnswer: !question.isDescription && question.charLimit != null,
         })),
         partQuestions: data.partQuestions.map((partQuestion) => ({
           ...partQuestion,
           questions: partQuestion.questions.map((question) => ({
             ...question,
             isLink: !!question.link,
+            isAnswer: !question.isDescription && question.charLimit != null,
           })),
         })),
       };
