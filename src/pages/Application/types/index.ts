@@ -1,7 +1,7 @@
 import type { Group } from '@/pages/PostQuestion/types';
 
 export type SoptPartType =
-  | '전체'
+  | '공통'
   | '기획'
   | '디자인'
   | '서버'
@@ -10,7 +10,7 @@ export type SoptPartType =
   | '웹';
 
 export enum SoptPart {
-  전체 = '전체',
+  공통 = '공통',
   기획 = '기획',
   디자인 = '디자인',
   서버 = '서버',
