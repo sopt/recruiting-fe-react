@@ -1,18 +1,30 @@
-import { Part, type PartType } from '@/pages/Application/\btypes';
-import { COMMON_QUESTION } from '@/pages/Application/constants';
+import { Tab } from '@sopt-makers/ui';
+import type { RefObject } from 'react';
+import { IS_SOPT } from '@/constants';
+import {
+  Part,
+  type PartType,
+  SoptPart,
+  type SoptPartType,
+} from '@/pages/Application/\btypes';
+import { COMMON_QUESTION, SOPT_COMMON } from '@/pages/Application/constants';
 import Filters from '@/pages/PostQuestion/components/Filters';
 import type { FilterState } from '@/pages/PostQuestion/hooks/useFilterReducer';
 import type { Group } from '@/pages/PostQuestion/types';
-import { Tab } from '@sopt-makers/ui';
-import type { RefObject } from 'react';
 
 interface HeaderProps {
   filterState: FilterState;
-  handleTabChange: (part: PartType) => void;
+  handleTabChange: (part: PartType | SoptPartType) => void;
   handleGroupChange: (group: Group) => void;
   handleSeasonChange: (season: number) => void;
   targetRef: RefObject<HTMLElement | null>;
 }
+
+const tabItems = IS_SOPT
+  ? (Object.keys(SoptPart) as SoptPartType[])
+  : (Object.keys(Part) as PartType[]);
+
+const selectedInitial = IS_SOPT ? SOPT_COMMON : COMMON_QUESTION;
 
 const Header = ({
   filterState,
@@ -29,12 +41,11 @@ const Header = ({
         handleSeasonChange={handleSeasonChange}
       />
       <Tab
-        selectedInitial={COMMON_QUESTION as PartType}
+        selectedInitial={selectedInitial}
         style="primary"
         size="md"
         onChange={handleTabChange}
-        tabItems={Object.keys(Part) as PartType[]}
-        translator={Part}
+        tabItems={tabItems}
       />
     </header>
   );

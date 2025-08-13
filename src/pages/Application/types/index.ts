@@ -30,13 +30,6 @@ export type PartType =
   | 'Android';
 
 export enum Part {
-  // ALL = "ALL",
-  // PLAN = "PLAN",
-  // DESIGN = "DESIGN",
-  // SERVER = "SERVER",
-  // IOS = "IOS",
-  // ANDROID = "ANDROID",
-  // WEB = "WEB",
   공통 = '공통',
   PM = 'PM',
   PD = 'PD',
