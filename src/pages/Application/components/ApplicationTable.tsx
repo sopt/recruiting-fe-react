@@ -168,7 +168,7 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
               </td>
             </tr>
           ) : isLoading ? (
-            Array.from({ length: 5 }).map((_, index) => (
+            Array.from({ length: 10 }).map((_, index) => (
               <SkeletonTable key={index} />
             ))
           ) : (
