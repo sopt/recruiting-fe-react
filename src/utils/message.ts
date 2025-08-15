@@ -7,7 +7,7 @@ export const getDoNotReadMessage = (item: string[]) => {
     (part) => ExecutiveType[part as keyof typeof ExecutiveType],
   );
 
-  return `${parts.join(', ')}이(가) 읽지 말라고 선택했어요.`;
+  return `${parts.join(', ')}이 읽지 말라고 선택했어요.`;
 };
 
 export const getEvaluationMessage = (item: string[]) => {
@@ -17,5 +17,5 @@ export const getEvaluationMessage = (item: string[]) => {
     (part) => ExecutiveType[part as keyof typeof ExecutiveType],
   );
 
-  return `${parts.join(', ')}이(가) 평가를 완료했어요.`;
+  return `${parts.join(', ')}이 평가를 완료했어요.`;
 };
