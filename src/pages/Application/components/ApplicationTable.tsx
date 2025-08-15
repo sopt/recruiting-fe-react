@@ -338,7 +338,10 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
                   >
                     <div className={TD_CONTENT_STYLE}>
-                      {item.mostRecentSeason}기
+                      {item.mostRecentSeason === 0
+                        ? '없음'
+                        : item.mostRecentSeason}
+                      기
                     </div>
                   </td>
                   <td
