@@ -218,7 +218,9 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
                         alt="프로필"
                         className="w-[5.2rem] h-[7rem] object-cover rounded-[0.3rem]"
                       />
-                      <span className="break-words">{item.name}</span>
+                      <span className="break-words w-[3.671rem]">
+                        {item.name}
+                      </span>
                     </div>
                   </td>
                   <td

@@ -4,12 +4,12 @@ import {
   TextField,
   Toggle,
   useToast,
-} from '@sopt-makers/ui';
-import { useEffect } from 'react';
-import { Controller, useFormContext } from 'react-hook-form';
-import { Add, Arrange, InfoCircle, Link, Trash } from '@/assets/svg';
-import Tooltip from '@/components/Tooltip';
-import type { qustionListTypes } from '@/pages/PostQuestion/types/form';
+} from "@sopt-makers/ui";
+import { useEffect } from "react";
+import { Controller, useFormContext } from "react-hook-form";
+import { Add, Arrange, InfoCircle, Link, Trash } from "@/assets/svg";
+import Tooltip from "@/components/Tooltip";
+import type { qustionListTypes } from "@/pages/PostQuestion/types/form";
 
 interface QuestionBoxProps {
   index: number;
@@ -40,10 +40,10 @@ const QuestionBox = ({
   const isAnswer = watch(`questionList.${index}.isAnswer`);
 
   useEffect(() => {
-    const textareas = document.querySelectorAll('textarea');
+    const textareas = document.querySelectorAll("textarea");
     if (textareas) {
       for (const textarea of textareas) {
-        textarea.style.height = 'auto';
+        textarea.style.height = "auto";
         textarea.style.height = `${textarea.scrollHeight}px`;
       }
     }
@@ -55,19 +55,19 @@ const QuestionBox = ({
     }
   }, [isFile]);
 
-  useEffect(() => {
-    if (required && !isAnswer) {
-      setValue(`questionList.${index}.isAnswer`, true);
-    }
-  }, [required]);
+  // useEffect(() => {
+  //   if (required && !isAnswer) {
+  //     setValue(`questionList.${index}.isAnswer`, true);
+  //   }
+  // }, [required]);
 
   useEffect(() => {
     if (isActive) return;
 
     if (isAnswer) {
       const currentPlaceholder = watch(`questionList.${index}.placeholder`);
-      if (!currentPlaceholder || currentPlaceholder.trim() === '') {
-        setValue(`questionList.${index}.placeholder`, '내용을 작성해주세요.');
+      if (!currentPlaceholder || currentPlaceholder.trim() === "") {
+        setValue(`questionList.${index}.placeholder`, "내용을 작성해주세요.");
       }
     } else {
       setValue(`questionList.${index}.placeholder`, null);
@@ -78,8 +78,8 @@ const QuestionBox = ({
   const handleDeleteQuestionClick = () => {
     deleteQuestion();
     openToast({
-      icon: 'error',
-      content: '삭제한 내용은 저장해야 최종 반영돼요.',
+      icon: "error",
+      content: "삭제한 내용은 저장해야 최종 반영돼요.",
     });
   };
 
@@ -88,8 +88,8 @@ const QuestionBox = ({
       <div
         className={`flex flex-col gap-[2rem] px-[3.2rem] pb-[2rem]  border-1 border-gray500 rounded-xl  ${
           isActive
-            ? 'py-[2rem] bg-background w-full'
-            : ' bg-gray900 w-[78.4rem]'
+            ? "py-[2rem] bg-background w-full"
+            : " bg-gray900 w-[78.4rem]"
         }`}
       >
         {!isActive && (
@@ -164,7 +164,7 @@ const QuestionBox = ({
 
         <hr className="border-gray700" />
 
-        {(isActive || isAnswer) && (
+        {isAnswer && (
           <div className="relative">
             <div className="absolute flex justify-end w-full">
               <div className="flex gap-[0.2rem] items-center label_4_12_sb text-gray30">
@@ -259,7 +259,7 @@ const QuestionBox = ({
 
         {!isFile && <hr className="border-gray700" />}
 
-        {(isActive || isAnswer) && (
+        {isAnswer && (
           <div className="w-[26.8rem]">
             <TextField
               labelText="최대 글자수"
@@ -291,17 +291,17 @@ const QuestionBox = ({
                   onClick={() => {
                     onChange(!value);
                     if (value === false) {
-                      setValue(`questionList.${index}.isAnswer`, true);
+                      // setValue(`questionList.${index}.isAnswer`, true);
                       const currentPlaceholder = watch(
-                        `questionList.${index}.placeholder`,
+                        `questionList.${index}.placeholder`
                       );
                       if (
                         !currentPlaceholder ||
-                        currentPlaceholder.trim() === ''
+                        currentPlaceholder.trim() === ""
                       ) {
                         setValue(
                           `questionList.${index}.placeholder`,
-                          '내용을 작성해주세요.',
+                          "내용을 작성해주세요."
                         );
                       }
                     }
@@ -338,9 +338,9 @@ const QuestionBox = ({
               <CheckBox
                 size="lg"
                 checked={isAnswer}
-                disabled={!isFile || required}
+                disabled={!isFile}
                 onChange={(e) => {
-                  if (!isFile || required) return;
+                  if (!isFile) return;
                   const checked = e.target.checked;
                   setValue(`questionList.${index}.isAnswer`, checked);
                   if (!checked) {
@@ -351,7 +351,9 @@ const QuestionBox = ({
               />
             </div>
             <span
-              className={`body_2_16_m ${(!isFile || required) && 'text-gray300'}`}
+              className={`body_2_16_m ${
+                (!isFile || required) && "text-gray300"
+              }`}
             >
               주관식
             </span>
