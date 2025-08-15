@@ -1,17 +1,20 @@
+import { Button, Dialog } from '@sopt-makers/ui';
 import type { QuestionCharLimit } from '@/pages/Application/\btypes';
-import { Dialog } from '@sopt-makers/ui';
-import { Button } from '@sopt-makers/ui';
 
 interface MinimumRateModalProps {
   minimumRate: number;
   questions: QuestionCharLimit[];
   onClose: () => void;
+  isCommon?: boolean;
 }
+
+const COMMON_QUESTION_LENGTH = [600, 700, 800, 900, 1000];
 
 const MinimumRateModal = ({
   minimumRate,
   questions,
   onClose,
+  isCommon,
 }: MinimumRateModalProps) => {
   return (
     <div className="flex flex-col gap-[2rem] w-[35.2rem]">
@@ -24,16 +27,33 @@ const MinimumRateModal = ({
           입력된 {minimumRate > 0 ? `${minimumRate}` : ''}% 적용시 최소 글자수
         </h3>
         <div className="grid grid-cols-2 w-full gap-[1.2rem] px-[1.6rem] justify-items-center">
-          {questions.map((question) => (
-            <div
-              key={question.questionId}
-              className="flex body_2_16_r w-[10.8rem] justify-between text-gray10 [&>*:last-child]:text-gray100"
-            >
-              <span>{minimumRate === 0 ? '-' : question.charLimitLength}</span>
-              <span>/</span>
-              <span>{question.charLimit}</span>
-            </div>
-          ))}
+          {isCommon
+            ? COMMON_QUESTION_LENGTH.map((length, idx) => (
+                <div
+                  key={idx}
+                  className="flex body_2_16_r w-[10.8rem] justify-between text-gray10 [&>*:last-child]:text-gray100"
+                >
+                  <span>
+                    {minimumRate === 0
+                      ? '-'
+                      : Math.floor((length * minimumRate) / 100)}
+                  </span>
+                  <span>/</span>
+                  <span>{length}</span>
+                </div>
+              ))
+            : questions.map((question) => (
+                <div
+                  key={question.questionId}
+                  className="flex body_2_16_r w-[10.8rem] justify-between text-gray10 [&>*:last-child]:text-gray100"
+                >
+                  <span>
+                    {minimumRate === 0 ? '-' : question.charLimitLength}
+                  </span>
+                  <span>/</span>
+                  <span>{question.charLimit}</span>
+                </div>
+              ))}
         </div>
       </div>
       <Dialog.Footer align="right">
