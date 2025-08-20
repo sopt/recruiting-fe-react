@@ -1,57 +1,59 @@
-import { CheckBox, Tag } from '@sopt-makers/ui';
-import { useQueryClient } from '@tanstack/react-query';
-import type React from 'react';
-import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { AlertTriangle } from '@/assets/svg';
-import Tooltip from '@/components/Tooltip';
+import { CheckBox, Tag } from "@sopt-makers/ui";
+import { useQueryClient } from "@tanstack/react-query";
+import type React from "react";
+import { useEffect, useRef, useState } from "react";
+import { AlertTriangle } from "@/assets/svg";
+import Tooltip from "@/components/Tooltip";
 import type {
   ApplicationTableProps,
   EvaluationToggleType,
   StatusType,
-} from '@/pages/Application/\btypes';
-import ChipDropDown from '@/pages/Application/components/ChipDropdown';
-import SkeletonTable from '@/pages/Application/components/SkeletonTable';
+} from "@/pages/Application/\btypes";
+import ChipDropDown from "@/pages/Application/components/ChipDropdown";
+import SkeletonTable from "@/pages/Application/components/SkeletonTable";
 import {
   usePostApplicantPassStatus,
   usePostEvalution,
-} from '@/pages/Application/hooks/queries';
+} from "@/pages/Application/hooks/queries";
 import {
   convertPassInfoToStatus,
   convertStatusToPassInfo,
-} from '@/pages/Application/utils';
-import { ROUTES_CONFIG } from '@/routes/routeConfig';
-import { getDoNotReadMessage, getEvaluationMessage } from '@/utils/message';
-import { scrollToLeft } from '@/utils/scroll';
+} from "@/pages/Application/utils";
+import { ROUTES_CONFIG } from "@/routes/routeConfig";
+import { getDoNotReadMessage, getEvaluationMessage } from "@/utils/message";
+import { scrollToLeft } from "@/utils/scroll";
 
 const HEADER_BASE_STYLE =
-  'p-[1rem] text-gray100 body_3_14_m bg-gray700 border-gray600';
+  "p-[1rem] text-gray100 body_3_14_m bg-gray700 border-gray600";
 const CELL_BASE_STYLE =
-  'h-[6rem] text-center body_3_14_m bg-transparent border-b-[1px] border-gray700 align-middle';
-const TD_BASE_STYLE = 'h-full flex items-center cursor-pointer';
-const TD_CONTENT_STYLE = 'w-full text-center break-words p-[0.8rem] ';
+  "h-[6rem] text-center body_3_14_m bg-transparent border-b-[1px] border-gray700 align-middle";
+const TD_BASE_STYLE = "h-full flex items-center cursor-pointer";
+const TD_CONTENT_STYLE = "w-full text-center break-words p-[0.8rem] ";
 
 const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
   const [passStatusList, setPassStatusList] = useState<Record<number, string>>(
-    {},
+    {}
   );
   const tableRef = useRef<HTMLDivElement>(null);
 
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const { mutate } = usePostEvalution();
   const { mutate: postPassStatus } = usePostApplicantPassStatus();
 
   const goApplicationDetail = (applicantId: number) => {
-    navigate(ROUTES_CONFIG.applicationDetail.generatePath(applicantId));
+    const path = ROUTES_CONFIG.applicationDetail.generatePath(applicantId);
+    const url = `${window.location.origin}${
+      path.startsWith("/") ? "" : "/"
+    }${path}`;
+    window.open(url, "_blank", "noopener,noreferrer");
   };
 
   const goApplicationDetailKeyDown = (
     e: React.KeyboardEvent,
-    applicantId: number,
+    applicantId: number
   ) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       goApplicationDetail(applicantId);
     }
   };
@@ -72,27 +74,27 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
       {
         onSuccess: () => {
           queryClient.invalidateQueries({
-            queryKey: ['applicant', 'detail', id],
+            queryKey: ["applicant", "detail", id],
           });
         },
-      },
+      }
     );
   };
 
   const handleEvaluation = (
     applicantId: number,
     evaluationType: EvaluationToggleType,
-    isChecked: boolean,
+    isChecked: boolean
   ) => {
     mutate(
       { applicantId, evaluationType, isChecked },
       {
         onSuccess: () => {
           queryClient.invalidateQueries({
-            queryKey: ['applicant', 'detail', applicantId],
+            queryKey: ["applicant", "detail", applicantId],
           });
         },
-      },
+      }
     );
   };
 
@@ -107,7 +109,7 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
       className="w-full overflow-x-auto overflow-y-hidden scroll-smooth scrollbar-hide pr-[12.4rem] pb-[5rem] pl-[21.2rem]"
       onMouseDown={(e) => {
         const target = e.target as HTMLElement;
-        if (target.closest('[data-dropdown]')) {
+        if (target.closest("[data-dropdown]")) {
           return;
         }
       }}
@@ -174,10 +176,10 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
           ) : (
             data.map((item) => {
               const doNotReadMessage = getDoNotReadMessage(
-                item.dontReadInfo.checkedList,
+                item.dontReadInfo.checkedList
               );
               const evaluationMessage = getEvaluationMessage(
-                item.evaluatedInfo.checkedList,
+                item.evaluatedInfo.checkedList
               );
               const currentStatus =
                 passStatusList[item.id] || convertPassInfoToStatus(item.status);
@@ -240,7 +242,7 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
                             e.stopPropagation();
                           }}
                           onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
+                            if (e.key === "Enter") {
                               e.stopPropagation();
                             }
                           }}
@@ -253,8 +255,8 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
                               e.preventDefault();
                               handleEvaluation(
                                 item.id,
-                                'DONT_READ',
-                                !item.dontReadInfo.checkedByMe,
+                                "DONT_READ",
+                                !item.dontReadInfo.checkedByMe
                               );
                             }}
                           />
@@ -294,7 +296,7 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
                           e.stopPropagation();
                         }}
                         onKeyDown={(e) => {
-                          if (e.key === 'Enter') {
+                          if (e.key === "Enter") {
                             e.stopPropagation();
                           }
                         }}
@@ -306,8 +308,8 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
                             e.preventDefault();
                             handleEvaluation(
                               item.id,
-                              'EVALUATION',
-                              !item.evaluatedInfo.checkedByMe,
+                              "EVALUATION",
+                              !item.evaluatedInfo.checkedByMe
                             );
                           }}
                         />
@@ -339,7 +341,7 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
                   >
                     <div className={TD_CONTENT_STYLE}>
                       {item.mostRecentSeason === 0
-                        ? '없음'
+                        ? "없음"
                         : item.mostRecentSeason}
                       기
                     </div>
