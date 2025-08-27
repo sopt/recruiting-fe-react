@@ -152,7 +152,7 @@ const Filter = ({
       <div className="flex flex-col gap-[0.8rem]">
         <button
           type="button"
-          className="flex items-center gap-[0.4rem] body_3_14_r text-gray100 cursor-pointer"
+          className="flex items-center w-fit gap-[0.4rem] body_3_14_r text-gray100 cursor-pointer"
           onClick={handleOpenDialog}
         >
           글자 수 미달 지원서 숨기기 <InfoCircle width={16} height={16} />
