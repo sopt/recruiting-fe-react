@@ -1,6 +1,6 @@
+import type { QueryKey } from '@tanstack/react-query';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import queryClient from '@/apis/queryClient';
-import { QUERY_KEY } from '@/apis/queryKey';
 import type {
   GetApplicantListRequest,
   GetApplicantListResponse,
@@ -15,9 +15,18 @@ import { postMinRate } from '@/pages/Application/apis/postMinRate';
 import { postPassStatus } from '@/pages/Application/apis/postPassStatus';
 import type { Group } from '@/pages/PostQuestion/types';
 
+export const ApplicantKeys = {
+  all: () => ['applicant'] as const,
+  lists: () => [...ApplicantKeys.all(), 'list'] as const,
+  list: (params: GetApplicantListRequest) =>
+    [...ApplicantKeys.lists(), params] as const,
+  detail: (applicantId: number) =>
+    [...ApplicantKeys.all(), 'detail', applicantId] as const,
+} as const;
+
 export const useGetApplicantList = (params: GetApplicantListRequest) => {
   return useQuery({
-    queryKey: [QUERY_KEY.APPLICANT_LIST, params],
+    queryKey: ApplicantKeys.list(params),
     queryFn: () => getApplicantList(params),
     enabled: !!params.season,
   });
@@ -28,64 +37,83 @@ export const usePostApplicantPassStatus = () => {
     mutationFn: (info: PostApplicantPassStatusRequest) => postPassStatus(info),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEY.APPLICANT_LIST],
+        queryKey: ApplicantKeys.lists(),
       });
     },
   });
 };
 
 export const usePostEvalution = () => {
-  return useMutation({
+  return useMutation<
+    unknown,
+    unknown,
+    PostEvaluationRequest,
+    { snapshotsData: Array<[QueryKey, GetApplicantListResponse | undefined]> }
+  >({
     mutationFn: (evaluationInfo: PostEvaluationRequest) =>
       postEvaluation(evaluationInfo),
     onMutate: async (evaluationInfo) => {
-      await queryClient.cancelQueries({ queryKey: [QUERY_KEY.APPLICANT_LIST] });
-
-      const previous = queryClient.getQueryData([
-        QUERY_KEY.APPLICANT_LIST,
-      ]) as GetApplicantListResponse;
-
-      if (!previous) return;
-
-      const prevList = previous?.data?.data ?? [];
-      const newList = prevList.map((applicant) => {
-        if (evaluationInfo.evaluationType === 'DONT_READ') {
-          return {
-            ...applicant,
-            dontReadInfo: {
-              ...applicant.dontReadInfo,
-              checkedByMe: evaluationInfo.isChecked,
-            },
-          };
-        }
-        if (evaluationInfo.evaluationType === 'EVALUATION') {
-          return {
-            ...applicant,
-            evaluatedInfo: {
-              ...applicant.evaluatedInfo,
-              checkedByMe: evaluationInfo.isChecked,
-            },
-          };
-        }
-        return applicant;
+      await queryClient.cancelQueries({
+        queryKey: ApplicantKeys.lists(),
       });
 
-      queryClient.setQueryData([QUERY_KEY.APPLICANT_LIST], {
-        ...previous,
-        data: {
-          ...previous.data,
-          data: newList,
-        },
+      const snapshotsData =
+        queryClient.getQueriesData<GetApplicantListResponse>({
+          queryKey: ApplicantKeys.lists(),
+        });
+
+      const applyUpdate = (prev?: GetApplicantListResponse) => {
+        if (!prev) return prev;
+        const prevList = prev.data?.data ?? [];
+        const newList = prevList.map((applicant) => {
+          if (evaluationInfo.evaluationType === 'DONT_READ') {
+            return {
+              ...applicant,
+              dontReadInfo: {
+                ...applicant.dontReadInfo,
+                checkedByMe: evaluationInfo.isChecked,
+              },
+            };
+          }
+          if (evaluationInfo.evaluationType === 'EVALUATION') {
+            return {
+              ...applicant,
+              evaluatedInfo: {
+                ...applicant.evaluatedInfo,
+                checkedByMe: evaluationInfo.isChecked,
+              },
+            };
+          }
+          return applicant;
+        });
+
+        return {
+          ...prev,
+          data: {
+            ...prev.data,
+            data: newList,
+          },
+        };
+      };
+
+      snapshotsData.forEach(([key, prev]) => {
+        queryClient.setQueryData<GetApplicantListResponse>(
+          key,
+          applyUpdate(prev)
+        );
       });
 
-      return { previous };
+      return { snapshotsData };
     },
-    onError: (_, __, context) => {
-      queryClient.setQueryData([QUERY_KEY.APPLICANT_LIST], context);
+    onError: (_err, _variables, context) => {
+      const { snapshotsData } = context ?? {};
+      snapshotsData?.forEach(([key, prev]) => {
+        queryClient.setQueryData<GetApplicantListResponse>(key, prev);
+      });
     },
     onSettled: () => {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEY.APPLICANT_LIST],
+        queryKey: ApplicantKeys.lists(),
       });
     },
   });

@@ -5,6 +5,13 @@ import { postQuestionsRegister } from '@/pages/PostQuestion/apis/postQuestionsRe
 import { postQuestionsSave } from '@/pages/PostQuestion/apis/postQuestionsSave';
 import type { Group, QuestionSubmitRequest } from '@/pages/PostQuestion/types';
 
+export const QuestionKeys = {
+  all: () => ['question'] as const,
+  list: (season?: number, group?: Group) =>
+    [...QuestionKeys.all(), 'list', season, group] as const,
+  lists: () => [...QuestionKeys.all(), 'list'] as const,
+} as const;
+
 export const usePostQuestionsSave = () => {
   const { open } = useToast();
   return useMutation({
@@ -25,7 +32,7 @@ export const usePostQuestionsRegister = () => {
 
 export const useGetQuestionList = (season: number, group: Group) => {
   return useQuery({
-    queryKey: ['question', 'list', season, group],
+    queryKey: QuestionKeys.list(season, group),
     queryFn: () => getQuestionList(season, group),
     retry: 0,
     enabled: season !== 0,

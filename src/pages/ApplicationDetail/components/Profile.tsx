@@ -1,11 +1,13 @@
+import { CheckBox } from '@sopt-makers/ui';
+import { useQueryClient } from '@tanstack/react-query';
 import { AlertTriangle } from '@/assets/svg';
 import type {
   EvaluationToggleType,
   StatusType,
 } from '@/pages/Application/\btypes';
-
 import ChipDropDown from '@/pages/Application/components/ChipDropdown';
 import {
+  ApplicantKeys,
   usePostApplicantPassStatus,
   usePostEvalution,
 } from '@/pages/Application/hooks/queries';
@@ -15,8 +17,6 @@ import {
 } from '@/pages/Application/utils';
 import type { ApplicantType } from '@/pages/ApplicationDetail/types';
 import { getDoNotReadMessage, getEvaluationMessage } from '@/utils/message';
-import { CheckBox } from '@sopt-makers/ui';
-import { useQueryClient } from '@tanstack/react-query';
 
 interface ProfileProps {
   profileData?: ApplicantType;
@@ -44,27 +44,27 @@ const Profile = ({ profileData }: ProfileProps) => {
       {
         onSuccess: () => {
           queryClient.invalidateQueries({
-            queryKey: ['applicant', 'detail', applicantId],
+            queryKey: ApplicantKeys.detail(applicantId),
           });
         },
-      },
+      }
     );
   };
 
   const handleEvaluationClick = (
     applicantId: number,
     evaluationType: EvaluationToggleType,
-    isChecked: boolean,
+    isChecked: boolean
   ) => {
     evalutionMutate(
       { applicantId, evaluationType, isChecked },
       {
         onSuccess: () => {
           queryClient.invalidateQueries({
-            queryKey: ['applicant', 'detail', applicantId],
+            queryKey: ApplicantKeys.detail(applicantId),
           });
         },
-      },
+      }
     );
   };
 
@@ -130,7 +130,7 @@ const Profile = ({ profileData }: ProfileProps) => {
                 handleEvaluationClick(
                   profileData.id,
                   'DONT_READ',
-                  !profileData.dontReadInfo.checkedByMe,
+                  !profileData.dontReadInfo.checkedByMe
                 )
               }
             />
@@ -160,7 +160,7 @@ const Profile = ({ profileData }: ProfileProps) => {
                 handleEvaluationClick(
                   profileData.id,
                   'EVALUATION',
-                  !profileData.evaluatedInfo.checkedByMe,
+                  !profileData.evaluatedInfo.checkedByMe
                 )
               }
             />

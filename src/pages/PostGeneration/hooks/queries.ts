@@ -6,13 +6,15 @@ import { postGeneration } from '@/pages/PostGeneration/apis/postGeneration';
 import type { PostGenerationRequest } from '@/pages/PostGeneration/types';
 import type { Group } from '@/pages/PostQuestion/types';
 
-const QUERY_KEY = {
-  GET_GENERATION: 'getGeneration',
-};
+export const GenerationKeys = {
+  all: () => ['generation'] as const,
+  lists: () => [...GenerationKeys.all(), 'list'] as const,
+  list: (group: Group) => [...GenerationKeys.lists(), group] as const,
+} as const;
 
 export const useGetGeneration = (group: Group) => {
   return useSuspenseQuery({
-    queryKey: [QUERY_KEY.GET_GENERATION, group],
+    queryKey: GenerationKeys.list(group),
     queryFn: () => getGeneration(group),
   });
 };
@@ -22,7 +24,7 @@ export const usePostGeneration = (season: PostGenerationRequest) => {
     mutationFn: () => postGeneration(season),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEY.GET_GENERATION],
+        queryKey: GenerationKeys.all(),
       });
     },
   });
@@ -33,7 +35,7 @@ export const useDeleteGeneration = () => {
     mutationFn: (seasonId: number) => deleteGeneration(seasonId),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEY.GET_GENERATION],
+        queryKey: GenerationKeys.all(),
       });
     },
   });
