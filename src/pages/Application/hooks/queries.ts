@@ -17,16 +17,16 @@ import type { Group } from '@/pages/PostQuestion/types';
 
 export const ApplicantKeys = {
   all: () => ['applicant'] as const,
-  lists: () => [...ApplicantKeys.all(), 'list'] as const,
-  list: (params: GetApplicantListRequest) =>
-    [...ApplicantKeys.lists(), params] as const,
+  list: () => [...ApplicantKeys.all(), 'list'] as const,
+  filteredList: (params: GetApplicantListRequest) =>
+    [...ApplicantKeys.list(), params] as const,
   detail: (applicantId: number) =>
     [...ApplicantKeys.all(), 'detail', applicantId] as const,
 } as const;
 
 export const useGetApplicantList = (params: GetApplicantListRequest) => {
   return useQuery({
-    queryKey: ApplicantKeys.list(params),
+    queryKey: ApplicantKeys.filteredList(params),
     queryFn: () => getApplicantList(params),
     enabled: !!params.season,
   });
@@ -37,7 +37,7 @@ export const usePostApplicantPassStatus = () => {
     mutationFn: (info: PostApplicantPassStatusRequest) => postPassStatus(info),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ApplicantKeys.lists(),
+        queryKey: ApplicantKeys.list(),
       });
     },
   });
@@ -54,12 +54,12 @@ export const usePostEvalution = () => {
       postEvaluation(evaluationInfo),
     onMutate: async (evaluationInfo) => {
       await queryClient.cancelQueries({
-        queryKey: ApplicantKeys.lists(),
+        queryKey: ApplicantKeys.list(),
       });
 
       const snapshotsData =
         queryClient.getQueriesData<GetApplicantListResponse>({
-          queryKey: ApplicantKeys.lists(),
+          queryKey: ApplicantKeys.list(),
         });
 
       const applyUpdate = (prev?: GetApplicantListResponse) => {
@@ -113,7 +113,7 @@ export const usePostEvalution = () => {
     },
     onSettled: () => {
       queryClient.invalidateQueries({
-        queryKey: ApplicantKeys.lists(),
+        queryKey: ApplicantKeys.list(),
       });
     },
   });

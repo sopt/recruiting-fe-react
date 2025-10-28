@@ -8,13 +8,13 @@ import type { Group } from '@/pages/PostQuestion/types';
 
 export const GenerationKeys = {
   all: () => ['generation'] as const,
-  lists: () => [...GenerationKeys.all(), 'list'] as const,
-  list: (group: Group) => [...GenerationKeys.lists(), group] as const,
+  list: () => [...GenerationKeys.all(), 'list'] as const,
+  filteredList: (group: Group) => [...GenerationKeys.list(), group] as const,
 } as const;
 
 export const useGetGeneration = (group: Group) => {
   return useSuspenseQuery({
-    queryKey: GenerationKeys.list(group),
+    queryKey: GenerationKeys.filteredList(group),
     queryFn: () => getGeneration(group),
   });
 };

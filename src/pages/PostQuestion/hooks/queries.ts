@@ -7,9 +7,9 @@ import type { Group, QuestionSubmitRequest } from '@/pages/PostQuestion/types';
 
 export const QuestionKeys = {
   all: () => ['question'] as const,
-  list: (season?: number, group?: Group) =>
+  list: () => [...QuestionKeys.all(), 'list'] as const,
+  filteredList: (season?: number, group?: Group) =>
     [...QuestionKeys.all(), 'list', season, group] as const,
-  lists: () => [...QuestionKeys.all(), 'list'] as const,
 } as const;
 
 export const usePostQuestionsSave = () => {
@@ -32,7 +32,7 @@ export const usePostQuestionsRegister = () => {
 
 export const useGetQuestionList = (season: number, group: Group) => {
   return useQuery({
-    queryKey: QuestionKeys.list(season, group),
+    queryKey: QuestionKeys.filteredList(season, group),
     queryFn: () => getQuestionList(season, group),
     retry: 0,
     enabled: season !== 0,

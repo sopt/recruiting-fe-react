@@ -55,7 +55,10 @@ const TemporarySaveButton = ({
     saveMutate(requestData, {
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: QuestionKeys.list(filterState.season, filterState.group),
+          queryKey: QuestionKeys.filteredList(
+            filterState.season,
+            filterState.group
+          ),
         });
       },
     });
