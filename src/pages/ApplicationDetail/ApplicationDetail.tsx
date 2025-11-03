@@ -1,30 +1,27 @@
-import { ChevronLeft } from "@/assets/svg";
-import BackToTopButton from "@/components/BackToTopButton";
+import { Tab } from '@sopt-makers/ui';
+import { useEffect, useRef, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { ChevronLeft } from '@/assets/svg';
+import BackToTopButton from '@/components/BackToTopButton';
+import Profile from '@/pages/ApplicationDetail/components/Profile';
+import QnaList from '@/pages/ApplicationDetail/components/QnaList';
+import { useGetApplicantDetail } from '@/pages/ApplicationDetail/hooks/queries';
+import { ROUTES_CONFIG } from '@/routes/routeConfig';
+import { scrollToTop } from '@/utils/scroll';
 
-import Profile from "@/pages/ApplicationDetail/components/Profile";
-import QnaList from "@/pages/ApplicationDetail/components/QnaList";
-
-import { useGetApplicantDetail } from "@/pages/ApplicationDetail/hooks/quries";
-import { ROUTES_CONFIG } from "@/routes/routeConfig";
-import { scrollToTop } from "@/utils/scroll";
-import { Tab } from "@sopt-makers/ui";
-
-import { useEffect, useRef, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
-
-type questionCategoryType = "common" | "part";
+type questionCategoryType = 'common' | 'part';
 
 const ApplicationDetail = () => {
   const [searchParams] = useSearchParams();
 
   const qnaListRef = useRef<HTMLDivElement>(null);
 
-  const applicantId = searchParams.get("id") ?? 0;
+  const applicantId = searchParams.get('id') ?? 0;
 
   const { data: applicationDetailData } = useGetApplicantDetail(+applicantId);
 
   const [questionCategory, setQuestionCategory] =
-    useState<questionCategoryType>("common");
+    useState<questionCategoryType>('common');
 
   const handleTabChange = (tab: questionCategoryType) => {
     setQuestionCategory(tab);
@@ -61,10 +58,10 @@ const ApplicationDetail = () => {
               selectedInitial="common"
               size="lg"
               style="secondary"
-              tabItems={["common", "part"]}
+              tabItems={['common', 'part']}
               translator={{
-                common: "공통 질문",
-                part: "파트별 질문",
+                common: '공통 질문',
+                part: '파트별 질문',
               }}
               onChange={handleTabChange}
             />
@@ -73,7 +70,7 @@ const ApplicationDetail = () => {
         <div ref={qnaListRef}>
           <QnaList
             questions={
-              questionCategory === "common"
+              questionCategory === 'common'
                 ? applicationDetailData?.commonQuestions
                 : applicationDetailData?.partQuestions
             }

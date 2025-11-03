@@ -1,11 +1,15 @@
-import { useDebouncedCallback } from '@/hooks/useDebounceCallback';
-import { COMMON_QUESTION } from '@/pages/Application/constants';
-import { usePostQuestionsSave } from '@/pages/PostQuestion/hooks/quries';
-import type { FilterState } from '@/pages/PostQuestion/hooks/useFilterReducer';
-import type { qustionListTypes } from '@/pages/PostQuestion/types/form';
 import { Button } from '@sopt-makers/ui';
 import { useQueryClient } from '@tanstack/react-query';
 import { useFormContext } from 'react-hook-form';
+
+import { useDebouncedCallback } from '@/hooks/useDebounceCallback';
+import { COMMON_QUESTION } from '@/pages/Application/constants';
+import {
+  QuestionKeys,
+  usePostQuestionsSave,
+} from '@/pages/PostQuestion/hooks/queries';
+import type { FilterState } from '@/pages/PostQuestion/hooks/useFilterReducer';
+import type { qustionListTypes } from '@/pages/PostQuestion/types/form';
 
 interface TemporarySaveButtonProps {
   filterState: FilterState;
@@ -51,7 +55,10 @@ const TemporarySaveButton = ({
     saveMutate(requestData, {
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: ['question', 'list', filterState.season, filterState.group],
+          queryKey: QuestionKeys.filteredList(
+            filterState.season,
+            filterState.group
+          ),
         });
       },
     });

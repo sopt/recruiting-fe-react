@@ -9,7 +9,7 @@ import {
   DEFAULT_DESCRIPTION_DATA,
   DEFAULT_QUESTION_DATA,
 } from '@/pages/PostQuestion/constant';
-import { useGetQuestionList } from '@/pages/PostQuestion/hooks/quries';
+import { useGetQuestionList } from '@/pages/PostQuestion/hooks/queries';
 import type { FilterState } from '@/pages/PostQuestion/hooks/useFilterReducer';
 
 interface QuestionListProps {
@@ -25,7 +25,7 @@ const QuestionList = ({
 
   const { data: questionListData, isSuccess } = useGetQuestionList(
     filterState.season,
-    filterState.group,
+    filterState.group
   );
 
   const { control, reset, watch } = useFormContext();
@@ -45,7 +45,7 @@ const QuestionList = ({
       filterState.part === COMMON_QUESTION
         ? questionListData?.commonQuestions
         : questionListData?.partQuestions.find(
-            (questionList) => questionList.part === filterState.part,
+            (questionList) => questionList.part === filterState.part
           )?.questions;
 
     const resetData = partQuestions ? partQuestions : [DEFAULT_QUESTION_DATA];

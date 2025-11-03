@@ -64,14 +64,30 @@ const PostGenerationModal = () => {
     season: Number(watchedValues.generation),
     type: watchedValues.type,
     name: watchedValues.generationName,
-    applicationStart: `${formatDateWithBar(watchedValues.application.start)} ${formatTime(watchedValues.applicationStartTime)}`,
-    applicationEnd: `${formatDateWithBar(watchedValues.application.end)} ${formatTime(watchedValues.applicationEndTime)}`,
-    interviewStart: `${formatDateWithBar(watchedValues.interview.start)} ${formatTime(watchedValues.interviewStartTime)}`,
-    interviewEnd: `${formatDateWithBar(watchedValues.interview.end)} ${formatTime(watchedValues.interviewEndTime)}`,
-    applicationResultStart: `${formatDateWithBar(watchedValues.applicationResult.start)} ${formatTime(watchedValues.applicationResultStartTime)}`,
-    applicationResultEnd: `${formatDateWithBar(watchedValues.applicationResult.end)} ${formatTime(watchedValues.applicationResultEndTime)}`,
-    finalResultStart: `${formatDateWithBar(watchedValues.finalResult.start)} ${formatTime(watchedValues.finalResultStartTime)}`,
-    finalResultEnd: `${formatDateWithBar(watchedValues.finalResult.end)} ${formatTime(watchedValues.finalResultEndTime)}`,
+    applicationStart: `${formatDateWithBar(
+      watchedValues.application.start
+    )} ${formatTime(watchedValues.applicationStartTime)}`,
+    applicationEnd: `${formatDateWithBar(
+      watchedValues.application.end
+    )} ${formatTime(watchedValues.applicationEndTime)}`,
+    interviewStart: `${formatDateWithBar(
+      watchedValues.interview.start
+    )} ${formatTime(watchedValues.interviewStartTime)}`,
+    interviewEnd: `${formatDateWithBar(
+      watchedValues.interview.end
+    )} ${formatTime(watchedValues.interviewEndTime)}`,
+    applicationResultStart: `${formatDateWithBar(
+      watchedValues.applicationResult.start
+    )} ${formatTime(watchedValues.applicationResultStartTime)}`,
+    applicationResultEnd: `${formatDateWithBar(
+      watchedValues.applicationResult.end
+    )} ${formatTime(watchedValues.applicationResultEndTime)}`,
+    finalResultStart: `${formatDateWithBar(
+      watchedValues.finalResult.start
+    )} ${formatTime(watchedValues.finalResultStartTime)}`,
+    finalResultEnd: `${formatDateWithBar(
+      watchedValues.finalResult.end
+    )} ${formatTime(watchedValues.finalResultEndTime)}`,
   });
 
   const onSubmit = () => {
@@ -93,7 +109,7 @@ const PostGenerationModal = () => {
     const inputType = watchedValues.type;
 
     return generationData?.seasons?.some(
-      (season) => season.season === inputSeason && season.group === inputType,
+      (season) => season.season === inputSeason && season.group === inputType
     );
   }, [watchedValues.generation, generationData?.seasons]);
 
@@ -120,7 +136,7 @@ const PostGenerationModal = () => {
         <div className="flex flex-col gap-[2.4rem] w-[62rem] !overflow-hidden">
           <form
             ref={dialogRef}
-            className="flex flex-col w-[64rem] justify-between !max-h-[52.7rem] !overflow-y-scroll !p-[0.2rem] !pt-[2.6rem] !pb-[10rem]"
+            className="flex flex-col w-[64rem] justify-between !max-h-[52.7rem] !overflow-y-scroll !p-[0.2rem] !pt-[2.6rem] !pb-[10rem] scrollbar-hide"
           >
             <div className="flex flex-col !gap-[3.2rem]">
               <div className="!flex !flex-col !gap-[0.8rem]">
@@ -163,7 +179,9 @@ const PostGenerationModal = () => {
                   )}
                 />
                 <div
-                  className={`flex-1 flex items-end ${isDuplicate ? 'py-[3.5rem]' : 'py-[1.1rem]'}`}
+                  className={`flex-1 flex items-end ${
+                    isDuplicate ? 'py-[3.5rem]' : 'py-[1.1rem]'
+                  }`}
                 >
                   <Controller
                     name="type"
