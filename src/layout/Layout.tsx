@@ -18,7 +18,7 @@ const Layout = () => {
       <Nav isOpen={isOpen} onToggle={toggle} />
       <CommonHeader />
       <div
-        className={`${
+        className={`transition-all duration-300 ease-out ${
           isOpen
             ? hasTable
               ? 'ml-[12.4rem]'

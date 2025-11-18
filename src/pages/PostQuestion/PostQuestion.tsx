@@ -45,7 +45,7 @@ const PostQuestion = () => {
   });
 
   return (
-    <main className="max-w-[98rem] mb-[15rem]">
+    <main className="max-w-[98rem] mb-[15rem] transition-all duration-300">
       <Header
         filterState={filterState}
         handleTabChange={setPart}
@@ -59,7 +59,11 @@ const PostQuestion = () => {
       <FormProvider {...method}>
         <form>
           <div
-            className={`flex flex-col justify-end items-end ${isIntersecting ? 'w-full mb-[2rem]' : 'fixed top-[8rem] left-[33.6rem] right-0 w-[98rem] z-4 bg-background pb-[2rem] '}`}
+            className={`flex flex-col justify-end items-end ${
+              isIntersecting
+                ? 'w-full mb-[2rem]'
+                : 'fixed top-[8rem] left-[33.6rem] right-0 w-[98rem] z-4 bg-background pb-[2rem] '
+            }`}
           >
             <div className="flex flex-col gap-[0.8rem] body_3_14_r">
               <div className="flex gap-[1.6rem] mt-[4.4rem] z-50">

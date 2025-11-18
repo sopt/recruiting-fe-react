@@ -110,7 +110,7 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
     // biome-ignore lint/a11y/noStaticElementInteractions: 테이블 클릭시 디테일로 이동
     <div
       ref={tableRef}
-      className={`w-full overflow-x-auto overflow-y-hidden scroll-smooth scrollbar-hide pr-[12.4rem] pb-[5rem]   ${
+      className={`w-full overflow-x-auto overflow-y-hidden scroll-smooth scrollbar-hide pr-[12.4rem] pb-[5rem] transition-all duration-300 ${
         isOpen ? 'pl-[21.2rem]' : 'pl-[12.4rem]'
       }`}
       onMouseDown={(e) => {

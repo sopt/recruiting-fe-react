@@ -16,7 +16,7 @@ const CommonHeader = () => {
     <header className="realtive w-full h-[13.6rem] bg-background">
       <div className="fixed w-[100vw] h-[8rem] z-[100] bg-background">
         <div
-          className={`absolute top-[2.8rem] left-[14.1rem] flex items-center justify-center gap-[0.8rem] transition-opacity duration-300 ${
+          className={`absolute top-[2.8rem] left-[14.1rem] flex items-center justify-center gap-[0.8rem] transition-opacity duration-300 ease-out ${
             isOpen ? 'opacity-0' : 'opacity-100'
           }`}
         >
@@ -28,7 +28,7 @@ const CommonHeader = () => {
         <LogoutButton />
       </div>
       <h1
-        className={`absolute top-[8.8rem] title_1_32_sb text-gray10 ${
+        className={`absolute top-[8.8rem] title_1_32_sb text-gray10 transition-all duration-300 ease-out ${
           isOpen ? 'ml-[33.6rem]' : 'ml-[20rem]'
         }`}
       >

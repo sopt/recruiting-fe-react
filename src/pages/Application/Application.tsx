@@ -95,7 +95,7 @@ const Application = () => {
     <>
       <div className="flex flex-col gap-[4.4rem] overflow-hidden">
         <div
-          className={`flex flex-col gap-[4.4rem] justify-between pr-[12.4rem] ${
+          className={`flex flex-col gap-[4.4rem] justify-between pr-[12.4rem] transition-all duration-300 ${
             isOpen ? 'pl-[21.2rem]' : 'pl-[12.4rem]'
           }`}
         >
@@ -115,7 +115,11 @@ const Application = () => {
             }}
           />
         </div>
-        <hr className="border-gray800 mt-[-4.7rem] w-[98rem] ml-[21.2rem]" />
+        <hr
+          className={`border-gray800 mt-[-4.7rem] w-[98rem] transition-all duration-300 ${
+            isOpen ? 'ml-[21.2rem]' : 'ml-[12.4rem]'
+          }`}
+        />
         <ApplicationTable
           data={applicantList?.data.data ?? []}
           isLoading={isLoading}
