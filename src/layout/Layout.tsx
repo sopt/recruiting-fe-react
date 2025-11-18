@@ -16,7 +16,7 @@ const Layout = () => {
   return (
     <>
       <Nav isOpen={isOpen} onToggle={toggle} />
-      <CommonHeader isOpen={isOpen} />
+      <CommonHeader />
       <div
         className={`${
           isOpen
