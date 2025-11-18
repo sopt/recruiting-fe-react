@@ -2,6 +2,7 @@ import { Tab } from '@sopt-makers/ui';
 import { useEffect, useState } from 'react';
 import Pagination from '@/components/Pagination';
 import { IS_SOPT } from '@/constants';
+import { useNav } from '@/contexts/NavContext';
 import {
   type ApplicantState,
   Part,
@@ -37,9 +38,11 @@ const tabItems = IS_SOPT
 
 const Application = () => {
   const [applicantInfo, setApplicantInfo] = useState<ApplicantState>(
-    INITIAL_APPLICANT_INFO,
+    INITIAL_APPLICANT_INFO
   );
   const [currentPage, setCurrentPage] = useState(1);
+
+  const { isOpen } = useNav();
 
   const { data: generationData } = useGetGeneration(applicantInfo.group);
 
@@ -91,7 +94,11 @@ const Application = () => {
   return (
     <>
       <div className="flex flex-col gap-[4.4rem] overflow-hidden">
-        <div className="flex flex-col gap-[4.4rem] justify-between pr-[12.4rem] pl-[21.2rem]">
+        <div
+          className={`flex flex-col gap-[4.4rem] justify-between pr-[12.4rem] ${
+            isOpen ? 'pl-[21.2rem]' : 'pl-[12.4rem]'
+          }`}
+        >
           <Filter
             generationData={generationData}
             applicantInfo={applicantInfo}
