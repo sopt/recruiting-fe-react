@@ -31,7 +31,7 @@ const Nav = ({ isOpen, onToggle }: NavProps) => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 flex h-screen flex-col bg-gray900 p-[4.2rem_1.8rem] z-999 ${
+      className={`fixed top-0 left-0 flex h-screen flex-col bg-gray900 p-[4.2rem_1.8rem] z-999 overflow-hidden transition-all duration-300 ease-out ${
         isOpen ? 'w-[21.2rem]' : 'w-[7.6rem]'
       }`}
     >
@@ -39,21 +39,26 @@ const Nav = ({ isOpen, onToggle }: NavProps) => {
         <Toggle
           width={24}
           height={24}
-          className="p-[0.8rem] box-content shrink-0 cursor-pointer"
+          className="p-[0.8rem] rounded-[1rem] box-content shrink-0 cursor-pointer hover:bg-gray700 active:bg-gray600 transition-all duration-300"
           onClick={(e) => {
             e.stopPropagation();
             onToggle();
           }}
         />
-        {isOpen && (
+        {
           // biome-ignore lint/a11y/noStaticElementInteractions: 헤더 클릭시 네비게이션 토글
-          <div onClick={onToggle} className="cursor-pointer">
+          <div
+            onClick={onToggle}
+            className={`cursor-pointer overflow-hidden transition-all duration-300 ${
+              isOpen ? 'opacity-100 max-w-[12rem]' : 'opacity-0 max-w-0'
+            }`}
+          >
             <h1 className="heading_7_16_b text-gray10 whitespace-nowrap">
               SOPT ADMIN
             </h1>
             <p className="title_7_14_sb text-gray50">Recruit</p>
           </div>
-        )}
+        }
       </header>
       <ul className="flex flex-col gap-[0.6rem]">
         {MENU_LIST.map((menu) => {
@@ -64,14 +69,18 @@ const Nav = ({ isOpen, onToggle }: NavProps) => {
             <li key={menu.title} className="w-full">
               <Link
                 to={path}
-                className={`flex items-center w-full gap-8 rounded-[1rem] p-[1.2rem] cursor-pointer group transition-all duration-300
+                className={`flex items-center h-[4.4rem]
+                ${
+                  isOpen
+                    ? 'w-full gap-8 justify-start'
+                    : 'w-[4.2rem] justify-center'
+                }
+                rounded-[1rem] p-[1.2rem] cursor-pointer group transition-all duration-300
                 ${
                   isActive
                     ? 'bg-white text-black'
                     : 'hover:bg-gray700 active:bg-white'
-                }
-                ${isOpen ? 'justify-start' : 'justify-center'}
-                `}
+                }`}
               >
                 <menu.MenuIcon
                   width={20}
@@ -83,18 +92,26 @@ const Nav = ({ isOpen, onToggle }: NavProps) => {
                       : 'text-gray200 group-hover:text-white group-active:text-black'
                   }`}
                 />
-                {isOpen && (
-                  <h2
-                    className={`label_2_16_sb transition-all duration-300
-                  ${
-                    isActive
-                      ? 'text-black'
-                      : 'text-gray200 group-hover:text-white group-active:text-black'
-                  }`}
+                {
+                  <div
+                    className={`overflow-hidden transition-[max-width] duration-500 ${
+                      isOpen ? 'max-w-[14rem] delay-100' : 'max-w-0'
+                    }`}
                   >
-                    {menu.title}
-                  </h2>
-                )}
+                    <h2
+                      className={`label_2_16_sb whitespace-nowrap transition-opacity duration-200 ${
+                        isOpen ? 'opacity-100' : 'opacity-0'
+                      }
+                    ${
+                      isActive
+                        ? 'text-black'
+                        : 'text-gray200 group-hover:text-white group-active:text-black'
+                    }`}
+                    >
+                      {menu.title}
+                    </h2>
+                  </div>
+                }
               </Link>
             </li>
           );

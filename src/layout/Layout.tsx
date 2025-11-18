@@ -18,7 +18,7 @@ const Layout = () => {
       <Nav isOpen={isOpen} onToggle={toggle} />
       <CommonHeader isOpen={isOpen} />
       <div
-        className={
+        className={`${
           isOpen
             ? hasTable
               ? 'ml-[12.4rem]'
@@ -26,7 +26,7 @@ const Layout = () => {
             : hasTable
             ? 'ml-[7.6rem]'
             : 'ml-[20rem]'
-        }
+        }`}
       >
         <Outlet />
       </div>
