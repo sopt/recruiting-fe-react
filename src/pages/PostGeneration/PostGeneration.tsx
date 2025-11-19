@@ -17,7 +17,6 @@ const PostGeneration = () => {
   const { isOpen } = useNav();
 
   const { data: generationData } = useGetGeneration(group);
-
   const { currentPage, totalPages, handlePageChange } = usePagination({
     totalItems: generationData?.seasons.length ?? 0,
     limit: LIMIT,
