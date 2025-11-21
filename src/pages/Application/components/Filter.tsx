@@ -1,109 +1,21 @@
-import { DialogContext, SelectV2, TextField, Toggle } from '@sopt-makers/ui';
-import type { ChangeEvent } from 'react';
-import { useCallback, useContext, useMemo, useState } from 'react';
-import { InfoCircle, Refresh } from '@/assets/svg';
+import { SelectV2, Toggle } from '@sopt-makers/ui';
 import YbObRadioGroup from '@/components/YbObRadioGroup';
-import type {
-  ApplicantState,
-  QuestionCharLimit,
-} from '@/pages/Application/\btypes';
-import MinimumRateModal from '@/pages/Application/components/MinimumRateModal';
-import { COMMON_QUESTION } from '@/pages/Application/constants';
-import { usePostMinRate } from '@/pages/Application/hooks/queries';
-import { isNumberValue } from '@/pages/Application/utils/regex';
+import type { ApplicantState } from '@/pages/Application/\btypes';
 import type { GetGenerationResponse } from '@/pages/PostGeneration/types';
-import { decimalToPercentage } from '@/utils';
 
 interface FilterProps {
   generationData: GetGenerationResponse;
   applicantInfo: ApplicantState;
   setApplicantInfo: (
-    info: ApplicantState | ((prev: ApplicantState) => ApplicantState),
+    info: ApplicantState | ((prev: ApplicantState) => ApplicantState)
   ) => void;
-  onRefresh?: () => void;
 }
 
 const Filter = ({
   generationData,
   applicantInfo,
   setApplicantInfo,
-  onRefresh,
 }: FilterProps) => {
-  const [minimumRate, setMinimumRate] = useState<number | null>(null);
-  const [minimumRatePercent, setMinimumRatePercent] = useState<string>('');
-  const [, setQuestions] = useState<QuestionCharLimit[]>([]);
-
-  const { openDialog, closeDialog } = useContext(DialogContext);
-  const { mutate: postMinRate } = usePostMinRate();
-
-  const minRateValue = useMemo(
-    () => (minimumRate === null ? 0 : decimalToPercentage(minimumRate)),
-    [minimumRate],
-  );
-
-  const handleRefresh = useCallback(() => {
-    setApplicantInfo((prev) => ({
-      ...prev,
-      minRate: minRateValue,
-    }));
-
-    onRefresh?.();
-  }, [minRateValue, setApplicantInfo, onRefresh]);
-
-  const handleChangeMinimumRate = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      const value = e.target.value;
-
-      if (isNumberValue(value)) {
-        if (Number(value) > 100) {
-          setMinimumRatePercent('100');
-          setMinimumRate(100);
-        } else {
-          setMinimumRatePercent(value);
-          setMinimumRate(value === '' ? null : Number(value));
-        }
-      }
-    },
-    [],
-  );
-
-  const handleBlurMinimumRate = useCallback(() => {
-    if (minimumRatePercent !== '') {
-      setMinimumRatePercent(`${minimumRatePercent}%`);
-    }
-  }, [minimumRatePercent]);
-
-  const handleFocusMinimumRate = useCallback(() => {
-    setMinimumRatePercent((prev) => prev.replace(/%/g, ''));
-  }, []);
-
-  const handleOpenDialog = () => {
-    postMinRate(
-      {
-        minimumRate: minimumRate ? decimalToPercentage(minimumRate) : 0,
-        season: Number(applicantInfo.season) || 0,
-        group: applicantInfo.group,
-        selectedPart: applicantInfo.selectedPart,
-      },
-      {
-        onSuccess: (data) => {
-          setQuestions(data.data.questions);
-          openDialog({
-            title: '글자 수 미달률 지원서 상세 보기',
-            description: (
-              <MinimumRateModal
-                minimumRate={minimumRate ?? 0}
-                questions={data.data.questions}
-                onClose={closeDialog}
-                isCommon={applicantInfo.selectedPart === COMMON_QUESTION}
-              />
-            ),
-          });
-        },
-      },
-    );
-  };
-
   return (
     <div className="flex flex-col gap-[3.2rem] mt-[3.2rem]">
       <div className="flex gap-[1.6rem]">
@@ -150,31 +62,7 @@ const Filter = ({
         />
       </div>
       <div className="flex flex-col gap-[0.8rem]">
-        <button
-          type="button"
-          className="flex items-center w-fit gap-[0.4rem] body_3_14_r text-gray100 cursor-pointer"
-          onClick={handleOpenDialog}
-        >
-          글자 수 미달 지원서 숨기기 <InfoCircle width={16} height={16} />
-        </button>
         <div className="flex gap-[2.4rem]">
-          <div className="flex gap-[0.6rem] items-center">
-            <TextField
-              placeholder="미달률 입력"
-              value={minimumRatePercent}
-              onChange={handleChangeMinimumRate}
-              onBlur={handleBlurMinimumRate}
-              onFocus={handleFocusMinimumRate}
-            />
-            <button
-              type="button"
-              className="bg-gray800 rounded-[1rem] px-[1.6rem] py-[1.4rem] flex items-center justify-center cursor-pointer hover:bg-gray700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-              onClick={handleRefresh}
-              disabled={minimumRate === null}
-            >
-              <Refresh width={20} height={20} />
-            </button>
-          </div>
           <div className="flex items-center gap-[0.8rem]">
             <span className="flex body_3_14_r text-gray100">읽마 숨기기</span>
             <Toggle

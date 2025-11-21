@@ -37,7 +37,7 @@ const tabItems = IS_SOPT
 
 const Application = () => {
   const [applicantInfo, setApplicantInfo] = useState<ApplicantState>(
-    INITIAL_APPLICANT_INFO,
+    INITIAL_APPLICANT_INFO
   );
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -57,11 +57,8 @@ const Application = () => {
     }),
   };
 
-  const {
-    data: applicantList,
-    refetch,
-    isLoading,
-  } = useGetApplicantList(applicantListParams);
+  const { data: applicantList, isLoading } =
+    useGetApplicantList(applicantListParams);
 
   const totalPages =
     applicantList?.data.meta.totalPage ??
@@ -96,7 +93,6 @@ const Application = () => {
             generationData={generationData}
             applicantInfo={applicantInfo}
             setApplicantInfo={setApplicantInfo}
-            onRefresh={refetch}
           />
           <Tab
             style="primary"
