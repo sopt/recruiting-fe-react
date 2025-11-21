@@ -64,22 +64,6 @@ const Filter = ({
       <div className="flex flex-col gap-[0.8rem]">
         <div className="flex gap-[2.4rem]">
           <div className="flex items-center gap-[0.8rem]">
-            <span className="flex body_3_14_r text-gray100">읽마 숨기기</span>
-            <Toggle
-              size="lg"
-              checked={applicantInfo.dontReadInfo.checkedByMe}
-              onClick={() =>
-                setApplicantInfo((prev) => ({
-                  ...prev,
-                  dontReadInfo: {
-                    ...prev.dontReadInfo,
-                    checkedByMe: !prev.dontReadInfo.checkedByMe,
-                  },
-                }))
-              }
-            />
-          </div>
-          <div className="flex items-center gap-[0.8rem]">
             <span className="flex body_3_14_r text-gray100">
               평가 완료 숨기기
             </span>
@@ -93,21 +77,6 @@ const Filter = ({
                     ...prev.evaluatedInfo,
                     checkedByMe: !prev.evaluatedInfo.checkedByMe,
                   },
-                }))
-              }
-            />
-          </div>
-          <div className="flex items-center gap-[0.8rem]">
-            <span className="flex body_3_14_r text-gray100">
-              서류 합격자만 보기
-            </span>
-            <Toggle
-              size="lg"
-              checked={applicantInfo.isPassedOnly}
-              onClick={() =>
-                setApplicantInfo((prev) => ({
-                  ...prev,
-                  isPassedOnly: !prev.isPassedOnly,
                 }))
               }
             />
