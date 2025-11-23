@@ -40,6 +40,7 @@ const Application = () => {
     INITIAL_APPLICANT_INFO
   );
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchApplicantValue, setSearchApplicantValue] = useState('');
 
   const { data: generationData } = useGetGeneration(applicantInfo.group);
 
@@ -92,7 +93,11 @@ const Application = () => {
           <Filter
             generationData={generationData}
             applicantInfo={applicantInfo}
+            searchApplicantValue={searchApplicantValue}
             setApplicantInfo={setApplicantInfo}
+            onSearchChange={(value) => {
+              setSearchApplicantValue(value);
+            }}
           />
           <Tab
             style="primary"

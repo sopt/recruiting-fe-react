@@ -6,9 +6,11 @@ import type { GetGenerationResponse } from '@/pages/PostGeneration/types';
 interface FilterProps {
   generationData: GetGenerationResponse;
   applicantInfo: ApplicantState;
+  searchApplicantValue: string;
   setApplicantInfo: (
     info: ApplicantState | ((prev: ApplicantState) => ApplicantState)
   ) => void;
+  onSearchChange?: (value: string) => void;
 }
 
 const STATUS_OPTIONS = [
@@ -21,7 +23,9 @@ const STATUS_OPTIONS = [
 const Filter = ({
   generationData,
   applicantInfo,
+  searchApplicantValue,
   setApplicantInfo,
+  onSearchChange,
 }: FilterProps) => {
   return (
     <div className="flex flex-col gap-[3.2rem] mt-[3.2rem]">
@@ -74,13 +78,8 @@ const Filter = ({
             <span className="flex body_3_14_r text-gray100">지원자 검색</span>
             <TextField
               placeholder="지원자 성명 입력"
-              value={''}
-              onChange={(e) =>
-                setApplicantInfo((prev) => ({
-                  ...prev,
-                  search: e.target.value,
-                }))
-              }
+              value={searchApplicantValue}
+              onChange={(e) => onSearchChange?.(e.target.value)}
             />
           </div>
           <div className="flex flex-col gap-[0.8rem]">
