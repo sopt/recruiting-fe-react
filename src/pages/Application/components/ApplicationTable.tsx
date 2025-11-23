@@ -2,7 +2,6 @@ import { CheckBox, Tag } from '@sopt-makers/ui';
 import { useQueryClient } from '@tanstack/react-query';
 import type React from 'react';
 import { useEffect, useRef, useState } from 'react';
-import { AlertTriangle } from '@/assets/svg';
 import Tooltip from '@/components/Tooltip';
 import type {
   ApplicationTableProps,
@@ -21,7 +20,7 @@ import {
   convertStatusToPassInfo,
 } from '@/pages/Application/utils';
 import { ROUTES_CONFIG } from '@/routes/routeConfig';
-import { getDoNotReadMessage, getEvaluationMessage } from '@/utils/message';
+import { getEvaluationMessage } from '@/utils/message';
 import { scrollToLeft } from '@/utils/scroll';
 
 const HEADER_BASE_STYLE =
@@ -119,24 +118,26 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
         <thead>
           <tr>
             <th
-              className={`w-[11rem] rounded-tl-[1rem] border-r-[1px] ${HEADER_BASE_STYLE}`}
+              className={`w-[7.8rem] rounded-tl-[1rem] border-r-[1px] align-middle ${HEADER_BASE_STYLE}`}
             >
-              ID
-            </th>
-            <th className={`w-[11rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
-              합격여부
+              <div className="w-full h-full flex items-center justify-center">
+                <CheckBox disabled />
+              </div>
             </th>
             <th className={`w-[14rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
               지원자 정보
             </th>
             <th className={`w-[11rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
+              합격여부
+            </th>
+            <th className={`w-[11rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
               지원 파트
             </th>
             <th className={`w-[16.8rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
-              읽지 마시오
+              평가 상태
             </th>
             <th className={`w-[16.8rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
-              평가 상태
+              제출시간
             </th>
             <th className={`w-[11rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
               최근 기수
@@ -153,13 +154,8 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
             <th className={`w-[16.8rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
               이메일
             </th>
-            <th className={`w-[14rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
+            <th className={`w-[14rem] rounded-tr-[1rem] ${HEADER_BASE_STYLE}`}>
               전화번호
-            </th>
-            <th
-              className={`w-[16.8rem] rounded-tr-[1rem] ${HEADER_BASE_STYLE}`}
-            >
-              제출시간
             </th>
           </tr>
         </thead>
@@ -176,9 +172,6 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
             ))
           ) : (
             data.map((item) => {
-              const doNotReadMessage = getDoNotReadMessage(
-                item.dontReadInfo.checkedList
-              );
               const evaluationMessage = getEvaluationMessage(
                 item.evaluatedInfo.checkedList
               );
@@ -196,18 +189,8 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
                   >
-                    <div className={TD_CONTENT_STYLE}>{item.id}</div>
-                  </td>
-                  <td
-                    className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
-                  >
                     <div className={`${TD_BASE_STYLE} justify-center`}>
-                      <ChipDropDown
-                        status={currentStatus}
-                        onStatusChange={(value) =>
-                          handleStatusChange(item.id, value as StatusType)
-                        }
-                      />
+                      <CheckBox disabled />
                     </div>
                   </td>
                   <td
@@ -229,62 +212,19 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
                   >
-                    <div className={TD_CONTENT_STYLE}>{item.part}</div>
+                    <div className={`${TD_BASE_STYLE} justify-center`}>
+                      <ChipDropDown
+                        status={currentStatus}
+                        onStatusChange={(value) =>
+                          handleStatusChange(item.id, value as StatusType)
+                        }
+                      />
+                    </div>
                   </td>
                   <td
-                    className={`${CELL_BASE_STYLE} text-white border-r-[1px] px-[1.2rem] py-[1rem] text-left`}
+                    className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
                   >
-                    <div className="flex flex-col gap-[0.5rem] justify-start">
-                      <div className="h-full flex items-center justify-between">
-                        {/** biome-ignore lint/a11y/noStaticElementInteractions: 이벤트 전파 방지 */}
-                        <div
-                          className="flex items-center gap-[0.9rem] cursor-pointer z-10"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                          }}
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
-                              e.stopPropagation();
-                            }
-                          }}
-                        >
-                          <CheckBox
-                            id={`dont-read-${item.id}`}
-                            checked={item.dontReadInfo.checkedByMe}
-                            onChange={(e) => {
-                              e.stopPropagation();
-                              e.preventDefault();
-                              handleEvaluation(
-                                item.id,
-                                'DONT_READ',
-                                !item.dontReadInfo.checkedByMe
-                              );
-                            }}
-                          />
-                          <label
-                            htmlFor={`dont-read-${item.id}`}
-                            className="flex items-center h-[3.2rem] cursor-pointer"
-                          >
-                            읽지 마시오
-                          </label>
-                        </div>
-
-                        {item.dontReadInfo.checkedList.length > 0 && (
-                          <div className="ml-auto">
-                            <Tooltip.Root>
-                              <Tooltip.Trigger>
-                                <div className="bg-orangeAlpha200 rounded-[10rem] p-[0.8rem] z-[20]">
-                                  <AlertTriangle width={16} height={16} />
-                                </div>
-                              </Tooltip.Trigger>
-                              <Tooltip.Content className="!mt-[2.5rem]">
-                                <span>{doNotReadMessage}</span>
-                              </Tooltip.Content>
-                            </Tooltip.Root>
-                          </div>
-                        )}
-                      </div>
-                    </div>
+                    <div className={TD_CONTENT_STYLE}>{item.part}</div>
                   </td>
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px] p-[1rem] text-left`}
@@ -337,6 +277,9 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
                       </div>
                     </div>
                   </td>
+                  <td className={`${CELL_BASE_STYLE} text-white`}>
+                    <div className={TD_CONTENT_STYLE}>{item.submittedAt}</div>
+                  </td>
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
                   >
@@ -371,9 +314,6 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
                   >
                     <div className={TD_CONTENT_STYLE}>{item.phone}</div>
-                  </td>
-                  <td className={`${CELL_BASE_STYLE} text-white`}>
-                    <div className={TD_CONTENT_STYLE}>{item.submittedAt}</div>
                   </td>
                 </tr>
               );
