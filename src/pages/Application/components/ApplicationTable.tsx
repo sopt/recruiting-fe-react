@@ -1,4 +1,4 @@
-import { CheckBox, Tag } from '@sopt-makers/ui';
+import { Button, CheckBox, Tag } from '@sopt-makers/ui';
 import { useQueryClient } from '@tanstack/react-query';
 import type React from 'react';
 import { useEffect, useRef, useState } from 'react';
@@ -34,6 +34,10 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
   const [passStatusList, setPassStatusList] = useState<Record<number, string>>(
     {}
   );
+  const [checkedApplicantList, setCheckedApplicantList] = useState<number[]>(
+    []
+  );
+
   const tableRef = useRef<HTMLDivElement>(null);
 
   const queryClient = useQueryClient();
@@ -47,6 +51,34 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
       path.startsWith('/') ? '' : '/'
     }${path}`;
     window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
+  const isAllChecked =
+    data.length > 0 &&
+    data.every((item) => checkedApplicantList.includes(item.id));
+
+  const handleCheckAll = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.checked) {
+      const checkedList: number[] = [];
+
+      Object.entries(data).map((item, idx) => {
+        checkedList[idx] = item[1].id;
+      });
+
+      setCheckedApplicantList(checkedList);
+    } else {
+      setCheckedApplicantList([]);
+    }
+  };
+
+  const handleCheckApplicant = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.checked) {
+      setCheckedApplicantList((prev) => [...prev, Number(e.target.id)]);
+    } else {
+      setCheckedApplicantList((prev) =>
+        prev.filter((id) => id !== Number(e.target.id))
+      );
+    }
   };
 
   const goApplicationDetailKeyDown = (
@@ -114,6 +146,31 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
         }
       }}
     >
+      <div className="w-[122.5rem] flex mb-[2.6rem] gap-[1.1rem] items-center">
+        <span className="text-gray200 title_6_16_sb">총 {data.length}개</span>
+        {checkedApplicantList.length > 0 && (
+          <>
+            <span className="text-gray200 title_6_16_sb">|</span>
+            <div className="flex gap-[1.3rem] items-center">
+              <span className="text-gray200 title_6_16_sb ml-[0.2rem]">
+                {checkedApplicantList.length}건 선택
+              </span>
+              <Button
+                theme="black"
+                size="sm"
+                onClick={() => {
+                  checkedApplicantList.forEach((id) => {
+                    goApplicationDetail(id);
+                  });
+                }}
+                disabled={checkedApplicantList.length === 0}
+              >
+                새 창 열기
+              </Button>
+            </div>
+          </>
+        )}
+      </div>
       <table className="w-[122.5rem] table-fixed select-none">
         <thead>
           <tr>
@@ -121,7 +178,13 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
               className={`w-[7.8rem] rounded-tl-[1rem] border-r-[1px] align-middle ${HEADER_BASE_STYLE}`}
             >
               <div className="w-full h-full flex items-center justify-center">
-                <CheckBox disabled />
+                <CheckBox
+                  checked={isAllChecked}
+                  onChange={(e) => {
+                    e.preventDefault();
+                    handleCheckAll(e);
+                  }}
+                />
               </div>
             </th>
             <th className={`w-[14rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
@@ -190,7 +253,14 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
                   >
                     <div className={`${TD_BASE_STYLE} justify-center`}>
-                      <CheckBox disabled />
+                      <CheckBox
+                        checked={checkedApplicantList.includes(item.id)}
+                        onChange={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          handleCheckApplicant(e);
+                        }}
+                      />
                     </div>
                   </td>
                   <td

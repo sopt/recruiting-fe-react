@@ -88,7 +88,7 @@ const Application = () => {
 
   return (
     <>
-      <div className="flex flex-col gap-[4.4rem] overflow-hidden">
+      <div className="flex flex-col gap-[3.8rem] overflow-hidden">
         <div className="flex flex-col gap-[4.4rem] justify-between pr-[12.4rem] pl-[21.2rem]">
           <Filter
             generationData={generationData}
