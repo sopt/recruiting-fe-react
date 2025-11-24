@@ -11,6 +11,7 @@ import { useEffect } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { Add, Arrange, InfoCircle, Link, Trash } from '@/assets/svg';
 import Tooltip from '@/components/Tooltip';
+import { DEFAULT_QUESTION_DATA } from '@/pages/PostQuestion/constant';
 import type { qustionListTypes } from '@/pages/PostQuestion/types/form';
 
 interface QuestionBoxProps {
@@ -123,7 +124,7 @@ const QuestionBox = ({
                           ) {
                             setValue(
                               `questionList.${index}.placeholder`,
-                              '내용을 작성해주세요.',
+                              DEFAULT_QUESTION_DATA.placeholder,
                             );
                           }
                         }
@@ -380,7 +381,7 @@ const QuestionBox = ({
                   />
                 )}
               />
-              <span className="body_2_16_m ">파일 업로드</span>
+              <span className="body_2_16_m ">파일 받기</span>
             </div>
 
             <hr className="border-gray400" />
