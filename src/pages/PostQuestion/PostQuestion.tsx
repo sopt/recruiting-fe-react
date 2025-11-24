@@ -40,8 +40,6 @@ const PostQuestion = () => {
     formState: { isDirty },
   } = method;
 
-  console.log(isDirty);
-  
   const { targetRef, isIntersecting } = useIntersectionObserver({
     rootMargin: '-80px 0px 0px 0px',
   });

@@ -103,35 +103,37 @@ const QuestionBox = ({
               )}
             </h2>
 
-            <div className="flex items-center gap-[0.8rem]">
-              <span className="body_2_16_m">* 필수질문</span>
-              <Controller
-                control={control}
-                name={`questionList.${index}.required`}
-                render={({ field: { onChange, value } }) => (
-                  <Toggle
-                    onClick={() => {
-                      onChange(!value);
-                      if (value === false) {
-                        const currentPlaceholder = watch(
-                          `questionList.${index}.placeholder`,
-                        );
-                        if (
-                          !currentPlaceholder ||
-                          currentPlaceholder.trim() === ''
-                        ) {
-                          setValue(
+            {!isActive && (
+              <div className="flex items-center gap-[0.8rem]">
+                <span className="body_2_16_m">* 필수질문</span>
+                <Controller
+                  control={control}
+                  name={`questionList.${index}.required`}
+                  render={({ field: { onChange, value } }) => (
+                    <Toggle
+                      onClick={() => {
+                        onChange(!value);
+                        if (value === false) {
+                          const currentPlaceholder = watch(
                             `questionList.${index}.placeholder`,
-                            '내용을 작성해주세요.',
                           );
+                          if (
+                            !currentPlaceholder ||
+                            currentPlaceholder.trim() === ''
+                          ) {
+                            setValue(
+                              `questionList.${index}.placeholder`,
+                              '내용을 작성해주세요.',
+                            );
+                          }
                         }
-                      }
-                    }}
-                    checked={value}
-                  />
-                )}
-              />
-            </div>
+                      }}
+                      checked={value}
+                    />
+                  )}
+                />
+              </div>
+            )}
           </div>
 
           <Controller
@@ -181,13 +183,15 @@ const QuestionBox = ({
                 labelText="링크 첨부"
                 placeholder="이동할 링크를 입력하세요."
                 rightAddon={
-                  <IconXClose
-                    style={{ width: 24, height: 24 }}
-                    className="stroke-white cursor-pointer"
-                    onClick={() =>
-                      setValue(`questionList.${index}.isLink`, false)
-                    }
-                  />
+                  !isActive && (
+                    <IconXClose
+                      style={{ width: 24, height: 24 }}
+                      className="stroke-white cursor-pointer"
+                      onClick={() =>
+                        setValue(`questionList.${index}.isLink`, false)
+                      }
+                    />
+                  )
                 }
                 disabled={isActive}
                 className="custom-textField"
@@ -197,17 +201,19 @@ const QuestionBox = ({
               />
             </div>
           ) : (
-            <Button
-              theme="black"
-              variant="fill"
-              size="sm"
-              rounded="lg"
-              onClick={() => setValue(`questionList.${index}.isLink`, true)}
-              LeftIcon={() => <Link stroke="white" width={16} height={16} />}
-              className="w-[10.4rem]"
-            >
-              링크 첨부하기
-            </Button>
+            !isActive && (
+              <Button
+                theme="black"
+                variant="fill"
+                size="sm"
+                rounded="lg"
+                onClick={() => setValue(`questionList.${index}.isLink`, true)}
+                LeftIcon={() => <Link stroke="white" width={16} height={16} />}
+                className="w-[10.4rem]"
+              >
+                링크 첨부하기
+              </Button>
+            )
           )}
 
           <hr className="border-gray700" />
