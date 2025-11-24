@@ -91,7 +91,7 @@ const RegisterButton = ({
         queryClient.invalidateQueries({
           queryKey: QuestionKeys.filteredList(
             filterState.season,
-            filterState.group
+            filterState.group,
           ),
         }),
     });
@@ -104,6 +104,7 @@ const RegisterButton = ({
       type="button"
       variant="fill"
       size="md"
+      theme="blue"
       onClick={debouncedRegisterClick}
       disabled={isSubmitting || questionList[0]?.isActive}
     >
