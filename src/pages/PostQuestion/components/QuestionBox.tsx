@@ -193,7 +193,6 @@ const QuestionBox = ({
                 className="custom-textField"
                 isError={!!errors.questionList?.[index]?.link}
                 errorMessage={errors.questionList?.[index]?.link?.message}
-                required
                 {...register(`questionList.${index}.link`)}
               />
             </div>
@@ -249,7 +248,6 @@ const QuestionBox = ({
                 placeholder="내용을 작성해주세요."
                 disabled={isActive}
                 className="custom-textField"
-                required
                 isError={!!errors.questionList?.[index]?.placeholder}
                 errorMessage={
                   errors.questionList?.[index]?.placeholder?.message
@@ -323,7 +321,6 @@ const QuestionBox = ({
                 className="custom-textField"
                 isError={!!errors.questionList?.[index]?.charLimit}
                 errorMessage={errors.questionList?.[index]?.charLimit?.message}
-                required
                 {...register(`questionList.${index}.charLimit`, {
                   valueAsNumber: true,
                 })}
