@@ -188,15 +188,24 @@ export interface QuestionCharLimit {
   charLimitLength: number;
 }
 
+export type PassInfo =
+  | 'INTERVIEW_PASS'
+  | 'FINAL_PASS'
+  | 'FAIL'
+  | 'NOT_EVALUATED';
+
 export interface ApplicantState {
   season: string;
   group: Group;
-  dontReadInfo: {
-    checkedByMe: boolean;
-  };
   evaluatedInfo: {
     checkedByMe: boolean;
   };
+  /* TODO: 읽지 마시오 삭제 */
+  dontReadInfo: {
+    checkedByMe: boolean;
+  };
+  /* TODO: 합격 여부 */
+  // passInfo: PassInfo[];
   isPassedOnly: boolean;
   selectedPart: PartType | SoptPartType;
   minRate: number;
