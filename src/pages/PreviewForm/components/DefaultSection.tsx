@@ -179,4 +179,6 @@ const DefaultSection = ({ refCallback }: DefaultSectionProps) => {
   );
 };
 
+DefaultSection.displayName = 'DefaultSection';
+
 export default DefaultSection;

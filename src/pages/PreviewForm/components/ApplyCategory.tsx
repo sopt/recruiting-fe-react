@@ -54,4 +54,6 @@ const ApplyCategory = () => {
   );
 };
 
+ApplyCategory.displayName = 'ApplyCategory';
+
 export default ApplyCategory;
