@@ -20,9 +20,9 @@ const CommonHeader = () => {
             isOpen ? 'opacity-0' : 'opacity-100'
           }`}
         >
-          <h1 className="heading_7_16_b text-gray10 whitespace-nowrap">
+          <h2 className="heading_7_16_b text-gray10 whitespace-nowrap">
             SOPT ADMIN
-          </h1>
+          </h2>
           <p className="title_7_14_sb text-gray50">Recruit</p>
         </div>
         <LogoutButton />
