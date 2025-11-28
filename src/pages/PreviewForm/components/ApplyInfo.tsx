@@ -14,6 +14,25 @@ export const APPLY_INFO_CALLOUT = [
   '서버 오류를 대비해 지원서를 백업해 두시길 바랍니다.',
 ];
 
+const APPLY_DATE = [
+  {
+    label: '지원 기간',
+    text: '00.00(월) 오전 00:00 - 00.00(금) 오후 00:00',
+  },
+  {
+    label: '서류 발표',
+    text: '00.00(월)',
+  },
+  {
+    label: '면접 평가',
+    text: '00.00(월) 오전 00:00 - 00.00(금) (오프라인 면접)',
+  },
+  {
+    label: '최종 발표',
+    text: '00.00(월)',
+  },
+];
+
 const DATE_ITEMS = 'flex gap-[1.2rem] justify-start items-center';
 const DATE_LABEL =
   'py-[0.6rem] px-[1.3rem] rounded-[0.8rem] title_5_18_sb bg-gray20 text-gray300';
@@ -22,7 +41,7 @@ const DATE_TEXT = 'body_1_18_m text-gray950';
 const ApplyInfo = () => {
   return (
     <section className="flex flex-col pt-[3rem] gap-[5rem] justify-center items-center">
-      <ul className="flex flex-col gap-[1.6rem] max-w-[72rem] list-disc list-outside">
+      <ul className="flex flex-col gap-[1.6rem] max-w-[71.1rem] list-disc list-outside [&>li]:marker:text-[1rem]">
         {APPLY_INFO.map((info, index) => (
           <li key={index} className="body_1_18_m text-gray-300">
             {info}
@@ -40,26 +59,12 @@ const ApplyInfo = () => {
         </div>
       </Callout>
       <ol className="flex flex-col w-[72rem] items-baseline gap-[0.8rem]">
-        <li className={DATE_ITEMS}>
-          <span className={DATE_LABEL}>지원 기간</span>
-          <span className={DATE_TEXT}>
-            00.00(월) 오전 00:00 - 00.00(금) 오후 00:00
-          </span>
-        </li>
-        <li className={DATE_ITEMS}>
-          <span className={DATE_LABEL}>서류 발표</span>
-          <span className={DATE_TEXT}>00.00(월)</span>
-        </li>
-        <li className={DATE_ITEMS}>
-          <span className={DATE_LABEL}>면접 평가</span>
-          <span className={DATE_TEXT}>
-            00.00(월) 오전 00:00 - 00.00(금) (오프라인 면접)
-          </span>
-        </li>
-        <li className={DATE_ITEMS}>
-          <span className={DATE_LABEL}>최종 발표</span>
-          <span className={DATE_TEXT}>00.00(월)</span>
-        </li>
+        {APPLY_DATE.map((date, index) => (
+          <li key={index} className={DATE_ITEMS}>
+            <span className={DATE_LABEL}>{APPLY_DATE[0].label}</span>
+            <span className={DATE_TEXT}>{date.text}</span>
+          </li>
+        ))}
       </ol>
     </section>
   );
