@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   --color-white: #ffffff;
@@ -132,7 +132,7 @@
 }
 
 @utility heading_1_48_b {
-  font-family: "SUIT", sans-serif;
+  font-family: 'SUIT', sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 48px;
@@ -140,8 +140,17 @@
   letter-spacing: -2%;
 }
 
+@utility heading_1.5_40_b {
+  font-family: 'SUIT', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 60px;
+  letter-spacing: -0.8px;
+}
+
 @utility heading_2_32_b {
-  font-family: "SUIT", sans-serif;
+  font-family: 'SUIT', sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 32px;
@@ -150,7 +159,7 @@
 }
 
 @utility heading_3_28_b {
-  font-family: "SUIT", sans-serif;
+  font-family: 'SUIT', sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 28px;
@@ -159,7 +168,7 @@
 }
 
 @utility heading_4_24_b {
-  font-family: "SUIT", sans-serif;
+  font-family: 'SUIT', sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 24px;
@@ -168,7 +177,7 @@
 }
 
 @utility heading_5_20_b {
-  font-family: "SUIT", sans-serif;
+  font-family: 'SUIT', sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 20px;
@@ -177,7 +186,7 @@
 }
 
 @utility heading_6_18_b {
-  font-family: "SUIT", sans-serif;
+  font-family: 'SUIT', sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 18px;
@@ -186,7 +195,7 @@
 }
 
 @utility heading_7_16_b {
-  font-family: "SUIT", sans-serif;
+  font-family: 'SUIT', sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 16px;
@@ -195,7 +204,7 @@
 }
 
 @utility title_1_32_sb {
-  font-family: "SUIT", sans-serif;
+  font-family: 'SUIT', sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 32px;
@@ -204,7 +213,7 @@
 }
 
 @utility title_2_28_sb {
-  font-family: "SUIT", sans-serif;
+  font-family: 'SUIT', sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 28px;
@@ -213,7 +222,7 @@
 }
 
 @utility title_3_24_sb {
-  font-family: "SUIT", sans-serif;
+  font-family: 'SUIT', sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 24px;
@@ -222,7 +231,7 @@
 }
 
 @utility title_4_20_sb {
-  font-family: "SUIT", sans-serif;
+  font-family: 'SUIT', sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 20px;
@@ -231,7 +240,7 @@
 }
 
 @utility title_5_18_sb {
-  font-family: "SUIT", sans-serif;
+  font-family: 'SUIT', sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 18px;
@@ -240,7 +249,7 @@
 }
 
 @utility title_6_16_sb {
-  font-family: "SUIT", sans-serif;
+  font-family: 'SUIT', sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
@@ -249,7 +258,7 @@
 }
 
 @utility title_7_14_sb {
-  font-family: "SUIT", sans-serif;
+  font-family: 'SUIT', sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 14px;
@@ -258,7 +267,7 @@
 }
 
 @utility body_1_18_m {
-  font-family: "SUIT", sans-serif;
+  font-family: 'SUIT', sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 18px;
@@ -267,7 +276,7 @@
 }
 
 @utility body_2_16_m {
-  font-family: "SUIT", sans-serif;
+  font-family: 'SUIT', sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
@@ -276,7 +285,7 @@
 }
 
 @utility body_2_16_r {
-  font-family: "SUIT", sans-serif;
+  font-family: 'SUIT', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -285,7 +294,7 @@
 }
 
 @utility body_3_14_m {
-  font-family: "SUIT", sans-serif;
+  font-family: 'SUIT', sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
@@ -294,7 +303,7 @@
 }
 
 @utility body_3_14_r {
-  font-family: "SUIT", sans-serif;
+  font-family: 'SUIT', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -303,7 +312,7 @@
 }
 
 @utility body_3_14_l {
-  font-family: "SUIT", sans-serif;
+  font-family: 'SUIT', sans-serif;
   font-style: normal;
   font-weight: 300;
   font-size: 14px;
@@ -312,7 +321,7 @@
 }
 
 @utility body_4_13_m {
-  font-family: "SUIT", sans-serif;
+  font-family: 'SUIT', sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 13px;
@@ -321,7 +330,7 @@
 }
 
 @utility body_4_13_r {
-  font-family: "SUIT", sans-serif;
+  font-family: 'SUIT', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 13px;
@@ -330,7 +339,7 @@
 }
 
 @utility body_4_13_l {
-  font-family: "SUIT", sans-serif;
+  font-family: 'SUIT', sans-serif;
   font-style: normal;
   font-weight: 300;
   font-size: 13px;
@@ -339,7 +348,7 @@
 }
 
 @utility label_1_18_sb {
-  font-family: "SUIT", sans-serif;
+  font-family: 'SUIT', sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 19px;
@@ -348,7 +357,7 @@
 }
 
 @utility label_2_16_sb {
-  font-family: "SUIT", sans-serif;
+  font-family: 'SUIT', sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
@@ -357,7 +366,7 @@
 }
 
 @utility label_3_14_sb {
-  font-family: "SUIT", sans-serif;
+  font-family: 'SUIT', sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 14px;
@@ -366,7 +375,7 @@
 }
 
 @utility label_4_12_sb {
-  font-family: "SUIT", sans-serif;
+  font-family: 'SUIT', sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 12px;
@@ -375,7 +384,7 @@
 }
 
 @utility label_5_11_sb {
-  font-family: "SUIT", sans-serif;
+  font-family: 'SUIT', sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 11px;
