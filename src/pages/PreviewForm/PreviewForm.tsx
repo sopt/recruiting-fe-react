@@ -5,11 +5,13 @@ import DefaultSection from '@/pages/PreviewForm/components/DefaultSection';
 
 const PreviewForm = () => {
   return (
-    <div className="w-full p-8 gap-[5rem] flex flex-col bg-white min-h-screen items-center">
+    <div className="w-full p-8 flex flex-col bg-white min-h-screen items-center">
       <ApplyHeader />
-      <ApplyInfo />
-      <ApplyCategory />
-      <DefaultSection />
+      <div className="flex flex-col gap-[5rem]">
+        <ApplyInfo />
+        <ApplyCategory />
+        <DefaultSection />
+      </div>
     </div>
   );
 };
