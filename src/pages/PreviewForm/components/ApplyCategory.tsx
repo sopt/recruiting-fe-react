@@ -24,7 +24,7 @@ const ApplyCategory = () => {
   const currentCategory = location.hash || CATEGORY[0].path;
 
   return (
-    <nav className="flex justify-center sticky top-[17.8rem] bg-white z-20 transition-all duration-500 ease-out">
+    <nav className="flex justify-center sticky top-[8rem] bg-white z-20 transition-all duration-500 ease-out">
       <ul className="flex">
         {CATEGORY.map((category) => {
           const isActive = currentCategory === category.path;
