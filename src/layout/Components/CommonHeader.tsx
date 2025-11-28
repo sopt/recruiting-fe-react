@@ -12,21 +12,19 @@ const CommonHeader = () => {
     (route) => route.path === pathname
   )?.title;
 
+  if (isPreviewForm) {
+    return <PreviewFormHeader />;
+  }
+
   return (
-    <>
-      {isPreviewForm ? (
-        <PreviewFormHeader />
-      ) : (
-        <header className="realtive w-full h-[13.6rem] bg-background">
-          <div className="fixed w-[100vw] h-[8rem] z-[100] bg-background">
-            <LogoutButton />
-          </div>
-          <h1 className="absolute top-[8.8rem] title_1_32_sb text-gray10 ml-[33.6rem]">
-            {title}
-          </h1>
-        </header>
-      )}
-    </>
+    <header className="realtive w-full h-[13.6rem] bg-background">
+      <div className="fixed w-[100vw] h-[8rem] z-[100] bg-background">
+        <LogoutButton />
+      </div>
+      <h1 className="absolute top-[8.8rem] title_1_32_sb text-gray10 ml-[33.6rem]">
+        {title}
+      </h1>
+    </header>
   );
 };
 
