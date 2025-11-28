@@ -18,7 +18,7 @@ const PreviewFormHeader = () => {
       >
         <IconChevronLeft className="w-[2.4rem] h-[2.4rem]" />
       </button>
-      <h1 className="title_4_20_sb">지원서 미리보기</h1>
+      <span className="title_4_20_sb">지원서 미리보기</span>
     </header>
   );
 };

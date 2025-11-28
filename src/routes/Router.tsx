@@ -5,7 +5,7 @@ import ApplicationDetail from '@/pages/ApplicationDetail/ApplicationDetail';
 import Login from '@/pages/Login/Login';
 import PostGeneration from '@/pages/PostGeneration/PostGeneration';
 import PostQuestion from '@/pages/PostQuestion/PostQuestion';
-import PreviewForm from '@/pages/PreviewForm';
+import PreviewForm from '@/pages/PreviewForm/PreviewForm';
 import { ROUTES_CONFIG } from '@/routes/routeConfig';
 
 export const router = createBrowserRouter([
