@@ -14,11 +14,13 @@ import type { qustionListTypes } from '@/pages/PostQuestion/types/form';
 interface TemporarySaveButtonProps {
   filterState: FilterState;
   deleteQuestionIds: number[];
+  onActivatePreview: () => void;
 }
 
 const TemporarySaveButton = ({
   filterState,
   deleteQuestionIds,
+  onActivatePreview,
 }: TemporarySaveButtonProps) => {
   const {
     watch,
@@ -60,6 +62,7 @@ const TemporarySaveButton = ({
             filterState.group
           ),
         });
+        onActivatePreview();
       },
     });
   };

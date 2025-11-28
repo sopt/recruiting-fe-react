@@ -1,13 +1,20 @@
-import LogoutButton from '@/layout/Components/LogoutButton';
-import { ROUTES_CONFIG } from '@/routes/routeConfig';
 import { useLocation } from 'react-router-dom';
+import LogoutButton from '@/layout/Components/LogoutButton';
+import PreviewFormHeader from '@/layout/Components/PreviewFormHeader';
+import { ROUTES_CONFIG } from '@/routes/routeConfig';
 
 const CommonHeader = () => {
   const { pathname } = useLocation();
 
+  const isPreviewForm = pathname === ROUTES_CONFIG.previewForm.path;
+
   const title = Object.values(ROUTES_CONFIG).find(
-    (route) => route.path === pathname,
+    (route) => route.path === pathname
   )?.title;
+
+  if (isPreviewForm) {
+    return <PreviewFormHeader />;
+  }
 
   return (
     <header className="realtive w-full h-[13.6rem] bg-background">

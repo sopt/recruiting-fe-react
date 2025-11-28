@@ -1,11 +1,12 @@
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 import Layout from '@/layout/Layout';
 import Application from '@/pages/Application/Application';
 import ApplicationDetail from '@/pages/ApplicationDetail/ApplicationDetail';
 import Login from '@/pages/Login/Login';
 import PostGeneration from '@/pages/PostGeneration/PostGeneration';
 import PostQuestion from '@/pages/PostQuestion/PostQuestion';
+import PreviewForm from '@/pages/PreviewForm';
 import { ROUTES_CONFIG } from '@/routes/routeConfig';
-import { Navigate, createBrowserRouter } from 'react-router-dom';
 
 export const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ export const router = createBrowserRouter([
       {
         path: ROUTES_CONFIG.applicationDetail.path,
         element: <ApplicationDetail />,
+      },
+      {
+        path: ROUTES_CONFIG.previewForm.path,
+        element: <PreviewForm />,
       },
     ],
   },
