@@ -45,20 +45,21 @@ const Nav = ({ isOpen, onToggle }: NavProps) => {
             onToggle();
           }}
         />
-        {
-          // biome-ignore lint/a11y/noStaticElementInteractions: 헤더 클릭시 네비게이션 토글
-          <div
-            onClick={onToggle}
-            className={`cursor-pointer overflow-hidden transition-all duration-300 ${
-              isOpen ? 'opacity-100 max-w-[12rem]' : 'opacity-0 max-w-0'
-            }`}
-          >
-            <h1 className="heading_7_16_b text-gray10 whitespace-nowrap">
-              SOPT ADMIN
-            </h1>
-            <p className="title_7_14_sb text-gray50">Recruit</p>
-          </div>
-        }
+
+        <button
+          type="button"
+          onClick={onToggle}
+          aria-expanded={isOpen}
+          aria-label={isOpen ? '사이드바 접기' : '사이드바 열기'}
+          className={`cursor-pointer overflow-hidden transition-all duration-300 ${
+            isOpen ? 'opacity-100 max-w-[12rem]' : 'opacity-0 max-w-0'
+          }`}
+        >
+          <span className="heading_7_16_b text-gray10 whitespace-nowrap">
+            SOPT ADMIN
+          </span>
+          <span className="title_7_14_sb text-gray50">Recruit</span>
+        </button>
       </header>
       <ul className="flex flex-col gap-[0.6rem]">
         {MENU_LIST.map((menu) => {
