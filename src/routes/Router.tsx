@@ -4,8 +4,8 @@ import Application from '@/pages/Application/Application';
 import ApplicationDetail from '@/pages/ApplicationDetail/ApplicationDetail';
 import Login from '@/pages/Login/Login';
 import PostGeneration from '@/pages/PostGeneration/PostGeneration';
-import PreviewForm from '@/pages/PostQuestion/components/PreviewForm';
 import PostQuestion from '@/pages/PostQuestion/PostQuestion';
+import PreviewForm from '@/pages/PreviewForm';
 import { ROUTES_CONFIG } from '@/routes/routeConfig';
 
 export const router = createBrowserRouter([
