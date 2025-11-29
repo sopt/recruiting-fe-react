@@ -1,6 +1,7 @@
 import { Button, Dialog, DialogContext } from '@sopt-makers/ui';
 import { type RefObject, useContext, useEffect, useRef } from 'react';
 import { Trash } from '@/assets/svg';
+import { useNav } from '@/contexts/NavContext';
 import useDrag from '@/pages/Application/hooks/useDrag';
 import { useDeleteGeneration } from '@/pages/PostGeneration/hooks/queries';
 import type { Season } from '@/pages/PostGeneration/types';
@@ -25,6 +26,7 @@ const GenerationTable = ({ data }: GenerationTableProps) => {
     useDrag(scrollContainerRef);
 
   const { openDialog, closeDialog } = useContext(DialogContext);
+  const { isOpen } = useNav();
 
   const { mutate: deleteGeneration } = useDeleteGeneration();
 
@@ -77,7 +79,9 @@ const GenerationTable = ({ data }: GenerationTableProps) => {
       onMouseMove={onDragMove}
       onMouseUp={onDragEnd}
       onMouseLeave={onDragLeave}
-      className="w-full overflow-x-auto scroll-smooth scrollbar-hide pr-[12.4rem] cursor-grab active:cursor-grabbing pl-[21.2rem]"
+      className={`w-full overflow-x-auto scroll-smooth scrollbar-hide pr-[12.4rem] cursor-grab active:cursor-grabbing transition-all duration-300 ${
+        isOpen ? 'pl-[21.2rem]' : 'pl-[12.4rem]'
+      }`}
     >
       <table className="w-[122.5rem]">
         <thead>
