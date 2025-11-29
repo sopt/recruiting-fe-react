@@ -1,6 +1,7 @@
 import ApplyCategory from '@/pages/PreviewForm/components/ApplyCategory';
 import ApplyHeader from '@/pages/PreviewForm/components/ApplyHeader';
 import ApplyInfo from '@/pages/PreviewForm/components/ApplyInfo';
+import CommonSection from '@/pages/PreviewForm/components/CommonSection';
 import DefaultSection from '@/pages/PreviewForm/components/DefaultSection';
 
 const PreviewForm = () => {
@@ -11,6 +12,7 @@ const PreviewForm = () => {
         <ApplyInfo />
         <ApplyCategory />
         <DefaultSection />
+        <CommonSection />
       </div>
     </div>
   );
