@@ -10,6 +10,7 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   extraInput?: ReactElement;
   onlyFileUpload: boolean;
   children: string;
+  questionIndex: number;
 }
 
 const Textarea = ({
@@ -20,12 +21,18 @@ const Textarea = ({
   extraInput,
   onlyFileUpload,
   children,
+  questionIndex,
 }: TextareaProps) => {
   const id = useId();
 
   return (
     <div className="flex flex-col gap-[0.8rem] items-center">
-      <Label label={id} maxCount={maxCount} required={required}>
+      <Label
+        label={id}
+        maxCount={maxCount}
+        required={required}
+        questionIndex={questionIndex}
+      >
         {children}
       </Label>
       {extraInput}

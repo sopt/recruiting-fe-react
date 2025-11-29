@@ -5,6 +5,7 @@ interface LabelProps extends HTMLAttributes<HTMLHeadingElement> {
   maxCount: number;
   required: boolean;
   label: string;
+  questionIndex?: number;
 }
 
 const Label = ({
@@ -12,6 +13,7 @@ const Label = ({
   maxCount,
   required,
   label,
+  questionIndex,
   ...props
 }: LabelProps) => {
   const questionArray = children.split('\n');
@@ -40,6 +42,7 @@ const Label = ({
     >
       <label htmlFor={label} className="cursor-pointer text-gray-950">
         <span>
+          {questionIndex && `${questionIndex}. `}
           {firstEmptyIndex === -1
             ? children
             : renderQuestions(questionArray, firstEmptyIndex)}

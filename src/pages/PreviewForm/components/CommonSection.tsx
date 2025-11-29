@@ -29,16 +29,19 @@ const CommonSection = ({
     <section id="common" className="flex flex-col gap-[5rem] w-[72rem]">
       <h2 className="w-[72rem] title_2_28_sb text-gray-950">공통 질문</h2>
       {questions?.map(
-        ({
-          question,
-          id,
-          charLimit,
-          isFile,
-          placeholder,
-          optional,
-          isDescription,
-          urls,
-        }) => {
+        (
+          {
+            question,
+            id,
+            charLimit,
+            isFile,
+            placeholder,
+            optional,
+            isDescription,
+            urls,
+          },
+          index
+        ) => {
           const onlyFileUpload = isFile ? !charLimit && !placeholder : false;
 
           return (
@@ -63,6 +66,7 @@ const CommonSection = ({
                   }
                   required={!optional}
                   onlyFileUpload={onlyFileUpload}
+                  questionIndex={index + 1}
                 >
                   {question}
                 </Textarea>
