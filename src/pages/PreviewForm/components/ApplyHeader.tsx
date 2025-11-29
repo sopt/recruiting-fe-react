@@ -25,4 +25,6 @@ const ApplyHeader = () => {
   );
 };
 
+ApplyHeader.displayName = 'ApplyHeader';
+
 export default ApplyHeader;
