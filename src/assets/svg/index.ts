@@ -16,6 +16,7 @@ export { default as InfoCircle } from './InfoCircle';
 export { default as Link } from './Link';
 export { default as Logo } from './Logo';
 export { default as Pagnation } from './Pagnation';
+export { default as Profile } from './Profile';
 export { default as Refresh } from './Refresh';
 export { default as Toggle } from './Toggle';
 export { default as Trash } from './Trash';
