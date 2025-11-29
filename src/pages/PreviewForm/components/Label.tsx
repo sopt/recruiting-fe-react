@@ -47,7 +47,6 @@ const Label = ({
             ? children
             : renderQuestions(questionArray, firstEmptyIndex)}
           <span className="relative">
-            {' '}
             {maxCount > 0 && `(${maxCount}자)`}
             {required && (
               <i className="absolute bottom-[5px] inline-block rounded-full w-[8px] h-[8px] bg-gray-950 translate-x-[5px] translate-y-[-2px]" />
