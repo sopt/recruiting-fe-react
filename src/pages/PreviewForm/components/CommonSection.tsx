@@ -17,6 +17,7 @@ interface CommonSectionProps {
   infoComponent?: ReactElement;
   fileInputComponent?: ReactElement;
   linkInputComponent?: ReactElement;
+  refCallback?: (elem: HTMLElement) => void;
 }
 
 const CommonSection = ({
@@ -24,9 +25,14 @@ const CommonSection = ({
   infoComponent,
   fileInputComponent,
   linkInputComponent,
+  refCallback,
 }: CommonSectionProps) => {
   return (
-    <section id="common" className="flex flex-col gap-[5rem] w-[72rem]">
+    <section
+      ref={refCallback}
+      id="common"
+      className="flex flex-col gap-[5rem] w-[72rem]"
+    >
       <h2 className="w-[72rem] title_2_28_sb text-gray-950">공통 질문</h2>
       {questions?.map(
         (

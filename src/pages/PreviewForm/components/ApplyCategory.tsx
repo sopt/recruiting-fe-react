@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { cn } from '@/utils/cn';
 
 const CATEGORY = [
@@ -19,19 +19,41 @@ const CATEGORY = [
   },
 ];
 
-const ApplyCategory = () => {
-  const location = useLocation();
-  const currentCategory = location.hash || CATEGORY[0].path;
+interface ApplyCategoryProps {
+  minIndex: number;
+}
+
+const ApplyCategory = ({ minIndex }: ApplyCategoryProps) => {
+  const handleCategoryClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    path: string
+  ) => {
+    e.preventDefault();
+    const sectionId = path.replace('#', '');
+    const element = document.getElementById(sectionId);
+
+    if (element) {
+      const headerOffset = 220;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.scrollY - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      });
+    }
+  };
 
   return (
     <nav className="flex justify-center sticky top-[8rem] bg-white z-20 transition-all duration-500 ease-out">
       <ul className="flex">
         {CATEGORY.map((category) => {
-          const isActive = currentCategory === category.path;
+          const isActive = minIndex === category.index;
           return (
             <li key={category.text}>
               <Link
                 to={category.path}
+                onClick={(e) => handleCategoryClick(e, category.path)}
                 className={cn(
                   'flex justify-center items-center w-[24rem] text-center heading_6_18_b',
                   'bg-white transition-colors duration-200 ease-out hover:text-gray-950',

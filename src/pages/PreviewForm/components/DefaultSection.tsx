@@ -43,7 +43,7 @@ const ProfileImage = () => {
 
 interface DefaultSectionProps {
   isReview?: boolean;
-  refCallback?: (elem: HTMLSelectElement) => void;
+  refCallback?: (elem: HTMLElement) => void;
 }
 
 const DefaultSection = ({ refCallback }: DefaultSectionProps) => {
