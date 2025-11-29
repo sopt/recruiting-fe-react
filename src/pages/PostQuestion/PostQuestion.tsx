@@ -4,6 +4,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { AlertTriangleFilled } from '@/assets/svg';
 import { useIntersectionObserver } from '@/hooks/useIntersectorObservor';
 import Header from '@/pages/PostQuestion/components/Header';
+import PreviewButton from '@/pages/PostQuestion/components/PreviewButton';
 import QuestionList from '@/pages/PostQuestion/components/QuestionList';
 import RegisterButton from '@/pages/PostQuestion/components/RegisterButton';
 import TemporarySaveButton from '@/pages/PostQuestion/components/TemporarySaveButton';
@@ -16,6 +17,7 @@ import {
 
 const PostQuestion = () => {
   const [deleteQuestionIds, setDeleteQuestionIds] = useState<number[]>([]);
+  const [isPreviewEnabled, setIsPreviewEnabled] = useState(false);
 
   const addDeleteQuestionId = (id: number) => {
     setDeleteQuestionIds((prev) => [...prev, id]);
@@ -66,14 +68,17 @@ const PostQuestion = () => {
             }`}
           >
             <div className="flex flex-col gap-[0.8rem] body_3_14_r">
-              <div className="flex gap-[1.6rem] mt-[4.4rem] z-50">
+              <div className="flex gap-[1.6rem] mt-[4.4rem] items-center z-50">
+                <PreviewButton disabled={!isPreviewEnabled} />
                 <TemporarySaveButton
                   filterState={filterState}
                   deleteQuestionIds={deleteQuestionIds}
+                  onActivatePreview={() => setIsPreviewEnabled(true)}
                 />
                 <RegisterButton
                   filterState={filterState}
                   deleteQuestionIds={deleteQuestionIds}
+                  onActivatePreview={() => setIsPreviewEnabled(true)}
                 />
               </div>
               {isDirty && (

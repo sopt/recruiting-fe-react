@@ -12,21 +12,24 @@ const Layout = () => {
   const hasTable =
     location.pathname === ROUTES_CONFIG.postGeneration.path ||
     location.pathname === ROUTES_CONFIG.application.path;
+  const isPreviewForm = location.pathname === ROUTES_CONFIG.previewForm.path;
 
   return (
     <>
-      <Nav isOpen={isOpen} onToggle={toggle} />
+      {!isPreviewForm && <Nav isOpen={isOpen} onToggle={toggle} />}
       <CommonHeader />
       <div
         className={`transition-all duration-300 ease-out ${
-          isOpen
-            ? hasTable
-              ? 'ml-[12.4rem]'
-              : 'ml-[33.6rem]'
-            : hasTable
-            ? 'ml-[7.6rem]'
-            : 'ml-[20rem]'
-        }`}
+          isPreviewForm
+            ? 'ml-0'
+            : isOpen
+              ? hasTable
+                ? 'ml-[12.4rem]'
+                : 'ml-[33.6rem]'
+              : hasTable
+                ? 'ml-[7.6rem]'
+                : 'ml-[20rem]'
+        }`} 
       >
         <Outlet />
       </div>
