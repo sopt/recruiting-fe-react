@@ -27,8 +27,9 @@ const Input = ({
     'w-full p-[1.6rem] rounded-xl whitespace-pre-line break-all resize-none',
     'body_2_16_r',
     textareaHeightClass,
-    !disabled && 'bg-white text-gray-950 border border-gray-300',
-    !disabled && 'focus:border-gray-950 focus:outline-none',
+    // NOTE: 활성화 상태일 때 스타일
+    // !disabled && 'bg-white text-gray-950 border border-gray-300',
+    // !disabled && 'focus:border-gray-950 focus:outline-none',
     disabled && 'text-gray-500 bg-gray-100 cursor-not-allowed',
     'placeholder:text-gray100',
     className,
@@ -47,12 +48,10 @@ const Input = ({
         {...textareaElements}
       />
       <p className="flex justify-end items-center w-full body_2_16_r">
-        {!disabled && (
-          <span>
-            <span className="text-gray-950">{currentCount || 0}</span>
-            <span className="text-gray-500">/{maxCount}</span>
-          </span>
-        )}
+        <span>
+          <span className="text-gray-950">{currentCount || 0}</span>
+          <span className="text-gray-500">/{maxCount}</span>
+        </span>
       </p>
     </div>
   );

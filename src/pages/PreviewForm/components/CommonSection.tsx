@@ -67,6 +67,7 @@ const CommonSection = ({
                   required={!optional}
                   onlyFileUpload={onlyFileUpload}
                   questionIndex={index + 1}
+                  disabled
                 >
                   {question}
                 </Textarea>

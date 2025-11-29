@@ -11,6 +11,7 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   onlyFileUpload: boolean;
   children: string;
   questionIndex: number;
+  disabled?: boolean;
 }
 
 const Textarea = ({
@@ -22,6 +23,7 @@ const Textarea = ({
   onlyFileUpload,
   children,
   questionIndex,
+  disabled = true,
 }: TextareaProps) => {
   const id = useId();
 
@@ -44,6 +46,7 @@ const Textarea = ({
           required={required}
           maxCount={maxCount}
           isFileInput={!!extraInput}
+          disabled={disabled}
         />
       )}
     </div>
