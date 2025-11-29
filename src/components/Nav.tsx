@@ -51,7 +51,7 @@ const Nav = ({ isOpen, onToggle }: NavProps) => {
           onClick={onToggle}
           aria-expanded={isOpen}
           aria-label={isOpen ? '사이드바 접기' : '사이드바 열기'}
-          className={`cursor-pointer overflow-hidden transition-all duration-300 ${
+          className={`flex flex-col items-start cursor-pointer overflow-hidden transition-all duration-300 ${
             isOpen ? 'opacity-100 max-w-[12rem]' : 'opacity-0 max-w-0'
           }`}
         >
