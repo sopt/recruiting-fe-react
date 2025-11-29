@@ -47,7 +47,7 @@ const PostQuestion = () => {
   });
 
   return (
-    <main className="max-w-[98rem] mb-[15rem]">
+    <main className="max-w-[98rem] mb-[15rem] transition-all duration-300">
       <Header
         filterState={filterState}
         handleTabChange={setPart}
