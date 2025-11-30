@@ -8,9 +8,9 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   required: boolean;
   maxCount: number;
   extraInput?: ReactElement;
-  onlyFileUpload: boolean;
+  onlyFileUpload?: boolean;
   children: string;
-  questionIndex: number;
+  questionIndex?: number;
   disabled?: boolean;
 }
 
