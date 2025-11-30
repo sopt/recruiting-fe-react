@@ -78,36 +78,40 @@ const PartSection = ({
         ) => {
           const draftItem = partQuestionsById?.[id];
           const defaultValue = draftItem ? draftItem.answer.answer : '';
-          const onlyFileUpload = isFile ? !charLimit && !placeholder : false;
 
           return (
             <div key={question}>
               {isDescription && <Info value={question} />}
-              {!isDescription && (
+              {!isDescription && !isFile && (
                 <Textarea
                   name={`part${id}`}
                   defaultValue={defaultValue}
                   maxCount={charLimit || 0}
-                  placeholder={
-                    placeholder ||
-                    (isFile
-                      ? "링크로 제출할 경우, 이곳에 작성해주세요. (파일로 제출한 경우에는 '파일 제출'이라고 기재 후 제출해주세요.)"
-                      : '')
-                  }
-                  extraInput={
-                    isFile ? (
-                      <FileInput section="part" id={id} isReview={isReview} />
-                    ) : urls ? (
-                      <LinkInput urls={urls} />
-                    ) : undefined
-                  }
+                  placeholder={placeholder || ''}
+                  extraInput={urls ? <LinkInput urls={urls} /> : undefined}
                   disabled
                   required={!optional}
-                  onlyFileUpload={onlyFileUpload}
                   questionIndex={index + 1}
                 >
                   {question}
                 </Textarea>
+              )}
+              {!isDescription && isFile && (
+                <div className="flex flex-col gap-[0.8rem] items-center">
+                  <h4 className="w-[72rem] title_5_18_sb whitespace-pre-line break-words">
+                    <span className="cursor-pointer text-gray-950">
+                      <span>
+                        {index + 1}. {question}
+                        {!optional && (
+                          <span className="relative">
+                            <i className="absolute bottom-[5px] inline-block rounded-full w-[8px] h-[8px] bg-gray-950 translate-x-[5px] translate-y-[-2px]" />
+                          </span>
+                        )}
+                      </span>
+                    </span>
+                  </h4>
+                  <FileInput section="part" id={id} isReview={isReview} />
+                </div>
               )}
             </div>
           );
