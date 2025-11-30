@@ -170,7 +170,12 @@ const DefaultSection = ({ refCallback }: DefaultSectionProps) => {
         label="이전 기수 활동 여부 (제명 포함)"
         name="mostRecentSeason"
         placeholder="이전 기수 활동 여부를 선택해주세요."
-        options={['33기', '34기', '35기', '36기']}
+        options={[
+          { value: '33기', label: '33기' },
+          { value: '34기', label: '34기' },
+          { value: '35기', label: '35기' },
+          { value: '36기', label: '36기' },
+        ]}
         required
         size="lg"
         disabled

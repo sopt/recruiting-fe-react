@@ -8,7 +8,6 @@ import Textarea from '@/pages/PreviewForm/components/Textarea';
 interface PartSectionProps {
   isReview?: boolean;
   refCallback?: (elem: HTMLElement) => void;
-  deviceType?: 'mobile' | 'desktop';
   part?: string;
   partOptions?: Array<{ value: string; label: string }>;
   filteredQuestions?: Array<{
@@ -25,27 +24,17 @@ interface PartSectionProps {
     number,
     { answer: { answer: string; file?: File; fileName?: string } }
   >;
-  sectionContainerVar?: Record<string, string>;
-  sectionTitleVar?: Record<string, string>;
   onPartChange?: (part: string) => void;
 }
 
 const PartSection = ({
   refCallback,
   isReview = false,
-  deviceType = 'desktop',
   part,
   partOptions,
   filteredQuestions,
   partQuestionsById,
-  sectionContainerVar = {
-    desktop: 'flex flex-col gap-[5rem]',
-    mobile: 'flex flex-col gap-[5rem]',
-  },
-  sectionTitleVar = {
-    desktop: 'w-[72rem] title_2_28_sb text-gray-950',
-    mobile: 'w-[72rem] title_2_28_sb text-gray-950',
-  },
+
   onPartChange,
 }: PartSectionProps) => {
   const defaultPartOptions = Object.values(Part)
@@ -59,9 +48,9 @@ const PartSection = ({
     <section
       ref={refCallback}
       id="partial"
-      className={sectionContainerVar[deviceType]}
+      className="flex flex-col gap-[5rem]"
     >
-      <h2 className={sectionTitleVar[deviceType]}>파트별 질문</h2>
+      <h2 className="w-[72rem] title_2_28_sb text-gray-950">파트별 질문</h2>
       <SelectBox
         defaultValue={part}
         label="지원파트"
@@ -91,7 +80,7 @@ const PartSection = ({
           return (
             <div key={question}>
               {isDescription && <Info value={question} />}
-              {!isDescription && (!!charLimit || onlyFileUpload) && (
+              {!isDescription && (
                 <Textarea
                   name={`part${id}`}
                   defaultValue={defaultValue}
@@ -109,8 +98,8 @@ const PartSection = ({
                       <LinkInput urls={urls} />
                     ) : undefined
                   }
+                  disabled
                   required={!optional}
-                  disabled={isReview}
                   onlyFileUpload={onlyFileUpload}
                 >
                   {question}
