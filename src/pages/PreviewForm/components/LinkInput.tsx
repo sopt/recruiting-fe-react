@@ -1,8 +1,8 @@
 const CONTAINER_CLASSNAME =
-  'flex items-center justify-between rounded-[1.2rem] py-[1.2rem] px-[2.2rem] text-gray-300 bg-[#f5f5f5] gap-[1.6rem]';
+  'flex items-center justify-between rounded-[1.2rem] p-[1.6rem] text-gray-300 bg-[#f5f5f5] gap-[1.6rem] w-[72rem]';
 const LABEL_CLASSNAME = 'w-[fit-content] body_1_18_m';
 const LINK_CLASSNAME =
-  'overflow-hidden text-ellipsis whitespace-nowrap font-weight-600 placeholder:text-gray-100 w-[62rem]';
+  'overflow-hidden text-ellipsis whitespace-nowrap body_1_18_m placeholder:text-gray-100 w-[62rem]';
 
 const LinkInput = ({ urls }: { urls: string[] }) => {
   return (

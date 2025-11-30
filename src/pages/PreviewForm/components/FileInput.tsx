@@ -21,34 +21,36 @@ const IconPlusButton = ({
       disabled={disabled}
       className={`
         flex justify-center items-center
-        w-[27px] h-[27px] rounded-[6px]
-        transition-all duration-200 ease-in-out
-        bg-gray-950 hover:bg-gray-700
-        ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
+        w-[2.7rem] h-[2.7rem] rounded-[0.6rem]
+        bg-gray-400 transition-all duration-200 ease-in-out
+        :hover:bg-gray-900 
+        ${disabled && 'cursor-not-allowed'}
     `}
     >
-      <svg
-        width="15"
-        height="15"
-        viewBox="0 0 15 15"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className={`
-        transition-all duration-200 ease-in-out
-        ${isSelected ? 'rotate-45' : 'rotate-0'}
-      `}
-      >
-        <path
-          d="M7.5 1.5V13.5M1.5 7.5H13.5"
-          stroke="white"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className={`
-          ${!disabled ? 'active:stroke-gray-300' : ''}
+      <div
+        className={`w-[1.5rem] h-[1.5rem] transition-all duration-200 ease-in-out
+        ${disabled && 'cursor-not-allowed'}
         `}
-        />
-      </svg>
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="15"
+          height="15"
+          viewBox="0 0 15 15"
+          fill="none"
+          className={`
+            ${isSelected ? 'rotate-45' : 'rotate-0'}
+          `}
+        >
+          <path
+            d="M2 7.5H13"
+            stroke="#F7F7F7"
+            strokeOpacity="0.968627"
+            strokeLinecap="round"
+          />
+          <path d="M7.5 13L7.5 2" stroke="#F7F7F7" strokeOpacity="0.968627" />
+        </svg>
+      </div>
     </button>
   );
 };
@@ -62,7 +64,7 @@ const FileInput = ({
   const displayText = defaultFile?.name || '50mb 이하 | pdf';
 
   return (
-    <div className="relative w-[72rem]">
+    <div className="relative w-[72rem] p-[1.6rem] bg-[#f5f5f5] rounded-[12px]">
       <input
         type="file"
         accept={ACCEPTED_FORMATS}
@@ -74,9 +76,9 @@ const FileInput = ({
         htmlFor="file-input"
         className={`
           flex justify-between items-center w-full
-          border border-solid rounded-[12px]
+          border border-solid 
           transition-all duration-200 ease-in-out
-          ${'border-gray-100 bg-[#f5f5f5] stroke-[#f5f5f5]'}
+          ${'border-gray-100 stroke-[#f5f5f5]'}
           ${
             isDisabled
               ? 'text-gray-300 bg-[#f5f5f5] cursor-not-allowed'
@@ -86,22 +88,22 @@ const FileInput = ({
       >
         <div
           className={`
-          flex items-center w-full gap-6 text-gray-300
+          flex items-center w-full gap-[2.4rem] text-gray-300
         `}
         >
-          <span className="body_2_16_m text-gray-950">참고 자료</span>
+          <span className="body_1_18_m  text-gray-950">참고 자료</span>
           <span
             className={`
               w-[55.5rem]
               overflow-hidden whitespace-nowrap text-ellipsis
-              text-gray-200
-              ${isDisabled ? 'text-gray-300 cursor-not-allowed' : ''}
+              text-gray-100
+              ${isDisabled && 'text-gray-300 cursor-not-allowed'}
             `}
           >
             {displayText}
           </span>
         </div>
-        <IconPlusButton isSelected={false} disabled={isDisabled} />
+        <IconPlusButton isSelected={false} disabled />
       </label>
     </div>
   );
