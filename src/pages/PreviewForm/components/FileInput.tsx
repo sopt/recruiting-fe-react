@@ -91,7 +91,7 @@ const FileInput = ({
           flex items-center w-full gap-[2.4rem] text-gray-300
         `}
         >
-          <span className="body_1_18_m  text-gray-950">참고 자료</span>
+          <span className="body_1_18_m  text-gray-500">참고 자료</span>
           <span
             className={`
               w-[55.5rem]
