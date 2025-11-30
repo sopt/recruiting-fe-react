@@ -84,7 +84,7 @@ const SelectBox = ({
           type="button"
           className={`
             flex p-[1.6rem] gap-[0.9rem] items-center justify-between rounded-[1.2rem]
-            border body_2_16_r transition-all duration-300 ease-in-out w-full
+            border border-gray-100 body_2_16_r transition-all duration-300 ease-in-out w-full
             ${
               disabled
                 ? 'cursor-not-allowed bg-gray-100 text-gray-500 border-gray-100'

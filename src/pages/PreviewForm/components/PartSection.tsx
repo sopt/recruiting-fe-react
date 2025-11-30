@@ -63,16 +63,19 @@ const PartSection = ({
         onValueChange={onPartChange}
       />
       {filteredQuestions?.map(
-        ({
-          question,
-          charLimit,
-          id,
-          urls,
-          isFile,
-          placeholder,
-          optional,
-          isDescription,
-        }) => {
+        (
+          {
+            question,
+            charLimit,
+            id,
+            urls,
+            isFile,
+            placeholder,
+            optional,
+            isDescription,
+          },
+          index
+        ) => {
           const draftItem = partQuestionsById?.[id];
           const defaultValue = draftItem ? draftItem.answer.answer : '';
           const onlyFileUpload = isFile ? !charLimit && !placeholder : false;
@@ -101,6 +104,7 @@ const PartSection = ({
                   disabled
                   required={!optional}
                   onlyFileUpload={onlyFileUpload}
+                  questionIndex={index + 1}
                 >
                   {question}
                 </Textarea>
