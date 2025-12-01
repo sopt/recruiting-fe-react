@@ -11,7 +11,6 @@ import { useEffect } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { Add, Arrange, InfoCircle, Link, Trash } from '@/assets/svg';
 import Tooltip from '@/components/Tooltip';
-import { DEFAULT_QUESTION_DATA } from '@/pages/PostQuestion/constant';
 import type { qustionListTypes } from '@/pages/PostQuestion/types/form';
 
 interface QuestionBoxProps {
@@ -80,6 +79,19 @@ const QuestionBox = ({
     });
   };
 
+  const handleRequiredToggle = (
+    onChange: (value: boolean) => void,
+    currentValue: boolean,
+  ) => {
+    onChange(!currentValue);
+    if (currentValue === false) {
+      const currentPlaceholder = watch(`questionList.${index}.placeholder`);
+      if (!currentPlaceholder || currentPlaceholder.trim() === '') {
+        setValue(`questionList.${index}.placeholder`, '내용을 작성해주세요.');
+      }
+    }
+  };
+
   return (
     <li>
       <article className="flex flex-row items-center gap-[3.2rem]">
@@ -112,23 +124,7 @@ const QuestionBox = ({
                   name={`questionList.${index}.required`}
                   render={({ field: { onChange, value } }) => (
                     <Toggle
-                      onClick={() => {
-                        onChange(!value);
-                        if (value === false) {
-                          const currentPlaceholder = watch(
-                            `questionList.${index}.placeholder`,
-                          );
-                          if (
-                            !currentPlaceholder ||
-                            currentPlaceholder.trim() === ''
-                          ) {
-                            setValue(
-                              `questionList.${index}.placeholder`,
-                              DEFAULT_QUESTION_DATA.placeholder,
-                            );
-                          }
-                        }
-                      }}
+                      onClick={() => handleRequiredToggle(onChange, value)}
                       checked={value}
                     />
                   )}
@@ -381,7 +377,7 @@ const QuestionBox = ({
                   />
                 )}
               />
-              <span className="body_2_16_m ">파일 받기</span>
+              <span className="body_2_16_m ">파일 업로드</span>
             </div>
 
             <hr className="border-gray400" />
