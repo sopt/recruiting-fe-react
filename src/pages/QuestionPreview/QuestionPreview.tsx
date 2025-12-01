@@ -1,14 +1,16 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useGetQuestionList } from '@/pages/PostQuestion/hooks/queries';
-import ApplyCategory from '@/pages/PreviewForm/components/ApplyCategory';
-import ApplyHeader from '@/pages/PreviewForm/components/ApplyHeader';
-import ApplyInfo from '@/pages/PreviewForm/components/ApplyInfo';
-import CommonSection from '@/pages/PreviewForm/components/CommonSection';
-import BottomSection from '@/pages/PreviewForm/components/BottomSection';
-import DefaultSection from '@/pages/PreviewForm/components/DefaultSection';
+import ApplyCategory from '@/pages/QuestionPreview/components/ApplyCategory';
+import ApplyHeader from '@/pages/QuestionPreview/components/ApplyHeader';
+import ApplyInfo from '@/pages/QuestionPreview/components/ApplyInfo';
+import BottomSection from '@/pages/QuestionPreview/components/BottomSection';
+import CommonSection from '@/pages/QuestionPreview/components/CommonSection';
+import DefaultSection from '@/pages/QuestionPreview/components/DefaultSection';
+import PartSection from '@/pages/QuestionPreview/components/PartSection';
 
-const PreviewForm = () => {
-  const [isInView, setIsInView] = useState([true, false]);
+const QuestionPreview = () => {
+  const [isInView, setIsInView] = useState([true, false, false]);
+  const [selectedPart, setSelectedPart] = useState<string>('');
 
   const minIndex = isInView.findIndex((value) => value === true);
 
@@ -18,7 +20,7 @@ const PreviewForm = () => {
   const refCallback = useCallback((element: HTMLElement) => {
     if (element && !sectionsRef.current.includes(element)) {
       sectionsRef.current.push(element);
-      if (sectionsRef.current.length === 2) {
+      if (sectionsRef.current.length === 3) {
         setSectionsUpdated(true);
       }
     }
@@ -40,6 +42,24 @@ const PreviewForm = () => {
     })
   );
 
+  const partOptions = questionData?.partQuestions.map((partQuestion) => ({
+    value: partQuestion.part,
+    label: partQuestion.part,
+  }));
+
+  const filteredPartQuestions = questionData?.partQuestions
+    .find((partQuestion) => partQuestion.part === selectedPart)
+    ?.questions.map((question, index) => ({
+      id: question.id || index + 1,
+      question: question.content || '',
+      charLimit: question.charLimit || undefined,
+      placeholder: question.placeholder || undefined,
+      urls: question.link ? [question.link] : undefined,
+      isFile: question.isFile,
+      optional: !question.required,
+      isDescription: question.isDescription,
+    }));
+
   useEffect(() => {
     if (!sectionsUpdated) return;
 
@@ -47,8 +67,9 @@ const PreviewForm = () => {
       (entries) => {
         entries.forEach((entry) => {
           const sectionId = entry.target.getAttribute('id');
-          // TODO: partial 추가
-          const sectionIndex = ['default', 'common'].indexOf(sectionId!);
+          const sectionIndex = ['default', 'common', 'partial'].indexOf(
+            sectionId!
+          );
 
           if (sectionIndex !== -1) {
             setIsInView((prev) => {
@@ -79,10 +100,17 @@ const PreviewForm = () => {
         <ApplyCategory minIndex={minIndex} />
         <DefaultSection refCallback={refCallback} />
         <CommonSection questions={commonQuestions} refCallback={refCallback} />
+        <PartSection
+          refCallback={refCallback}
+          part={selectedPart}
+          partOptions={partOptions}
+          filteredQuestions={filteredPartQuestions}
+          onPartChange={setSelectedPart}
+        />
         <BottomSection />
       </div>
     </div>
   );
 };
 
-export default PreviewForm;
+export default QuestionPreview;

@@ -2,7 +2,7 @@ import { IconChevronLeft } from '@sopt-makers/icons';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES_CONFIG } from '@/routes/routeConfig';
 
-const PreviewFormHeader = () => {
+const QuestionPreviewHeader = () => {
   const navigate = useNavigate();
 
   const handleGoBack = () => {
@@ -23,4 +23,4 @@ const PreviewFormHeader = () => {
   );
 };
 
-export default PreviewFormHeader;
+export default QuestionPreviewHeader;
