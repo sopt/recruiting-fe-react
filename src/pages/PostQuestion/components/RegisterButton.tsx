@@ -13,11 +13,13 @@ import type { qustionListTypes } from '@/pages/PostQuestion/types/form';
 interface RegisterButtonProps {
   filterState: FilterState;
   deleteQuestionIds: number[];
+  onActivatePreview: () => void;
 }
 
 const RegisterButton = ({
   filterState,
   deleteQuestionIds,
+  onActivatePreview,
 }: RegisterButtonProps) => {
   const { open: openDialog, close: closeDialog } = useDialog();
 
@@ -95,6 +97,8 @@ const RegisterButton = ({
           ),
         }),
     });
+
+    onActivatePreview();
   };
 
   const debouncedRegisterClick = useDebouncedCallback(handleRegisterClick);
