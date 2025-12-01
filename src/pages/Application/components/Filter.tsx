@@ -1,6 +1,6 @@
 import { SelectV2, TextField, Toggle } from '@sopt-makers/ui';
 import YbObRadioGroup from '@/components/YbObRadioGroup';
-import type { ApplicantState } from '@/pages/Application/\btypes';
+import type { ApplicantState, PassInfo } from '@/pages/Application/\btypes';
 import type { GetGenerationResponse } from '@/pages/PostGeneration/types';
 
 interface FilterProps {
@@ -17,7 +17,7 @@ const STATUS_OPTIONS = [
   { label: '최종 합격', value: 'FINAL_PASS' },
   { label: '서류 합격', value: 'INTERVIEW_PASS' },
   { label: '불합격', value: 'FAIL' },
-  { label: '확인 전', value: 'NOT_EVALUATED' },
+  { label: '확인 전', value: 'ALL' },
 ];
 
 const Filter = ({
@@ -27,6 +27,29 @@ const Filter = ({
   setApplicantInfo,
   onSearchChange,
 }: FilterProps) => {
+  const handlePassStatusChange = (option: { value: PassInfo }) => {
+    setApplicantInfo((prev) => {
+      const targetValue = option.value;
+
+      if (targetValue === 'ALL') {
+        return { ...prev, passStatus: 'ALL' };
+      }
+
+      const statusArray =
+        prev.passStatus === 'ALL' ? [] : prev.passStatus.split(', ');
+
+      const isSelected = statusArray.includes(targetValue);
+      const newArray = isSelected
+        ? statusArray.filter((status) => status !== targetValue)
+        : [...statusArray, targetValue];
+
+      return {
+        ...prev,
+        passStatus: newArray.length > 0 ? newArray.join(', ') : 'ALL',
+      };
+    });
+  };
+
   return (
     <div className="flex flex-col gap-[3.2rem] mt-[3.2rem]">
       <div className="flex gap-[1.6rem]">
@@ -100,10 +123,9 @@ const Filter = ({
                         value: option.value,
                       }}
                       onClick={() =>
-                        setApplicantInfo((prev) => ({
-                          ...prev,
-                          status: option.value,
-                        }))
+                        handlePassStatusChange({
+                          value: option.value as PassInfo,
+                        })
                       }
                     />
                   ))}
