@@ -62,9 +62,7 @@ const PostQuestion = () => {
         <form>
           <div
             className={`flex flex-col justify-end items-end ${
-              isIntersecting
-                ? 'w-full mb-[2rem]'
-                : 'fixed top-[8rem] left-[33.6rem] right-0 w-[98rem] z-4 bg-background pb-[2rem] '
+              isIntersecting && 'w-full mb-[2rem]'
             }`}
           >
             <div className="flex flex-col gap-[0.8rem] body_3_14_r">
