@@ -10,20 +10,20 @@ export const getApplicantList = async ({
   part,
   offset,
   limit,
-  minRate,
   hideEvaluated,
-  hideDontRead,
   checkInterviewPass,
+  passStatus,
+  searchKeyword,
 }: GetApplicantListRequest): Promise<GetApplicantListResponse> => {
   const params = {
     season,
     group,
     offset,
     limit,
-    minRate,
     hideEvaluated,
-    hideDontRead,
     checkInterviewPass,
+    passStatus,
+    searchKeyword,
     ...(part !== undefined && { part }),
   };
 

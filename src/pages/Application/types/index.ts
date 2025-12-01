@@ -98,10 +98,10 @@ export interface GetApplicantListRequest {
   part?: PartType | SoptPartType;
   offset: number;
   limit: number;
-  minRate: number;
   hideEvaluated: boolean;
-  hideDontRead: boolean;
   checkInterviewPass: boolean;
+  passStatus: string;
+  searchKeyword: string;
 }
 
 export interface GetApplicantListResponse {
@@ -189,6 +189,7 @@ export interface QuestionCharLimit {
 }
 
 export type PassInfo =
+  | 'ALL'
   | 'INTERVIEW_PASS'
   | 'FINAL_PASS'
   | 'FAIL'
@@ -200,13 +201,8 @@ export interface ApplicantState {
   evaluatedInfo: {
     checkedByMe: boolean;
   };
-  /* TODO: 읽지 마시오 삭제 */
-  dontReadInfo: {
-    checkedByMe: boolean;
-  };
-  /* TODO: 합격 여부 */
-  // passInfo: PassInfo[];
   isPassedOnly: boolean;
   selectedPart: PartType | SoptPartType;
-  minRate: number;
+  passStatus: string;
+  searchKeyword: string;
 }

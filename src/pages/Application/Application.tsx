@@ -21,15 +21,13 @@ const PAGE_LIMIT = 10;
 const INITIAL_APPLICANT_INFO: ApplicantState = {
   season: '',
   group: 'YB',
-  dontReadInfo: {
-    checkedByMe: false,
-  },
   evaluatedInfo: {
     checkedByMe: false,
   },
   isPassedOnly: false,
   selectedPart: COMMON_QUESTION,
-  minRate: 0,
+  passStatus: 'ALL',
+  searchKeyword: '',
 };
 
 const tabItems = IS_SOPT
@@ -41,9 +39,18 @@ const Application = () => {
     INITIAL_APPLICANT_INFO
   );
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchInputValue, setSearchInputValue] = useState('');
   const [searchApplicantValue, setSearchApplicantValue] = useState('');
 
   const { isOpen } = useNav();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setSearchApplicantValue(searchInputValue);
+    }, 200);
+
+    return () => clearTimeout(timer);
+  }, [searchInputValue]);
 
   const { data: generationData } = useGetGeneration(applicantInfo.group);
 
@@ -52,10 +59,10 @@ const Application = () => {
     group: applicantInfo.group,
     offset: (currentPage - 1) * PAGE_LIMIT,
     limit: PAGE_LIMIT,
-    minRate: applicantInfo.minRate,
-    hideDontRead: applicantInfo.dontReadInfo.checkedByMe,
     hideEvaluated: applicantInfo.evaluatedInfo.checkedByMe,
     checkInterviewPass: applicantInfo.isPassedOnly,
+    passStatus: applicantInfo.passStatus,
+    searchKeyword: searchApplicantValue,
     ...(applicantInfo.selectedPart !== COMMON_QUESTION && {
       part: applicantInfo.selectedPart,
     }),
@@ -82,11 +89,11 @@ const Application = () => {
   }, [
     applicantInfo.season,
     applicantInfo.group,
-    applicantInfo.dontReadInfo.checkedByMe,
     applicantInfo.evaluatedInfo.checkedByMe,
     applicantInfo.isPassedOnly,
     applicantInfo.selectedPart,
-    applicantInfo.minRate,
+    applicantInfo.passStatus,
+    applicantInfo.searchKeyword,
   ]);
 
   return (
@@ -100,10 +107,10 @@ const Application = () => {
           <Filter
             generationData={generationData}
             applicantInfo={applicantInfo}
-            searchApplicantValue={searchApplicantValue}
+            searchApplicantValue={searchInputValue}
             setApplicantInfo={setApplicantInfo}
             onSearchChange={(value) => {
-              setSearchApplicantValue(value);
+              setSearchInputValue(value);
             }}
           />
           <Tab
