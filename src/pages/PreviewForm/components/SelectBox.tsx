@@ -1,5 +1,6 @@
-import { type InputHTMLAttributes, useEffect, useRef, useState } from 'react';
+import { type InputHTMLAttributes, useRef, useState } from 'react';
 import { ChevronDown } from '@/assets/svg';
+import { useOutsideClick } from '@/hooks/useOutsideClick';
 
 export interface SelectOption {
   value: string;
@@ -31,19 +32,10 @@ const SelectBox = ({
   const [isOpen, setIsOpen] = useState(false);
   const selectRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        selectRef.current &&
-        !selectRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false);
-      }
-    };
+  useOutsideClick(selectRef, () => setIsOpen(false));
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  const selectedLabel =
+    options.find((opt) => opt.value === selectedValue)?.label || '';
 
   const handleSelectClick = () => {
     if (!disabled) {
@@ -58,9 +50,6 @@ const SelectBox = ({
       onValueChange(value);
     }
   };
-
-  const selectedLabel =
-    options.find((opt) => opt.value === selectedValue)?.label || '';
 
   return (
     <div

@@ -3,7 +3,7 @@ import FileInput from '@/pages/PreviewForm/components/FileInput';
 import Info from '@/pages/PreviewForm/components/Info';
 import LinkInput from '@/pages/PreviewForm/components/LinkInput';
 import SelectBox from '@/pages/PreviewForm/components/SelectBox';
-import Textarea from '@/pages/PreviewForm/components/Textarea';
+import TextareaBox from '@/pages/PreviewForm/components/TextareaBox';
 
 interface PartSectionProps {
   isReview?: boolean;
@@ -83,18 +83,24 @@ const PartSection = ({
             <div key={question}>
               {isDescription && <Info value={question} />}
               {!isDescription && !isFile && (
-                <Textarea
+                <TextareaBox
                   name={`part${id}`}
                   defaultValue={defaultValue}
                   maxCount={charLimit || 0}
                   placeholder={placeholder || ''}
-                  extraInput={urls ? <LinkInput urls={urls} /> : undefined}
+                  extraInput={
+                    isFile ? (
+                      <FileInput section="part" id={id} isReview={isReview} />
+                    ) : urls ? (
+                      <LinkInput urls={urls} />
+                    ) : undefined
+                  }
                   disabled
                   required={!optional}
                   questionIndex={index + 1}
                 >
                   {question}
-                </Textarea>
+                </TextareaBox>
               )}
               {!isDescription && isFile && (
                 <div className="flex flex-col gap-[0.8rem] items-center">

@@ -1,3 +1,5 @@
+import { IconPlus } from '@sopt-makers/icons';
+
 interface FileInputProps {
   section?: string;
   id?: number;
@@ -8,13 +10,7 @@ interface FileInputProps {
 
 const ACCEPTED_FORMATS = '.pdf';
 
-const IconPlusButton = ({
-  isSelected,
-  disabled,
-}: {
-  isSelected: boolean;
-  disabled?: boolean;
-}) => {
+const IconPlusButton = ({ disabled }: { disabled?: boolean }) => {
   return (
     <button
       type="button"
@@ -32,24 +28,7 @@ const IconPlusButton = ({
         ${disabled && 'cursor-not-allowed'}
         `}
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="15"
-          height="15"
-          viewBox="0 0 15 15"
-          fill="none"
-          className={`
-            ${isSelected ? 'rotate-45' : 'rotate-0'}
-          `}
-        >
-          <path
-            d="M2 7.5H13"
-            stroke="#F7F7F7"
-            strokeOpacity="0.968627"
-            strokeLinecap="round"
-          />
-          <path d="M7.5 13L7.5 2" stroke="#F7F7F7" strokeOpacity="0.968627" />
-        </svg>
+        <IconPlus className="w-[1.5rem] h-[1.5rem]" />
       </div>
     </button>
   );
@@ -103,7 +82,7 @@ const FileInput = ({
             {displayText}
           </span>
         </div>
-        <IconPlusButton isSelected={false} disabled />
+        <IconPlusButton disabled={isDisabled} />
       </label>
     </div>
   );
