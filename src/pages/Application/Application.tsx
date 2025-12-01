@@ -91,17 +91,12 @@ const Application = () => {
 
   return (
     <>
-<<<<<<< HEAD
-      <div className="flex flex-col gap-[3.8rem] overflow-hidden">
-        <div className="flex flex-col gap-[4.4rem] justify-between pr-[12.4rem] pl-[21.2rem]">
-=======
       <div className="flex flex-col gap-[4.4rem] overflow-hidden">
         <div
           className={`flex flex-col gap-[4.4rem] justify-between pr-[12.4rem] transition-all duration-300 ${
             isOpen ? 'pl-[21.2rem]' : 'pl-[12.4rem]'
           }`}
         >
->>>>>>> develop
           <Filter
             generationData={generationData}
             applicantInfo={applicantInfo}
