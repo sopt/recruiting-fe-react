@@ -1,3 +1,4 @@
+import { IconXClose } from '@sopt-makers/icons';
 import { SelectV2, TextField, Toggle } from '@sopt-makers/ui';
 import YbObRadioGroup from '@/components/YbObRadioGroup';
 import type { ApplicantState, PassInfo } from '@/pages/Application/\btypes';
@@ -103,6 +104,15 @@ const Filter = ({
               placeholder="지원자 성명 입력"
               value={searchApplicantValue}
               onChange={(e) => onSearchChange?.(e.target.value)}
+              className="w-[24.7rem]"
+              rightAddon={
+                searchApplicantValue ? (
+                  <IconXClose
+                    className="cursor-pointer w-[2.4rem] h-[2.4rem]"
+                    onClick={() => onSearchChange?.('')}
+                  />
+                ) : undefined
+              }
             />
           </div>
           <div className="flex flex-col gap-[0.8rem]">
