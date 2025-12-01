@@ -3,6 +3,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import type React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import Tooltip from '@/components/Tooltip';
+import { useNav } from '@/contexts/NavContext';
 import type {
   ApplicationTableProps,
   EvaluationToggleType,
@@ -44,6 +45,8 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
 
   const { mutate } = usePostEvalution();
   const { mutate: postPassStatus } = usePostApplicantPassStatus();
+
+  const { isOpen } = useNav();
 
   const goApplicationDetail = (applicantId: number) => {
     const path = ROUTES_CONFIG.applicationDetail.generatePath(applicantId);
@@ -138,7 +141,9 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
     // biome-ignore lint/a11y/noStaticElementInteractions: 테이블 클릭시 디테일로 이동
     <div
       ref={tableRef}
-      className="w-full overflow-x-auto overflow-y-hidden scroll-smooth scrollbar-hide pr-[12.4rem] pb-[5rem] pl-[21.2rem]"
+      className={`w-full overflow-x-auto overflow-y-hidden scroll-smooth scrollbar-hide pr-[12.4rem] pb-[5rem] transition-all duration-300 ${
+        isOpen ? 'pl-[21.2rem]' : 'pl-[12.4rem]'
+      }`}
       onMouseDown={(e) => {
         const target = e.target as HTMLElement;
         if (target.closest('[data-dropdown]')) {

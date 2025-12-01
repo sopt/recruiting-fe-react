@@ -2,6 +2,7 @@ import { Tab } from '@sopt-makers/ui';
 import { useEffect, useState } from 'react';
 import Pagination from '@/components/Pagination';
 import { IS_SOPT } from '@/constants';
+import { useNav } from '@/contexts/NavContext';
 import {
   type ApplicantState,
   Part,
@@ -41,6 +42,8 @@ const Application = () => {
   );
   const [currentPage, setCurrentPage] = useState(1);
   const [searchApplicantValue, setSearchApplicantValue] = useState('');
+
+  const { isOpen } = useNav();
 
   const { data: generationData } = useGetGeneration(applicantInfo.group);
 
@@ -88,8 +91,17 @@ const Application = () => {
 
   return (
     <>
+<<<<<<< HEAD
       <div className="flex flex-col gap-[3.8rem] overflow-hidden">
         <div className="flex flex-col gap-[4.4rem] justify-between pr-[12.4rem] pl-[21.2rem]">
+=======
+      <div className="flex flex-col gap-[4.4rem] overflow-hidden">
+        <div
+          className={`flex flex-col gap-[4.4rem] justify-between pr-[12.4rem] transition-all duration-300 ${
+            isOpen ? 'pl-[21.2rem]' : 'pl-[12.4rem]'
+          }`}
+        >
+>>>>>>> develop
           <Filter
             generationData={generationData}
             applicantInfo={applicantInfo}
@@ -109,7 +121,11 @@ const Application = () => {
             }}
           />
         </div>
-        <hr className="border-gray800 mt-[-4.7rem] w-[98rem] ml-[21.2rem]" />
+        <hr
+          className={`border-gray800 mt-[-4.7rem] w-[98rem] transition-all duration-300 ${
+            isOpen ? 'ml-[21.2rem]' : 'ml-[12.4rem]'
+          }`}
+        />
         <ApplicationTable
           data={applicantList?.data.data ?? []}
           isLoading={isLoading}

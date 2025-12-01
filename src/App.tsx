@@ -1,11 +1,12 @@
 import '@sopt-makers/ui/dist/index.css';
-import { router } from '@/routes/Router.tsx';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { RouterProvider } from 'react-router-dom';
+import { router } from '@/routes/Router.tsx';
 import '@/App.css';
-import queryClient from '@/apis/queryClient';
 import { DialogProvider, ToastProvider } from '@sopt-makers/ui';
+import queryClient from '@/apis/queryClient';
+import { NavProvider } from '@/contexts/NavContext';
 
 function App() {
   return (
@@ -13,7 +14,9 @@ function App() {
       <ReactQueryDevtools initialIsOpen={true} />
       <DialogProvider>
         <ToastProvider>
-          <RouterProvider router={router} />
+          <NavProvider>
+            <RouterProvider router={router} />
+          </NavProvider>
         </ToastProvider>
       </DialogProvider>
     </QueryClientProvider>
