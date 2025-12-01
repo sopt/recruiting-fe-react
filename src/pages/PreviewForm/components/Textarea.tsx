@@ -5,16 +5,8 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   name: string;
   placeholder: string;
   maxCount: number;
-<<<<<<< HEAD
-  extraInput?: ReactElement;
-  onlyFileUpload?: boolean;
-  children: string;
-  questionIndex?: number;
-  disabled?: boolean;
-=======
   isFileInput?: boolean;
   currentCount?: number;
->>>>>>> develop
 }
 
 const Textarea = ({
