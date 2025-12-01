@@ -45,10 +45,8 @@ const Textarea = ({
         {...textareaElements}
       />
       <p className="flex justify-end items-center w-full body_2_16_r">
-        <span>
-          <span className="text-gray-950">{currentCount || 0}</span>
-          <span className="text-gray-500">/{maxCount}</span>
-        </span>
+        <span className="text-gray-950">{currentCount || 0}</span>
+        <span className="text-gray-500">/{maxCount}</span>
       </p>
     </div>
   );
