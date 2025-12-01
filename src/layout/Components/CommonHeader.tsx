@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import { useNav } from '@/contexts/NavContext';
 import LogoutButton from '@/layout/Components/LogoutButton';
-import QuestionPreviewHeader from '@/layout/Components/PreviewFormHeader';
+import QuestionPreviewHeader from '@/layout/Components/QuestionPreviewHeader';
 import { ROUTES_CONFIG } from '@/routes/routeConfig';
 
 const CommonHeader = () => {
