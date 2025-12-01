@@ -1,21 +1,21 @@
 import { useLocation } from 'react-router-dom';
 import { useNav } from '@/contexts/NavContext';
 import LogoutButton from '@/layout/Components/LogoutButton';
-import PreviewFormHeader from '@/layout/Components/PreviewFormHeader';
+import QuestionPreviewHeader from '@/layout/Components/PreviewFormHeader';
 import { ROUTES_CONFIG } from '@/routes/routeConfig';
 
 const CommonHeader = () => {
   const { pathname } = useLocation();
   const { isOpen } = useNav();
-  
-  const isPreviewForm = pathname === ROUTES_CONFIG.previewForm.path;
-  
+
+  const isQuestionPreview = pathname === ROUTES_CONFIG.questionPreview.path;
+
   const title = Object.values(ROUTES_CONFIG).find(
     (route) => route.path === pathname
   )?.title;
 
-  if (isPreviewForm) {
-    return <PreviewFormHeader />;
+  if (isQuestionPreview) {
+    return <QuestionPreviewHeader />;
   }
 
   return (

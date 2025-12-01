@@ -1,6 +1,6 @@
 import { Button } from '@sopt-makers/ui';
-import Checkbox from '@/pages/PreviewForm/components/Checkbox';
-import SelectBox from '@/pages/PreviewForm/components/SelectBox';
+import Checkbox from '@/pages/QuestionPreview/components/Checkbox';
+import SelectBox from '@/pages/QuestionPreview/components/SelectBox';
 
 const BottomSection = () => {
   return (

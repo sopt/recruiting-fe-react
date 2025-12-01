@@ -5,7 +5,7 @@ import ApplicationDetail from '@/pages/ApplicationDetail/ApplicationDetail';
 import Login from '@/pages/Login/Login';
 import PostGeneration from '@/pages/PostGeneration/PostGeneration';
 import PostQuestion from '@/pages/PostQuestion/PostQuestion';
-import PreviewForm from '@/pages/PreviewForm/PreviewForm';
+import QuestionPreview from '@/pages/QuestionPreview/QuestionPreview';
 import { ROUTES_CONFIG } from '@/routes/routeConfig';
 
 export const router = createBrowserRouter([
@@ -29,8 +29,8 @@ export const router = createBrowserRouter([
         element: <ApplicationDetail />,
       },
       {
-        path: ROUTES_CONFIG.previewForm.path,
-        element: <PreviewForm />,
+        path: ROUTES_CONFIG.questionPreview.path,
+        element: <QuestionPreview />,
       },
     ],
   },

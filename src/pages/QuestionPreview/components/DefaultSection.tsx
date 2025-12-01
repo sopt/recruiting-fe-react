@@ -1,8 +1,8 @@
 import { Profile } from '@/assets/svg';
-import InputLine from '@/pages/PreviewForm/components/InputLine';
-import Radio from '@/pages/PreviewForm/components/Radio';
-import SelectBox from '@/pages/PreviewForm/components/SelectBox';
-import TextBox from '@/pages/PreviewForm/components/TextBox';
+import InputLine from '@/pages/QuestionPreview/components/InputLine';
+import Radio from '@/pages/QuestionPreview/components/Radio';
+import SelectBox from '@/pages/QuestionPreview/components/SelectBox';
+import TextBox from '@/pages/QuestionPreview/components/TextBox';
 
 const DEFAULT_PROFILE = [
   '사진은 면접 참고용으로만 이용됩니다.',

@@ -1,6 +1,6 @@
 import { type ReactElement, type TextareaHTMLAttributes, useId } from 'react';
-import Label from '@/pages/PreviewForm/components/Label';
-import Textarea from '@/pages/PreviewForm/components/Textarea';
+import Label from '@/pages/QuestionPreview/components/Label';
+import Textarea from '@/pages/QuestionPreview/components/Textarea';
 
 interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   name: string;

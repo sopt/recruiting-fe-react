@@ -1,14 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useGetQuestionList } from '@/pages/PostQuestion/hooks/queries';
-import ApplyCategory from '@/pages/PreviewForm/components/ApplyCategory';
-import ApplyHeader from '@/pages/PreviewForm/components/ApplyHeader';
-import ApplyInfo from '@/pages/PreviewForm/components/ApplyInfo';
-import BottomSection from '@/pages/PreviewForm/components/BottomSection';
-import CommonSection from '@/pages/PreviewForm/components/CommonSection';
-import DefaultSection from '@/pages/PreviewForm/components/DefaultSection';
-import PartSection from '@/pages/PreviewForm/components/PartSection';
+import ApplyCategory from '@/pages/QuestionPreview/components/ApplyCategory';
+import ApplyHeader from '@/pages/QuestionPreview/components/ApplyHeader';
+import ApplyInfo from '@/pages/QuestionPreview/components/ApplyInfo';
+import BottomSection from '@/pages/QuestionPreview/components/BottomSection';
+import CommonSection from '@/pages/QuestionPreview/components/CommonSection';
+import DefaultSection from '@/pages/QuestionPreview/components/DefaultSection';
+import PartSection from '@/pages/QuestionPreview/components/PartSection';
 
-const PreviewForm = () => {
+const QuestionPreview = () => {
   const [isInView, setIsInView] = useState([true, false, false]);
   const [selectedPart, setSelectedPart] = useState<string>('');
 
@@ -113,4 +113,4 @@ const PreviewForm = () => {
   );
 };
 
-export default PreviewForm;
+export default QuestionPreview;

@@ -1,9 +1,9 @@
 import { Part } from '@/pages/Application/\btypes';
-import FileInput from '@/pages/PreviewForm/components/FileInput';
-import Info from '@/pages/PreviewForm/components/Info';
-import LinkInput from '@/pages/PreviewForm/components/LinkInput';
-import SelectBox from '@/pages/PreviewForm/components/SelectBox';
-import TextareaBox from '@/pages/PreviewForm/components/TextareaBox';
+import FileInput from '@/pages/QuestionPreview/components/FileInput';
+import Info from '@/pages/QuestionPreview/components/Info';
+import LinkInput from '@/pages/QuestionPreview/components/LinkInput';
+import SelectBox from '@/pages/QuestionPreview/components/SelectBox';
+import TextareaBox from '@/pages/QuestionPreview/components/TextareaBox';
 
 interface PartSectionProps {
   isReview?: boolean;
