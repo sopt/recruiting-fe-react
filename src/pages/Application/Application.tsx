@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import Pagination from '@/components/Pagination';
 import { IS_SOPT } from '@/constants';
 import { useNav } from '@/contexts/NavContext';
+import { useDebouncedCallback } from '@/hooks/useDebounceCallback';
 import {
   type ApplicantState,
   Part,
@@ -44,14 +45,6 @@ const Application = () => {
 
   const { isOpen } = useNav();
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setSearchApplicantValue(searchInputValue);
-    }, 200);
-
-    return () => clearTimeout(timer);
-  }, [searchInputValue]);
-
   const { data: generationData } = useGetGeneration(applicantInfo.group);
 
   const applicantListParams = {
@@ -74,6 +67,16 @@ const Application = () => {
   const totalPages =
     applicantList?.data.meta.totalPage ??
     Math.ceil((applicantList?.data.meta.total ?? 0) / PAGE_LIMIT);
+
+  const debouncedSetSearchValue = useDebouncedCallback((value) => {
+    if (typeof value === 'string') {
+      setSearchApplicantValue(value);
+    }
+  }, 200);
+
+  useEffect(() => {
+    debouncedSetSearchValue(searchInputValue);
+  }, [searchInputValue, debouncedSetSearchValue]);
 
   useEffect(() => {
     if (generationData.seasons.length > 0) {
