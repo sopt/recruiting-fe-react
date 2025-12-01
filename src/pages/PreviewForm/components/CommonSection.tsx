@@ -1,5 +1,5 @@
 import type { ReactElement } from 'react';
-import Textarea from './Textarea';
+import TextareaBox from './TextareaBox';
 
 interface Question {
   id: number;
@@ -54,7 +54,7 @@ const CommonSection = ({
             <div key={question} className="flex flex-col">
               {isDescription && infoComponent}
               {(!!charLimit || onlyFileUpload) && (
-                <Textarea
+                <TextareaBox
                   name={`common${id}`}
                   maxCount={charLimit || 0}
                   placeholder={
@@ -76,7 +76,7 @@ const CommonSection = ({
                   disabled
                 >
                   {question}
-                </Textarea>
+                </TextareaBox>
               )}
             </div>
           );

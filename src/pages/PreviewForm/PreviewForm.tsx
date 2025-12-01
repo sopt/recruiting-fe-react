@@ -3,6 +3,7 @@ import { useGetQuestionList } from '@/pages/PostQuestion/hooks/queries';
 import ApplyCategory from '@/pages/PreviewForm/components/ApplyCategory';
 import ApplyHeader from '@/pages/PreviewForm/components/ApplyHeader';
 import ApplyInfo from '@/pages/PreviewForm/components/ApplyInfo';
+import BottomSection from '@/pages/PreviewForm/components/BottomSection';
 import CommonSection from '@/pages/PreviewForm/components/CommonSection';
 import DefaultSection from '@/pages/PreviewForm/components/DefaultSection';
 import PartSection from '@/pages/PreviewForm/components/PartSection';
@@ -106,6 +107,7 @@ const PreviewForm = () => {
           filteredQuestions={filteredPartQuestions}
           onPartChange={setSelectedPart}
         />
+        <BottomSection />
       </div>
     </div>
   );

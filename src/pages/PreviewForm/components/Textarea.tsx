@@ -1,54 +1,61 @@
-import { type ReactElement, type TextareaHTMLAttributes, useId } from 'react';
-import Input from '@/pages/PreviewForm/components/Input';
-import Label from '@/pages/PreviewForm/components/Label';
+import type { TextareaHTMLAttributes } from 'react';
+import { cn } from '@/utils/cn';
 
 interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   name: string;
   placeholder: string;
-  required: boolean;
   maxCount: number;
+<<<<<<< HEAD
   extraInput?: ReactElement;
   onlyFileUpload?: boolean;
   children: string;
   questionIndex?: number;
   disabled?: boolean;
+=======
+  isFileInput?: boolean;
+  currentCount?: number;
+>>>>>>> develop
 }
 
 const Textarea = ({
   name,
   placeholder,
-  required,
   maxCount,
-  extraInput,
-  onlyFileUpload,
-  children,
-  questionIndex,
-  disabled = true,
+  required,
+  isFileInput,
+  currentCount = 0,
+  disabled,
+  className,
+  ...textareaElements
 }: TextareaProps) => {
-  const id = useId();
+  const textareaSize = isFileInput || maxCount <= 100 ? 'sm' : 'lg';
+  const textareaHeightClass = textareaSize === 'sm' ? 'h-[112px]' : 'h-[507px]';
+
+  const textareaClasses = [
+    'w-full p-[1.6rem] rounded-xl whitespace-pre-line break-all resize-none',
+    'body_2_16_r',
+    textareaHeightClass,
+    disabled && 'text-gray-500 bg-gray-100 cursor-not-allowed',
+    'placeholder:text-gray100',
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   return (
-    <div className="flex flex-col gap-[0.8rem] items-center">
-      <Label
-        label={id}
-        maxCount={maxCount}
+    <div className="flex flex-col gap-2 justify-center w-[720px]">
+      <textarea
+        name={name}
+        placeholder={placeholder}
         required={required}
-        questionIndex={questionIndex}
-      >
-        {children}
-      </Label>
-      {extraInput}
-      {!onlyFileUpload && (
-        <Input
-          id={id}
-          name={name}
-          placeholder={placeholder}
-          required={required}
-          maxCount={maxCount}
-          isFileInput={!!extraInput}
-          disabled={disabled}
-        />
-      )}
+        disabled={disabled}
+        className={cn(textareaClasses)}
+        {...textareaElements}
+      />
+      <p className="flex justify-end items-center w-full body_2_16_r">
+        <span className="text-gray-950">{currentCount || 0}</span>
+        <span className="text-gray-500">/{maxCount}</span>
+      </p>
     </div>
   );
 };
