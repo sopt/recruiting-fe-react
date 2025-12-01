@@ -181,12 +181,18 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
           <tr>
             <th
               className={`w-[7.8rem] rounded-tl-[1rem] border-r-[1px] align-middle ${HEADER_BASE_STYLE}`}
+              onClick={(e) => e.stopPropagation()}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.stopPropagation();
+                }
+              }}
             >
               <div className="w-full h-full flex items-center justify-center">
                 <CheckBox
                   checked={isAllChecked}
                   onChange={(e) => {
-                    e.preventDefault();
+                    e.stopPropagation();
                     handleCheckAll(e);
                   }}
                 />
@@ -256,12 +262,18 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
                 >
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
+                    onClick={(e) => e.stopPropagation()}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.stopPropagation();
+                      }
+                    }}
                   >
                     <div className={`${TD_BASE_STYLE} justify-center`}>
                       <CheckBox
+                        id={String(item.id)}
                         checked={checkedApplicantList.includes(item.id)}
                         onChange={(e) => {
-                          e.preventDefault();
                           e.stopPropagation();
                           handleCheckApplicant(e);
                         }}
