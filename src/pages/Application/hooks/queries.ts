@@ -4,16 +4,12 @@ import queryClient from '@/apis/queryClient';
 import type {
   GetApplicantListRequest,
   GetApplicantListResponse,
-  PartType,
   PostApplicantPassStatusRequest,
   PostEvaluationRequest,
-  SoptPartType,
 } from '@/pages/Application/\btypes';
 import { getApplicantList } from '@/pages/Application/apis/getApplicantList';
 import { postEvaluation } from '@/pages/Application/apis/postEvaluation';
-import { postMinRate } from '@/pages/Application/apis/postMinRate';
 import { postPassStatus } from '@/pages/Application/apis/postPassStatus';
-import type { Group } from '@/pages/PostQuestion/types';
 
 export const ApplicantKeys = {
   all: () => ['applicant'] as const,
@@ -116,17 +112,5 @@ export const usePostEvalution = () => {
         queryKey: ApplicantKeys.list(),
       });
     },
-  });
-};
-
-export const usePostMinRate = () => {
-  return useMutation({
-    mutationFn: (info: {
-      minimumRate: number;
-      season: number;
-      group: Group;
-      selectedPart: PartType | SoptPartType;
-    }) =>
-      postMinRate(info.minimumRate, info.season, info.group, info.selectedPart),
   });
 };

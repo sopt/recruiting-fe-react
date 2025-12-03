@@ -1,8 +1,7 @@
-import { CheckBox, Tag } from '@sopt-makers/ui';
+import { Button, CheckBox, Tag } from '@sopt-makers/ui';
 import { useQueryClient } from '@tanstack/react-query';
 import type React from 'react';
 import { useEffect, useRef, useState } from 'react';
-import { AlertTriangle } from '@/assets/svg';
 import Tooltip from '@/components/Tooltip';
 import { useNav } from '@/contexts/NavContext';
 import type {
@@ -22,7 +21,7 @@ import {
   convertStatusToPassInfo,
 } from '@/pages/Application/utils';
 import { ROUTES_CONFIG } from '@/routes/routeConfig';
-import { getDoNotReadMessage, getEvaluationMessage } from '@/utils/message';
+import { getEvaluationMessage } from '@/utils/message';
 import { scrollToLeft } from '@/utils/scroll';
 
 const HEADER_BASE_STYLE =
@@ -36,6 +35,10 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
   const [passStatusList, setPassStatusList] = useState<Record<number, string>>(
     {}
   );
+  const [checkedApplicantList, setCheckedApplicantList] = useState<number[]>(
+    []
+  );
+
   const tableRef = useRef<HTMLDivElement>(null);
 
   const queryClient = useQueryClient();
@@ -51,6 +54,34 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
       path.startsWith('/') ? '' : '/'
     }${path}`;
     window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
+  const isAllChecked =
+    data.length > 0 &&
+    data.every((item) => checkedApplicantList.includes(item.id));
+
+  const handleCheckAll = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.checked) {
+      const checkedList: number[] = [];
+
+      Object.entries(data).map((item, idx) => {
+        checkedList[idx] = item[1].id;
+      });
+
+      setCheckedApplicantList(checkedList);
+    } else {
+      setCheckedApplicantList([]);
+    }
+  };
+
+  const handleCheckApplicant = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.checked) {
+      setCheckedApplicantList((prev) => [...prev, Number(e.target.id)]);
+    } else {
+      setCheckedApplicantList((prev) =>
+        prev.filter((id) => id !== Number(e.target.id))
+      );
+    }
   };
 
   const goApplicationDetailKeyDown = (
@@ -120,28 +151,67 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
         }
       }}
     >
+      <div className="w-[122.5rem] flex mb-[2.6rem] gap-[1.1rem] items-center">
+        <span className="text-gray200 title_6_16_sb">총 {data.length}개</span>
+        {checkedApplicantList.length > 0 && (
+          <>
+            <span className="text-gray200 title_6_16_sb">|</span>
+            <div className="flex gap-[1.3rem] items-center">
+              <span className="text-gray200 title_6_16_sb ml-[0.2rem]">
+                {checkedApplicantList.length}건 선택
+              </span>
+              <Button
+                theme="black"
+                size="sm"
+                onClick={() => {
+                  checkedApplicantList.forEach((id) => {
+                    goApplicationDetail(id);
+                  });
+                }}
+                disabled={checkedApplicantList.length === 0}
+              >
+                새 창 열기
+              </Button>
+            </div>
+          </>
+        )}
+      </div>
       <table className="w-[122.5rem] table-fixed select-none">
         <thead>
           <tr>
             <th
-              className={`w-[11rem] rounded-tl-[1rem] border-r-[1px] ${HEADER_BASE_STYLE}`}
+              className={`w-[7.8rem] rounded-tl-[1rem] border-r-[1px] align-middle ${HEADER_BASE_STYLE}`}
+              onClick={(e) => e.stopPropagation()}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.stopPropagation();
+                }
+              }}
             >
-              ID
-            </th>
-            <th className={`w-[11rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
-              합격여부
+              <div className="w-full h-full flex items-center justify-center">
+                <CheckBox
+                  checked={isAllChecked}
+                  onChange={(e) => {
+                    e.stopPropagation();
+                    handleCheckAll(e);
+                  }}
+                />
+              </div>
             </th>
             <th className={`w-[14rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
               지원자 정보
             </th>
             <th className={`w-[11rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
+              합격여부
+            </th>
+            <th className={`w-[11rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
               지원 파트
             </th>
             <th className={`w-[16.8rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
-              읽지 마시오
+              평가 상태
             </th>
             <th className={`w-[16.8rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
-              평가 상태
+              제출시간
             </th>
             <th className={`w-[11rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
               최근 기수
@@ -158,13 +228,8 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
             <th className={`w-[16.8rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
               이메일
             </th>
-            <th className={`w-[14rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
+            <th className={`w-[14rem] rounded-tr-[1rem] ${HEADER_BASE_STYLE}`}>
               전화번호
-            </th>
-            <th
-              className={`w-[16.8rem] rounded-tr-[1rem] ${HEADER_BASE_STYLE}`}
-            >
-              제출시간
             </th>
           </tr>
         </thead>
@@ -181,9 +246,6 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
             ))
           ) : (
             data.map((item) => {
-              const doNotReadMessage = getDoNotReadMessage(
-                item.dontReadInfo.checkedList
-              );
               const evaluationMessage = getEvaluationMessage(
                 item.evaluatedInfo.checkedList
               );
@@ -200,18 +262,21 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
                 >
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
-                  >
-                    <div className={TD_CONTENT_STYLE}>{item.id}</div>
-                  </td>
-                  <td
-                    className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
+                    onClick={(e) => e.stopPropagation()}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.stopPropagation();
+                      }
+                    }}
                   >
                     <div className={`${TD_BASE_STYLE} justify-center`}>
-                      <ChipDropDown
-                        status={currentStatus}
-                        onStatusChange={(value) =>
-                          handleStatusChange(item.id, value as StatusType)
-                        }
+                      <CheckBox
+                        id={String(item.id)}
+                        checked={checkedApplicantList.includes(item.id)}
+                        onChange={(e) => {
+                          e.stopPropagation();
+                          handleCheckApplicant(e);
+                        }}
                       />
                     </div>
                   </td>
@@ -234,62 +299,19 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
                   >
-                    <div className={TD_CONTENT_STYLE}>{item.part}</div>
+                    <div className={`${TD_BASE_STYLE} justify-center`}>
+                      <ChipDropDown
+                        status={currentStatus}
+                        onStatusChange={(value) =>
+                          handleStatusChange(item.id, value as StatusType)
+                        }
+                      />
+                    </div>
                   </td>
                   <td
-                    className={`${CELL_BASE_STYLE} text-white border-r-[1px] px-[1.2rem] py-[1rem] text-left`}
+                    className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
                   >
-                    <div className="flex flex-col gap-[0.5rem] justify-start">
-                      <div className="h-full flex items-center justify-between">
-                        {/** biome-ignore lint/a11y/noStaticElementInteractions: 이벤트 전파 방지 */}
-                        <div
-                          className="flex items-center gap-[0.9rem] cursor-pointer z-10"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                          }}
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
-                              e.stopPropagation();
-                            }
-                          }}
-                        >
-                          <CheckBox
-                            id={`dont-read-${item.id}`}
-                            checked={item.dontReadInfo.checkedByMe}
-                            onChange={(e) => {
-                              e.stopPropagation();
-                              e.preventDefault();
-                              handleEvaluation(
-                                item.id,
-                                'DONT_READ',
-                                !item.dontReadInfo.checkedByMe
-                              );
-                            }}
-                          />
-                          <label
-                            htmlFor={`dont-read-${item.id}`}
-                            className="flex items-center h-[3.2rem] cursor-pointer"
-                          >
-                            읽지 마시오
-                          </label>
-                        </div>
-
-                        {item.dontReadInfo.checkedList.length > 0 && (
-                          <div className="ml-auto">
-                            <Tooltip.Root>
-                              <Tooltip.Trigger>
-                                <div className="bg-orangeAlpha200 rounded-[10rem] p-[0.8rem] z-[20]">
-                                  <AlertTriangle width={16} height={16} />
-                                </div>
-                              </Tooltip.Trigger>
-                              <Tooltip.Content className="!mt-[2.5rem]">
-                                <span>{doNotReadMessage}</span>
-                              </Tooltip.Content>
-                            </Tooltip.Root>
-                          </div>
-                        )}
-                      </div>
-                    </div>
+                    <div className={TD_CONTENT_STYLE}>{item.part}</div>
                   </td>
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px] p-[1rem] text-left`}
@@ -342,6 +364,9 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
                       </div>
                     </div>
                   </td>
+                  <td className={`${CELL_BASE_STYLE} text-white`}>
+                    <div className={TD_CONTENT_STYLE}>{item.submittedAt}</div>
+                  </td>
                   <td
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
                   >
@@ -376,9 +401,6 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
                     className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
                   >
                     <div className={TD_CONTENT_STYLE}>{item.phone}</div>
-                  </td>
-                  <td className={`${CELL_BASE_STYLE} text-white`}>
-                    <div className={TD_CONTENT_STYLE}>{item.submittedAt}</div>
                   </td>
                 </tr>
               );

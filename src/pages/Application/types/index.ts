@@ -98,10 +98,10 @@ export interface GetApplicantListRequest {
   part?: PartType | SoptPartType;
   offset: number;
   limit: number;
-  minRate: number;
   hideEvaluated: boolean;
-  hideDontRead: boolean;
   checkInterviewPass: boolean;
+  passStatus: string;
+  searchKeyword: string;
 }
 
 export interface GetApplicantListResponse {
@@ -188,16 +188,21 @@ export interface QuestionCharLimit {
   charLimitLength: number;
 }
 
+export type PassInfo =
+  | 'ALL'
+  | 'INTERVIEW_PASS'
+  | 'FINAL_PASS'
+  | 'FAIL'
+  | 'NOT_EVALUATED';
+
 export interface ApplicantState {
   season: string;
   group: Group;
-  dontReadInfo: {
-    checkedByMe: boolean;
-  };
   evaluatedInfo: {
     checkedByMe: boolean;
   };
   isPassedOnly: boolean;
   selectedPart: PartType | SoptPartType;
-  minRate: number;
+  passStatus: string;
+  searchKeyword: string;
 }
