@@ -8,7 +8,7 @@ const PreviewButton = ({ ...props }: PreviewButtonProps) => {
   const navigate = useNavigate();
 
   const 미리보기페이지로이동 = () => {
-    navigate(ROUTES_CONFIG.previewForm.path);
+    navigate(ROUTES_CONFIG.questionPreview.path);
   };
 
   return (

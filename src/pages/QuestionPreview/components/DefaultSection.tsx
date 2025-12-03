@@ -1,8 +1,8 @@
 import { Profile } from '@/assets/svg';
-import InputLine from '@/pages/PreviewForm/components/InputLine';
-import Radio from '@/pages/PreviewForm/components/Radio';
-import SelectBox from '@/pages/PreviewForm/components/SelectBox';
-import TextBox from '@/pages/PreviewForm/components/TextBox';
+import InputLine from '@/pages/QuestionPreview/components/InputLine';
+import Radio from '@/pages/QuestionPreview/components/Radio';
+import SelectBox from '@/pages/QuestionPreview/components/SelectBox';
+import TextBox from '@/pages/QuestionPreview/components/TextBox';
 
 const DEFAULT_PROFILE = [
   '사진은 면접 참고용으로만 이용됩니다.',
@@ -43,7 +43,7 @@ const ProfileImage = () => {
 
 interface DefaultSectionProps {
   isReview?: boolean;
-  refCallback?: (elem: HTMLSelectElement) => void;
+  refCallback?: (elem: HTMLElement) => void;
 }
 
 const DefaultSection = ({ refCallback }: DefaultSectionProps) => {
@@ -170,7 +170,12 @@ const DefaultSection = ({ refCallback }: DefaultSectionProps) => {
         label="이전 기수 활동 여부 (제명 포함)"
         name="mostRecentSeason"
         placeholder="이전 기수 활동 여부를 선택해주세요."
-        options={['33기', '34기', '35기', '36기']}
+        options={[
+          { value: '33기', label: '33기' },
+          { value: '34기', label: '34기' },
+          { value: '35기', label: '35기' },
+          { value: '36기', label: '36기' },
+        ]}
         required
         size="lg"
         disabled

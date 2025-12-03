@@ -20,7 +20,7 @@ export const ROUTES_CONFIG = {
     path: '/application/detail',
     generatePath: (id: number) => `/application/detail?id=${id}`,
   },
-  previewForm: {
+  questionPreview: {
     title: '미리보기',
     path: '/preview-form',
   },
