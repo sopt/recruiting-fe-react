@@ -8,10 +8,6 @@ export type ApplicantType = {
   name: string;
   pictureUrl: string;
   part: string;
-  dontReadInfo: {
-    checkedByMe: boolean;
-    checkedList: ExecutiveType[];
-  };
   evaluatedInfo: {
     checkedByMe: boolean;
     checkedList: ExecutiveType[];
