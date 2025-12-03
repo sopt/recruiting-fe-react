@@ -46,7 +46,7 @@ const Filter = ({
 
       return {
         ...prev,
-        passStatus: newArray.length > 0 ? newArray.join(', ') : 'NOT_EVALUATED',
+        passStatus: newArray.length > 0 ? newArray.join(',') : '',
       };
     });
   };
