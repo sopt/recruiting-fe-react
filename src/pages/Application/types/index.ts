@@ -72,10 +72,6 @@ export interface ApplicationTableProps {
     name: string;
     pictureUrl: string;
     part: PartType | SoptPartType;
-    dontReadInfo: {
-      checkedByMe: boolean;
-      checkedList: string[];
-    };
     evaluatedInfo: {
       checkedByMe: boolean;
       checkedList: string[];
@@ -114,10 +110,6 @@ export interface GetApplicantListResponse {
       name: string;
       pictureUrl: string;
       part: PartType | SoptPartType;
-      dontReadInfo: {
-        checkedByMe: boolean;
-        checkedList: string[];
-      };
       evaluatedInfo: {
         checkedByMe: boolean;
         checkedList: string[];
@@ -147,8 +139,8 @@ export interface PostApplicantPassStatusRequest {
   finalPass: boolean | null;
 }
 
-// DONT_READ: 읽지마시오 여부, EVALUATION: 평가 완료 여부
-export type EvaluationToggleType = 'DONT_READ' | 'EVALUATION';
+// EVALUATION: 평가 완료 여부
+export type EvaluationToggleType = 'EVALUATION';
 
 export interface PostEvaluationRequest {
   applicantId: number;

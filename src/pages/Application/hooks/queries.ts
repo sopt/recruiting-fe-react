@@ -62,15 +62,6 @@ export const usePostEvalution = () => {
         if (!prev) return prev;
         const prevList = prev.data?.data ?? [];
         const newList = prevList.map((applicant) => {
-          if (evaluationInfo.evaluationType === 'DONT_READ') {
-            return {
-              ...applicant,
-              dontReadInfo: {
-                ...applicant.dontReadInfo,
-                checkedByMe: evaluationInfo.isChecked,
-              },
-            };
-          }
           if (evaluationInfo.evaluationType === 'EVALUATION') {
             return {
               ...applicant,
