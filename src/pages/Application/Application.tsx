@@ -27,7 +27,7 @@ const INITIAL_APPLICANT_INFO: ApplicantState = {
   },
   isPassedOnly: false,
   selectedPart: COMMON_QUESTION,
-  passStatus: 'ALL',
+  passStatus: '',
   searchKeyword: '',
 };
 
