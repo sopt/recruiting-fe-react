@@ -189,7 +189,6 @@ export interface QuestionCharLimit {
 }
 
 export type PassInfo =
-  | 'ALL'
   | 'INTERVIEW_PASS'
   | 'FINAL_PASS'
   | 'FAIL'

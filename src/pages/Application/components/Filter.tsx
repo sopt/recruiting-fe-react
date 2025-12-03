@@ -32,21 +32,19 @@ const Filter = ({
     setApplicantInfo((prev) => {
       const targetValue = option.value;
 
-      if (targetValue === 'NOT_EVALUATED') {
-        return { ...prev, passStatus: 'NOT_EVALUATED' };
-      }
-
-      const statusArray =
-        prev.passStatus === 'NOT_EVALUATED' ? [] : prev.passStatus.split(', ');
+      const statusArray = prev.passStatus
+        ? prev.passStatus.split(',').filter(Boolean)
+        : [];
 
       const isSelected = statusArray.includes(targetValue);
+
       const newArray = isSelected
         ? statusArray.filter((status) => status !== targetValue)
         : [...statusArray, targetValue];
 
       return {
         ...prev,
-        passStatus: newArray.length > 0 ? newArray.join(',') : '',
+        passStatus: newArray.join(','),
       };
     });
   };
