@@ -18,7 +18,7 @@ const STATUS_OPTIONS = [
   { label: '최종 합격', value: 'FINAL_PASS' },
   { label: '서류 합격', value: 'INTERVIEW_PASS' },
   { label: '불합격', value: 'FAIL' },
-  { label: '확인 전', value: 'ALL' },
+  { label: '확인 전', value: 'NOT_EVALUATED' },
 ];
 
 const Filter = ({
@@ -32,12 +32,12 @@ const Filter = ({
     setApplicantInfo((prev) => {
       const targetValue = option.value;
 
-      if (targetValue === 'ALL') {
-        return { ...prev, passStatus: 'ALL' };
+      if (targetValue === 'NOT_EVALUATED') {
+        return { ...prev, passStatus: 'NOT_EVALUATED' };
       }
 
       const statusArray =
-        prev.passStatus === 'ALL' ? [] : prev.passStatus.split(', ');
+        prev.passStatus === 'NOT_EVALUATED' ? [] : prev.passStatus.split(', ');
 
       const isSelected = statusArray.includes(targetValue);
       const newArray = isSelected
@@ -46,7 +46,7 @@ const Filter = ({
 
       return {
         ...prev,
-        passStatus: newArray.length > 0 ? newArray.join(', ') : 'ALL',
+        passStatus: newArray.length > 0 ? newArray.join(', ') : 'NOT_EVALUATED',
       };
     });
   };
