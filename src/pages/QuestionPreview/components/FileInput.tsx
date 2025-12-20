@@ -18,7 +18,7 @@ const IconPlusButton = ({ disabled }: { disabled?: boolean }) => {
       className={`
         flex justify-center items-center
         w-[2.7rem] h-[2.7rem] rounded-[0.6rem]
-        bg-gray-400 transition-all duration-200 ease-in-out
+        bg-gray400 transition-all duration-200 ease-in-out
         :hover:bg-gray-900 
         ${disabled && 'cursor-not-allowed'}
     `}
