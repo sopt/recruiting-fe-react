@@ -42,7 +42,7 @@ const PostQuestion = () => {
     formState: { isDirty },
   } = method;
 
-  const { targetRef, isIntersecting } = useIntersectionObserver({
+  const { targetRef } = useIntersectionObserver({
     rootMargin: '-80px 0px 0px 0px',
   });
 
@@ -55,16 +55,13 @@ const PostQuestion = () => {
         handleSeasonChange={setSeason}
         targetRef={targetRef}
       />
-      {!isIntersecting && (
+      {/* 추후 드롭다운 기능시 사용 */}
+      {/* {!isIntersecting && (
         <div className={isDirty ? 'h-[14rem]' : 'h-[11rem]'} />
-      )}
+      )} */}
       <FormProvider {...method}>
         <form>
-          <div
-            className={`flex flex-col justify-end items-end ${
-              isIntersecting && 'w-full mb-[2rem]'
-            }`}
-          >
+          <div className="flex flex-col justify-end items-end w-full mb-[2rem]">
             <div className="flex flex-col gap-[0.8rem] body_3_14_r">
               <div className="flex gap-[1.6rem] mt-[4.4rem] items-center z-50">
                 <PreviewButton disabled={!isPreviewEnabled} />
