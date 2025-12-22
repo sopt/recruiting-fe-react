@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { AlertTriangleFilled } from '@/assets/svg';
 import { useIntersectionObserver } from '@/hooks/useIntersectorObservor';
+import type { PartType, SoptPartType } from '@/pages/Application/\btypes';
 import Header from '@/pages/PostQuestion/components/Header';
 import PreviewButton from '@/pages/PostQuestion/components/PreviewButton';
 import QuestionList from '@/pages/PostQuestion/components/QuestionList';
@@ -14,6 +15,7 @@ import {
   questionsListSchema,
   type qustionListTypes,
 } from '@/pages/PostQuestion/types/form';
+import { scrollToTop } from '@/utils/scroll';
 
 const PostQuestion = () => {
   const [deleteQuestionIds, setDeleteQuestionIds] = useState<number[]>([]);
@@ -46,11 +48,16 @@ const PostQuestion = () => {
     rootMargin: '-80px 0px 0px 0px',
   });
 
+  const handleTabChange = (part: PartType | SoptPartType) => {
+    setPart(part);
+    scrollToTop();
+  };
+
   return (
     <main className="max-w-[98rem] mb-[15rem] transition-all duration-300">
       <Header
         filterState={filterState}
-        handleTabChange={setPart}
+        handleTabChange={handleTabChange}
         handleGroupChange={setGroup}
         handleSeasonChange={setSeason}
         targetRef={targetRef}
