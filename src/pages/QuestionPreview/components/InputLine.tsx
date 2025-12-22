@@ -23,7 +23,7 @@ const InputLine = ({
 }: InputLineProps) => {
   return (
     <>
-      <div className="flex gap-[10px] relative">
+      <div className="flex gap-[1rem] relative">
         <input
           id={name}
           name={name}
@@ -35,10 +35,10 @@ const InputLine = ({
           readOnly={readOnly}
           className={`
             flex-1 p-[1.6rem] bg-white rounded-[1.2rem] h-[5.8rem]
-            text-gray-900 placeholder:text-gray-400
             border border-gray-100
             focus:border-gray-950 focus:outline-none
-            disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-500 pointer-events-none
+            disabled:cursor-not-allowed disabled:bg-[#f5f5f5] 
+            placeholder:text-gray100
             body_2_16_r
           `}
         />

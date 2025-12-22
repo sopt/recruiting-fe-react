@@ -27,7 +27,7 @@ const Textarea = ({
     'w-full p-[1.6rem] rounded-xl whitespace-pre-line break-all resize-none',
     'body_2_16_r',
     textareaHeightClass,
-    disabled && 'text-gray-500 bg-gray-100 cursor-not-allowed',
+    disabled && 'text-gray-500 bg-[#f5f5f5] cursor-not-allowed',
     'placeholder:text-gray100',
     className,
   ]

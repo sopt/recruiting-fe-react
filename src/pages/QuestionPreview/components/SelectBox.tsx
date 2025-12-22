@@ -76,7 +76,7 @@ const SelectBox = ({
             border border-gray-100 body_2_16_r transition-all duration-300 ease-in-out w-full
             ${
               disabled
-                ? 'cursor-not-allowed bg-gray-100 text-gray-500 border-gray-100'
+                ? 'cursor-not-allowed bg-[#f5f5f5] text-gray300 border-gray-100'
                 : 'cursor-pointer bg-white text-gray-900 border-gray-100 hover:border-gray-300'
             }
             ${isOpen && !disabled ? 'border-gray-950' : ''}
@@ -95,7 +95,7 @@ const SelectBox = ({
           <input id={name} name={name} type="hidden" value={selectedValue} />
           <span
             className={`body_2_16_r w-full text-left ${
-              !selectedValue ? 'text-gray-400' : 'text-gray-900'
+              !selectedValue && !disabled ? 'text-gray100' : 'text-gray100'
             }`}
           >
             {selectedLabel || inputElementProps.placeholder || '선택하세요'}
