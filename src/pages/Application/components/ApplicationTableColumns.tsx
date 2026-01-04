@@ -9,6 +9,7 @@ import type {
   StatusType,
 } from '@/pages/Application/\btypes';
 import ChipDropDown from '@/pages/Application/components/ChipDropdown';
+import { stopEventPropagationOnKey } from '@/pages/Application/utils';
 import { getEvaluationMessage } from '@/utils/message';
 
 export type ApplicantRowType = {
@@ -78,12 +79,12 @@ export const createColumns = (
         </div>
       ),
       cell: ({ row }) => {
-        const item = row.original;
+        const id = row.original.id;
         return (
           <div className={`${TD_BASE_STYLE} justify-center`}>
             <CheckBox
-              id={String(item.id)}
-              checked={checkedApplicantSet.has(item.id)}
+              id={String(id)}
+              checked={checkedApplicantSet.has(id)}
               onChange={(e) => {
                 e.stopPropagation();
                 onCheckApplicant(e);
@@ -98,17 +99,17 @@ export const createColumns = (
       id: 'profile',
       header: '지원자 정보',
       cell: ({ row }) => {
-        const item = row.original;
+        const { pictureUrl, name } = row.original;
         return (
           <div
             className={`${TD_BASE_STYLE} gap-[1rem] p-[1rem] justify-center`}
           >
             <img
-              src={item.pictureUrl}
+              src={pictureUrl}
               alt="프로필"
               className="w-[5.2rem] h-[7rem] object-cover rounded-[0.3rem]"
             />
-            <span className="break-words w-[3.671rem]">{item.name}</span>
+            <span className="break-words w-[3.671rem]">{name}</span>
           </div>
         );
       },
@@ -118,15 +119,15 @@ export const createColumns = (
       id: 'passStatus',
       header: '합격여부',
       cell: ({ row }) => {
-        const item = row.original;
+        const { id, status } = row.original;
         const currentStatus =
-          passStatusList[item.id] || convertPassInfoToStatus(item.status);
+          passStatusList[id] || convertPassInfoToStatus(status);
         return (
           <div className={`${TD_BASE_STYLE} justify-center`}>
             <ChipDropDown
               status={currentStatus}
               onStatusChange={(value) =>
-                onStatusChange(item.id, value as StatusType)
+                onStatusChange(id, value as StatusType)
               }
             />
           </div>
@@ -138,8 +139,8 @@ export const createColumns = (
       id: 'part',
       header: '지원 파트',
       cell: ({ row }) => {
-        const item = row.original;
-        return <div className={TD_CONTENT_STYLE}>{item.part}</div>;
+        const { part } = row.original;
+        return <div className={TD_CONTENT_STYLE}>{part}</div>;
       },
       size: 110,
     },
@@ -147,9 +148,9 @@ export const createColumns = (
       id: 'evaluationStatus',
       header: '평가 상태',
       cell: ({ row }) => {
-        const item = row.original;
+        const { id, evaluatedInfo } = row.original;
         const evaluationMessage = getEvaluationMessage(
-          item.evaluatedInfo.checkedList
+          evaluatedInfo.checkedList
         );
 
         return (
@@ -157,29 +158,19 @@ export const createColumns = (
             {/** biome-ignore lint/a11y/noStaticElementInteractions: 이벤트 전파 방지 */}
             <div
               className="h-full flex items-center gap-[0.6rem]"
-              onClick={(e) => {
-                e.stopPropagation();
-              }}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  e.stopPropagation();
-                }
-              }}
+              onClick={(e) => e.stopPropagation()}
+              onKeyDown={(e) => stopEventPropagationOnKey(e, ['Enter', ' '])}
             >
               <CheckBox
-                id={`evaluated-${item.id}`}
-                checked={item.evaluatedInfo.checkedByMe}
+                id={`evaluated-${id}`}
+                checked={evaluatedInfo.checkedByMe}
                 onChange={(e) => {
                   e.stopPropagation();
-                  onEvaluation(
-                    item.id,
-                    'EVALUATION',
-                    !item.evaluatedInfo.checkedByMe
-                  );
+                  onEvaluation(id, 'EVALUATION', !evaluatedInfo.checkedByMe);
                 }}
               />
               <label
-                htmlFor={`evaluated-${item.id}`}
+                htmlFor={`evaluated-${id}`}
                 className="flex items-center h-[3.2rem] cursor-pointer"
               >
                 평가 완료
@@ -188,11 +179,9 @@ export const createColumns = (
               <div className="ml-[0.4rem]">
                 <Tooltip.Root>
                   <Tooltip.Trigger>
-                    <Tag shape="pill">
-                      {item.evaluatedInfo.checkedList.length}
-                    </Tag>
+                    <Tag shape="pill">{evaluatedInfo.checkedList.length}</Tag>
                   </Tooltip.Trigger>
-                  {item.evaluatedInfo.checkedList.length > 0 && (
+                  {evaluatedInfo.checkedList.length > 0 && (
                     <Tooltip.Content className="!mt-[1.3rem] !mr-[-0.5rem]">
                       <span>{evaluationMessage}</span>
                     </Tooltip.Content>

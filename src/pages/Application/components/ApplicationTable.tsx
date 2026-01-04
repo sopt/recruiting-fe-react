@@ -7,15 +7,15 @@ import {
 import type React from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNav } from '@/contexts/NavContext';
-import {
-  type ApplicantRowType,
-  createColumns,
-} from '@/layout/Components/table/columns';
 import type {
   ApplicationTableProps,
   EvaluationToggleType,
   StatusType,
 } from '@/pages/Application/\btypes';
+import {
+  type ApplicantRowType,
+  createColumns,
+} from '@/pages/Application/components/ApplicationTableColumns';
 import SelectedApplicantActions from '@/pages/Application/components/SelectedApplicantActions';
 import SkeletonTable from '@/pages/Application/components/SkeletonTable';
 import {
@@ -27,6 +27,7 @@ import {
   convertPassInfoToStatus,
   convertStatusToPassInfo,
   goApplicationDetail,
+  stopEventPropagationOnKey,
 } from '@/pages/Application/utils';
 import { scrollToLeft } from '@/utils/scroll';
 
@@ -193,11 +194,8 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
                       if (header.id === 'id') e.stopPropagation();
                     }}
                     onKeyDown={(e) => {
-                      if (
-                        header.id === 'id' &&
-                        (e.key === 'Enter' || e.key === ' ')
-                      ) {
-                        e.stopPropagation();
+                      if (header.id === 'id') {
+                        stopEventPropagationOnKey(e, ['Enter', ' ']);
                       }
                     }}
                   >
@@ -243,6 +241,8 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
                       cellIndex === row.getVisibleCells().length - 1;
                     const isEvaluationStatus =
                       cell.column.id === 'evaluationStatus';
+                    const shouldStopPropagation =
+                      cell.column.id === 'id' || isEvaluationStatus;
 
                     return (
                       <td
@@ -251,16 +251,13 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
                           !isLastCell ? 'border-r-[1px]' : ''
                         } ${isEvaluationStatus ? 'p-[1rem] text-left' : ''}`}
                         onClick={(e) => {
-                          if (cell.column.id === 'id' || isEvaluationStatus) {
+                          if (shouldStopPropagation) {
                             e.stopPropagation();
                           }
                         }}
                         onKeyDown={(e) => {
-                          if (
-                            (cell.column.id === 'id' || isEvaluationStatus) &&
-                            (e.key === 'Enter' || e.key === ' ')
-                          ) {
-                            e.stopPropagation();
+                          if (shouldStopPropagation) {
+                            stopEventPropagationOnKey(e, ['Enter', ' ']);
                           }
                         }}
                       >
