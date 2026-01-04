@@ -1,15 +1,22 @@
-import { Button, CheckBox, Tag } from '@sopt-makers/ui';
 import { useQueryClient } from '@tanstack/react-query';
+import {
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+} from '@tanstack/react-table';
 import type React from 'react';
-import { useEffect, useRef, useState } from 'react';
-import Tooltip from '@/components/Tooltip';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNav } from '@/contexts/NavContext';
+import {
+  type ApplicantRowType,
+  createColumns,
+} from '@/layout/Components/table/columns';
 import type {
   ApplicationTableProps,
   EvaluationToggleType,
   StatusType,
 } from '@/pages/Application/\btypes';
-import ChipDropDown from '@/pages/Application/components/ChipDropdown';
+import SelectedApplicantActions from '@/pages/Application/components/SelectedApplicantActions';
 import SkeletonTable from '@/pages/Application/components/SkeletonTable';
 import {
   ApplicantKeys,
@@ -19,17 +26,14 @@ import {
 import {
   convertPassInfoToStatus,
   convertStatusToPassInfo,
+  goApplicationDetail,
 } from '@/pages/Application/utils';
-import { ROUTES_CONFIG } from '@/routes/routeConfig';
-import { getEvaluationMessage } from '@/utils/message';
 import { scrollToLeft } from '@/utils/scroll';
 
 const HEADER_BASE_STYLE =
   'p-[1rem] text-gray100 body_3_14_m bg-gray700 border-gray600';
 const CELL_BASE_STYLE =
   'h-[6rem] text-center body_3_14_m bg-transparent border-b-[1px] border-gray700 align-middle';
-const TD_BASE_STYLE = 'h-full flex items-center cursor-pointer';
-const TD_CONTENT_STYLE = 'w-full text-center break-words p-[0.8rem] ';
 
 const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
   const [passStatusList, setPassStatusList] = useState<Record<number, string>>(
@@ -48,26 +52,13 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
 
   const { isOpen } = useNav();
 
-  const goApplicationDetail = (applicantId: number) => {
-    const path = ROUTES_CONFIG.applicationDetail.generatePath(applicantId);
-    const url = `${window.location.origin}${
-      path.startsWith('/') ? '' : '/'
-    }${path}`;
-    window.open(url, '_blank', 'noopener,noreferrer');
-  };
-
   const isAllChecked =
     data.length > 0 &&
     data.every((item) => checkedApplicantList.includes(item.id));
 
   const handleCheckAll = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
-      const checkedList: number[] = [];
-
-      Object.entries(data).map((item, idx) => {
-        checkedList[idx] = item[1].id;
-      });
-
+      const checkedList = data.map((item) => item.id);
       setCheckedApplicantList(checkedList);
     } else {
       setCheckedApplicantList([]);
@@ -81,15 +72,6 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
       setCheckedApplicantList((prev) =>
         prev.filter((id) => id !== Number(e.target.id))
       );
-    }
-  };
-
-  const goApplicationDetailKeyDown = (
-    e: React.KeyboardEvent,
-    applicantId: number
-  ) => {
-    if (e.key === 'Enter') {
-      goApplicationDetail(applicantId);
     }
   };
 
@@ -133,107 +115,100 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
     );
   };
 
+  const columns = useMemo(
+    () =>
+      createColumns({
+        checkedApplicantList,
+        passStatusList,
+        onCheckAll: handleCheckAll,
+        onCheckApplicant: handleCheckApplicant,
+        onStatusChange: handleStatusChange,
+        onEvaluation: handleEvaluation,
+        convertPassInfoToStatus,
+        isAllChecked,
+      }),
+    [checkedApplicantList, passStatusList, isAllChecked]
+  );
+
+  const table = useReactTable({
+    data: data as ApplicantRowType[],
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+  });
+
   useEffect(() => {
     scrollToLeft(tableRef as React.RefObject<HTMLElement>);
   }, [data]);
 
   return (
-    // biome-ignore lint/a11y/noStaticElementInteractions: 테이블 클릭시 디테일로 이동
     <div
       ref={tableRef}
       className={`w-full overflow-x-auto overflow-y-hidden scroll-smooth scrollbar-hide pr-[12.4rem] pb-[5rem] transition-all duration-300 ${
         isOpen ? 'pl-[21.2rem]' : 'pl-[12.4rem]'
       }`}
-      onMouseDown={(e) => {
-        const target = e.target as HTMLElement;
-        if (target.closest('[data-dropdown]')) {
-          return;
-        }
-      }}
     >
       <div className="w-[122.5rem] flex mb-[2.6rem] gap-[1.1rem] items-center">
         <span className="text-gray200 title_6_16_sb sticky left-0">
           총 {data.length}개
         </span>
         {checkedApplicantList.length > 0 && (
-          <>
-            <span className="text-gray200 title_6_16_sb">|</span>
-            <div className="flex gap-[1.3rem] items-center">
-              <span className="text-gray200 title_6_16_sb ml-[0.2rem]">
-                {checkedApplicantList.length}건 선택
-              </span>
-              <Button
-                theme="black"
-                size="sm"
-                onClick={() => {
-                  checkedApplicantList.forEach((id) => {
-                    goApplicationDetail(id);
-                  });
-                }}
-                disabled={checkedApplicantList.length === 0}
-              >
-                새 창 열기
-              </Button>
-            </div>
-          </>
+          <SelectedApplicantActions
+            checkedApplicantList={checkedApplicantList}
+          />
         )}
       </div>
       <table className="w-[122.5rem] table-fixed select-none">
         <thead>
-          <tr>
-            <th
-              className={`w-[7.8rem] rounded-tl-[1rem] border-r-[1px] align-middle ${HEADER_BASE_STYLE}`}
-              onClick={(e) => e.stopPropagation()}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.stopPropagation();
-                }
-              }}
-            >
-              <div className="w-full h-full flex items-center justify-center">
-                <CheckBox
-                  checked={isAllChecked}
-                  onChange={(e) => {
-                    e.stopPropagation();
-                    handleCheckAll(e);
-                  }}
-                />
-              </div>
-            </th>
-            <th className={`w-[14rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
-              지원자 정보
-            </th>
-            <th className={`w-[11rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
-              합격여부
-            </th>
-            <th className={`w-[11rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
-              지원 파트
-            </th>
-            <th className={`w-[16.8rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
-              평가 상태
-            </th>
-            <th className={`w-[16.8rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
-              제출시간
-            </th>
-            <th className={`w-[11rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
-              최근 기수
-            </th>
-            <th className={`w-[14rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
-              생년월일
-            </th>
-            <th className={`w-[14rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
-              대학교
-            </th>
-            <th className={`w-[14rem] border-r-[1px]  ${HEADER_BASE_STYLE}`}>
-              학과
-            </th>
-            <th className={`w-[16.8rem] border-r-[1px] ${HEADER_BASE_STYLE}`}>
-              이메일
-            </th>
-            <th className={`w-[14rem] rounded-tr-[1rem] ${HEADER_BASE_STYLE}`}>
-              전화번호
-            </th>
-          </tr>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <tr key={headerGroup.id}>
+              {headerGroup.headers.map((header, index) => {
+                const firstColumn = index === 0;
+                const lastColumn = index === headerGroup.headers.length - 1;
+                return (
+                  <th
+                    key={header.id}
+                    className={`${
+                      firstColumn ? 'w-[7.8rem] rounded-tl-[1rem]' : ''
+                    } ${header.id === 'profile' ? 'w-[14rem]' : ''} ${
+                      header.id === 'passStatus' ? 'w-[11rem]' : ''
+                    } ${header.id === 'part' ? 'w-[11rem]' : ''} ${
+                      header.id === 'evaluationStatus' ? 'w-[16.8rem]' : ''
+                    } ${header.id === 'submittedAt' ? 'w-[16.8rem]' : ''} ${
+                      header.id === 'mostRecentSeason' ? 'w-[11rem]' : ''
+                    } ${header.id === 'birth' ? 'w-[14rem]' : ''} ${
+                      header.id === 'university' ? 'w-[14rem]' : ''
+                    } ${header.id === 'major' ? 'w-[14rem]' : ''} ${
+                      header.id === 'email' ? 'w-[16.8rem]' : ''
+                    } ${lastColumn ? 'w-[14rem] rounded-tr-[1rem]' : ''} ${
+                      !lastColumn ? 'border-r-[1px]' : ''
+                    } ${HEADER_BASE_STYLE} ${
+                      firstColumn ? 'align-middle' : ''
+                    }`}
+                    onClick={(e) => {
+                      if (header.id === 'id') {
+                        e.stopPropagation();
+                      }
+                    }}
+                    onKeyDown={(e) => {
+                      if (
+                        header.id === 'id' &&
+                        (e.key === 'Enter' || e.key === ' ')
+                      ) {
+                        e.stopPropagation();
+                      }
+                    }}
+                  >
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </th>
+                );
+              })}
+            </tr>
+          ))}
         </thead>
         <tbody>
           {data.length === 0 && !isLoading ? (
@@ -247,163 +222,52 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
               <SkeletonTable key={index} />
             ))
           ) : (
-            data.map((item) => {
-              const evaluationMessage = getEvaluationMessage(
-                item.evaluatedInfo.checkedList
-              );
-              const currentStatus =
-                passStatusList[item.id] || convertPassInfoToStatus(item.status);
-
+            table.getRowModel().rows.map((row) => {
               return (
                 <tr
-                  key={item.id}
+                  key={row.id}
                   className="hover:bg-gray900 transition-colors duration-300 cursor-pointer"
                   tabIndex={0}
-                  onClick={() => goApplicationDetail(item.id)}
-                  onKeyDown={(e) => goApplicationDetailKeyDown(e, item.id)}
+                  onClick={() => goApplicationDetail(row.original.id)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      goApplicationDetail(row.original.id);
+                    }
+                  }}
                 >
-                  <td
-                    className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
-                    onClick={(e) => e.stopPropagation()}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        e.stopPropagation();
-                      }
-                    }}
-                  >
-                    <div className={`${TD_BASE_STYLE} justify-center`}>
-                      <CheckBox
-                        id={String(item.id)}
-                        checked={checkedApplicantList.includes(item.id)}
-                        onChange={(e) => {
-                          e.stopPropagation();
-                          handleCheckApplicant(e);
-                        }}
-                      />
-                    </div>
-                  </td>
-                  <td
-                    className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
-                  >
-                    <div
-                      className={`${TD_BASE_STYLE} gap-[1rem] p-[1rem] justify-center`}
-                    >
-                      <img
-                        src={item.pictureUrl}
-                        alt="프로필"
-                        className="w-[5.2rem] h-[7rem] object-cover rounded-[0.3rem]"
-                      />
-                      <span className="break-words w-[3.671rem]">
-                        {item.name}
-                      </span>
-                    </div>
-                  </td>
-                  <td
-                    className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
-                  >
-                    <div className={`${TD_BASE_STYLE} justify-center`}>
-                      <ChipDropDown
-                        status={currentStatus}
-                        onStatusChange={(value) =>
-                          handleStatusChange(item.id, value as StatusType)
-                        }
-                      />
-                    </div>
-                  </td>
-                  <td
-                    className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
-                  >
-                    <div className={TD_CONTENT_STYLE}>{item.part}</div>
-                  </td>
-                  <td
-                    className={`${CELL_BASE_STYLE} text-white border-r-[1px] p-[1rem] text-left`}
-                  >
-                    <div className="flex flex-col gap-[0.5rem] justify-start">
-                      {/** biome-ignore lint/a11y/noStaticElementInteractions: 이벤트 전파 방지 */}
-                      <div
-                        className="h-full flex items-center gap-[0.6rem]"
+                  {row.getVisibleCells().map((cell, cellIndex) => {
+                    const isLastCell =
+                      cellIndex === row.getVisibleCells().length - 1;
+                    const isEvaluationStatus =
+                      cell.column.id === 'evaluationStatus';
+
+                    return (
+                      <td
+                        key={cell.id}
+                        className={`${CELL_BASE_STYLE} text-white ${
+                          !isLastCell ? 'border-r-[1px]' : ''
+                        } ${isEvaluationStatus ? 'p-[1rem] text-left' : ''}`}
                         onClick={(e) => {
-                          e.stopPropagation();
+                          if (cell.column.id === 'id' || isEvaluationStatus) {
+                            e.stopPropagation();
+                          }
                         }}
                         onKeyDown={(e) => {
-                          if (e.key === 'Enter') {
+                          if (
+                            (cell.column.id === 'id' || isEvaluationStatus) &&
+                            (e.key === 'Enter' || e.key === ' ')
+                          ) {
                             e.stopPropagation();
                           }
                         }}
                       >
-                        <CheckBox
-                          id={`evaluated-${item.id}`}
-                          checked={item.evaluatedInfo.checkedByMe}
-                          onChange={(e) => {
-                            e.preventDefault();
-                            handleEvaluation(
-                              item.id,
-                              'EVALUATION',
-                              !item.evaluatedInfo.checkedByMe
-                            );
-                          }}
-                        />
-                        <label
-                          htmlFor={`evaluated-${item.id}`}
-                          className="flex items-center h-[3.2rem] cursor-pointer"
-                        >
-                          평가 완료
-                        </label>
-                        <div className="ml-[0.4rem]">
-                          <Tooltip.Root>
-                            <Tooltip.Trigger>
-                              <Tag shape="pill">
-                                {item.evaluatedInfo.checkedList.length}
-                              </Tag>
-                            </Tooltip.Trigger>
-                            {item.evaluatedInfo.checkedList.length > 0 && (
-                              <Tooltip.Content className="!mt-[1.3rem] !mr-[-0.5rem]">
-                                <span>{evaluationMessage}</span>
-                              </Tooltip.Content>
-                            )}
-                          </Tooltip.Root>
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                  <td className={`${CELL_BASE_STYLE} text-white`}>
-                    <div className={TD_CONTENT_STYLE}>{item.submittedAt}</div>
-                  </td>
-                  <td
-                    className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
-                  >
-                    <div className={TD_CONTENT_STYLE}>
-                      {item.mostRecentSeason === 0
-                        ? '없음'
-                        : item.mostRecentSeason}
-                      기
-                    </div>
-                  </td>
-                  <td
-                    className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
-                  >
-                    <div className={TD_CONTENT_STYLE}>{item.birth}</div>
-                  </td>
-                  <td
-                    className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
-                  >
-                    <div className={TD_CONTENT_STYLE}>{item.university}</div>
-                  </td>
-                  <td
-                    className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
-                  >
-                    <div className={TD_CONTENT_STYLE}>{item.major}</div>
-                  </td>
-                  <td
-                    className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
-                  >
-                    <div className={TD_CONTENT_STYLE}>{item.email}</div>
-                  </td>
-                  <td
-                    className={`${CELL_BASE_STYLE} text-white border-r-[1px]`}
-                  >
-                    <div className={TD_CONTENT_STYLE}>{item.phone}</div>
-                  </td>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </td>
+                    );
+                  })}
                 </tr>
               );
             })
