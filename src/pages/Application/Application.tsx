@@ -79,13 +79,22 @@ const Application = () => {
   }, [searchInputValue, debouncedSetSearchValue]);
 
   useEffect(() => {
-    if (generationData.seasons.length > 0) {
-      setApplicantInfo((prev) => ({
+    if (generationData.seasons.length === 0) return;
+
+    setApplicantInfo((prev) => {
+      const defaultSeason = generationData.seasons[0].season.toString();
+      const seasonExists = prev.season
+        ? generationData.seasons.some(
+            (s) => s.season.toString() === prev.season
+          )
+        : false;
+
+      return {
         ...prev,
-        season: generationData.seasons[0].season.toString(),
-      }));
-    }
-  }, [generationData]);
+        season: prev.season && seasonExists ? prev.season : defaultSeason,
+      };
+    });
+  }, [generationData, applicantInfo.group]);
 
   useEffect(() => {
     setCurrentPage(1);
