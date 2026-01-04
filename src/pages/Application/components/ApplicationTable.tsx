@@ -152,7 +152,9 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
       }}
     >
       <div className="w-[122.5rem] flex mb-[2.6rem] gap-[1.1rem] items-center">
-        <span className="text-gray200 title_6_16_sb">총 {data.length}개</span>
+        <span className="text-gray200 title_6_16_sb sticky left-0">
+          총 {data.length}개
+        </span>
         {checkedApplicantList.length > 0 && (
           <>
             <span className="text-gray200 title_6_16_sb">|</span>
