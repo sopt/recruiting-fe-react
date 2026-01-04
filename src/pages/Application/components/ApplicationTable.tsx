@@ -5,7 +5,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import type React from 'react';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNav } from '@/contexts/NavContext';
 import {
   type ApplicantRowType,
@@ -52,73 +52,80 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
 
   const { isOpen } = useNav();
 
+  const checkedApplicantSet = useMemo(
+    () => new Set(checkedApplicantList),
+    [checkedApplicantList]
+  );
+
   const isAllChecked =
-    data.length > 0 &&
-    data.every((item) => checkedApplicantList.includes(item.id));
+    data.length > 0 && data.every((item) => checkedApplicantSet.has(item.id));
 
-  const handleCheckAll = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.checked) {
-      const checkedList = data.map((item) => item.id);
-      setCheckedApplicantList(checkedList);
-    } else {
-      setCheckedApplicantList([]);
-    }
-  };
+  const handleCheckAll = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (e.target.checked) {
+        setCheckedApplicantList(data.map((item) => item.id));
+      } else {
+        setCheckedApplicantList([]);
+      }
+    },
+    [data]
+  );
 
-  const handleCheckApplicant = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.checked) {
-      setCheckedApplicantList((prev) => [...prev, Number(e.target.id)]);
-    } else {
-      setCheckedApplicantList((prev) =>
-        prev.filter((id) => id !== Number(e.target.id))
+  const handleCheckApplicant = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const id = Number(e.target.id);
+      if (e.target.checked) {
+        setCheckedApplicantList((prev) => [...prev, id]);
+      } else {
+        setCheckedApplicantList((prev) => prev.filter((x) => x !== id));
+      }
+    },
+    []
+  );
+
+  const handleStatusChange = useCallback(
+    (id: number, value: StatusType) => {
+      setPassStatusList((prev) => ({ ...prev, [id]: value }));
+
+      const { applicationPass, finalPass } = convertStatusToPassInfo(value);
+      postPassStatus(
+        { applicantId: id, applicationPass, finalPass },
+        {
+          onSuccess: () => {
+            queryClient.invalidateQueries({
+              queryKey: ApplicantKeys.detail(id),
+            });
+          },
+        }
       );
-    }
-  };
+    },
+    [postPassStatus, queryClient]
+  );
 
-  const handleStatusChange = (id: number, value: StatusType) => {
-    setPassStatusList((prev) => ({
-      ...prev,
-      [id]: value,
-    }));
-
-    const { applicationPass, finalPass } = convertStatusToPassInfo(value);
-    postPassStatus(
-      {
-        applicantId: id,
-        applicationPass,
-        finalPass,
-      },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: ApplicantKeys.detail(id),
-          });
-        },
-      }
-    );
-  };
-
-  const handleEvaluation = (
-    applicantId: number,
-    evaluationType: EvaluationToggleType,
-    isChecked: boolean
-  ) => {
-    mutate(
-      { applicantId, evaluationType, isChecked },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: ApplicantKeys.detail(applicantId),
-          });
-        },
-      }
-    );
-  };
+  const handleEvaluation = useCallback(
+    (
+      applicantId: number,
+      evaluationType: EvaluationToggleType,
+      isChecked: boolean
+    ) => {
+      mutate(
+        { applicantId, evaluationType, isChecked },
+        {
+          onSuccess: () => {
+            queryClient.invalidateQueries({
+              queryKey: ApplicantKeys.detail(applicantId),
+            });
+          },
+        }
+      );
+    },
+    [mutate, queryClient]
+  );
 
   const columns = useMemo(
     () =>
       createColumns({
-        checkedApplicantList,
+        checkedApplicantSet,
         passStatusList,
         onCheckAll: handleCheckAll,
         onCheckApplicant: handleCheckApplicant,
@@ -127,7 +134,15 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
         convertPassInfoToStatus,
         isAllChecked,
       }),
-    [checkedApplicantList, passStatusList, isAllChecked]
+    [
+      checkedApplicantSet,
+      passStatusList,
+      handleCheckAll,
+      handleCheckApplicant,
+      handleStatusChange,
+      handleEvaluation,
+      isAllChecked,
+    ]
   );
 
   const table = useReactTable({
@@ -164,30 +179,18 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
               {headerGroup.headers.map((header, index) => {
                 const firstColumn = index === 0;
                 const lastColumn = index === headerGroup.headers.length - 1;
+
                 return (
                   <th
                     key={header.id}
-                    className={`${
-                      firstColumn ? 'w-[7.8rem] rounded-tl-[1rem]' : ''
-                    } ${header.id === 'profile' ? 'w-[14rem]' : ''} ${
-                      header.id === 'passStatus' ? 'w-[11rem]' : ''
-                    } ${header.id === 'part' ? 'w-[11rem]' : ''} ${
-                      header.id === 'evaluationStatus' ? 'w-[16.8rem]' : ''
-                    } ${header.id === 'submittedAt' ? 'w-[16.8rem]' : ''} ${
-                      header.id === 'mostRecentSeason' ? 'w-[11rem]' : ''
-                    } ${header.id === 'birth' ? 'w-[14rem]' : ''} ${
-                      header.id === 'university' ? 'w-[14rem]' : ''
-                    } ${header.id === 'major' ? 'w-[14rem]' : ''} ${
-                      header.id === 'email' ? 'w-[16.8rem]' : ''
-                    } ${lastColumn ? 'w-[14rem] rounded-tr-[1rem]' : ''} ${
+                    style={{ width: header.getSize() }}
+                    className={`${HEADER_BASE_STYLE} ${
+                      firstColumn ? 'rounded-tl-[1rem] align-middle' : ''
+                    } ${lastColumn ? 'rounded-tr-[1rem]' : ''} ${
                       !lastColumn ? 'border-r-[1px]' : ''
-                    } ${HEADER_BASE_STYLE} ${
-                      firstColumn ? 'align-middle' : ''
                     }`}
                     onClick={(e) => {
-                      if (header.id === 'id') {
-                        e.stopPropagation();
-                      }
+                      if (header.id === 'id') e.stopPropagation();
                     }}
                     onKeyDown={(e) => {
                       if (

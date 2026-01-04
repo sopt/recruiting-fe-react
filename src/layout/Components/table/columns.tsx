@@ -32,7 +32,7 @@ export type ApplicantRowType = {
 };
 
 type ColumnProps = {
-  checkedApplicantList: number[];
+  checkedApplicantSet: Set<number>;
   passStatusList: Record<number, string>;
   onCheckAll: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onCheckApplicant: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -53,7 +53,7 @@ export const createColumns = (
   props: ColumnProps
 ): ColumnDef<ApplicantRowType>[] => {
   const {
-    checkedApplicantList,
+    checkedApplicantSet,
     passStatusList,
     onCheckAll,
     onCheckApplicant,
@@ -83,7 +83,7 @@ export const createColumns = (
           <div className={`${TD_BASE_STYLE} justify-center`}>
             <CheckBox
               id={String(item.id)}
-              checked={checkedApplicantList.includes(item.id)}
+              checked={checkedApplicantSet.has(item.id)}
               onChange={(e) => {
                 e.stopPropagation();
                 onCheckApplicant(e);
@@ -151,6 +151,7 @@ export const createColumns = (
         const evaluationMessage = getEvaluationMessage(
           item.evaluatedInfo.checkedList
         );
+
         return (
           <div className="flex flex-col gap-[0.5rem] justify-start">
             {/** biome-ignore lint/a11y/noStaticElementInteractions: 이벤트 전파 방지 */}
@@ -169,7 +170,7 @@ export const createColumns = (
                 id={`evaluated-${item.id}`}
                 checked={item.evaluatedInfo.checkedByMe}
                 onChange={(e) => {
-                  e.preventDefault();
+                  e.stopPropagation();
                   onEvaluation(
                     item.id,
                     'EVALUATION',
@@ -183,6 +184,7 @@ export const createColumns = (
               >
                 평가 완료
               </label>
+
               <div className="ml-[0.4rem]">
                 <Tooltip.Root>
                   <Tooltip.Trigger>
@@ -203,71 +205,66 @@ export const createColumns = (
       },
       size: 168,
     },
+
     {
       id: 'submittedAt',
       header: '제출시간',
-      cell: ({ row }) => {
-        const item = row.original;
-        return <div className={TD_CONTENT_STYLE}>{item.submittedAt}</div>;
-      },
+      cell: ({ row }) => (
+        <div className={TD_CONTENT_STYLE}>{row.original.submittedAt}</div>
+      ),
       size: 168,
     },
     {
       id: 'mostRecentSeason',
       header: '최근 기수',
-      cell: ({ row }) => {
-        const item = row.original;
-        return (
-          <div className={TD_CONTENT_STYLE}>
-            {item.mostRecentSeason === 0 ? '없음' : item.mostRecentSeason}기
-          </div>
-        );
-      },
+      cell: ({ row }) => (
+        <div className={TD_CONTENT_STYLE}>
+          {row.original.mostRecentSeason === 0
+            ? '없음'
+            : row.original.mostRecentSeason}
+          기
+        </div>
+      ),
       size: 110,
     },
     {
       id: 'birth',
       header: '생년월일',
-      cell: ({ row }) => {
-        const item = row.original;
-        return <div className={TD_CONTENT_STYLE}>{item.birth}</div>;
-      },
+      cell: ({ row }) => (
+        <div className={TD_CONTENT_STYLE}>{row.original.birth}</div>
+      ),
       size: 140,
     },
     {
       id: 'university',
       header: '대학교',
-      cell: ({ row }) => {
-        const item = row.original;
-        return <div className={TD_CONTENT_STYLE}>{item.university}</div>;
-      },
+      cell: ({ row }) => (
+        <div className={TD_CONTENT_STYLE}>{row.original.university}</div>
+      ),
       size: 140,
     },
     {
       id: 'major',
       header: '학과',
-      cell: ({ row }) => {
-        const item = row.original;
-        return <div className={TD_CONTENT_STYLE}>{item.major}</div>;
-      },
+      cell: ({ row }) => (
+        <div className={TD_CONTENT_STYLE}>{row.original.major}</div>
+      ),
       size: 140,
     },
     {
       id: 'email',
       header: '이메일',
-      cell: ({ row }) => {
-        const item = row.original;
-        return <div className={TD_CONTENT_STYLE}>{item.email}</div>;
-      },
+      cell: ({ row }) => (
+        <div className={TD_CONTENT_STYLE}>{row.original.email}</div>
+      ),
       size: 168,
     },
     {
       id: 'phone',
       header: '전화번호',
-      cell: ({ row }) => {
-        const item = row.original;
-        return <div className={TD_CONTENT_STYLE}>{item.phone}</div>;
-      },
+      cell: ({ row }) => (
+        <div className={TD_CONTENT_STYLE}>{row.original.phone}</div>
+      ),
       size: 140,
     },
   ];
