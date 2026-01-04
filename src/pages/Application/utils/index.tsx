@@ -1,3 +1,4 @@
+import type React from 'react';
 import type { StatusType } from '@/pages/Application/\btypes';
 import { ROUTES_CONFIG } from '@/routes/routeConfig';
 
@@ -58,4 +59,13 @@ export const goApplicationDetail = (applicantId: number) => {
     path.startsWith('/') ? '' : '/'
   }${path}`;
   window.open(url, '_blank', 'noopener,noreferrer');
+};
+
+export const stopEventPropagationOnKey = (
+  e: React.KeyboardEvent,
+  keys: string[]
+) => {
+  if (keys.includes(e.key)) {
+    e.stopPropagation();
+  }
 };
