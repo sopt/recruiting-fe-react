@@ -147,6 +147,10 @@ export const createColumns = (
     {
       id: 'evaluationStatus',
       header: '평가 상태',
+      meta: {
+        cellClassName: 'p-[1rem]',
+        align: 'left',
+      },
       cell: ({ row }) => {
         const { id, evaluatedInfo } = row.original;
         const evaluationMessage = getEvaluationMessage(

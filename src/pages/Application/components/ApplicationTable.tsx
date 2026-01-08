@@ -1,11 +1,8 @@
 import { useQueryClient } from '@tanstack/react-query';
-import {
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from '@tanstack/react-table';
+import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import type React from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Table } from '@/components/Table';
 import { useNav } from '@/contexts/NavContext';
 import type {
   ApplicationTableProps,
@@ -30,11 +27,6 @@ import {
   stopEventPropagationOnKey,
 } from '@/pages/Application/utils';
 import { scrollToLeft } from '@/utils/scroll';
-
-const HEADER_BASE_STYLE =
-  'p-[1rem] text-gray100 body_3_14_m bg-gray700 border-gray600';
-const CELL_BASE_STYLE =
-  'h-[6rem] text-center body_3_14_m bg-transparent border-b-[1px] border-gray700 align-middle';
 
 const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
   const [passStatusList, setPassStatusList] = useState<Record<number, string>>(
@@ -123,6 +115,32 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
     [mutate, queryClient]
   );
 
+  useEffect(() => {
+    scrollToLeft(tableRef as React.RefObject<HTMLElement>);
+  }, [data]);
+
+  const handleCellClick = useCallback(
+    (columnId: string, e: React.MouseEvent) => {
+      const shouldStopPropagation =
+        columnId === 'id' || columnId === 'evaluationStatus';
+      if (shouldStopPropagation) {
+        e.stopPropagation();
+      }
+    },
+    []
+  );
+
+  const handleCellKeyDown = useCallback(
+    (columnId: string, e: React.KeyboardEvent) => {
+      const shouldStopPropagation =
+        columnId === 'id' || columnId === 'evaluationStatus';
+      if (shouldStopPropagation) {
+        stopEventPropagationOnKey(e, ['Enter', ' ']);
+      }
+    },
+    []
+  );
+
   const columns = useMemo(
     () =>
       createColumns({
@@ -150,11 +168,23 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
     data: data as ApplicantRowType[],
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getRowId: (row) => String(row.id),
   });
 
-  useEffect(() => {
-    scrollToLeft(tableRef as React.RefObject<HTMLElement>);
-  }, [data]);
+  const headerContent = (
+    <>
+      <span className="text-gray200 title_6_16_sb sticky left-0">
+        총 {data.length}개
+      </span>
+      {checkedApplicantList.length > 0 && (
+        <SelectedApplicantActions checkedApplicantList={checkedApplicantList} />
+      )}
+    </>
+  );
+
+  const skeletonComponent = Array.from({ length: 10 }).map((_, index) => (
+    <SkeletonTable key={index} />
+  ));
 
   return (
     <div
@@ -163,117 +193,16 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
         isOpen ? 'pl-[21.2rem]' : 'pl-[12.4rem]'
       }`}
     >
-      <div className="w-[122.5rem] flex mb-[2.6rem] gap-[1.1rem] items-center">
-        <span className="text-gray200 title_6_16_sb sticky left-0">
-          총 {data.length}개
-        </span>
-        {checkedApplicantList.length > 0 && (
-          <SelectedApplicantActions
-            checkedApplicantList={checkedApplicantList}
-          />
-        )}
-      </div>
-      <table className="w-[122.5rem] table-fixed select-none">
-        <thead>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header, index) => {
-                const firstColumn = index === 0;
-                const lastColumn = index === headerGroup.headers.length - 1;
-
-                return (
-                  <th
-                    key={header.id}
-                    style={{ width: header.getSize() }}
-                    className={`${HEADER_BASE_STYLE} ${
-                      firstColumn ? 'rounded-tl-[1rem] align-middle' : ''
-                    } ${lastColumn ? 'rounded-tr-[1rem]' : ''} ${
-                      !lastColumn ? 'border-r-[1px]' : ''
-                    }`}
-                    onClick={(e) => {
-                      if (header.id === 'id') e.stopPropagation();
-                    }}
-                    onKeyDown={(e) => {
-                      if (header.id === 'id') {
-                        stopEventPropagationOnKey(e, ['Enter', ' ']);
-                      }
-                    }}
-                  >
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </th>
-                );
-              })}
-            </tr>
-          ))}
-        </thead>
-        <tbody>
-          {data.length === 0 && !isLoading ? (
-            <tr>
-              <td colSpan={13} className={`${CELL_BASE_STYLE} text-gray200`}>
-                확인할 수 있는 지원서가 없어요.
-              </td>
-            </tr>
-          ) : isLoading ? (
-            Array.from({ length: 10 }).map((_, index) => (
-              <SkeletonTable key={index} />
-            ))
-          ) : (
-            table.getRowModel().rows.map((row) => {
-              return (
-                <tr
-                  key={row.id}
-                  className="hover:bg-gray900 transition-colors duration-300 cursor-pointer"
-                  tabIndex={0}
-                  onClick={() => goApplicationDetail(row.original.id)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      goApplicationDetail(row.original.id);
-                    }
-                  }}
-                >
-                  {row.getVisibleCells().map((cell, cellIndex) => {
-                    const isLastCell =
-                      cellIndex === row.getVisibleCells().length - 1;
-                    const isEvaluationStatus =
-                      cell.column.id === 'evaluationStatus';
-                    const shouldStopPropagation =
-                      cell.column.id === 'id' || isEvaluationStatus;
-
-                    return (
-                      <td
-                        key={cell.id}
-                        className={`${CELL_BASE_STYLE} text-white ${
-                          !isLastCell ? 'border-r-[1px]' : ''
-                        } ${isEvaluationStatus ? 'p-[1rem] text-left' : ''}`}
-                        onClick={(e) => {
-                          if (shouldStopPropagation) {
-                            e.stopPropagation();
-                          }
-                        }}
-                        onKeyDown={(e) => {
-                          if (shouldStopPropagation) {
-                            stopEventPropagationOnKey(e, ['Enter', ' ']);
-                          }
-                        }}
-                      >
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </td>
-                    );
-                  })}
-                </tr>
-              );
-            })
-          )}
-        </tbody>
-      </table>
+      <Table<ApplicantRowType>
+        table={table}
+        isLoading={isLoading}
+        emptyMessage="확인할 수 있는 지원서가 없어요."
+        skeletonComponent={skeletonComponent}
+        onRowClick={(row) => goApplicationDetail(row.original.id)}
+        onCellClick={handleCellClick}
+        onCellKeyDown={handleCellKeyDown}
+        headerContent={headerContent}
+      />
     </div>
   );
 };
