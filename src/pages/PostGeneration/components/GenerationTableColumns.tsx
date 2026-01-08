@@ -10,76 +10,84 @@ type ColumnProps = {
   onDelete: (seasonId: number) => void;
 };
 
+const formatDateRange = (start: string, end: string) => (
+  <div className="h-full flex items-center justify-evenly gap-[0.5rem] p-[1.5rem]">
+    <p>{formatFullDate(start)}</p>
+    <p>~</p>
+    <p>{formatFullDate(end)}</p>
+  </div>
+);
+
 export const createColumns = (props: ColumnProps): ColumnDef<Season>[] => {
   const { onDelete } = props;
 
   return [
     {
-      id: 'season',
+      accessorKey: 'season',
       header: '기수',
-      cell: ({ row }) => (
-        <div className="h-full flex items-center justify-center">
-          {row.original.season}
-        </div>
-      ),
       size: 110,
+      meta: {
+        align: 'center',
+      },
     },
     {
-      id: 'name',
+      accessorKey: 'name',
       header: '이름',
-      cell: ({ row }) => (
-        <div className="h-full flex items-center justify-center">
-          {row.original.name}
-        </div>
-      ),
       size: 140,
+      meta: {
+        align: 'center',
+      },
     },
     {
       id: 'applicationPeriod',
       header: '서류 지원 기간',
-      cell: ({ row }) => (
-        <div className="h-full flex items-center justify-evenly gap-[0.5rem] p-[1.5rem]">
-          <p>{formatFullDate(row.original.applicationStart)}</p>
-          <p>~</p>
-          <p>{formatFullDate(row.original.applicationEnd)}</p>
-        </div>
-      ),
+      accessorFn: (row) => ({
+        start: row.applicationStart,
+        end: row.applicationEnd,
+      }),
+      cell: ({ getValue }) => {
+        const { start, end } = getValue() as { start: string; end: string };
+        return formatDateRange(start, end);
+      },
       size: 315,
     },
     {
       id: 'applicationResultPeriod',
       header: '서류 결과 확인 기간',
-      cell: ({ row }) => (
-        <div className="h-full flex items-center justify-evenly gap-[0.5rem] p-[1.5rem]">
-          <p>{formatFullDate(row.original.applicationResultStart)}</p>
-          <p>~</p>
-          <p>{formatFullDate(row.original.applicationResultEnd)}</p>
-        </div>
-      ),
+      accessorFn: (row) => ({
+        start: row.applicationResultStart,
+        end: row.applicationResultEnd,
+      }),
+      cell: ({ getValue }) => {
+        const { start, end } = getValue() as { start: string; end: string };
+        return formatDateRange(start, end);
+      },
       size: 315,
     },
     {
       id: 'interviewPeriod',
       header: '면접 진행 기간',
-      cell: ({ row }) => (
-        <div className="h-full flex items-center justify-evenly gap-[0.5rem] p-[1.5rem]">
-          <p>{formatFullDate(row.original.interviewStart)}</p>
-          <p>~</p>
-          <p>{formatFullDate(row.original.interviewEnd)}</p>
-        </div>
-      ),
+      accessorFn: (row) => ({
+        start: row.interviewStart,
+        end: row.interviewEnd,
+      }),
+      cell: ({ getValue }) => {
+        const { start, end } = getValue() as { start: string; end: string };
+        return formatDateRange(start, end);
+      },
       size: 315,
     },
     {
       id: 'finalResultPeriod',
       header: '최종 결과 확인 기간',
-      cell: ({ row }) => (
-        <div className="h-full flex items-center justify-evenly gap-[0.5rem] p-[1.5rem]">
-          <p>{formatFullDate(row.original.finalResultStart)}</p>
-          <p>~</p>
-          <p>{formatFullDate(row.original.finalResultEnd)}</p>
-        </div>
-      ),
+      accessorFn: (row) => ({
+        start: row.finalResultStart,
+        end: row.finalResultEnd,
+      }),
+      cell: ({ getValue }) => {
+        const { start, end } = getValue() as { start: string; end: string };
+        return formatDateRange(start, end);
+      },
       size: 315,
     },
     {
@@ -87,10 +95,10 @@ export const createColumns = (props: ColumnProps): ColumnDef<Season>[] => {
       header: '',
       meta: {
         cellClassName: 'p-0',
+        align: 'center',
       },
       cell: ({ row }) => {
-        const item = row.original;
-        const isDisabled = canDeleteGeneration(item.applicationStart);
+        const isDisabled = canDeleteGeneration(row.original.applicationStart);
         return (
           <div className="min-w-[6rem] h-full flex items-center justify-center">
             <button
@@ -98,7 +106,7 @@ export const createColumns = (props: ColumnProps): ColumnDef<Season>[] => {
               className="cursor-pointer hover:opacity-70 transition-opacity disabled:cursor-not-allowed"
               onClick={(e) => {
                 e.stopPropagation();
-                onDelete(item.id);
+                onDelete(row.original.id);
               }}
               disabled={isDisabled}
             >

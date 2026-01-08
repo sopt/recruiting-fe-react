@@ -1,6 +1,5 @@
 import { Button, Dialog, DialogContext } from '@sopt-makers/ui';
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
-import type React from 'react';
 import {
   type RefObject,
   useCallback,
@@ -85,24 +84,6 @@ const GenerationTable = ({ data }: GenerationTableProps) => {
     getRowId: (row) => String(row.id),
   });
 
-  const handleCellClick = useCallback(
-    (columnId: string, e: React.MouseEvent) => {
-      if (columnId === 'delete') {
-        e.stopPropagation();
-      }
-    },
-    []
-  );
-
-  const handleCellKeyDown = useCallback(
-    (columnId: string, e: React.KeyboardEvent) => {
-      if (columnId === 'delete' && (e.key === 'Enter' || e.key === ' ')) {
-        e.stopPropagation();
-      }
-    },
-    []
-  );
-
   useEffect(() => {
     scrollToLeft(scrollContainerRef as RefObject<HTMLElement>);
   }, [data]);
@@ -131,8 +112,6 @@ const GenerationTable = ({ data }: GenerationTableProps) => {
           emptyMessage="기수를 추가하세요."
           headerBaseClassName={HEADER_BASE_STYLE}
           cellBaseClassName={CELL_BASE_STYLE}
-          onCellClick={handleCellClick}
-          onCellKeyDown={handleCellKeyDown}
         />
       </div>
     </div>
