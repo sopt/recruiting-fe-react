@@ -7,7 +7,7 @@ export const postPassStatus = ({
   finalPass,
 }: PostApplicantPassStatusRequest) => {
   const response = tokenApi
-    .post('api/v2/recruiting-admin/applicant/pass-status', {
+    .post('/recruiting-admin/applicant/pass-status', {
       json: {
         applicantId,
         applicationPass,
