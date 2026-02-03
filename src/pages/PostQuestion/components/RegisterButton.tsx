@@ -3,18 +3,23 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useFormContext } from 'react-hook-form';
 import { useDebouncedCallback } from '@/hooks/useDebounceCallback';
 import { COMMON_QUESTION } from '@/pages/Application/constants';
-import { usePostQuestionsRegister } from '@/pages/PostQuestion/hooks/quries';
+import {
+  QuestionKeys,
+  usePostQuestionsRegister,
+} from '@/pages/PostQuestion/hooks/queries';
 import type { FilterState } from '@/pages/PostQuestion/hooks/useFilterReducer';
 import type { qustionListTypes } from '@/pages/PostQuestion/types/form';
 
 interface RegisterButtonProps {
   filterState: FilterState;
   deleteQuestionIds: number[];
+  onActivatePreview: () => void;
 }
 
 const RegisterButton = ({
   filterState,
   deleteQuestionIds,
+  onActivatePreview,
 }: RegisterButtonProps) => {
   const { open: openDialog, close: closeDialog } = useDialog();
 
@@ -36,7 +41,9 @@ const RegisterButton = ({
       description: (
         <div className="mb-[2rem] flex flex-col mt-[1.2rem] gap-[3.6rem]">
           <p className="whitespace-pre-line">
-            최종 등록 후 질문 수정은 어드민팀에 문의해 주세요.
+            {`지원 기간 시작 전까지만 수정 가능합니다.
+            이후 질문 수정은 어드민팀에 문의해 주세요.
+            `}
           </p>
           <Dialog.Footer align="right">
             <Button theme="black" onClick={closeDialog}>
@@ -86,9 +93,14 @@ const RegisterButton = ({
     registerMutate(requestData, {
       onSuccess: () =>
         queryClient.invalidateQueries({
-          queryKey: ['question', 'list', filterState.season, filterState.group],
+          queryKey: QuestionKeys.filteredList(
+            filterState.season,
+            filterState.group
+          ),
         }),
     });
+
+    onActivatePreview();
   };
 
   const debouncedRegisterClick = useDebouncedCallback(handleRegisterClick);
@@ -98,6 +110,7 @@ const RegisterButton = ({
       type="button"
       variant="fill"
       size="md"
+      theme="blue"
       onClick={debouncedRegisterClick}
       disabled={isSubmitting || questionList[0]?.isActive}
     >

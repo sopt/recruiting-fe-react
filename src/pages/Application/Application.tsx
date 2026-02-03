@@ -2,6 +2,8 @@ import { Tab } from '@sopt-makers/ui';
 import { useEffect, useState } from 'react';
 import Pagination from '@/components/Pagination';
 import { IS_SOPT } from '@/constants';
+import { useNav } from '@/contexts/NavContext';
+import { useDebouncedCallback } from '@/hooks/useDebounceCallback';
 import {
   type ApplicantState,
   Part,
@@ -20,15 +22,13 @@ const PAGE_LIMIT = 10;
 const INITIAL_APPLICANT_INFO: ApplicantState = {
   season: '',
   group: 'YB',
-  dontReadInfo: {
-    checkedByMe: false,
-  },
   evaluatedInfo: {
     checkedByMe: false,
   },
   isPassedOnly: false,
   selectedPart: COMMON_QUESTION,
-  minRate: 0,
+  passStatus: '',
+  searchKeyword: '',
 };
 
 const tabItems = IS_SOPT
@@ -37,9 +37,13 @@ const tabItems = IS_SOPT
 
 const Application = () => {
   const [applicantInfo, setApplicantInfo] = useState<ApplicantState>(
-    INITIAL_APPLICANT_INFO,
+    INITIAL_APPLICANT_INFO
   );
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchInputValue, setSearchInputValue] = useState('');
+  const [searchApplicantValue, setSearchApplicantValue] = useState('');
+
+  const { isOpen } = useNav();
 
   const { data: generationData } = useGetGeneration(applicantInfo.group);
 
@@ -48,55 +52,78 @@ const Application = () => {
     group: applicantInfo.group,
     offset: (currentPage - 1) * PAGE_LIMIT,
     limit: PAGE_LIMIT,
-    minRate: applicantInfo.minRate,
-    hideDontRead: applicantInfo.dontReadInfo.checkedByMe,
     hideEvaluated: applicantInfo.evaluatedInfo.checkedByMe,
     checkInterviewPass: applicantInfo.isPassedOnly,
+    passStatus: applicantInfo.passStatus,
+    searchKeyword: searchApplicantValue,
     ...(applicantInfo.selectedPart !== COMMON_QUESTION && {
       part: applicantInfo.selectedPart,
     }),
   };
 
-  const {
-    data: applicantList,
-    refetch,
-    isLoading,
-  } = useGetApplicantList(applicantListParams);
+  const { data: applicantList, isLoading } =
+    useGetApplicantList(applicantListParams);
 
   const totalPages =
     applicantList?.data.meta.totalPage ??
     Math.ceil((applicantList?.data.meta.total ?? 0) / PAGE_LIMIT);
 
-  useEffect(() => {
-    if (generationData.seasons.length > 0) {
-      setApplicantInfo((prev) => ({
-        ...prev,
-        season: generationData.seasons[0].season.toString(),
-      }));
+  const debouncedSetSearchValue = useDebouncedCallback((value) => {
+    if (typeof value === 'string') {
+      setSearchApplicantValue(value);
     }
-  }, [generationData]);
+  }, 200);
+
+  useEffect(() => {
+    debouncedSetSearchValue(searchInputValue);
+  }, [searchInputValue, debouncedSetSearchValue]);
+
+  useEffect(() => {
+    if (generationData.seasons.length === 0) return;
+
+    setApplicantInfo((prev) => {
+      const defaultSeason = generationData.seasons[0].season.toString();
+      const seasonExists = prev.season
+        ? generationData.seasons.some(
+            (s) => s.season.toString() === prev.season
+          )
+        : false;
+
+      return {
+        ...prev,
+        season: prev.season && seasonExists ? prev.season : defaultSeason,
+      };
+    });
+  }, [generationData, applicantInfo.group]);
 
   useEffect(() => {
     setCurrentPage(1);
   }, [
     applicantInfo.season,
     applicantInfo.group,
-    applicantInfo.dontReadInfo.checkedByMe,
     applicantInfo.evaluatedInfo.checkedByMe,
     applicantInfo.isPassedOnly,
     applicantInfo.selectedPart,
-    applicantInfo.minRate,
+    applicantInfo.passStatus,
+    applicantInfo.searchKeyword,
   ]);
 
   return (
     <>
       <div className="flex flex-col gap-[4.4rem] overflow-hidden">
-        <div className="flex flex-col gap-[4.4rem] justify-between pr-[12.4rem] pl-[21.2rem]">
+        <div
+          className={`flex flex-col gap-[4.4rem] justify-between pr-[12.4rem] transition-all duration-300 ${
+            isOpen ? 'pl-[21.2rem]' : 'pl-[12.4rem]'
+          }`}
+        >
           <Filter
             generationData={generationData}
             applicantInfo={applicantInfo}
+            searchApplicantValue={searchInputValue}
             setApplicantInfo={setApplicantInfo}
-            onRefresh={refetch}
+            onSearchChange={(value) => {
+              setSearchInputValue(value);
+            }}
           />
           <Tab
             style="primary"
@@ -108,7 +135,11 @@ const Application = () => {
             }}
           />
         </div>
-        <hr className="border-gray800 mt-[-4.7rem] w-[98rem] ml-[21.2rem]" />
+        <hr
+          className={`border-gray800 mt-[-4.7rem] w-[98rem] transition-all duration-300 ${
+            isOpen ? 'ml-[21.2rem]' : 'ml-[12.4rem]'
+          }`}
+        />
         <ApplicationTable
           data={applicantList?.data.data ?? []}
           isLoading={isLoading}

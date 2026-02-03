@@ -1,9 +1,10 @@
-import { getApplicationDetail } from '@/pages/ApplicationDetail/apis/getApplicationDetail';
 import { useSuspenseQuery } from '@tanstack/react-query';
+import { ApplicantKeys } from '@/pages/Application/hooks/queries';
+import { getApplicationDetail } from '@/pages/ApplicationDetail/apis/getApplicationDetail';
 
 export const useGetApplicantDetail = (applicantId: number) => {
   return useSuspenseQuery({
-    queryKey: ['applicant', 'detail', applicantId],
+    queryKey: ApplicantKeys.detail(applicantId),
     queryFn: () => getApplicationDetail(applicantId),
   });
 };

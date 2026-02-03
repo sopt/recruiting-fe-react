@@ -1,3 +1,0 @@
-export const QUERY_KEY = {
-  APPLICANT_LIST: 'APPLICANT_LIST',
-};

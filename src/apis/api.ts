@@ -1,6 +1,6 @@
+import ky from 'ky';
 import { afterResponse, beforeRetry } from '@/apis/interceptor';
 import { getAccessToken } from '@/utils';
-import ky from 'ky';
 
 export const api = ky.create({
   prefixUrl: import.meta.env.VITE_BASE_URL,

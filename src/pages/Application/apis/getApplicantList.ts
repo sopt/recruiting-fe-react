@@ -10,25 +10,25 @@ export const getApplicantList = async ({
   part,
   offset,
   limit,
-  minRate,
   hideEvaluated,
-  hideDontRead,
   checkInterviewPass,
+  passStatus,
+  searchKeyword,
 }: GetApplicantListRequest): Promise<GetApplicantListResponse> => {
   const params = {
     season,
     group,
     offset,
     limit,
-    minRate,
     hideEvaluated,
-    hideDontRead,
     checkInterviewPass,
+    passStatus,
+    searchKeyword,
     ...(part !== undefined && { part }),
   };
 
   const response = await tokenApi
-    .get<GetApplicantListResponse>('api/v2/recruiting-admin/applicant/list', {
+    .get<GetApplicantListResponse>('/recruiting-admin/applicant/list', {
       searchParams: params,
     })
     .json();

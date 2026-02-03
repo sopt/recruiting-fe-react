@@ -72,10 +72,6 @@ export interface ApplicationTableProps {
     name: string;
     pictureUrl: string;
     part: PartType | SoptPartType;
-    dontReadInfo: {
-      checkedByMe: boolean;
-      checkedList: string[];
-    };
     evaluatedInfo: {
       checkedByMe: boolean;
       checkedList: string[];
@@ -98,10 +94,10 @@ export interface GetApplicantListRequest {
   part?: PartType | SoptPartType;
   offset: number;
   limit: number;
-  minRate: number;
   hideEvaluated: boolean;
-  hideDontRead: boolean;
   checkInterviewPass: boolean;
+  passStatus: string;
+  searchKeyword: string;
 }
 
 export interface GetApplicantListResponse {
@@ -114,10 +110,6 @@ export interface GetApplicantListResponse {
       name: string;
       pictureUrl: string;
       part: PartType | SoptPartType;
-      dontReadInfo: {
-        checkedByMe: boolean;
-        checkedList: string[];
-      };
       evaluatedInfo: {
         checkedByMe: boolean;
         checkedList: string[];
@@ -147,8 +139,8 @@ export interface PostApplicantPassStatusRequest {
   finalPass: boolean | null;
 }
 
-// DONT_READ: 읽지마시오 여부, EVALUATION: 평가 완료 여부
-export type EvaluationToggleType = 'DONT_READ' | 'EVALUATION';
+// EVALUATION: 평가 완료 여부
+export type EvaluationToggleType = 'EVALUATION';
 
 export interface PostEvaluationRequest {
   applicantId: number;
@@ -188,16 +180,20 @@ export interface QuestionCharLimit {
   charLimitLength: number;
 }
 
+export type PassInfo =
+  | 'INTERVIEW_PASS'
+  | 'FINAL_PASS'
+  | 'FAIL'
+  | 'NOT_EVALUATED';
+
 export interface ApplicantState {
   season: string;
   group: Group;
-  dontReadInfo: {
-    checkedByMe: boolean;
-  };
   evaluatedInfo: {
     checkedByMe: boolean;
   };
   isPassedOnly: boolean;
   selectedPart: PartType | SoptPartType;
-  minRate: number;
+  passStatus: string;
+  searchKeyword: string;
 }

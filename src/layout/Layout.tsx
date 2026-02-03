@@ -1,19 +1,37 @@
+import { Outlet, useLocation } from 'react-router-dom';
 import Nav from '@/components/Nav';
+import { useNav } from '@/contexts/NavContext';
 import CommonHeader from '@/layout/Components/CommonHeader';
 import { ROUTES_CONFIG } from '@/routes/routeConfig';
-import { Outlet, useLocation } from 'react-router-dom';
 
 const Layout = () => {
   const location = useLocation();
+
+  const { isOpen, toggle } = useNav();
+
   const hasTable =
     location.pathname === ROUTES_CONFIG.postGeneration.path ||
     location.pathname === ROUTES_CONFIG.application.path;
+  const isQuestionPreview =
+    location.pathname === ROUTES_CONFIG.questionPreview.path;
 
   return (
     <>
-      <Nav />
+      {!isQuestionPreview && <Nav isOpen={isOpen} onToggle={toggle} />}
       <CommonHeader />
-      <div className={hasTable ? 'ml-[12.4rem]' : 'ml-[33.6rem]'}>
+      <div
+        className={`transition-all duration-300 ease-out ${
+          isQuestionPreview
+            ? 'ml-0'
+            : isOpen
+            ? hasTable
+              ? 'ml-[12.4rem]'
+              : 'ml-[33.6rem]'
+            : hasTable
+            ? 'ml-[7.6rem]'
+            : 'ml-[20rem]'
+        }`}
+      >
         <Outlet />
       </div>
     </>

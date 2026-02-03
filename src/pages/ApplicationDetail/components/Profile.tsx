@@ -1,11 +1,12 @@
-import { AlertTriangle } from '@/assets/svg';
+import { CheckBox } from '@sopt-makers/ui';
+import { useQueryClient } from '@tanstack/react-query';
 import type {
   EvaluationToggleType,
   StatusType,
 } from '@/pages/Application/\btypes';
-
 import ChipDropDown from '@/pages/Application/components/ChipDropdown';
 import {
+  ApplicantKeys,
   usePostApplicantPassStatus,
   usePostEvalution,
 } from '@/pages/Application/hooks/queries';
@@ -14,9 +15,7 @@ import {
   convertStatusToPassInfo,
 } from '@/pages/Application/utils';
 import type { ApplicantType } from '@/pages/ApplicationDetail/types';
-import { getDoNotReadMessage, getEvaluationMessage } from '@/utils/message';
-import { CheckBox } from '@sopt-makers/ui';
-import { useQueryClient } from '@tanstack/react-query';
+import { getEvaluationMessage } from '@/utils/message';
 
 interface ProfileProps {
   profileData?: ApplicantType;
@@ -44,27 +43,27 @@ const Profile = ({ profileData }: ProfileProps) => {
       {
         onSuccess: () => {
           queryClient.invalidateQueries({
-            queryKey: ['applicant', 'detail', applicantId],
+            queryKey: ApplicantKeys.detail(applicantId),
           });
         },
-      },
+      }
     );
   };
 
   const handleEvaluationClick = (
     applicantId: number,
     evaluationType: EvaluationToggleType,
-    isChecked: boolean,
+    isChecked: boolean
   ) => {
     evalutionMutate(
       { applicantId, evaluationType, isChecked },
       {
         onSuccess: () => {
           queryClient.invalidateQueries({
-            queryKey: ['applicant', 'detail', applicantId],
+            queryKey: ApplicantKeys.detail(applicantId),
           });
         },
-      },
+      }
     );
   };
 
@@ -120,60 +119,28 @@ const Profile = ({ profileData }: ProfileProps) => {
       </div>
 
       <div className="flex flex-row gap-[3.2rem] px-[2.4rem] py-[2rem] rounded-[12px] bg-gray800">
-        <div className="flex flex-col gap-[0.7rem] w-[32rem]">
-          <div className="flex flex-row gap-[0.8rem]">
-            <CheckBox
-              id="dontRead"
-              size="lg"
-              checked={profileData.dontReadInfo.checkedByMe}
-              onChange={() =>
-                handleEvaluationClick(
-                  profileData.id,
-                  'DONT_READ',
-                  !profileData.dontReadInfo.checkedByMe,
-                )
-              }
-            />
-            <label
-              htmlFor="dontRead"
-              className="body_2_16_m text-white cursor-pointer"
-            >
-              읽지 마시오
-            </label>
-          </div>
-          {profileData.dontReadInfo.checkedList.length > 0 && (
-            <div className="flex flex-row  gap-[0.6rem]">
-              <AlertTriangle width={16} />
-              <span className="label_5_11_sb text-secondary">
-                {getDoNotReadMessage(profileData.dontReadInfo.checkedList)}
-              </span>
-            </div>
-          )}
-        </div>
-        <div className="flex flex-col gap-[0.7rem] w-[32rem]">
-          <div className="flex flex-row gap-[0.8rem]">
-            <CheckBox
-              id="evaluation"
-              size="lg"
-              checked={profileData.evaluatedInfo.checkedByMe}
-              onChange={() =>
-                handleEvaluationClick(
-                  profileData.id,
-                  'EVALUATION',
-                  !profileData.evaluatedInfo.checkedByMe,
-                )
-              }
-            />
-            <label
-              htmlFor="evaluation"
-              className="body_2_16_m text-white cursor-pointer"
-            >
-              평가 완료
-            </label>
-          </div>
+        <div className="flex flex-row gap-[0.6rem] items-center">
+          <CheckBox
+            id="evaluation"
+            size="lg"
+            checked={profileData.evaluatedInfo.checkedByMe}
+            onChange={() =>
+              handleEvaluationClick(
+                profileData.id,
+                'EVALUATION',
+                !profileData.evaluatedInfo.checkedByMe
+              )
+            }
+          />
+          <label
+            htmlFor="evaluation"
+            className="body_2_16_m text-white ml-[0.2rem] cursor-pointer"
+          >
+            평가 완료
+          </label>
           {profileData.evaluatedInfo.checkedList.length > 0 && (
             <div className="flex flex-row  gap-[0.6rem]">
-              <span className="label_5_11_sb">
+              <span className="label_5_11_sb text-gray100">
                 {getEvaluationMessage(profileData.evaluatedInfo.checkedList)}
               </span>
             </div>

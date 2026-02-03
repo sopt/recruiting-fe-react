@@ -1,10 +1,9 @@
+import { useMutation } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import { postLogin } from '@/pages/Login/apis/postLogin';
 import type { LoginForm, LoginResponse } from '@/pages/Login/types';
 import { ROUTES_CONFIG } from '@/routes/routeConfig';
-import { setRole } from '@/utils';
-import { setAccessToken } from '@/utils';
-import { useMutation } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
+import { setAccessToken, setRole } from '@/utils';
 
 export const usePostLogin = () => {
   const navigate = useNavigate();
