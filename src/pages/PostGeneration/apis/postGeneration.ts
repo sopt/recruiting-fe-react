@@ -6,7 +6,7 @@ import type {
 
 export const postGeneration = async (season: PostGenerationRequest) => {
   const response = await tokenApi
-    .post<PostGenerationResponse>('/recruiting-season', {
+    .post<PostGenerationResponse>('recruiting-season', {
       json: season,
     })
     .json();
