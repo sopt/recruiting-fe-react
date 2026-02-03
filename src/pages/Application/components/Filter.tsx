@@ -52,7 +52,7 @@ const Filter = ({
   return (
     <div className="flex flex-col gap-[3.2rem] mt-[3.2rem]">
       <div className="flex gap-[1.6rem]">
-        <SelectV2.Root visibleOptions={7} type="text">
+        <SelectV2.Root key={applicantInfo.group} visibleOptions={7} type="text">
           <SelectV2.Trigger>
             <div>
               <SelectV2.TriggerContent
