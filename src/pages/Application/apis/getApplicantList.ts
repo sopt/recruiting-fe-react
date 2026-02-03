@@ -28,7 +28,7 @@ export const getApplicantList = async ({
   };
 
   const response = await tokenApi
-    .get<GetApplicantListResponse>('/recruiting-admin/applicant/list', {
+    .get<GetApplicantListResponse>('recruiting-admin/applicant/list', {
       searchParams: params,
     })
     .json();
