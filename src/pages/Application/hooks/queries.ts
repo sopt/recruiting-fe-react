@@ -61,18 +61,33 @@ export const usePostEvalution = () => {
       const applyUpdate = (prev?: GetApplicantListResponse) => {
         if (!prev) return prev;
         const prevList = prev.data?.data ?? [];
-        const newList = prevList.map((applicant) => {
-          if (evaluationInfo.evaluationType === 'EVALUATION') {
-            return {
-              ...applicant,
-              evaluatedInfo: {
-                ...applicant.evaluatedInfo,
-                checkedByMe: evaluationInfo.isChecked,
-              },
-            };
-          }
-          return applicant;
-        });
+        
+        const targetIndex = prevList.findIndex(
+          (applicant) => applicant.id === evaluationInfo.applicantId
+        );
+        
+        if (targetIndex === -1 || evaluationInfo.evaluationType !== 'EVALUATION') {
+          return prev;
+        }
+        
+        const targetApplicant = prevList[targetIndex];
+        const prevCheckedByMe = targetApplicant.evaluatedInfo.checkedByMe;
+        
+        let newCheckedList = [...targetApplicant.evaluatedInfo.checkedList];
+        if (evaluationInfo.isChecked && !prevCheckedByMe) {
+          newCheckedList = [...newCheckedList, 'pending'];
+        } else if (!evaluationInfo.isChecked && prevCheckedByMe) {
+          newCheckedList = newCheckedList.slice(0, -1);
+        }
+        
+        const newList = [...prevList];
+        newList[targetIndex] = {
+          ...targetApplicant,
+          evaluatedInfo: {
+            checkedByMe: evaluationInfo.isChecked,
+            checkedList: newCheckedList,
+          },
+        };
 
         return {
           ...prev,
