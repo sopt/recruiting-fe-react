@@ -3,7 +3,7 @@ const Info = ({ value }: { value: string }) => {
     <article>
       <ol className="flex flex-col gap-[1.6rem] mt-[2rem] mb-[5rem]">
         {value?.split('\n').map((text, idx) => (
-          <li className="body_1_18_m text-gray-300" key={`${idx},${text}`}>
+          <li className="body_1_18_m text-[#808087]" key={`${idx},${text}`}>
             {text}
           </li>
         ))}

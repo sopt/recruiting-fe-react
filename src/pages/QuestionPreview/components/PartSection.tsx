@@ -48,7 +48,7 @@ const PartSection = ({
     <section
       ref={refCallback}
       id="partial"
-      className="flex flex-col gap-[5rem]"
+      className="flex flex-col w-[72rem] gap-[5rem]"
     >
       <h2 className="w-[72rem] title_2_28_sb text-gray-950">파트별 질문</h2>
       <SelectBox
@@ -78,6 +78,10 @@ const PartSection = ({
         ) => {
           const draftItem = partQuestionsById?.[id];
           const defaultValue = draftItem ? draftItem.answer.answer : '';
+          const questionIndex =
+            filteredQuestions
+              .slice(0, index)
+              .filter((question) => !question.isDescription).length + 1;
 
           return (
             <div key={question}>
@@ -98,7 +102,7 @@ const PartSection = ({
                   onlyFileUpload={isFile && !charLimit && !placeholder}
                   disabled
                   required={!optional}
-                  questionIndex={index + 1}
+                  questionIndex={questionIndex}
                 >
                   {question}
                 </TextareaBox>
