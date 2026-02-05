@@ -55,6 +55,7 @@ const RegisterButton = ({
               onClick={() => {
                 handleSubmit(registQuestions)();
                 closeDialog();
+                onActivatePreview();
               }}
             >
               최종 등록
@@ -91,16 +92,15 @@ const RegisterButton = ({
     closeDialog();
 
     registerMutate(requestData, {
-      onSuccess: () =>
+      onSuccess: () => {
         queryClient.invalidateQueries({
           queryKey: QuestionKeys.filteredList(
             filterState.season,
             filterState.group
           ),
-        }),
+        });
+      },
     });
-
-    onActivatePreview();
   };
 
   const debouncedRegisterClick = useDebouncedCallback(handleRegisterClick);

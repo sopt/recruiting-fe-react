@@ -1,15 +1,17 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { AlertTriangleFilled } from '@/assets/svg';
 import { useIntersectionObserver } from '@/hooks/useIntersectorObservor';
 import type { PartType, SoptPartType } from '@/pages/Application/\btypes';
+import { COMMON_QUESTION } from '@/pages/Application/constants';
 import Header from '@/pages/PostQuestion/components/Header';
 import PreviewButton from '@/pages/PostQuestion/components/PreviewButton';
 import QuestionList from '@/pages/PostQuestion/components/QuestionList';
 import RegisterButton from '@/pages/PostQuestion/components/RegisterButton';
 import TemporarySaveButton from '@/pages/PostQuestion/components/TemporarySaveButton';
 import { DEFAULT_QUESTION_DATA } from '@/pages/PostQuestion/constant';
+import { useGetQuestionList } from '@/pages/PostQuestion/hooks/queries';
 import { useFilterReducer } from '@/pages/PostQuestion/hooks/useFilterReducer';
 import {
   questionsListSchema,
@@ -32,6 +34,11 @@ const PostQuestion = () => {
     setSeason,
   } = useFilterReducer();
 
+  const { data: questionListData } = useGetQuestionList(
+    filterState.season,
+    filterState.group
+  );
+
   const method = useForm<qustionListTypes>({
     resolver: zodResolver(questionsListSchema),
     defaultValues: {
@@ -44,6 +51,7 @@ const PostQuestion = () => {
     formState: { isDirty },
   } = method;
 
+
   const { targetRef } = useIntersectionObserver({
     rootMargin: '-80px 0px 0px 0px',
   });
@@ -52,6 +60,20 @@ const PostQuestion = () => {
     setPart(part);
     scrollToTop();
   };
+
+  // 최종 등록된 상태인지 확인하여 미리보기 버튼 활성화
+  useEffect(() => {
+    if (!questionListData) return;
+
+    const partQuestions =
+      filterState.part === COMMON_QUESTION
+        ? questionListData.commonQuestions
+        : questionListData.partQuestions.find(
+            (questionList) => questionList.part === filterState.part
+          )?.questions;
+
+    setIsPreviewEnabled(partQuestions?.some((question) => question.id) ?? false);
+  }, [questionListData, filterState.part]);
 
   return (
     <main className="max-w-[98rem] mb-[15rem] transition-all duration-300">
