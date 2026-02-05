@@ -70,11 +70,11 @@ const FileInput = ({
           flex items-center w-full gap-[2.4rem] text-gray-300
         `}
         >
-          <span className="body_1_18_m  text-gray-500">참고 자료</span>
+          <span className="body_1_18_m text-gray-500 whitespace-nowrap">참고 자료</span>
+          <span className="body_1_18_m text-gray-300 whitespace-nowrap">50mb 이하 | pdf</span>
           <span
             className={`
-              w-[55.5rem]
-              overflow-hidden whitespace-nowrap text-ellipsis
+              overflow-hidden whitespace-nowrap
               text-gray-100
               ${isDisabled && 'text-gray-300 cursor-not-allowed'}
             `}
