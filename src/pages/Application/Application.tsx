@@ -37,7 +37,7 @@ const tabItems = IS_SOPT
 
 const Application = () => {
   const [applicantInfo, setApplicantInfo] = useState<ApplicantState>(
-    INITIAL_APPLICANT_INFO
+    INITIAL_APPLICANT_INFO,
   );
   const [currentPage, setCurrentPage] = useState(1);
   const [searchInputValue, setSearchInputValue] = useState('');
@@ -65,8 +65,8 @@ const Application = () => {
     useGetApplicantList(applicantListParams);
 
   const totalPages =
-    applicantList?.data.meta.totalPage ??
-    Math.ceil((applicantList?.data.meta.total ?? 0) / PAGE_LIMIT);
+    applicantList?.meta?.totalPage ??
+    Math.ceil((applicantList?.meta?.total ?? 0) / PAGE_LIMIT);
 
   const debouncedSetSearchValue = useDebouncedCallback((value) => {
     if (typeof value === 'string') {
@@ -85,7 +85,7 @@ const Application = () => {
       const defaultSeason = generationData.seasons[0].season.toString();
       const seasonExists = prev.season
         ? generationData.seasons.some(
-            (s) => s.season.toString() === prev.season
+            (s) => s.season.toString() === prev.season,
           )
         : false;
 
@@ -141,7 +141,18 @@ const Application = () => {
           }`}
         />
         <ApplicationTable
-          data={applicantList?.data.data ?? []}
+          data={
+            applicantList ?? {
+              data: [],
+              meta: {
+                total: 0,
+                totalPage: 0,
+                currentPage: 1,
+                limit: 10,
+                offset: 0,
+              },
+            }
+          }
           isLoading={isLoading}
         />
       </div>

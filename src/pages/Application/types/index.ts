@@ -9,16 +9,6 @@ export type SoptPartType =
   | '안드로이드'
   | '웹';
 
-export enum SoptPart {
-  공통 = '공통',
-  기획 = '기획',
-  디자인 = '디자인',
-  서버 = '서버',
-  iOS = 'iOS',
-  안드로이드 = '안드로이드',
-  웹 = '웹',
-}
-
 export type PartType =
   | '공통'
   | 'PM'
@@ -38,6 +28,16 @@ export enum Part {
   BE = 'BE',
   iOS = 'iOS',
   Android = 'Android',
+}
+
+export enum SoptPart {
+  공통 = '공통',
+  기획 = '기획',
+  디자인 = '디자인',
+  서버 = '서버',
+  iOS = 'iOS',
+  안드로이드 = '안드로이드',
+  웹 = '웹',
 }
 
 export type ExecutiveType =
@@ -67,6 +67,7 @@ export type SOPTPart = '기획' | '디자인' | '서버' | 'iOS' | '안드로이
 export interface ApplicationTableProps {
   isLoading: boolean;
   data: {
+    data: {
     id: number;
     status: StatusType;
     name: string;
@@ -84,7 +85,15 @@ export interface ApplicationTableProps {
     mostRecentSeason: number;
     email: string;
     phone: string;
-  }[];
+    }[];
+    meta: {
+      total: number;
+      totalPage: number;
+      currentPage: number;
+      limit: number;
+      offset: number;
+    };
+  };
 }
 [];
 

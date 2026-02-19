@@ -1,4 +1,5 @@
-import { Part } from '@/pages/Application/\btypes';
+import { IS_SOPT } from '@/constants';
+import { Part, SoptPart } from '@/pages/Application/\btypes';
 import FileInput from '@/pages/QuestionPreview/components/FileInput';
 import Info from '@/pages/QuestionPreview/components/Info';
 import LinkInput from '@/pages/QuestionPreview/components/LinkInput';
@@ -37,7 +38,8 @@ const PartSection = ({
 
   onPartChange,
 }: PartSectionProps) => {
-  const defaultPartOptions = Object.values(Part)
+  const defaultPart = IS_SOPT ? Object.values(SoptPart) : Object.values(Part);
+  const defaultPartOptions = Object.values(defaultPart)
     .filter((value) => value !== '공통')
     .map((value) => ({
       value,
