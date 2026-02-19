@@ -29,7 +29,7 @@ const PostQuestion = () => {
     setDeleteQuestionIds((prev) => [...prev, id]);
   };
 
-  const { setSeason: setGlobalSeason, setGroup: setGlobalGroup } =
+  const { season: globalSeason, group: globalGroup, setSeason: setGlobalSeason, setGroup: setGlobalGroup } =
     useSeasonGroup();
 
   const {
@@ -37,7 +37,10 @@ const PostQuestion = () => {
     setPart,
     setGroup: setLocalGroup,
     setSeason: setLocalSeason,
-  } = useFilterReducer();
+  } = useFilterReducer({
+    season: globalSeason > 0 ? globalSeason : 0,
+    group: globalGroup || 'YB',
+  });
 
   const setGroup = (group: Group) => {
     setLocalGroup(group);
@@ -76,7 +79,17 @@ const PostQuestion = () => {
     scrollToTop();
   };
 
-  // 최종 등록된 상태인지 확인하여 미리보기 버튼 활성화
+  // 전역 상태가 변경될 때 로컬 상태 동기화
+  useEffect(() => {
+    if (globalSeason > 0 && filterState.season !== globalSeason) {
+      setLocalSeason(globalSeason);
+    }
+    if (globalGroup && filterState.group !== globalGroup) {
+      setLocalGroup(globalGroup);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [globalSeason, globalGroup]);
+
   useEffect(() => {
     if (!questionListData) return;
 
@@ -87,7 +100,9 @@ const PostQuestion = () => {
             (questionList) => questionList.part === filterState.part
           )?.questions;
 
-    setIsPreviewEnabled(partQuestions?.some((question) => question.id) ?? false);
+    setIsPreviewEnabled(
+      partQuestions?.some((question) => question.id != null) ?? false
+    );
   }, [questionListData, filterState.part]);
 
   return (

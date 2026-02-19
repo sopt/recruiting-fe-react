@@ -27,14 +27,15 @@ const reducer = (state: FilterState, action: FilterAction): FilterState => {
   }
 };
 
-export const useFilterReducer = () => {
-  const initialState: FilterState = {
+export const useFilterReducer = (initialValues?: Partial<FilterState>) => {
+  const initialState = (): FilterState => ({
     part: COMMON_QUESTION,
     group: 'YB',
     season: 0,
-  };
+    ...initialValues,
+  });
 
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, undefined, initialState);
 
   const handleFilterChange = (
     type: FilterAction['type'],
