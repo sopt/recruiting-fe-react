@@ -95,7 +95,7 @@ const QuestionPreview = () => {
 
   return (
     <div className="w-full p-8 flex flex-col bg-white min-h-screen items-center overflow-x-hidden">
-      <ApplyHeader />
+      <ApplyHeader season={season} group={group} />
       <div className="flex flex-col gap-[7rem]">
         <ApplyInfo />
         <ApplyCategory minIndex={minIndex} />

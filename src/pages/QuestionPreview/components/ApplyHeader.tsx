@@ -1,9 +1,16 @@
 import { Button } from '@sopt-makers/ui';
+import type { Group } from '@/pages/PostQuestion/types';
 
-const ApplyHeader = () => {
+interface ApplyHeaderProps {
+  season: number;
+  group: Group;
+}
+
+const ApplyHeader = ({ season, group }: ApplyHeaderProps) => {
+  console.log(season, group);
   return (
     <header className="flex items-center justify-center gap-[21.1rem] pt-[16.3rem] pb-[8.3rem]">
-      <h1 className="heading_1.5_40_b text-gray900">00기 YB 지원서</h1>
+      <h1 className="heading_1.5_40_b text-gray900">{`${season}기 ${group} 지원서`}</h1>
       <div className="flex gap-[1.6rem]">
         <Button
           theme="white"
