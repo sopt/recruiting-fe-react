@@ -7,6 +7,7 @@ import '@/App.css';
 import { DialogProvider, ToastProvider } from '@sopt-makers/ui';
 import queryClient from '@/apis/queryClient';
 import { NavProvider } from '@/contexts/NavContext';
+import { SeasonGroupProvider } from '@/contexts/SeasonGroupContext';
 
 function App() {
   return (
@@ -15,7 +16,9 @@ function App() {
       <DialogProvider>
         <ToastProvider>
           <NavProvider>
-            <RouterProvider router={router} />
+            <SeasonGroupProvider>
+              <RouterProvider router={router} />
+            </SeasonGroupProvider>
           </NavProvider>
         </ToastProvider>
       </DialogProvider>

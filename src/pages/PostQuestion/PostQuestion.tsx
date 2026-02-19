@@ -2,6 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { AlertTriangleFilled } from '@/assets/svg';
+import { useSeasonGroup } from '@/contexts/SeasonGroupContext';
 import { useIntersectionObserver } from '@/hooks/useIntersectorObservor';
 import type { PartType, SoptPartType } from '@/pages/Application/\btypes';
 import { COMMON_QUESTION } from '@/pages/Application/constants';
@@ -13,6 +14,7 @@ import TemporarySaveButton from '@/pages/PostQuestion/components/TemporarySaveBu
 import { DEFAULT_QUESTION_DATA } from '@/pages/PostQuestion/constant';
 import { useGetQuestionList } from '@/pages/PostQuestion/hooks/queries';
 import { useFilterReducer } from '@/pages/PostQuestion/hooks/useFilterReducer';
+import type { Group } from '@/pages/PostQuestion/types';
 import {
   questionsListSchema,
   type qustionListTypes,
@@ -27,12 +29,25 @@ const PostQuestion = () => {
     setDeleteQuestionIds((prev) => [...prev, id]);
   };
 
+  const { setSeason: setGlobalSeason, setGroup: setGlobalGroup } =
+    useSeasonGroup();
+
   const {
     state: filterState,
     setPart,
-    setGroup,
-    setSeason,
+    setGroup: setLocalGroup,
+    setSeason: setLocalSeason,
   } = useFilterReducer();
+
+  const setGroup = (group: Group) => {
+    setLocalGroup(group);
+    setGlobalGroup(group);
+  };
+
+  const setSeason = (season: number) => {
+    setLocalSeason(season);
+    setGlobalSeason(season);
+  };
 
   const { data: questionListData } = useGetQuestionList(
     filterState.season,

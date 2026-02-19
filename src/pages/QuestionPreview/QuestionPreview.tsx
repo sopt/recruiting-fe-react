@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useSeasonGroup } from '@/contexts/SeasonGroupContext';
 import { useGetQuestionList } from '@/pages/PostQuestion/hooks/queries';
 import ApplyCategory from '@/pages/QuestionPreview/components/ApplyCategory';
 import ApplyHeader from '@/pages/QuestionPreview/components/ApplyHeader';
@@ -11,11 +12,14 @@ import PartSection from '@/pages/QuestionPreview/components/PartSection';
 const QuestionPreview = () => {
   const [isInView, setIsInView] = useState([true, false, false]);
   const [selectedPart, setSelectedPart] = useState<string>('');
+  const [sectionsUpdated, setSectionsUpdated] = useState(false);
+
+  const { season, group } = useSeasonGroup();
+  const { data: questionData } = useGetQuestionList(season, group);
 
   const minIndex = isInView.findIndex((value) => value === true);
 
   const sectionsRef = useRef<HTMLElement[]>([]);
-  const [sectionsUpdated, setSectionsUpdated] = useState(false);
 
   const refCallback = useCallback((element: HTMLElement) => {
     if (element && !sectionsRef.current.includes(element)) {
@@ -25,9 +29,6 @@ const QuestionPreview = () => {
       }
     }
   }, []);
-
-  // TODO: season과 group을 전역 상태에서 받아오도록
-  const { data: questionData } = useGetQuestionList(38, 'YB');
 
   const commonQuestions = questionData?.commonQuestions.map(
     (question, index) => ({
@@ -93,7 +94,7 @@ const QuestionPreview = () => {
   }, [sectionsUpdated]);
 
   return (
-    <div className="w-full p-8 flex flex-col bg-white min-h-screen items-center">
+    <div className="w-full p-8 flex flex-col bg-white min-h-screen items-center overflow-x-hidden">
       <ApplyHeader />
       <div className="flex flex-col gap-[7rem]">
         <ApplyInfo />
