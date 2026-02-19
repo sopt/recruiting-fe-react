@@ -28,7 +28,7 @@ import {
 } from '@/pages/Application/utils';
 import { scrollToLeft } from '@/utils/scroll';
 
-const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
+const ApplicationTable = ({ data: { data = [], meta }, isLoading }: ApplicationTableProps) => {
   const [passStatusList, setPassStatusList] = useState<Record<number, string>>(
     {}
   );
@@ -174,7 +174,7 @@ const ApplicationTable = ({ data, isLoading }: ApplicationTableProps) => {
   const headerContent = (
     <>
       <span className="text-gray200 title_6_16_sb sticky left-0">
-        총 {data.length}개
+        총 {meta?.total}개
       </span>
       {checkedApplicantList.length > 0 && (
         <SelectedApplicantActions checkedApplicantList={checkedApplicantList} />

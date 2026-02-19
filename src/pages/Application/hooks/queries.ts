@@ -40,11 +40,13 @@ export const usePostApplicantPassStatus = () => {
 };
 
 export const usePostEvalution = () => {
+  type CachedData = GetApplicantListResponse['data'];
+
   return useMutation<
     unknown,
     unknown,
     PostEvaluationRequest,
-    { snapshotsData: Array<[QueryKey, GetApplicantListResponse | undefined]> }
+    { snapshotsData: Array<[QueryKey, CachedData | undefined]> }
   >({
     mutationFn: (evaluationInfo: PostEvaluationRequest) =>
       postEvaluation(evaluationInfo),
@@ -54,32 +56,32 @@ export const usePostEvalution = () => {
       });
 
       const snapshotsData =
-        queryClient.getQueriesData<GetApplicantListResponse>({
+        queryClient.getQueriesData<CachedData>({
           queryKey: ApplicantKeys.list(),
         });
 
-      const applyUpdate = (prev?: GetApplicantListResponse) => {
+      const applyUpdate = (prev?: CachedData) => {
         if (!prev) return prev;
-        const prevList = prev.data?.data ?? [];
-        
+        const prevList = prev.data ?? [];
+
         const targetIndex = prevList.findIndex(
           (applicant) => applicant.id === evaluationInfo.applicantId
         );
-        
+
         if (targetIndex === -1 || evaluationInfo.evaluationType !== 'EVALUATION') {
           return prev;
         }
-        
+
         const targetApplicant = prevList[targetIndex];
         const prevCheckedByMe = targetApplicant.evaluatedInfo.checkedByMe;
-        
+
         let newCheckedList = [...targetApplicant.evaluatedInfo.checkedList];
         if (evaluationInfo.isChecked && !prevCheckedByMe) {
           newCheckedList = [...newCheckedList, 'pending'];
         } else if (!evaluationInfo.isChecked && prevCheckedByMe) {
           newCheckedList = newCheckedList.slice(0, -1);
         }
-        
+
         const newList = [...prevList];
         newList[targetIndex] = {
           ...targetApplicant,
@@ -91,15 +93,12 @@ export const usePostEvalution = () => {
 
         return {
           ...prev,
-          data: {
-            ...prev.data,
-            data: newList,
-          },
+          data: newList,
         };
       };
 
       snapshotsData.forEach(([key, prev]) => {
-        queryClient.setQueryData<GetApplicantListResponse>(
+        queryClient.setQueryData<CachedData>(
           key,
           applyUpdate(prev)
         );
@@ -110,7 +109,7 @@ export const usePostEvalution = () => {
     onError: (_err, _variables, context) => {
       const { snapshotsData } = context ?? {};
       snapshotsData?.forEach(([key, prev]) => {
-        queryClient.setQueryData<GetApplicantListResponse>(key, prev);
+        queryClient.setQueryData<CachedData>(key, prev);
       });
     },
     onSettled: () => {

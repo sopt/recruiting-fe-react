@@ -14,7 +14,7 @@ export const getApplicantList = async ({
   checkInterviewPass,
   passStatus,
   searchKeyword,
-}: GetApplicantListRequest): Promise<GetApplicantListResponse> => {
+}: GetApplicantListRequest): Promise<GetApplicantListResponse['data']> => {
   const params = {
     season,
     group,
@@ -33,5 +33,5 @@ export const getApplicantList = async ({
     })
     .json();
 
-  return response;
+  return response.data;
 };
