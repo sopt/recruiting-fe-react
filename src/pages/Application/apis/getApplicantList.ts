@@ -14,6 +14,7 @@ export const getApplicantList = async ({
   checkInterviewPass,
   passStatus,
   searchKeyword,
+  sortBy,
 }: GetApplicantListRequest): Promise<GetApplicantListResponse['data']> => {
   const params = {
     season,
@@ -24,6 +25,7 @@ export const getApplicantList = async ({
     checkInterviewPass,
     passStatus,
     searchKeyword,
+    sortBy,
     ...(part !== undefined && { part }),
   };
 

@@ -55,6 +55,8 @@ export type ExecutiveType =
 
 export type StatusType = '최종 합격' | '불합격' | '서류 합격' | '확인 전';
 
+export type SortBy = 'SUBMISSION_TIME' | 'ALPHABETICAL_ORDER';
+
 export const STATUS_TRANSLATOR = {
   '최종 합격': 'FINAL_PASS',
   불합격: 'FAIL',
@@ -107,6 +109,20 @@ export interface GetApplicantListRequest {
   checkInterviewPass: boolean;
   passStatus: string;
   searchKeyword: string;
+  sortBy: SortBy;
+}
+
+export interface PostApplicantCsvRequest {
+  season: number;
+  group: Group;
+  part: PartType | SoptPartType;
+  hideEvaluated: boolean;
+  hideDontRead: boolean;
+  passStatusFilters: PassInfo[];
+  searchKeyword: string;
+  sortBy: SortBy;
+  trimmedSearchKeyword: string;
+  effectivePart: PartType | SoptPartType | '';
 }
 
 export interface GetApplicantListResponse {
@@ -205,4 +221,5 @@ export interface ApplicantState {
   selectedPart: PartType | SoptPartType;
   passStatus: string;
   searchKeyword: string;
+  sortBy: SortBy;
 }
