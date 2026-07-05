@@ -1,3 +1,4 @@
+import { useToast } from '@sopt-makers/ui';
 import type { QueryKey } from '@tanstack/react-query';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import queryClient from '@/apis/queryClient';
@@ -8,6 +9,7 @@ import type {
   PostEvaluationRequest,
 } from '@/pages/Application/\btypes';
 import { getApplicantList } from '@/pages/Application/apis/getApplicantList';
+import { postApplicantCsv } from '@/pages/Application/apis/postApplicantCsv';
 import { postEvaluation } from '@/pages/Application/apis/postEvaluation';
 import { postPassStatus } from '@/pages/Application/apis/postPassStatus';
 
@@ -25,6 +27,30 @@ export const useGetApplicantList = (params: GetApplicantListRequest) => {
     queryKey: ApplicantKeys.filteredList(params),
     queryFn: () => getApplicantList(params),
     enabled: !!params.season,
+  });
+};
+
+export const usePostApplicantCsv = () => {
+  const { open } = useToast();
+
+  return useMutation({
+    mutationFn: postApplicantCsv,
+    onSuccess: ({ blob, fileName }) => {
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+
+      link.href = url;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+
+      open({ icon: 'success', content: 'CSV 다운로드가 완료되었어요.' });
+    },
+    onError: () => {
+      open({ icon: 'error', content: 'CSV 다운로드에 실패했어요.' });
+    },
   });
 };
 

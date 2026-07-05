@@ -1,4 +1,4 @@
-import { Tab } from '@sopt-makers/ui';
+import { Button, Tab } from '@sopt-makers/ui';
 import { useEffect, useState } from 'react';
 import Pagination from '@/components/Pagination';
 import { IS_SOPT } from '@/constants';
@@ -8,13 +8,17 @@ import {
   type ApplicantState,
   Part,
   type PartType,
+  type PassInfo,
   SoptPart,
   type SoptPartType,
 } from '@/pages/Application/\btypes';
 import ApplicationTable from '@/pages/Application/components/ApplicationTable';
 import Filter from '@/pages/Application/components/Filter';
 import { COMMON_QUESTION } from '@/pages/Application/constants';
-import { useGetApplicantList } from '@/pages/Application/hooks/queries';
+import {
+  useGetApplicantList,
+  usePostApplicantCsv,
+} from '@/pages/Application/hooks/queries';
 import { useGetGeneration } from '@/pages/PostGeneration/hooks/queries';
 
 const PAGE_LIMIT = 10;
@@ -29,6 +33,7 @@ const INITIAL_APPLICANT_INFO: ApplicantState = {
   selectedPart: COMMON_QUESTION,
   passStatus: '',
   searchKeyword: '',
+  sortBy: 'SUBMISSION_TIME',
 };
 
 const tabItems = IS_SOPT
@@ -56,6 +61,7 @@ const Application = () => {
     checkInterviewPass: applicantInfo.isPassedOnly,
     passStatus: applicantInfo.passStatus,
     searchKeyword: searchApplicantValue,
+    sortBy: applicantInfo.sortBy,
     ...(applicantInfo.selectedPart !== COMMON_QUESTION && {
       part: applicantInfo.selectedPart,
     }),
@@ -63,6 +69,8 @@ const Application = () => {
 
   const { data: applicantList, isLoading } =
     useGetApplicantList(applicantListParams);
+  const { mutate: postApplicantCsv, isPending: isCsvDownloading } =
+    usePostApplicantCsv();
 
   const totalPages =
     applicantList?.meta?.totalPage ??
@@ -73,6 +81,31 @@ const Application = () => {
       setSearchApplicantValue(value);
     }
   }, 200);
+
+  const handleCsvDownload = () => {
+    const trimmedSearchKeyword = searchInputValue.trim();
+    const effectivePart =
+      applicantInfo.selectedPart === COMMON_QUESTION
+        ? ''
+        : applicantInfo.selectedPart;
+
+    postApplicantCsv({
+      season: Number(applicantInfo.season),
+      group: applicantInfo.group,
+      part: applicantInfo.selectedPart,
+      hideEvaluated: applicantInfo.evaluatedInfo.checkedByMe,
+      hideDontRead: applicantInfo.isPassedOnly,
+      passStatusFilters: applicantInfo.passStatus
+        ? applicantInfo.passStatus
+            .split(',')
+            .filter((status): status is PassInfo => Boolean(status))
+        : [],
+      searchKeyword: searchInputValue,
+      sortBy: applicantInfo.sortBy,
+      trimmedSearchKeyword,
+      effectivePart,
+    });
+  };
 
   useEffect(() => {
     debouncedSetSearchValue(searchInputValue);
@@ -105,14 +138,15 @@ const Application = () => {
     applicantInfo.isPassedOnly,
     applicantInfo.selectedPart,
     applicantInfo.passStatus,
-    applicantInfo.searchKeyword,
+    applicantInfo.sortBy,
+    searchApplicantValue,
   ]);
 
   return (
     <>
       <div className="flex flex-col gap-[4.4rem] overflow-hidden">
         <div
-          className={`flex flex-col gap-[4.4rem] justify-between pr-[12.4rem] transition-all duration-300 ${
+          className={`relative flex flex-col gap-[4.4rem] justify-between pr-[12.4rem] transition-all duration-300 ${
             isOpen ? 'pl-[21.2rem]' : 'pl-[12.4rem]'
           }`}
         >
@@ -125,21 +159,34 @@ const Application = () => {
               setSearchInputValue(value);
             }}
           />
-          <Tab
-            style="primary"
-            size="md"
-            tabItems={tabItems}
-            onChange={(selectedPart) => {
-              setApplicantInfo((prev) => ({ ...prev, selectedPart }));
-              setCurrentPage(1);
-            }}
-          />
+          <div className="relative flex flex-col gap-[0.8rem]">
+            <Tab
+              style="primary"
+              size="md"
+              tabItems={tabItems}
+              onChange={(selectedPart) => {
+                setApplicantInfo((prev) => ({ ...prev, selectedPart }));
+                setCurrentPage(1);
+              }}
+            />
+            <hr
+              className={
+                'border-gray800 w-[98rem] mt-[-1rem] transition-all duration-300'
+              }
+            />
+          </div>
+          <div className="absolute right-[6.9rem] top-[21rem]">
+            <Button
+              theme="black"
+              size="md"
+              onClick={handleCsvDownload}
+              disabled={isCsvDownloading || !applicantInfo.season}
+            >
+              CSV 다운로드
+            </Button>
+          </div>
         </div>
-        <hr
-          className={`border-gray800 mt-[-4.7rem] w-[98rem] transition-all duration-300 ${
-            isOpen ? 'ml-[21.2rem]' : 'ml-[12.4rem]'
-          }`}
-        />
+
         <ApplicationTable
           data={
             applicantList ?? {
