@@ -18,7 +18,7 @@ const SelectedApplicantActions = ({
           size="sm"
           onClick={() => {
             checkedApplicantList.forEach((id) => {
-              goApplicationDetail(id);
+              goApplicationDetail(id, { applicantIds: checkedApplicantList });
             });
           }}
           disabled={checkedApplicantList.length === 0}
