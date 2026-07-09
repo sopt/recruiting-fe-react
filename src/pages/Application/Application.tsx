@@ -20,9 +20,9 @@ import {
 } from '@/pages/Application/constants';
 import { useGetApplicantList } from '@/pages/Application/hooks/queries';
 import {
-  createApplicationSearchParams,
-  getInitialApplicantInfo,
-  getInitialPage,
+  createApplicationListSearchParams,
+  getInitialApplicantInfoFromSearchParams,
+  getInitialApplicationPage,
 } from '@/pages/Application/utils/navigationSearchParams';
 import { useGetGeneration } from '@/pages/PostGeneration/hooks/queries';
 
@@ -49,10 +49,13 @@ const Application = () => {
   const initialSearchKeyword = searchParams.get('searchKeyword') ?? '';
 
   const [applicantInfo, setApplicantInfo] = useState<ApplicantState>(() =>
-    getInitialApplicantInfo(searchParams, INITIAL_APPLICANT_INFO),
+    getInitialApplicantInfoFromSearchParams(
+      searchParams,
+      INITIAL_APPLICANT_INFO,
+    ),
   );
   const [currentPage, setCurrentPage] = useState(() =>
-    getInitialPage(searchParams),
+    getInitialApplicationPage(searchParams),
   );
   const [searchInputValue, setSearchInputValue] =
     useState(initialSearchKeyword);
@@ -135,7 +138,7 @@ const Application = () => {
   ]);
 
   useEffect(() => {
-    const nextSearchParams = createApplicationSearchParams({
+    const nextSearchParams = createApplicationListSearchParams({
       applicantInfo,
       searchKeyword: searchApplicantValue,
       currentPage,

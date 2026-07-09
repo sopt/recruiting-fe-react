@@ -2,7 +2,7 @@ import { useLocation } from 'react-router-dom';
 import { useNav } from '@/contexts/NavContext';
 import LogoutButton from '@/layout/Components/LogoutButton';
 import QuestionPreviewHeader from '@/layout/Components/QuestionPreviewHeader';
-import ApplicationDetailHeaderNavigation from '@/pages/ApplicationDetail/components/ApplicationDetailHeaderNavigation';
+import ApplicationDetailHeaderNavigation from '@/pages/ApplicationDetail/components/HeaderNavigation';
 import { ROUTES_CONFIG } from '@/routes/routeConfig';
 
 const CommonHeader = () => {
@@ -13,7 +13,7 @@ const CommonHeader = () => {
   const isApplicationDetail = pathname === ROUTES_CONFIG.applicationDetail.path;
 
   const title = Object.values(ROUTES_CONFIG).find(
-    (route) => route.path === pathname
+    (route) => route.path === pathname,
   )?.title;
 
   if (isQuestionPreview) {

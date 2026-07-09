@@ -8,7 +8,7 @@ import {
   COMMON_QUESTION,
 } from '@/pages/Application/constants';
 
-const APPLICATION_SEARCH_PARAM_KEYS = [
+const APPLICATION_LIST_FILTER_PARAM_KEYS = [
   'season',
   'group',
   'part',
@@ -29,7 +29,43 @@ export const EMPTY_APPLICANT_LIST_PARAMS: GetApplicantListRequest = {
   searchKeyword: '',
 };
 
-export const getNumberParam = (value: string | null) => {
+type OptionalSearchParamValue = string | number | boolean | null | undefined;
+type SearchParamRecord = Record<string, OptionalSearchParamValue>;
+
+const setOptionalSearchParam = (
+  searchParams: URLSearchParams,
+  key: string,
+  value: OptionalSearchParamValue,
+) => {
+  if (value !== undefined && value !== null && value !== '') {
+    searchParams.set(key, String(value));
+  }
+};
+
+const setOptionalSearchParams = (
+  searchParams: URLSearchParams,
+  params: SearchParamRecord,
+) => {
+  Object.entries(params).forEach(([key, value]) => {
+    setOptionalSearchParam(searchParams, key, value);
+  });
+};
+
+const copySearchParams = (
+  sourceSearchParams: URLSearchParams,
+  targetSearchParams: URLSearchParams,
+  keys: readonly string[],
+) => {
+  keys.forEach((key) => {
+    setOptionalSearchParam(
+      targetSearchParams,
+      key,
+      sourceSearchParams.get(key),
+    );
+  });
+};
+
+export const parseNumberSearchParam = (value: string | null) => {
   if (value === null || value === '') return undefined;
 
   const numberValue = Number(value);
@@ -37,7 +73,7 @@ export const getNumberParam = (value: string | null) => {
   return Number.isFinite(numberValue) ? numberValue : undefined;
 };
 
-export const getApplicantIdsFromSearchParams = (
+export const parseApplicantIdsSearchParam = (
   applicantIdsParam: string | null,
 ) => {
   if (!applicantIdsParam) return [];
@@ -51,19 +87,48 @@ export const getApplicantIdsFromSearchParams = (
 export const getLastApplicantId = (applicantIds: number[]) =>
   applicantIds.length > 0 ? applicantIds[applicantIds.length - 1] : undefined;
 
-export const getInitialPage = (searchParams: URLSearchParams) => {
-  const page = getNumberParam(searchParams.get('page'));
-  const offset = getNumberParam(searchParams.get('offset'));
-
-  if (page && page > 0) return page;
-  if (offset !== undefined && offset >= 0) {
-    return Math.floor(offset / APPLICATION_PAGE_LIMIT) + 1;
+const getPageFromOffset = (offset?: number, limit?: number) => {
+  if (offset === undefined || offset < 0 || limit === undefined || limit <= 0) {
+    return undefined;
   }
 
-  return 1;
+  return Math.floor(offset / limit) + 1;
 };
 
-export const getInitialApplicantInfo = (
+const createListParamsFromDetailSearchParams = (
+  searchParams: URLSearchParams,
+): GetApplicantListRequest | undefined => {
+  const season = parseNumberSearchParam(searchParams.get('season'));
+  const group = searchParams.get('group');
+  const offset = parseNumberSearchParam(searchParams.get('offset'));
+  const limit = parseNumberSearchParam(searchParams.get('limit'));
+  const part = searchParams.get('part');
+
+  if (!season || !group || offset === undefined || !limit) return undefined;
+
+  return {
+    season,
+    group: group as GetApplicantListRequest['group'],
+    offset,
+    limit,
+    hideEvaluated: searchParams.get('hideEvaluated') === 'true',
+    checkInterviewPass: searchParams.get('checkInterviewPass') === 'true',
+    passStatus: searchParams.get('passStatus') ?? '',
+    searchKeyword: searchParams.get('searchKeyword') ?? '',
+    ...(part && { part: part as GetApplicantListRequest['part'] }),
+  };
+};
+
+export const getInitialApplicationPage = (searchParams: URLSearchParams) => {
+  const page = parseNumberSearchParam(searchParams.get('page'));
+  const offset = parseNumberSearchParam(searchParams.get('offset'));
+
+  if (page && page > 0) return page;
+
+  return getPageFromOffset(offset, APPLICATION_PAGE_LIMIT) ?? 1;
+};
+
+export const getInitialApplicantInfoFromSearchParams = (
   searchParams: URLSearchParams,
   initialApplicantInfo: ApplicantState,
 ): ApplicantState => ({
@@ -84,7 +149,7 @@ export const getInitialApplicantInfo = (
     searchParams.get('searchKeyword') ?? initialApplicantInfo.searchKeyword,
 });
 
-export const createApplicationSearchParams = ({
+export const createApplicationListSearchParams = ({
   applicantInfo,
   searchKeyword,
   currentPage,
@@ -95,85 +160,52 @@ export const createApplicationSearchParams = ({
 }) => {
   const searchParams = new URLSearchParams();
 
-  if (applicantInfo.season) {
-    searchParams.set('season', applicantInfo.season);
-  }
-  searchParams.set('group', applicantInfo.group);
-  if (applicantInfo.selectedPart !== COMMON_QUESTION) {
-    searchParams.set('part', applicantInfo.selectedPart);
-  }
-  if (applicantInfo.evaluatedInfo.checkedByMe) {
-    searchParams.set('hideEvaluated', 'true');
-  }
-  if (applicantInfo.isPassedOnly) {
-    searchParams.set('checkInterviewPass', 'true');
-  }
-  if (applicantInfo.passStatus) {
-    searchParams.set('passStatus', applicantInfo.passStatus);
-  }
-  if (searchKeyword) {
-    searchParams.set('searchKeyword', searchKeyword);
-  }
-  if (currentPage > 1) {
-    searchParams.set('page', String(currentPage));
-  }
+  setOptionalSearchParams(searchParams, {
+    season: applicantInfo.season,
+    group: applicantInfo.group,
+    part:
+      applicantInfo.selectedPart === COMMON_QUESTION
+        ? undefined
+        : applicantInfo.selectedPart,
+    hideEvaluated: applicantInfo.evaluatedInfo.checkedByMe ? true : undefined,
+    checkInterviewPass: applicantInfo.isPassedOnly ? true : undefined,
+    passStatus: applicantInfo.passStatus,
+    searchKeyword,
+    page: currentPage > 1 ? currentPage : undefined,
+  });
 
   return searchParams;
 };
 
-export const createApplicationSearchParamsFromDetail = (
+export const createApplicationListSearchParamsFromDetail = (
   detailSearchParams: URLSearchParams,
 ) => {
   const applicationSearchParams = new URLSearchParams();
-  const offset = getNumberParam(detailSearchParams.get('offset'));
-  const limit = getNumberParam(detailSearchParams.get('limit'));
+  const offset = parseNumberSearchParam(detailSearchParams.get('offset'));
+  const limit = parseNumberSearchParam(detailSearchParams.get('limit'));
+  const page = getPageFromOffset(offset, limit);
 
-  APPLICATION_SEARCH_PARAM_KEYS.forEach((key) => {
-    const value = detailSearchParams.get(key);
+  copySearchParams(
+    detailSearchParams,
+    applicationSearchParams,
+    APPLICATION_LIST_FILTER_PARAM_KEYS,
+  );
 
-    if (value) {
-      applicationSearchParams.set(key, value);
-    }
-  });
-
-  if (offset !== undefined && limit && limit > 0) {
-    const page = Math.floor(offset / limit) + 1;
-
-    if (page > 1) {
-      applicationSearchParams.set('page', String(page));
-    }
+  // 지원자 목록 페이지 페이지네이션 번호 설정 (상세 페이지에서 목록 페이지로 돌아갈 때 사용)
+  if (page && page > 1) {
+    applicationSearchParams.set('page', String(page));
   }
 
   return applicationSearchParams;
 };
 
 export const getDetailNavigationState = (searchParams: URLSearchParams) => {
-  const applicantIds = getApplicantIdsFromSearchParams(searchParams.get('ids'));
-  const season = getNumberParam(searchParams.get('season'));
-  const group = searchParams.get('group');
-  const offset = getNumberParam(searchParams.get('offset'));
-  const limit = getNumberParam(searchParams.get('limit'));
-  const total = getNumberParam(searchParams.get('total'));
-  const part = searchParams.get('part');
-
-  const listParams =
-    season && group && offset !== undefined && limit
-      ? {
-          season,
-          group: group as GetApplicantListRequest['group'],
-          offset,
-          limit,
-          hideEvaluated: searchParams.get('hideEvaluated') === 'true',
-          checkInterviewPass: searchParams.get('checkInterviewPass') === 'true',
-          passStatus: searchParams.get('passStatus') ?? '',
-          searchKeyword: searchParams.get('searchKeyword') ?? '',
-          ...(part && { part: part as GetApplicantListRequest['part'] }),
-        }
-      : undefined;
+  const applicantIds = parseApplicantIdsSearchParam(searchParams.get('ids'));
+  const total = parseNumberSearchParam(searchParams.get('total'));
 
   return {
     applicantIds,
-    listParams,
+    listParams: createListParamsFromDetailSearchParams(searchParams),
     total: total ?? applicantIds.length,
   };
 };
@@ -188,7 +220,7 @@ export const createApplicationDetailSearchParams = (
     searchParams.set('ids', navigationParams.applicantIds.join(','));
   }
 
-  Object.entries({
+  setOptionalSearchParams(searchParams, {
     season: navigationParams?.season,
     group: navigationParams?.group,
     part: navigationParams?.part,
@@ -199,10 +231,6 @@ export const createApplicationDetailSearchParams = (
     checkInterviewPass: navigationParams?.checkInterviewPass,
     passStatus: navigationParams?.passStatus,
     searchKeyword: navigationParams?.searchKeyword,
-  }).forEach(([key, value]) => {
-    if (value !== undefined && value !== '') {
-      searchParams.set(key, String(value));
-    }
   });
 
   return searchParams;

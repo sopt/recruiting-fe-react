@@ -9,7 +9,7 @@ import {
 } from '@/pages/Application/utils/navigationSearchParams';
 import { ROUTES_CONFIG } from '@/routes/routeConfig';
 
-const ApplicationDetailHeaderNavigation = () => {
+const HeaderNavigation = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -143,4 +143,4 @@ const ApplicationDetailHeaderNavigation = () => {
   );
 };
 
-export default ApplicationDetailHeaderNavigation;
+export default HeaderNavigation;

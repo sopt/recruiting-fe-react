@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ChevronLeft } from '@/assets/svg';
 import BackToTopButton from '@/components/BackToTopButton';
-import { createApplicationSearchParamsFromDetail } from '@/pages/Application/utils/navigationSearchParams';
+import { createApplicationListSearchParamsFromDetail } from '@/pages/Application/utils/navigationSearchParams';
 import Profile from '@/pages/ApplicationDetail/components/Profile';
 import QnaList from '@/pages/ApplicationDetail/components/QnaList';
 import { useGetApplicantDetail } from '@/pages/ApplicationDetail/hooks/queries';
@@ -32,7 +32,7 @@ const ApplicationDetail = () => {
 
   const goApplicantPage = () => {
     const applicationSearchParams =
-      createApplicationSearchParamsFromDetail(searchParams);
+      createApplicationListSearchParamsFromDetail(searchParams);
     const search = applicationSearchParams.toString();
 
     navigate(`${ROUTES_CONFIG.application.path}${search ? `?${search}` : ''}`);
