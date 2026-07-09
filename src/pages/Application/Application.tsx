@@ -33,7 +33,7 @@ const INITIAL_APPLICANT_INFO: ApplicantState = {
   selectedPart: COMMON_QUESTION,
   passStatus: '',
   searchKeyword: '',
-  sortBy: 'SUBMISSION_TIME',
+  sortBy: 'SUBMISSION_AT',
 };
 
 const tabItems = IS_SOPT

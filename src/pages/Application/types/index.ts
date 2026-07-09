@@ -55,7 +55,7 @@ export type ExecutiveType =
 
 export type StatusType = '최종 합격' | '불합격' | '서류 합격' | '확인 전';
 
-export type SortBy = 'SUBMISSION_TIME' | 'ALPHABETICAL_ORDER';
+export type SortBy = 'SUBMISSION_AT' | 'NAME';
 
 export const STATUS_TRANSLATOR = {
   '최종 합격': 'FINAL_PASS',
