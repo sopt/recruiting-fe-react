@@ -41,7 +41,7 @@ type ColumnProps = {
   onEvaluation: (
     applicantId: number,
     evaluationType: EvaluationToggleType,
-    isChecked: boolean
+    isChecked: boolean,
   ) => void;
   convertPassInfoToStatus: (status: StatusType) => string;
   isAllChecked: boolean;
@@ -51,7 +51,7 @@ const TD_BASE_STYLE = 'h-full flex items-center cursor-pointer';
 const TD_CONTENT_STYLE = 'w-full text-center break-words p-[0.8rem] ';
 
 export const createColumns = (
-  props: ColumnProps
+  props: ColumnProps,
 ): ColumnDef<ApplicantRowType>[] => {
   const {
     checkedApplicantSet,
@@ -154,7 +154,7 @@ export const createColumns = (
       cell: ({ row }) => {
         const { id, evaluatedInfo } = row.original;
         const evaluationMessage = getEvaluationMessage(
-          evaluatedInfo.checkedList
+          evaluatedInfo.checkedList,
         );
 
         return (
@@ -214,8 +214,7 @@ export const createColumns = (
         <div className={TD_CONTENT_STYLE}>
           {row.original.mostRecentSeason === 0
             ? '없음'
-            : row.original.mostRecentSeason}
-          기
+            : `${row.original.mostRecentSeason}기`}
         </div>
       ),
       size: 110,

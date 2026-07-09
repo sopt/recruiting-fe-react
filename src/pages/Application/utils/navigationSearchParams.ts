@@ -16,6 +16,7 @@ const APPLICATION_LIST_FILTER_PARAM_KEYS = [
   'checkInterviewPass',
   'passStatus',
   'searchKeyword',
+  'sortBy',
 ] as const;
 
 export const EMPTY_APPLICANT_LIST_PARAMS: GetApplicantListRequest = {
@@ -27,6 +28,7 @@ export const EMPTY_APPLICANT_LIST_PARAMS: GetApplicantListRequest = {
   checkInterviewPass: false,
   passStatus: '',
   searchKeyword: '',
+  sortBy: 'SUBMISSION_AT',
 };
 
 type OptionalSearchParamValue = string | number | boolean | null | undefined;
@@ -115,6 +117,10 @@ const createListParamsFromDetailSearchParams = (
     checkInterviewPass: searchParams.get('checkInterviewPass') === 'true',
     passStatus: searchParams.get('passStatus') ?? '',
     searchKeyword: searchParams.get('searchKeyword') ?? '',
+    sortBy:
+      (searchParams.get('sortBy') as
+        | GetApplicantListRequest['sortBy']
+        | null) ?? 'SUBMISSION_AT',
     ...(part && { part: part as GetApplicantListRequest['part'] }),
   };
 };
@@ -147,6 +153,9 @@ export const getInitialApplicantInfoFromSearchParams = (
   passStatus: searchParams.get('passStatus') ?? initialApplicantInfo.passStatus,
   searchKeyword:
     searchParams.get('searchKeyword') ?? initialApplicantInfo.searchKeyword,
+  sortBy:
+    (searchParams.get('sortBy') as ApplicantState['sortBy'] | null) ??
+    initialApplicantInfo.sortBy,
 });
 
 export const createApplicationListSearchParams = ({
@@ -171,6 +180,7 @@ export const createApplicationListSearchParams = ({
     checkInterviewPass: applicantInfo.isPassedOnly ? true : undefined,
     passStatus: applicantInfo.passStatus,
     searchKeyword,
+    sortBy: applicantInfo.sortBy,
     page: currentPage > 1 ? currentPage : undefined,
   });
 
@@ -231,6 +241,7 @@ export const createApplicationDetailSearchParams = (
     checkInterviewPass: navigationParams?.checkInterviewPass,
     passStatus: navigationParams?.passStatus,
     searchKeyword: navigationParams?.searchKeyword,
+    sortBy: navigationParams?.sortBy,
   });
 
   return searchParams;

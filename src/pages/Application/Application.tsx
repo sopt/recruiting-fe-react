@@ -1,4 +1,4 @@
-import { Tab } from '@sopt-makers/ui';
+import { Button, Tab } from '@sopt-makers/ui';
 import { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Pagination from '@/components/Pagination';
@@ -9,6 +9,7 @@ import {
   type ApplicantState,
   Part,
   type PartType,
+  type PassInfo,
   SoptPart,
   type SoptPartType,
 } from '@/pages/Application/\btypes';
@@ -18,12 +19,17 @@ import {
   APPLICATION_PAGE_LIMIT,
   COMMON_QUESTION,
 } from '@/pages/Application/constants';
-import { useGetApplicantList } from '@/pages/Application/hooks/queries';
+import {
+  useGetApplicantList,
+  usePostApplicantCsv,
+} from '@/pages/Application/hooks/queries';
+
 import {
   createApplicationListSearchParams,
   getInitialApplicantInfoFromSearchParams,
   getInitialApplicationPage,
 } from '@/pages/Application/utils/navigationSearchParams';
+
 import { useGetGeneration } from '@/pages/PostGeneration/hooks/queries';
 
 const INITIAL_APPLICANT_INFO: ApplicantState = {
@@ -36,6 +42,7 @@ const INITIAL_APPLICANT_INFO: ApplicantState = {
   selectedPart: COMMON_QUESTION,
   passStatus: '',
   searchKeyword: '',
+  sortBy: 'SUBMISSION_AT',
 };
 
 const tabItems = IS_SOPT
@@ -80,6 +87,7 @@ const Application = () => {
     checkInterviewPass: applicantInfo.isPassedOnly,
     passStatus: applicantInfo.passStatus,
     searchKeyword: searchApplicantValue,
+    sortBy: applicantInfo.sortBy,
     ...(applicantInfo.selectedPart !== COMMON_QUESTION && {
       part: applicantInfo.selectedPart,
     }),
@@ -87,6 +95,8 @@ const Application = () => {
 
   const { data: applicantList, isLoading } =
     useGetApplicantList(applicantListParams);
+  const { mutate: postApplicantCsv, isPending: isCsvDownloading } =
+    usePostApplicantCsv();
 
   const totalPages =
     applicantList?.meta?.totalPage ??
@@ -97,6 +107,25 @@ const Application = () => {
       setSearchApplicantValue(value);
     }
   }, 200);
+
+  const handleCsvDownload = () => {
+    postApplicantCsv({
+      season: Number(applicantInfo.season),
+      group: applicantInfo.group,
+      hideEvaluated: applicantInfo.evaluatedInfo.checkedByMe,
+      hideDontRead: applicantInfo.isPassedOnly,
+      passStatusFilters: applicantInfo.passStatus
+        ? applicantInfo.passStatus
+            .split(',')
+            .filter((status): status is PassInfo => Boolean(status))
+        : [],
+      searchKeyword: searchInputValue.trim(),
+      sortBy: applicantInfo.sortBy,
+      ...(applicantInfo.selectedPart !== COMMON_QUESTION && {
+        part: applicantInfo.selectedPart,
+      }),
+    });
+  };
 
   useEffect(() => {
     debouncedSetSearchValue(searchInputValue);
@@ -134,6 +163,7 @@ const Application = () => {
     applicantInfo.isPassedOnly,
     applicantInfo.selectedPart,
     applicantInfo.passStatus,
+    applicantInfo.sortBy,
     searchApplicantValue,
   ]);
 
@@ -154,6 +184,7 @@ const Application = () => {
     applicantInfo.evaluatedInfo.checkedByMe,
     applicantInfo.isPassedOnly,
     applicantInfo.passStatus,
+    applicantInfo.sortBy,
     searchApplicantValue,
     currentPage,
     searchParams,
@@ -164,7 +195,7 @@ const Application = () => {
     <>
       <div className="flex flex-col gap-[4.4rem] overflow-hidden">
         <div
-          className={`flex flex-col gap-[4.4rem] justify-between pr-[12.4rem] transition-all duration-300 ${
+          className={`relative flex flex-col gap-[4.4rem] justify-between pr-[12.4rem] transition-all duration-300 ${
             isOpen ? 'pl-[21.2rem]' : 'pl-[12.4rem]'
           }`}
         >
@@ -177,22 +208,35 @@ const Application = () => {
               setSearchInputValue(value);
             }}
           />
-          <Tab
-            style="primary"
-            size="md"
-            selectedInitial={applicantInfo.selectedPart}
-            tabItems={tabItems}
-            onChange={(selectedPart) => {
-              setApplicantInfo((prev) => ({ ...prev, selectedPart }));
-              setCurrentPage(1);
-            }}
-          />
+
+          <div className="relative flex flex-col gap-[0.8rem]">
+            <Tab
+              style="primary"
+              size="md"
+              tabItems={tabItems}
+              onChange={(selectedPart) => {
+                setApplicantInfo((prev) => ({ ...prev, selectedPart }));
+                setCurrentPage(1);
+              }}
+            />
+            <hr
+              className={
+                'border-gray800 w-[98rem] mt-[-1rem] transition-all duration-300'
+              }
+            />
+          </div>
+          <div className="absolute right-[6.9rem] top-[21rem]">
+            <Button
+              theme="black"
+              size="md"
+              onClick={handleCsvDownload}
+              disabled={isCsvDownloading || !applicantInfo.season}
+            >
+              CSV 다운로드
+            </Button>
+          </div>
         </div>
-        <hr
-          className={`border-gray800 mt-[-4.7rem] w-[98rem] transition-all duration-300 ${
-            isOpen ? 'ml-[21.2rem]' : 'ml-[12.4rem]'
-          }`}
-        />
+
         <ApplicationTable
           navigationParams={
             applicantList

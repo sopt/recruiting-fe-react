@@ -55,6 +55,8 @@ export type ExecutiveType =
 
 export type StatusType = '최종 합격' | '불합격' | '서류 합격' | '확인 전';
 
+export type SortBy = 'SUBMISSION_AT' | 'NAME';
+
 export const STATUS_TRANSLATOR = {
   '최종 합격': 'FINAL_PASS',
   불합격: 'FAIL',
@@ -63,7 +65,38 @@ export const STATUS_TRANSLATOR = {
 };
 
 export type SOPTPart = '기획' | '디자인' | '서버' | 'iOS' | '안드로이드' | '웹';
-
+export interface ApplicationTableProps {
+  isLoading: boolean;
+  data: {
+    data: {
+      id: number;
+      status: StatusType;
+      name: string;
+      pictureUrl: string;
+      part: PartType | SoptPartType;
+      evaluatedInfo: {
+        checkedByMe: boolean;
+        checkedList: string[];
+      };
+      submittedAt: string;
+      generation: number;
+      birth: string;
+      university: string;
+      major: string;
+      mostRecentSeason: number;
+      email: string;
+      phone: string;
+    }[];
+    meta: {
+      total: number;
+      totalPage: number;
+      currentPage: number;
+      limit: number;
+      offset: number;
+    };
+  };
+}
+[];
 export interface GetApplicantListRequest {
   season: number;
   group: Group;
@@ -74,6 +107,18 @@ export interface GetApplicantListRequest {
   checkInterviewPass: boolean;
   passStatus: string;
   searchKeyword: string;
+  sortBy: SortBy;
+}
+
+export interface PostApplicantCsvRequest {
+  season: number;
+  group: Group;
+  part?: PartType | SoptPartType;
+  hideEvaluated: boolean;
+  hideDontRead: boolean;
+  passStatusFilters: PassInfo[];
+  searchKeyword: string;
+  sortBy: SortBy;
 }
 
 export type ApplicationDetailNavigationParams =
@@ -186,4 +231,5 @@ export interface ApplicantState {
   selectedPart: PartType | SoptPartType;
   passStatus: string;
   searchKeyword: string;
+  sortBy: SortBy;
 }

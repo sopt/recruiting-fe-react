@@ -1,5 +1,6 @@
 import { IconXClose } from '@sopt-makers/icons';
 import { SelectV2, TextField, Toggle } from '@sopt-makers/ui';
+import { SwitchVertical } from '@/assets/svg';
 import YbObRadioGroup from '@/components/YbObRadioGroup';
 import type { ApplicantState, PassInfo } from '@/pages/Application/\btypes';
 import type { GetGenerationResponse } from '@/pages/PostGeneration/types';
@@ -21,6 +22,11 @@ const STATUS_OPTIONS: { label: string; value: PassInfo }[] = [
   { label: '확인 전', value: 'NOT_EVALUATED' },
 ];
 
+const SORT_OPTIONS: { label: string; value: ApplicantState['sortBy'] }[] = [
+  { label: '제출 시간순', value: 'SUBMISSION_AT' },
+  { label: '가나다순', value: 'NAME' },
+];
+
 const Filter = ({
   generationData,
   applicantInfo,
@@ -34,11 +40,21 @@ const Filter = ({
   const selectedStatusOptions = STATUS_OPTIONS.filter((option) =>
     selectedPassStatus.includes(option.value),
   );
+  const selectedSortOption = SORT_OPTIONS.find(
+    (option) => option.value === applicantInfo.sortBy,
+  );
 
   const handlePassStatusChange = (value: PassInfo | PassInfo[]) => {
     setApplicantInfo((prev) => ({
       ...prev,
       passStatus: Array.isArray(value) ? value.join(',') : value,
+    }));
+  };
+
+  const handleSortChange = (option: { value: ApplicantState['sortBy'] }) => {
+    setApplicantInfo((prev) => ({
+      ...prev,
+      sortBy: option.value,
     }));
   };
 
@@ -129,6 +145,33 @@ const Filter = ({
                         label: option.label,
                         value: option.value,
                       }}
+                    />
+                  ))}
+                </SelectV2.Menu>
+              ) : null}
+            </SelectV2.Root>
+          </div>
+          <div className="flex flex-col gap-[0.8rem]">
+            <span className="flex body_3_14_r text-gray100">정렬</span>
+            <SelectV2.Root visibleOptions={7} type="text">
+              <SelectV2.Trigger>
+                <div>
+                  <SelectV2.TriggerContent
+                    placeholder={selectedSortOption?.label ?? '제출 시간순'}
+                    icon={<SwitchVertical className="w-[2rem] h-[2rem]" />}
+                  />
+                </div>
+              </SelectV2.Trigger>
+              {SORT_OPTIONS.length > 0 ? (
+                <SelectV2.Menu>
+                  {SORT_OPTIONS.map((option) => (
+                    <SelectV2.MenuItem
+                      key={option.value}
+                      option={{
+                        label: option.label,
+                        value: option.value,
+                      }}
+                      onClick={() => handleSortChange({ value: option.value })}
                     />
                   ))}
                 </SelectV2.Menu>
