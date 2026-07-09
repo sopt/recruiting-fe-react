@@ -70,23 +70,23 @@ export interface ApplicationTableProps {
   isLoading: boolean;
   data: {
     data: {
-    id: number;
-    status: StatusType;
-    name: string;
-    pictureUrl: string;
-    part: PartType | SoptPartType;
-    evaluatedInfo: {
-      checkedByMe: boolean;
-      checkedList: string[];
-    };
-    submittedAt: string;
-    generation: number;
-    birth: string;
-    university: string;
-    major: string;
-    mostRecentSeason: number;
-    email: string;
-    phone: string;
+      id: number;
+      status: StatusType;
+      name: string;
+      pictureUrl: string;
+      part: PartType | SoptPartType;
+      evaluatedInfo: {
+        checkedByMe: boolean;
+        checkedList: string[];
+      };
+      submittedAt: string;
+      generation: number;
+      birth: string;
+      university: string;
+      major: string;
+      mostRecentSeason: number;
+      email: string;
+      phone: string;
     }[];
     meta: {
       total: number;
@@ -115,14 +115,12 @@ export interface GetApplicantListRequest {
 export interface PostApplicantCsvRequest {
   season: number;
   group: Group;
-  part: PartType | SoptPartType;
+  part?: PartType | SoptPartType;
   hideEvaluated: boolean;
   hideDontRead: boolean;
   passStatusFilters: PassInfo[];
   searchKeyword: string;
   sortBy: SortBy;
-  trimmedSearchKeyword: string;
-  effectivePart: PartType | SoptPartType | '';
 }
 
 export interface GetApplicantListResponse {
