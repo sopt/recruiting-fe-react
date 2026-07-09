@@ -40,6 +40,9 @@ const Filter = ({
   const selectedStatusOptions = STATUS_OPTIONS.filter((option) =>
     selectedPassStatus.includes(option.value),
   );
+  const selectedSortOption = SORT_OPTIONS.find(
+    (option) => option.value === applicantInfo.sortBy,
+  );
 
   const handlePassStatusChange = (value: PassInfo | PassInfo[]) => {
     setApplicantInfo((prev) => ({
@@ -154,7 +157,7 @@ const Filter = ({
               <SelectV2.Trigger>
                 <div>
                   <SelectV2.TriggerContent
-                    placeholder={'제출 시간순'}
+                    placeholder={selectedSortOption?.label ?? '제출 시간순'}
                     icon={<SwitchVertical className="w-[2rem] h-[2rem]" />}
                   />
                 </div>

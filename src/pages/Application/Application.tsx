@@ -184,6 +184,7 @@ const Application = () => {
     applicantInfo.evaluatedInfo.checkedByMe,
     applicantInfo.isPassedOnly,
     applicantInfo.passStatus,
+    applicantInfo.sortBy,
     searchApplicantValue,
     currentPage,
     searchParams,
