@@ -1,5 +1,11 @@
+import dayjs from 'dayjs';
+
 import { tokenApi } from '@/apis/api';
 import type { PostApplicantCsvRequest } from '@/pages/Application/\btypes';
+
+const createDefaultCsvFileName = (season: number) => {
+  return `지원자목록_${season}_${dayjs().format('YYYYMMDD_HHmmss')}.csv`;
+};
 
 const getCsvFileName = (
   contentDisposition: string | null,
@@ -15,7 +21,7 @@ const getCsvFileName = (
 
   const fileName = contentDisposition?.match(/filename="?([^";]+)"?/i)?.[1];
 
-  return fileName ?? `applicants_${request.season}_${request.group}.csv`;
+  return fileName ?? createDefaultCsvFileName(request.season);
 };
 
 export const postApplicantCsv = async (request: PostApplicantCsvRequest) => {
