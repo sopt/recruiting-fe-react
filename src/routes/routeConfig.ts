@@ -1,16 +1,5 @@
-type ApplicationDetailNavigationParams = {
-  applicantIds?: number[];
-  season?: number;
-  group?: string;
-  part?: string;
-  offset?: number;
-  limit?: number;
-  total?: number;
-  hideEvaluated?: boolean;
-  checkInterviewPass?: boolean;
-  passStatus?: string;
-  searchKeyword?: string;
-};
+import type { ApplicationDetailNavigationParams } from '@/pages/Application/\btypes';
+import { createApplicationDetailSearchParams } from '@/pages/Application/utils/navigationSearchParams';
 
 export const ROUTES_CONFIG = {
   login: {
@@ -35,32 +24,11 @@ export const ROUTES_CONFIG = {
     generatePath: (
       id: number,
       navigationParams?: ApplicationDetailNavigationParams,
-    ) => {
-      const searchParams = new URLSearchParams({ id: String(id) });
-
-      if (navigationParams?.applicantIds?.length) {
-        searchParams.set('ids', navigationParams.applicantIds.join(','));
-      }
-
-      Object.entries({
-        season: navigationParams?.season,
-        group: navigationParams?.group,
-        part: navigationParams?.part,
-        offset: navigationParams?.offset,
-        limit: navigationParams?.limit,
-        total: navigationParams?.total,
-        hideEvaluated: navigationParams?.hideEvaluated,
-        checkInterviewPass: navigationParams?.checkInterviewPass,
-        passStatus: navigationParams?.passStatus,
-        searchKeyword: navigationParams?.searchKeyword,
-      }).forEach(([key, value]) => {
-        if (value !== undefined && value !== '') {
-          searchParams.set(key, String(value));
-        }
-      });
-
-      return `/application/detail?${searchParams.toString()}`;
-    },
+    ) =>
+      `/application/detail?${createApplicationDetailSearchParams(
+        id,
+        navigationParams,
+      ).toString()}`,
   },
   questionPreview: {
     title: '미리보기',

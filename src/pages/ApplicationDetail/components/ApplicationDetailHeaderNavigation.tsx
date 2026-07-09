@@ -1,77 +1,23 @@
 import { useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ChevronDown } from '@/assets/svg';
-import type { GetApplicantListRequest } from '@/pages/Application/\btypes';
 import { useGetApplicantList } from '@/pages/Application/hooks/queries';
+import {
+  EMPTY_APPLICANT_LIST_PARAMS,
+  getDetailNavigationState,
+  getLastApplicantId,
+} from '@/pages/Application/utils/navigationSearchParams';
 import { ROUTES_CONFIG } from '@/routes/routeConfig';
-
-const EMPTY_APPLICANT_LIST_PARAMS: GetApplicantListRequest = {
-  season: 0,
-  group: 'YB',
-  offset: 0,
-  limit: 10,
-  hideEvaluated: false,
-  checkInterviewPass: false,
-  passStatus: '',
-  searchKeyword: '',
-};
-
-const getNumberParam = (value: string | null) => {
-  const numberValue = Number(value);
-
-  return Number.isFinite(numberValue) ? numberValue : undefined;
-};
-
-const getNavigationApplicantIds = (applicantIdsParam: string | null) => {
-  if (!applicantIdsParam) return [];
-
-  return applicantIdsParam
-    .split(',')
-    .map(Number)
-    .filter((id): id is number => Number.isFinite(id));
-};
-
-const getLastApplicantId = (applicantIds: number[]) =>
-  applicantIds.length > 0 ? applicantIds[applicantIds.length - 1] : undefined;
 
 const ApplicationDetailHeaderNavigation = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
   const applicantId = Number(searchParams.get('id'));
-  const navigationState = useMemo(() => {
-    const applicantIds = getNavigationApplicantIds(searchParams.get('ids'));
-    const season = getNumberParam(searchParams.get('season'));
-    const group = searchParams.get('group');
-    const offset = getNumberParam(searchParams.get('offset'));
-    const limit = getNumberParam(searchParams.get('limit'));
-    const total = getNumberParam(searchParams.get('total'));
-    const part = searchParams.get('part');
-
-    const listParams =
-      season && group && offset !== undefined && limit
-        ? {
-            season,
-            group: group as GetApplicantListRequest['group'],
-            offset,
-            limit,
-            hideEvaluated: searchParams.get('hideEvaluated') === 'true',
-            checkInterviewPass:
-              searchParams.get('checkInterviewPass') === 'true',
-            passStatus: searchParams.get('passStatus') ?? '',
-            searchKeyword: searchParams.get('searchKeyword') ?? '',
-            ...(part && { part: part as GetApplicantListRequest['part'] }),
-          }
-        : undefined;
-
-    return {
-      applicantIds,
-      listParams,
-      total: total ?? applicantIds.length,
-    };
-  }, [searchParams]);
-
-  const { applicantIds, listParams, total } = navigationState;
+  const { applicantIds, listParams, total } = useMemo(
+    () => getDetailNavigationState(searchParams),
+    [searchParams],
+  );
 
   const { previousApplicantId, nextApplicantId, currentIndex } = useMemo(() => {
     const currentIndex = applicantIds.findIndex((id) => id === applicantId);
