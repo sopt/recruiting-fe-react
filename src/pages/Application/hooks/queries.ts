@@ -20,11 +20,14 @@ export const ApplicantKeys = {
     [...ApplicantKeys.all(), 'detail', applicantId] as const,
 } as const;
 
-export const useGetApplicantList = (params: GetApplicantListRequest) => {
+export const useGetApplicantList = (
+  params: GetApplicantListRequest,
+  options?: { enabled?: boolean },
+) => {
   return useQuery({
     queryKey: ApplicantKeys.filteredList(params),
     queryFn: () => getApplicantList(params),
-    enabled: !!params.season,
+    enabled: !!params.season && (options?.enabled ?? true),
   });
 };
 
@@ -55,20 +58,22 @@ export const usePostEvalution = () => {
         queryKey: ApplicantKeys.list(),
       });
 
-      const snapshotsData =
-        queryClient.getQueriesData<CachedData>({
-          queryKey: ApplicantKeys.list(),
-        });
+      const snapshotsData = queryClient.getQueriesData<CachedData>({
+        queryKey: ApplicantKeys.list(),
+      });
 
       const applyUpdate = (prev?: CachedData) => {
         if (!prev) return prev;
         const prevList = prev.data ?? [];
 
         const targetIndex = prevList.findIndex(
-          (applicant) => applicant.id === evaluationInfo.applicantId
+          (applicant) => applicant.id === evaluationInfo.applicantId,
         );
 
-        if (targetIndex === -1 || evaluationInfo.evaluationType !== 'EVALUATION') {
+        if (
+          targetIndex === -1 ||
+          evaluationInfo.evaluationType !== 'EVALUATION'
+        ) {
           return prev;
         }
 
@@ -98,10 +103,7 @@ export const usePostEvalution = () => {
       };
 
       snapshotsData.forEach(([key, prev]) => {
-        queryClient.setQueryData<CachedData>(
-          key,
-          applyUpdate(prev)
-        );
+        queryClient.setQueryData<CachedData>(key, applyUpdate(prev));
       });
 
       return { snapshotsData };

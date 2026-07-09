@@ -28,12 +28,16 @@ import {
 } from '@/pages/Application/utils';
 import { scrollToLeft } from '@/utils/scroll';
 
-const ApplicationTable = ({ data: { data = [], meta }, isLoading }: ApplicationTableProps) => {
+const ApplicationTable = ({
+  data: { data = [], meta },
+  isLoading,
+  navigationParams,
+}: ApplicationTableProps) => {
   const [passStatusList, setPassStatusList] = useState<Record<number, string>>(
-    {}
+    {},
   );
   const [checkedApplicantList, setCheckedApplicantList] = useState<number[]>(
-    []
+    [],
   );
 
   const tableRef = useRef<HTMLDivElement>(null);
@@ -47,7 +51,7 @@ const ApplicationTable = ({ data: { data = [], meta }, isLoading }: ApplicationT
 
   const checkedApplicantSet = useMemo(
     () => new Set(checkedApplicantList),
-    [checkedApplicantList]
+    [checkedApplicantList],
   );
 
   const isAllChecked =
@@ -61,7 +65,7 @@ const ApplicationTable = ({ data: { data = [], meta }, isLoading }: ApplicationT
         setCheckedApplicantList([]);
       }
     },
-    [data]
+    [data],
   );
 
   const handleCheckApplicant = useCallback(
@@ -73,7 +77,7 @@ const ApplicationTable = ({ data: { data = [], meta }, isLoading }: ApplicationT
         setCheckedApplicantList((prev) => prev.filter((x) => x !== id));
       }
     },
-    []
+    [],
   );
 
   const handleStatusChange = useCallback(
@@ -89,17 +93,17 @@ const ApplicationTable = ({ data: { data = [], meta }, isLoading }: ApplicationT
               queryKey: ApplicantKeys.detail(id),
             });
           },
-        }
+        },
       );
     },
-    [postPassStatus, queryClient]
+    [postPassStatus, queryClient],
   );
 
   const handleEvaluation = useCallback(
     (
       applicantId: number,
       evaluationType: EvaluationToggleType,
-      isChecked: boolean
+      isChecked: boolean,
     ) => {
       mutate(
         { applicantId, evaluationType, isChecked },
@@ -109,10 +113,10 @@ const ApplicationTable = ({ data: { data = [], meta }, isLoading }: ApplicationT
               queryKey: ApplicantKeys.detail(applicantId),
             });
           },
-        }
+        },
       );
     },
-    [mutate, queryClient]
+    [mutate, queryClient],
   );
 
   useEffect(() => {
@@ -127,7 +131,7 @@ const ApplicationTable = ({ data: { data = [], meta }, isLoading }: ApplicationT
         e.stopPropagation();
       }
     },
-    []
+    [],
   );
 
   const handleCellKeyDown = useCallback(
@@ -138,7 +142,7 @@ const ApplicationTable = ({ data: { data = [], meta }, isLoading }: ApplicationT
         stopEventPropagationOnKey(e, ['Enter', ' ']);
       }
     },
-    []
+    [],
   );
 
   const columns = useMemo(
@@ -161,7 +165,7 @@ const ApplicationTable = ({ data: { data = [], meta }, isLoading }: ApplicationT
       handleStatusChange,
       handleEvaluation,
       isAllChecked,
-    ]
+    ],
   );
 
   const table = useReactTable({
@@ -198,7 +202,17 @@ const ApplicationTable = ({ data: { data = [], meta }, isLoading }: ApplicationT
         isLoading={isLoading}
         emptyMessage="확인할 수 있는 지원서가 없어요."
         skeletonComponent={skeletonComponent}
-        onRowClick={(row) => goApplicationDetail(row.original.id)}
+        onRowClick={(row) =>
+          goApplicationDetail(
+            row.original.id,
+            navigationParams
+              ? {
+                  ...navigationParams,
+                  applicantIds: data.map((applicant) => applicant.id),
+                }
+              : undefined,
+          )
+        }
         onCellClick={handleCellClick}
         onCellKeyDown={handleCellKeyDown}
         headerContent={headerContent}

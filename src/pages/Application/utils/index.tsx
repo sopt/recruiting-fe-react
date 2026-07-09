@@ -1,9 +1,12 @@
 import type React from 'react';
-import type { StatusType } from '@/pages/Application/\btypes';
+import type {
+  ApplicationDetailNavigationParams,
+  StatusType,
+} from '@/pages/Application/\btypes';
 import { ROUTES_CONFIG } from '@/routes/routeConfig';
 
 export const convertStatusToPassInfo = (
-  status: StatusType
+  status: StatusType,
 ): { applicationPass: boolean | null; finalPass: boolean | null } => {
   switch (status) {
     case '확인 전':
@@ -53,8 +56,14 @@ export const convertPassInfoToStatus = (passInfo: string) => {
 //   }
 // };
 
-export const goApplicationDetail = (applicantId: number) => {
-  const path = ROUTES_CONFIG.applicationDetail.generatePath(applicantId);
+export const goApplicationDetail = (
+  applicantId: number,
+  navigationParams?: ApplicationDetailNavigationParams,
+) => {
+  const path = ROUTES_CONFIG.applicationDetail.generatePath(
+    applicantId,
+    navigationParams,
+  );
   const url = `${window.location.origin}${
     path.startsWith('/') ? '' : '/'
   }${path}`;
@@ -63,7 +72,7 @@ export const goApplicationDetail = (applicantId: number) => {
 
 export const stopEventPropagationOnKey = (
   e: React.KeyboardEvent,
-  keys: string[]
+  keys: string[],
 ) => {
   if (keys.includes(e.key)) {
     e.stopPropagation();
