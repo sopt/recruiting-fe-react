@@ -43,6 +43,7 @@ const HeaderNavigation = () => {
     ? { ...listParams, offset: listParams.offset + listParams.limit }
     : EMPTY_APPLICANT_LIST_PARAMS;
 
+  // 현재 URL의 지원자 ID 목록만으로 이전/다음 이동이 불가능한 경우 추가 조회
   const shouldFetchPreviousPage =
     !!listParams &&
     !previousApplicantId &&
