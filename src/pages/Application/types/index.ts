@@ -65,7 +65,6 @@ export const STATUS_TRANSLATOR = {
 };
 
 export type SOPTPart = '기획' | '디자인' | '서버' | 'iOS' | '안드로이드' | '웹';
-
 export interface ApplicationTableProps {
   isLoading: boolean;
   data: {
@@ -98,7 +97,6 @@ export interface ApplicationTableProps {
   };
 }
 [];
-
 export interface GetApplicantListRequest {
   season: number;
   group: Group;
@@ -123,29 +121,43 @@ export interface PostApplicantCsvRequest {
   sortBy: SortBy;
 }
 
+export type ApplicationDetailNavigationParams =
+  Partial<GetApplicantListRequest> & {
+    applicantIds?: number[];
+    total?: number;
+  };
+
+export interface ApplicationTableProps {
+  isLoading: boolean;
+  data: GetApplicantListResponse['data'];
+  navigationParams: (GetApplicantListRequest & { total: number }) | null;
+}
+
+export interface ApplicantListItem {
+  id: number;
+  status: StatusType;
+  name: string;
+  pictureUrl: string;
+  part: PartType | SoptPartType;
+  evaluatedInfo: {
+    checkedByMe: boolean;
+    checkedList: string[];
+  };
+  submittedAt: string;
+  generation: number;
+  birth: string;
+  university: string;
+  major: string;
+  mostRecentSeason: number;
+  email: string;
+  phone: string;
+}
+
 export interface GetApplicantListResponse {
   success: boolean;
   message: string;
   data: {
-    data: {
-      id: number;
-      status: StatusType;
-      name: string;
-      pictureUrl: string;
-      part: PartType | SoptPartType;
-      evaluatedInfo: {
-        checkedByMe: boolean;
-        checkedList: string[];
-      };
-      submittedAt: string;
-      generation: number;
-      birth: string;
-      university: string;
-      major: string;
-      mostRecentSeason: number;
-      email: string;
-      phone: string;
-    }[];
+    data: ApplicantListItem[];
     meta: {
       currentPage: number;
       limit: number;

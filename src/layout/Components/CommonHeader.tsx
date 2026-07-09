@@ -2,6 +2,7 @@ import { useLocation } from 'react-router-dom';
 import { useNav } from '@/contexts/NavContext';
 import LogoutButton from '@/layout/Components/LogoutButton';
 import QuestionPreviewHeader from '@/layout/Components/QuestionPreviewHeader';
+import ApplicationDetailHeaderNavigation from '@/pages/ApplicationDetail/components/HeaderNavigation';
 import { ROUTES_CONFIG } from '@/routes/routeConfig';
 
 const CommonHeader = () => {
@@ -9,9 +10,10 @@ const CommonHeader = () => {
   const { isOpen } = useNav();
 
   const isQuestionPreview = pathname === ROUTES_CONFIG.questionPreview.path;
+  const isApplicationDetail = pathname === ROUTES_CONFIG.applicationDetail.path;
 
   const title = Object.values(ROUTES_CONFIG).find(
-    (route) => route.path === pathname
+    (route) => route.path === pathname,
   )?.title;
 
   if (isQuestionPreview) {
@@ -33,13 +35,17 @@ const CommonHeader = () => {
         </div>
         <LogoutButton />
       </div>
-      <h1
-        className={`absolute top-[8.8rem] title_1_32_sb text-gray10 transition-all duration-300 ease-out ${
+      <div
+        className={`absolute top-[8.8rem] transition-all duration-300 ease-out ${
           isOpen ? 'ml-[33.6rem]' : 'ml-[20rem]'
         }`}
       >
-        {title}
-      </h1>
+        {isApplicationDetail ? (
+          <ApplicationDetailHeaderNavigation />
+        ) : (
+          <h1 className="title_1_32_sb text-gray10">{title}</h1>
+        )}
+      </div>
     </header>
   );
 };

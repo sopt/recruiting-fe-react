@@ -1,3 +1,6 @@
+import type { ApplicationDetailNavigationParams } from '@/pages/Application/\btypes';
+import { createApplicationDetailSearchParams } from '@/pages/Application/utils/navigationSearchParams';
+
 export const ROUTES_CONFIG = {
   login: {
     title: '로그인',
@@ -18,7 +21,14 @@ export const ROUTES_CONFIG = {
   applicationDetail: {
     title: '지원서 관리',
     path: '/application/detail',
-    generatePath: (id: number) => `/application/detail?id=${id}`,
+    generatePath: (
+      id: number,
+      navigationParams?: ApplicationDetailNavigationParams,
+    ) =>
+      `/application/detail?${createApplicationDetailSearchParams(
+        id,
+        navigationParams,
+      ).toString()}`,
   },
   questionPreview: {
     title: '미리보기',

@@ -1,5 +1,6 @@
 import { Button, Tab } from '@sopt-makers/ui';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import Pagination from '@/components/Pagination';
 import { IS_SOPT } from '@/constants';
 import { useNav } from '@/contexts/NavContext';
@@ -14,14 +15,22 @@ import {
 } from '@/pages/Application/\btypes';
 import ApplicationTable from '@/pages/Application/components/ApplicationTable';
 import Filter from '@/pages/Application/components/Filter';
-import { COMMON_QUESTION } from '@/pages/Application/constants';
+import {
+  APPLICATION_PAGE_LIMIT,
+  COMMON_QUESTION,
+} from '@/pages/Application/constants';
 import {
   useGetApplicantList,
   usePostApplicantCsv,
 } from '@/pages/Application/hooks/queries';
-import { useGetGeneration } from '@/pages/PostGeneration/hooks/queries';
 
-const PAGE_LIMIT = 10;
+import {
+  createApplicationListSearchParams,
+  getInitialApplicantInfoFromSearchParams,
+  getInitialApplicationPage,
+} from '@/pages/Application/utils/navigationSearchParams';
+
+import { useGetGeneration } from '@/pages/PostGeneration/hooks/queries';
 
 const INITIAL_APPLICANT_INFO: ApplicantState = {
   season: '',
@@ -41,22 +50,39 @@ const tabItems = IS_SOPT
   : (Object.keys(Part) as PartType[]);
 
 const Application = () => {
-  const [applicantInfo, setApplicantInfo] = useState<ApplicantState>(
-    INITIAL_APPLICANT_INFO,
+  const [searchParams, setSearchParams] = useSearchParams();
+  const didMountRef = useRef(false);
+
+  const initialSearchKeyword = searchParams.get('searchKeyword') ?? '';
+
+  const [applicantInfo, setApplicantInfo] = useState<ApplicantState>(() =>
+    getInitialApplicantInfoFromSearchParams(
+      searchParams,
+      INITIAL_APPLICANT_INFO,
+    ),
   );
-  const [currentPage, setCurrentPage] = useState(1);
-  const [searchInputValue, setSearchInputValue] = useState('');
-  const [searchApplicantValue, setSearchApplicantValue] = useState('');
+  const [currentPage, setCurrentPage] = useState(() =>
+    getInitialApplicationPage(searchParams),
+  );
+  const [searchInputValue, setSearchInputValue] =
+    useState(initialSearchKeyword);
+  const [searchApplicantValue, setSearchApplicantValue] =
+    useState(initialSearchKeyword);
 
   const { isOpen } = useNav();
+
+  const handleFilterChange: typeof setApplicantInfo = (info) => {
+    setCurrentPage(1);
+    setApplicantInfo(info);
+  };
 
   const { data: generationData } = useGetGeneration(applicantInfo.group);
 
   const applicantListParams = {
     season: Number(applicantInfo.season),
     group: applicantInfo.group,
-    offset: (currentPage - 1) * PAGE_LIMIT,
-    limit: PAGE_LIMIT,
+    offset: (currentPage - 1) * APPLICATION_PAGE_LIMIT,
+    limit: APPLICATION_PAGE_LIMIT,
     hideEvaluated: applicantInfo.evaluatedInfo.checkedByMe,
     checkInterviewPass: applicantInfo.isPassedOnly,
     passStatus: applicantInfo.passStatus,
@@ -74,7 +100,7 @@ const Application = () => {
 
   const totalPages =
     applicantList?.meta?.totalPage ??
-    Math.ceil((applicantList?.meta?.total ?? 0) / PAGE_LIMIT);
+    Math.ceil((applicantList?.meta?.total ?? 0) / APPLICATION_PAGE_LIMIT);
 
   const debouncedSetSearchValue = useDebouncedCallback((value) => {
     if (typeof value === 'string') {
@@ -124,6 +150,11 @@ const Application = () => {
   }, [generationData, applicantInfo.group]);
 
   useEffect(() => {
+    if (!didMountRef.current) {
+      didMountRef.current = true;
+      return;
+    }
+
     setCurrentPage(1);
   }, [
     applicantInfo.season,
@@ -134,6 +165,29 @@ const Application = () => {
     applicantInfo.passStatus,
     applicantInfo.sortBy,
     searchApplicantValue,
+  ]);
+
+  useEffect(() => {
+    const nextSearchParams = createApplicationListSearchParams({
+      applicantInfo,
+      searchKeyword: searchApplicantValue,
+      currentPage,
+    });
+
+    if (nextSearchParams.toString() !== searchParams.toString()) {
+      setSearchParams(nextSearchParams, { replace: true });
+    }
+  }, [
+    applicantInfo.season,
+    applicantInfo.group,
+    applicantInfo.selectedPart,
+    applicantInfo.evaluatedInfo.checkedByMe,
+    applicantInfo.isPassedOnly,
+    applicantInfo.passStatus,
+    searchApplicantValue,
+    currentPage,
+    searchParams,
+    setSearchParams,
   ]);
 
   return (
@@ -148,11 +202,12 @@ const Application = () => {
             generationData={generationData}
             applicantInfo={applicantInfo}
             searchApplicantValue={searchInputValue}
-            setApplicantInfo={setApplicantInfo}
+            setApplicantInfo={handleFilterChange}
             onSearchChange={(value) => {
               setSearchInputValue(value);
             }}
           />
+
           <div className="relative flex flex-col gap-[0.8rem]">
             <Tab
               style="primary"
@@ -182,6 +237,11 @@ const Application = () => {
         </div>
 
         <ApplicationTable
+          navigationParams={
+            applicantList
+              ? { ...applicantListParams, total: applicantList.meta.total }
+              : null
+          }
           data={
             applicantList ?? {
               data: [],

@@ -15,7 +15,7 @@ interface FilterProps {
   onSearchChange?: (value: string) => void;
 }
 
-const STATUS_OPTIONS = [
+const STATUS_OPTIONS: { label: string; value: PassInfo }[] = [
   { label: '최종 합격', value: 'FINAL_PASS' },
   { label: '서류 합격', value: 'INTERVIEW_PASS' },
   { label: '불합격', value: 'FAIL' },
@@ -34,25 +34,18 @@ const Filter = ({
   setApplicantInfo,
   onSearchChange,
 }: FilterProps) => {
-  const handlePassStatusChange = (option: { value: PassInfo }) => {
-    setApplicantInfo((prev) => {
-      const targetValue = option.value;
+  const selectedPassStatus = applicantInfo.passStatus
+    ? applicantInfo.passStatus.split(',')
+    : [];
+  const selectedStatusOptions = STATUS_OPTIONS.filter((option) =>
+    selectedPassStatus.includes(option.value),
+  );
 
-      const statusArray = prev.passStatus
-        ? prev.passStatus.split(',').filter(Boolean)
-        : [];
-
-      const isSelected = statusArray.includes(targetValue);
-
-      const newArray = isSelected
-        ? statusArray.filter((status) => status !== targetValue)
-        : [...statusArray, targetValue];
-
-      return {
-        ...prev,
-        passStatus: newArray.join(','),
-      };
-    });
+  const handlePassStatusChange = (value: PassInfo | PassInfo[]) => {
+    setApplicantInfo((prev) => ({
+      ...prev,
+      passStatus: Array.isArray(value) ? value.join(',') : value,
+    }));
   };
 
   const handleSortChange = (option: { value: ApplicantState['sortBy'] }) => {
@@ -128,7 +121,13 @@ const Filter = ({
           </div>
           <div className="flex flex-col gap-[0.8rem]">
             <span className="flex body_3_14_r text-gray100">합격 여부</span>
-            <SelectV2.Root visibleOptions={7} type="text" multiple>
+            <SelectV2.Root<PassInfo>
+              visibleOptions={7}
+              type="text"
+              multiple
+              defaultValue={selectedStatusOptions}
+              onChange={handlePassStatusChange}
+            >
               <SelectV2.Trigger>
                 <div>
                   <SelectV2.TriggerContent placeholder={'전체'} />
@@ -143,11 +142,6 @@ const Filter = ({
                         label: option.label,
                         value: option.value,
                       }}
-                      onClick={() =>
-                        handlePassStatusChange({
-                          value: option.value as PassInfo,
-                        })
-                      }
                     />
                   ))}
                 </SelectV2.Menu>
