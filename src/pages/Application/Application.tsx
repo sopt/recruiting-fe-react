@@ -83,16 +83,9 @@ const Application = () => {
   }, 200);
 
   const handleCsvDownload = () => {
-    const trimmedSearchKeyword = searchInputValue.trim();
-    const effectivePart =
-      applicantInfo.selectedPart === COMMON_QUESTION
-        ? ''
-        : applicantInfo.selectedPart;
-
     postApplicantCsv({
       season: Number(applicantInfo.season),
       group: applicantInfo.group,
-      part: applicantInfo.selectedPart,
       hideEvaluated: applicantInfo.evaluatedInfo.checkedByMe,
       hideDontRead: applicantInfo.isPassedOnly,
       passStatusFilters: applicantInfo.passStatus
@@ -100,10 +93,11 @@ const Application = () => {
             .split(',')
             .filter((status): status is PassInfo => Boolean(status))
         : [],
-      searchKeyword: searchInputValue,
+      searchKeyword: searchInputValue.trim(),
       sortBy: applicantInfo.sortBy,
-      trimmedSearchKeyword,
-      effectivePart,
+      ...(applicantInfo.selectedPart !== COMMON_QUESTION && {
+        part: applicantInfo.selectedPart,
+      }),
     });
   };
 
