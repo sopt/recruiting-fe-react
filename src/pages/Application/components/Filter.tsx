@@ -17,9 +17,9 @@ interface FilterProps {
 
 const STATUS_OPTIONS: { label: string; value: PassInfo }[] = [
   { label: '최종 합격', value: 'FINAL_PASS' },
-  { label: '서류 합격', value: 'INTERVIEW_PASS' },
-  { label: '불합격', value: 'FAIL' },
-  { label: '확인 전', value: 'NOT_EVALUATED' },
+  { label: '서류 합격', value: 'DOCUMENT_PASS' },
+  { label: '최종 불합격', value: 'FINAL_FAIL' },
+  { label: '서류 불합격', value: 'DOCUMENT_FAIL' },
 ];
 
 const SORT_OPTIONS: { label: string; value: ApplicantState['sortBy'] }[] = [

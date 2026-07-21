@@ -9,12 +9,12 @@ export const convertStatusToPassInfo = (
   status: StatusType,
 ): { applicationPass: boolean | null; finalPass: boolean | null } => {
   switch (status) {
-    case '확인 전':
-      return { applicationPass: null, finalPass: null };
+    case '서류 불합격':
+      return { applicationPass: false, finalPass: false };
     case '서류 합격':
       return { applicationPass: true, finalPass: null };
-    case '불합격':
-      return { applicationPass: false, finalPass: false };
+    case '최종 불합격':
+      return { applicationPass: true, finalPass: false };
     case '최종 합격':
       return { applicationPass: true, finalPass: true };
     default:
@@ -26,14 +26,14 @@ export const convertPassInfoToStatus = (passInfo: string) => {
   switch (passInfo) {
     case 'FINAL_PASS':
       return '최종 합격';
-    case 'FAIL':
-      return '불합격';
-    case 'NOT_EVALUATED':
-      return '확인 전';
-    case 'INTERVIEW_PASS':
+    case 'FINAL_FAIL':
+      return '최종 불합격';
+    case 'DOCUMENT_FAIL':
+      return '서류 불합격';
+    case 'DOCUMENT_PASS':
       return '서류 합격';
     default:
-      return '확인 전';
+      return '서류 불합격';
   }
 };
 

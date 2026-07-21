@@ -15,9 +15,9 @@ export const EXECUTIVE_TRANSLATOR = {
 
 export const CHIP_STATUS = {
   '최종 합격': 'text-success bg-blueAlpha100 border-blueAlpha600',
-  '확인 전': 'text-white bg-grayAlpha100 border-gray400',
+  '최종 불합격': 'text-secondary bg-orangeAlpha100 border-orangeAlpha600',
   '서류 합격': 'text-information bg-greenAlpha100 border-greenAlpha400',
-  불합격: 'text-error bg-redAlpha100 border-redAlpha600',
+  '서류 불합격': 'text-error bg-redAlpha100 border-redAlpha600',
 };
 
 export const COMMON_QUESTION = '공통';
