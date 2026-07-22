@@ -1,7 +1,7 @@
-import Chip from '@/components/Chip';
-import { CHIP_STATUS } from '@/pages/Application/constants';
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import Chip from '@/components/Chip';
+import { CHIP_STATUS } from '@/pages/Application/constants';
 
 interface ChipDropDownProps {
   status: string;
@@ -67,7 +67,7 @@ const ChipDropDown = ({ status, onStatusChange }: ChipDropDownProps) => {
         createPortal(
           <div
             ref={dropdownRef}
-            className="fixed bg-gray800 w-[9.6rem] rounded-[1.3rem] shadow-lg z-[9999]"
+            className="fixed bg-gray800 w-[10.4rem] rounded-[1.3rem] shadow-lg z-[9999]"
             style={{
               top: buttonRef.current?.getBoundingClientRect().bottom! + 10,
               left: buttonRef.current?.getBoundingClientRect().left! - 10,

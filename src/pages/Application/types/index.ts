@@ -53,15 +53,19 @@ export type ExecutiveType =
   | 'PRESIDENT'
   | 'VICE_PRESIDENT';
 
-export type StatusType = '최종 합격' | '불합격' | '서류 합격' | '확인 전';
+export type StatusType =
+  | '최종 합격'
+  | '최종 불합격'
+  | '서류 합격'
+  | '서류 불합격';
 
 export type SortBy = 'SUBMISSION_AT' | 'NAME';
 
 export const STATUS_TRANSLATOR = {
   '최종 합격': 'FINAL_PASS',
-  불합격: 'FAIL',
-  '서류 합격': 'INTERVIEW_PASS',
-  '확인 전': 'NOT_EVALUATED',
+  '최종 불합격': 'FINAL_FAIL',
+  '서류 합격': 'DOCUMENT_PASS',
+  '서류 불합격': 'DOCUMENT_FAIL',
 };
 
 export type SOPTPart = '기획' | '디자인' | '서버' | 'iOS' | '안드로이드' | '웹';
@@ -216,10 +220,10 @@ export interface QuestionCharLimit {
 }
 
 export type PassInfo =
-  | 'INTERVIEW_PASS'
+  | 'DOCUMENT_PASS'
+  | 'DOCUMENT_FAIL'
   | 'FINAL_PASS'
-  | 'FAIL'
-  | 'NOT_EVALUATED';
+  | 'FINAL_FAIL';
 
 export interface ApplicantState {
   season: string;

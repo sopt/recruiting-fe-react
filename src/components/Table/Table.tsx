@@ -4,11 +4,13 @@ import type React from 'react';
 import type { TableProps } from '@/components/Table/types';
 
 const DEFAULT_HEADER_BASE_STYLE =
-  'p-[1rem] text-gray100 body_3_14_m bg-gray700 border-gray600';
+  'p-[1rem] align-middle text-gray100 body_3_14_m bg-gray700';
 const DEFAULT_CELL_BASE_STYLE =
   'h-[6rem] text-center body_3_14_m bg-transparent border-b-[1px] border-gray700 align-middle';
 const DEFAULT_TABLE_WIDTH = 'w-full';
 const DEFAULT_TABLE_CLASS_NAME = 'w-full table-fixed select-none';
+const HEADER_DIVIDER_STYLE =
+  "relative after:absolute after:right-0 after:top-[1.4rem] after:bottom-[1.4rem] after:w-px after:bg-gray600 after:content-['']";
 
 function Table<TData>({
   table,
@@ -63,16 +65,16 @@ function Table<TData>({
                       key={header.id}
                       style={{ width: header.getSize() }}
                       className={`${headerBaseClassName} ${
-                        firstColumn ? 'rounded-tl-[1rem] align-middle' : ''
+                        firstColumn ? 'rounded-tl-[1rem]' : ''
                       } ${lastColumn ? 'rounded-tr-[1rem]' : ''} ${
-                        !lastColumn ? 'border-r-[1px]' : ''
+                        !lastColumn ? HEADER_DIVIDER_STYLE : ''
                       }`}
                     >
                       {header.isPlaceholder
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </th>
                   );
@@ -118,8 +120,8 @@ function Table<TData>({
                         align === 'left'
                           ? 'text-left'
                           : align === 'right'
-                          ? 'text-right'
-                          : 'text-center';
+                            ? 'text-right'
+                            : 'text-center';
 
                       return (
                         <td
@@ -140,7 +142,7 @@ function Table<TData>({
                         >
                           {flexRender(
                             cell.column.columnDef.cell,
-                            cell.getContext()
+                            cell.getContext(),
                           )}
                         </td>
                       );

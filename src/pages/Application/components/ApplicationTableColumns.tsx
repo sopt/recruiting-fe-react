@@ -68,7 +68,8 @@ export const createColumns = (
     {
       id: 'id',
       header: () => (
-        <div className="w-full h-full flex items-center justify-center">
+        <div className="w-full h-full gap-[0.4rem] flex items-center justify-center">
+          새 창
           <CheckBox
             checked={isAllChecked}
             onChange={(e) => {
@@ -117,7 +118,7 @@ export const createColumns = (
     },
     {
       id: 'passStatus',
-      header: '합격여부',
+      header: '합격 여부',
       cell: ({ row }) => {
         const { id, status } = row.original;
         const currentStatus =
@@ -146,10 +147,10 @@ export const createColumns = (
     },
     {
       id: 'evaluationStatus',
-      header: '평가 상태',
+      header: '평가 완료',
       meta: {
         cellClassName: 'p-[1rem]',
-        align: 'left',
+        align: 'center',
       },
       cell: ({ row }) => {
         const { id, evaluatedInfo } = row.original;
@@ -161,7 +162,7 @@ export const createColumns = (
           <div className="flex flex-col gap-[0.5rem] justify-start">
             {/** biome-ignore lint/a11y/noStaticElementInteractions: 이벤트 전파 방지 */}
             <div
-              className="h-full flex items-center gap-[0.6rem]"
+              className="h-full flex justify-center items-center gap-[0.6rem]"
               onClick={(e) => e.stopPropagation()}
               onKeyDown={(e) => stopEventPropagationOnKey(e, ['Enter', ' '])}
             >
@@ -173,30 +174,22 @@ export const createColumns = (
                   onEvaluation(id, 'EVALUATION', !evaluatedInfo.checkedByMe);
                 }}
               />
-              <label
-                htmlFor={`evaluated-${id}`}
-                className="flex items-center h-[3.2rem] cursor-pointer"
-              >
-                평가 완료
-              </label>
 
-              <div className="ml-[0.4rem]">
-                <Tooltip.Root>
-                  <Tooltip.Trigger>
-                    <Tag shape="pill">{evaluatedInfo.checkedList.length}</Tag>
-                  </Tooltip.Trigger>
-                  {evaluatedInfo.checkedList.length > 0 && (
-                    <Tooltip.Content className="!mt-[1.3rem] !mr-[-0.5rem]">
-                      <span>{evaluationMessage}</span>
-                    </Tooltip.Content>
-                  )}
-                </Tooltip.Root>
-              </div>
+              <Tooltip.Root>
+                <Tooltip.Trigger>
+                  <Tag shape="pill">{evaluatedInfo.checkedList.length}</Tag>
+                </Tooltip.Trigger>
+                {evaluatedInfo.checkedList.length > 0 && (
+                  <Tooltip.Content className="!mt-[1.3rem] !mr-[-0.5rem]">
+                    <span>{evaluationMessage}</span>
+                  </Tooltip.Content>
+                )}
+              </Tooltip.Root>
             </div>
           </div>
         );
       },
-      size: 168,
+      size: 110,
     },
 
     {

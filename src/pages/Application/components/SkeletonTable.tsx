@@ -15,13 +15,13 @@ const SkeletonTable = () => {
       </td>
       <td className={`${CELL_BASE_STYLE} w-[11rem]`}>
         <div className={`${TD_CONTENT_STYLE}`}>
-          <Skeleton width={68} height={35} />
+          <Skeleton width={52} height={70} />
+          <Skeleton width={37} height={20} />
         </div>
       </td>
       <td className={`${CELL_BASE_STYLE} w-[14rem]`}>
         <div className={`${TD_CONTENT_STYLE}`}>
-          <Skeleton width={52} height={70} />
-          <Skeleton width={37} height={20} />
+          <Skeleton width={68} height={35} />
         </div>
       </td>
       <td className={`${CELL_BASE_STYLE} w-[11rem]`}>
@@ -31,8 +31,8 @@ const SkeletonTable = () => {
       </td>
       <td className={`${CELL_BASE_STYLE} w-[16.8rem]`}>
         <div className={`${TD_CONTENT_STYLE}`}>
-          <Skeleton width={20} height={20} />
-          <Skeleton width={116} height={20} />
+          <Skeleton width={16} height={16} />
+          <Skeleton width={17} height={22} />
         </div>
       </td>
       <td className={`${CELL_BASE_STYLE} w-[16.8rem]`}>
