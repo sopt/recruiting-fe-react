@@ -12,6 +12,7 @@ export { default as ChevronLeft } from "./ChevronLeft";
 export { default as Close } from "./Close";
 export { default as Edit } from "./Edit";
 export { default as FileDownload } from "./FileDownload";
+export { default as Google } from "./Google";
 export { default as InfoCircle } from "./InfoCircle";
 export { default as Link } from "./Link";
 export { default as Logo } from "./Logo";
