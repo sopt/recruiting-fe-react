@@ -1,4 +1,3 @@
-export const ACCESS_TOKEN = 'accessToken';
 export const ROLE = 'role';
 
 export const SOPT_DOMAIN = 'recruit-admin.sopt';
