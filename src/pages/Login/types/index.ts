@@ -1,15 +1,17 @@
-import { PASSWORD_ERROR } from '@/pages/Login/constants';
-import { EMAIL_ERROR } from '@/pages/Login/constants';
 import { z } from 'zod';
+import { EMAIL_ERROR, PASSWORD_ERROR } from '@/pages/Login/constants';
 
 export interface LoginResponse {
   success: boolean;
   message: string;
   data: {
-    token: string;
     email: string;
     role: string;
   };
+}
+
+export interface GoogleLoginRequest {
+  idToken: string;
 }
 
 export type LoginForm = {

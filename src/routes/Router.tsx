@@ -10,6 +10,10 @@ import { ROUTES_CONFIG } from '@/routes/routeConfig';
 
 export const router = createBrowserRouter([
   {
+    index: true,
+    element: <Navigate to={ROUTES_CONFIG.login.path} replace />,
+  },
+  {
     path: ROUTES_CONFIG.login.path,
     element: <Login />,
   },
@@ -17,10 +21,6 @@ export const router = createBrowserRouter([
     path: '/',
     element: <Layout />,
     children: [
-      {
-        index: true,
-        element: <Navigate to={ROUTES_CONFIG.application.path} replace />,
-      },
       { path: ROUTES_CONFIG.application.path, element: <Application /> },
       { path: ROUTES_CONFIG.postQuestion.path, element: <PostQuestion /> },
       { path: ROUTES_CONFIG.postGeneration.path, element: <PostGeneration /> },

@@ -1,3 +1,5 @@
+export const GOOGLE_LOGIN_ERROR = 'Google 로그인에 실패했습니다.';
+
 export const NOT_FOUND_ERROR_CODE = '400';
 export const NOT_FOUND_ERROR = '잘못된 이메일 혹은 비밀번호입니다.';
 export const SERVER_ERROR = '로그인에 실패했습니다.';

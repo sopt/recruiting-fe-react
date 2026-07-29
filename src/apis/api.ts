@@ -1,25 +1,13 @@
 import ky from 'ky';
 import { afterResponse, beforeRetry } from '@/apis/interceptor';
-import { getAccessToken } from '@/utils';
 
 export const api = ky.create({
   prefixUrl: import.meta.env.VITE_BASE_URL,
+  credentials: 'include',
 });
 
 export const tokenApi = api.extend({
-  headers: {
-    Authorization: `Bearer ${getAccessToken()}`,
-  },
   hooks: {
-    beforeRequest: [
-      async (request) => {
-        const token = getAccessToken();
-
-        if (token) {
-          request.headers.set('Authorization', `Bearer ${token}`);
-        }
-      },
-    ],
     beforeRetry: [beforeRetry],
     afterResponse: [afterResponse],
   },
