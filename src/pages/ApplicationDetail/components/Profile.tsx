@@ -82,7 +82,7 @@ const Profile = ({ profileData }: ProfileProps) => {
               <span className="body_2_16_r text-gray300">지원파트</span>
               <span className="body_2_16_r text-white">{profileData.part}</span>
             </div>
-            <div className="flex flex-col gap-[0.6rem] w-[8.3rem]">
+            <div className="flex flex-col gap-[0.6rem] w-fit">
               <span className="body_2_16_r text-gray300">합격여부</span>
               <ChipDropDown
                 status={convertPassInfoToStatus(profileData.status)}
